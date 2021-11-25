@@ -8,7 +8,7 @@ noinst_HEADERS = types.h macro.h lv.h
 bin_PROGRAMS = lv
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 
-lv_SOURCES = lv.c
+lv_SOURCES = lv.c tty.c
 
 # termidx_SOURCES = termidx.c
 

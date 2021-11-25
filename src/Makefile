@@ -100,7 +100,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_lv_OBJECTS = lv.$(OBJEXT)
+am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -118,7 +118,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/lv.Po
+am__depfiles_remade = ./$(DEPDIR)/lv.Po ./$(DEPDIR)/tty.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -256,7 +256,7 @@ EXTRA_DIST = TODO
 # data_lvdir = $(datadir)/lv
 noinst_HEADERS = types.h macro.h lv.h
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
-lv_SOURCES = lv.c
+lv_SOURCES = lv.c tty.c
 all: all-am
 
 .SUFFIXES:
@@ -344,6 +344,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/lv.Po # am--include-marker
+include ./$(DEPDIR)/tty.Po # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -494,6 +495,7 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/lv.Po
+	-rm -f ./$(DEPDIR)/tty.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-local distclean-tags
@@ -540,6 +542,7 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/lv.Po
+	-rm -f ./$(DEPDIR)/tty.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
