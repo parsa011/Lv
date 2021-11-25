@@ -1,0 +1,11 @@
+*.o
+*.out
+*.swp
+test.txt
+lv
+dist/
+autom4te.cache/
+tags
+TAGS
+.vscode/
+.VSCodeCounter

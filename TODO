@@ -1,0 +1,20 @@
+todo:
+	- auto indent
+	- visual mode for select multiline
+	- copy and paste
+	- undo and redo
+	- open new tab and file 
+	- write commands
+	- parse input key like : ^-S , M-ARROW and ... for find command by their
+      specified key
+	- write some test
+	- there is a lot of work for line numbers , very bug and dirty code :)
+
+for complete:
+	- show complete help
+	- syntax higlight
+	- complete move word
+
+done:
+	- command list and get command from it
+	- higlight search result
