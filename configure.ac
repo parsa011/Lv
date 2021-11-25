@@ -33,7 +33,7 @@ if test "$ac_cv_sys_posix_termios" = "yes"; then
 		AC_CHECK_HEADERS([termio.h sys/termio.h])
 		if test "$ac_cv_header_termio_h" = "yes" -a "$ac_cvs_header_sys_termio_h" = "yes" ]; then
 			AC_DEFINE(HAVE_SYSV_TERMIO, 1, [We have <termio.h> and <sys/termio.h>])
-			fi
+		fi
 fi
 AC_CHECK_HEADERS([errno.h fcntl.h locale.h sgtty.h stdlib.h string.h])
 AC_CHECK_HEADERS([sys/ioctl.h sys/param.h sys/time.h unistd.h utime.h])

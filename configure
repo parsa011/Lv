@@ -3799,7 +3799,7 @@ done
 
 $as_echo "#define HAVE_SYSV_TERMIO 1" >>confdefs.h
 
-			fi
+		fi
 fi
 for ac_header in errno.h fcntl.h locale.h sgtty.h stdlib.h string.h
 do :

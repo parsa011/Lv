@@ -2,6 +2,15 @@
 
 #include "basics.h"
 
+/* Common header files */
+
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <math.h>
+
 /* Strings needing translation are marked with this macro */
 #define _(s) (s)
 
@@ -11,5 +20,5 @@
 /* Prefix to make string constants unsigned */
 #define USTR (unsigned char *)
 
-#include "lv.c"
-#include "macro.c"
+#include "lv.h"
+#include "macro.h"
