@@ -5,6 +5,8 @@
 /* Common header files */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
@@ -22,3 +24,5 @@
 
 #include "lv.h"
 #include "macro.h"
+#include "tty.h"
+#include "utils.h"

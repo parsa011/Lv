@@ -33,11 +33,16 @@ int have = 0;			/* Set if we have pending input */
 unsigned char havec;	/* Character read in during pending input check */
 int leave = 0;			/* When set, typeahead checking is disabled */
 
+/* Output buffer, index and size */
+
+unsigned char *obuf = NULL;
+int obufp = 0;
+int obufsiz;
 
 /*
  *  open terminal
  */
-void ttopen()
+void ttopen(void)
 {
 	struct termios newterm;
 
@@ -47,6 +52,10 @@ void ttopen()
 			exit(1);
 		}
 	}
+
+	if (ttymode)
+		return;
+	ttymode = 1;
 	fflush(termout);
 	
 	tcgetattr(fileno(termin),&oldterm);
@@ -56,15 +65,17 @@ void ttopen()
 	else
 		newterm.c_iflag &= ~(ICRNL | IGNCR | INLCR);
 	newterm.c_oflag = 0;
-	newterm.c_cc[VMIN] = 1;
-	newterm.c_cc[VTIME] = 0;
-	tcsetattr(fileno(termin), TCSADRAIN, &newterm);
+	newterm.c_cc[VMIN] = 0;
+	newterm.c_cc[VTIME] = 1;
+	// when client exited by any accident , set orig term :)
+	atexit(ttclose);
+	tcsetattr(fileno(termin), TCSANOW, &newterm);
 }
 
 /*
  *  close terminal 
  */
-void ttclose()
+void ttclose(void)
 {
 	int oleave;
 
@@ -75,7 +86,65 @@ void ttclose()
 	oleave = leave;
 	leave = 1;
 
-	tcsetattr(fileno(termin), TCSADRAIN, &oldterm);
+	tcsetattr(fileno(termin), TCSANOW, &oldterm);
 
 	leave = oleave;
+}
+
+int ttgetc(void)
+{
+	return 0;
+}
+
+//int ttcheck(void)
+//{
+//	/* Check for typeahead or next packet */
+//	if (!have && !leave) {
+//		if (ackkbd != -1) {
+//			fcntl(mpxfd, F_SETFL, O_NDELAY);
+//			if (read(mpxfd, &pack, sizeof(struct packet) - 1024) > 0) {
+//				fcntl(mpxfd, F_SETFL, 0);
+//				lv_read(mpxfd, pack.data, pack.size);
+//				have = 1;
+//			} else
+//				fcntl(mpxfd, F_SETFL, 0);
+//		} else {
+//			/* Set terminal input to non-blocking */
+//			fcntl(fileno(termin), F_SETFL, O_NDELAY);
+//
+//			/* Try to read */
+//			if (read(fileno(termin), &havec, 1) == 1)
+//				have = 1;
+//
+//			/* Set terminal back to blocking */
+//			fcntl(fileno(termin), F_SETFL, 0);
+//		}
+//	}
+//	return have;
+//}
+
+/* 
+ * flush output and check for type ahead 
+ */
+int ttflsh(void)
+{
+	// if output buffer pointer was biggger than zero , it will came into this if statement and write our data to output
+	if (obufp) {
+		lv_write(fileno(termout), obuf, obufp);
+		// set zero to start again of first
+		obufp = 0;
+	}
+
+	// check for typeahead or next packet 
+	// ttcheck();
+	return 0;
+}
+
+/*
+ * kill the program
+ */
+void die(const char *s) {
+	ttclose();
+	fprintf(stderr, "%s\n", s);
+	exit(2);
 }

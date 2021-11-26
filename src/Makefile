@@ -100,7 +100,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT)
+am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
+	glob.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -118,7 +119,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/lv.Po ./$(DEPDIR)/tty.Po
+am__depfiles_remade = ./$(DEPDIR)/glob.Po ./$(DEPDIR)/lv.Po \
+	./$(DEPDIR)/tty.Po ./$(DEPDIR)/utils.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -254,9 +256,9 @@ EXTRA_DIST = TODO
 
 # sysconf_lvdir = $(sysconfdir)/lv
 # data_lvdir = $(datadir)/lv
-noinst_HEADERS = types.h macro.h lv.h
+noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
-lv_SOURCES = lv.c tty.c
+lv_SOURCES = lv.c tty.c utils.c glob.c
 all: all-am
 
 .SUFFIXES:
@@ -343,8 +345,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/glob.Po # am--include-marker
 include ./$(DEPDIR)/lv.Po # am--include-marker
 include ./$(DEPDIR)/tty.Po # am--include-marker
+include ./$(DEPDIR)/utils.Po # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -494,8 +498,10 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/lv.Po
+		-rm -f ./$(DEPDIR)/glob.Po
+	-rm -f ./$(DEPDIR)/lv.Po
 	-rm -f ./$(DEPDIR)/tty.Po
+	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-local distclean-tags
@@ -541,8 +547,10 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/lv.Po
+		-rm -f ./$(DEPDIR)/glob.Po
+	-rm -f ./$(DEPDIR)/lv.Po
 	-rm -f ./$(DEPDIR)/tty.Po
+	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
