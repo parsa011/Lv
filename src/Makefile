@@ -101,7 +101,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
-	glob.$(OBJEXT)
+	glob.$(OBJEXT) utf8.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -120,7 +120,7 @@ DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/glob.Po ./$(DEPDIR)/lv.Po \
-	./$(DEPDIR)/tty.Po ./$(DEPDIR)/utils.Po
+	./$(DEPDIR)/tty.Po ./$(DEPDIR)/utf8.Po ./$(DEPDIR)/utils.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -256,9 +256,9 @@ EXTRA_DIST = TODO
 
 # sysconf_lvdir = $(sysconfdir)/lv
 # data_lvdir = $(datadir)/lv
-noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h
+noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
-lv_SOURCES = lv.c tty.c utils.c glob.c
+lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c
 all: all-am
 
 .SUFFIXES:
@@ -348,6 +348,7 @@ distclean-compile:
 include ./$(DEPDIR)/glob.Po # am--include-marker
 include ./$(DEPDIR)/lv.Po # am--include-marker
 include ./$(DEPDIR)/tty.Po # am--include-marker
+include ./$(DEPDIR)/utf8.Po # am--include-marker
 include ./$(DEPDIR)/utils.Po # am--include-marker
 
 $(am__depfiles_remade):
@@ -501,6 +502,7 @@ distclean: distclean-am
 		-rm -f ./$(DEPDIR)/glob.Po
 	-rm -f ./$(DEPDIR)/lv.Po
 	-rm -f ./$(DEPDIR)/tty.Po
+	-rm -f ./$(DEPDIR)/utf8.Po
 	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -550,6 +552,7 @@ maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/glob.Po
 	-rm -f ./$(DEPDIR)/lv.Po
 	-rm -f ./$(DEPDIR)/tty.Po
+	-rm -f ./$(DEPDIR)/utf8.Po
 	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic

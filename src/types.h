@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
@@ -22,7 +23,28 @@
 /* Prefix to make string constants unsigned */
 #define USTR (unsigned char *)
 
+#ifndef EOF
+#define EOF -1
+#endif
+#define NO_MORE_DATA EOF
+
+#if defined(__TURBOC__)
+#define MSDOS 1 /* MS/PC DOS 3.1-4.0 with Turbo C 2.0 */
+#else
+#define	MSDOS 0
+#endif
+
+#if defined(BSD) || defined(sun) || defined(ultrix) || (defined(vax) && defined(unix)) || defined(ultrix) || defined(__osf__)
+#ifndef BSD
+#define BSD 1 /* Berkeley UNIX */
+#endif
+#else
+#define	BSD 0
+#endif
+
 #include "lv.h"
 #include "macro.h"
 #include "tty.h"
 #include "utils.h"
+#include "glob.h"
+#include "utf8.h"

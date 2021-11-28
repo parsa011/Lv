@@ -40,9 +40,6 @@ void ttclose(void);
  *	fflush();
  *
  *	read the next input character
- * 	if the input closed, call 'ttsig' with 0 as its argument.
- *
- *	clear 'have'
  */
 int ttgetc(void);
 //int ttcheck(void);

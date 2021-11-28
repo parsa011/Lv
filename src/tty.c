@@ -17,7 +17,10 @@ int idleout = 1;
 
 FILE *termin = NULL;
 FILE *termout = NULL;
-struct termios oldterm;
+
+struct termios oldterm;		/* original terminal characteristics */
+struct termios newterm;		/* charactoristics to use inside */
+
 
 /* TTY mode flag.  1 for open, 0 for closed */
 static int ttymode = 0;
@@ -59,14 +62,29 @@ void ttopen(void)
 	fflush(termout);
 	
 	tcgetattr(fileno(termin),&oldterm);
-	newterm.c_cflag = 0;
+
+	/*
+	 * base new settings on old ones - don't change things
+	 * we don't know about
+	 */
+	newterm = oldterm;
+
 	if (noxon)
 		newterm.c_iflag &= ~(ICRNL | IGNCR | INLCR | IXON | IXOFF);
 	else
 		newterm.c_iflag &= ~(ICRNL | IGNCR | INLCR);
-	newterm.c_oflag = 0;
-	newterm.c_cc[VMIN] = 0;
-	newterm.c_cc[VTIME] = 1;
+
+	/* raw CR/NR etc output handling */
+	newterm.c_oflag &=
+		~(OPOST | ONLCR | OLCUC | OCRNL | ONOCR | ONLRET);
+
+	/* No signal handling, no echo etc */
+	newterm.c_lflag &= ~(ISIG | ICANON | XCASE | ECHO | ECHOE | ECHOK
+			| ECHONL | NOFLSH | TOSTOP | ECHOCTL |
+			ECHOPRT | ECHOKE | FLUSHO | PENDIN | IEXTEN);
+
+	newterm.c_cc[VMIN] = 1;
+	newterm.c_cc[VTIME] = 0;
 	// when client exited by any accident , set orig term :)
 	atexit(ttclose);
 	tcsetattr(fileno(termin), TCSANOW, &newterm);
@@ -93,7 +111,77 @@ void ttclose(void)
 
 int ttgetc(void)
 {
-	return 0;
+	static char buffer[32];
+	static int pending;
+	unicode_t c;
+	int count, bytes = 1, expected;
+
+	count = pending;
+	if (!count) {
+		count = read(0, buffer, sizeof(buffer));
+		if (count <= 0)
+			return 0;
+		pending = count;
+	}
+
+	c = (unsigned char) buffer[0];
+	if (c >= 32 && c < 128)
+		goto done;
+
+	/*
+	 * Lazy. We don't bother calculating the exact
+	 * expected length. We want at least two characters
+	 * for the special character case (ESC+[) and for
+	 * the normal short UTF8 sequence that starts with
+	 * the 110xxxxx pattern.
+	 *
+	 * But if we have any of the other patterns, just
+	 * try to get more characters. At worst, that will
+	 * just result in a barely perceptible 0.1 second
+	 * delay for some *very* unusual utf8 character
+	 * input.
+	 */
+	expected = 2;
+	if ((c & 0xe0) == 0xe0)
+		expected = 6;
+
+	/* Special character - try to fill buffer */
+	if (count < expected) {
+		int n;
+		newterm.c_cc[VMIN] = 0;
+		newterm.c_cc[VTIME] = 1;		/* A .1 second lag */
+		tcsetattr(0, TCSANOW, &newterm);
+
+		n = read(0, buffer + count, sizeof(buffer) - count);
+
+		/* Undo timeout */
+		newterm.c_cc[VMIN] = 1;
+		newterm.c_cc[VTIME] = 0;
+		tcsetattr(0, TCSANOW, &newterm);
+
+		if (n > 0)
+			pending += n;
+	}
+	if (pending > 1) {
+		unsigned char second = buffer[1];
+
+		/* Turn ESC+'[' into CSI */
+		if (c == 27 && second == '[') {
+			bytes = 2;
+			c = 128+27;
+			goto done;
+		}
+	}
+	bytes = utf8_to_unicode(buffer, 0, pending, &c);
+
+	/* Hackety hack! Turn no-break space into regular space */
+	if (c == 0xa0)
+		c = ' ';
+done:
+	pending -= bytes;
+	memmove(buffer, buffer+bytes, pending);
+	return c;
+
 }
 
 //int ttcheck(void)
