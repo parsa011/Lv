@@ -222,17 +222,19 @@ int ttflsh(void)
 		// set zero to start again of first
 		obufp = 0;
 	}
-
 	// check for typeahead or next packet 
 	// ttcheck();
 	return 0;
 }
 
-/*
- * kill the program
+/* 
+ * write string to output buffer
  */
-void die(const char *s) {
-	ttclose();
-	fprintf(stderr, "%s\n", s);
-	exit(2);
+void ttputc(char *s)
+{
+	while (*s) {
+		obuf[obufp++] = *s++;
+		if (obufp == obufsiz)
+			ttflsh();
+	}
 }

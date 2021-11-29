@@ -82,19 +82,13 @@ extern unsigned char *obuf; /* output buffer */
  */
 int ttflsh(void);
 
+/*	write a character to the output buffer.  If it becomes
+ * 	full, call ttflsh()
+ */
+void ttputc(char *);
+
 extern int have; 			/* set if we have typeahead */
 extern unsigned char havec; /* typeahead character */
 extern int leave; 			/* set if we're exiting (so don't check for typeahead) */
-
-/*
- * kill the program
- *
- * set the old term by calling ttclose()
- *
- * write error message into screen
- *
- * exit();
- */
-void die(const char *);
 
 #endif
