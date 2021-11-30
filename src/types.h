@@ -48,3 +48,5 @@
 #include "utils.h"
 #include "glob.h"
 #include "utf8.h"
+#include "keys.h"
+#include "input.h"
