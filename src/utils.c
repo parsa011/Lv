@@ -31,3 +31,5 @@ int lv_ioctl(int fd, int req, void *ptr)
 	} while (rt == -1 && errno == EINTR);
 	return rt;
 }
+
+// keys stuff

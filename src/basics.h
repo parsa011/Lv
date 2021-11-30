@@ -95,11 +95,6 @@ for(item = (array)+count; keep; keep = !keep)
 #define IS_EVEN( num )  (!IS_ODD( (num) ))
 #define IS_ODD( num )   ((num) & 1)
 
-/*
- *  Is ctrl key
- */
-#define CTRL_KEY(k) ((k) & 0x1f)
-
 #endif
 
 

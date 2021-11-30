@@ -168,7 +168,7 @@ int ttgetc(void)
 		/* Turn ESC+'[' into CSI */
 		if (c == 27 && second == '[') {
 			bytes = 2;
-			c = 128+27;
+			c = 128 + 27;
 			goto done;
 		}
 	}

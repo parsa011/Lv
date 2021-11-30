@@ -1,8 +1,5 @@
 #include "types.h"
 
-#define CTRL_KEY(k) ((k) & 0x1f)
-#define CONTROL 0x1f
-
 int main(int argc,char *argv[])
 {
 	ttopen();
@@ -14,7 +11,7 @@ int main(int argc,char *argv[])
 		} else {
 			printf("%d ('%c')\r\n", c, c);
 		}
-		if (c == CTRL_KEY('q')) break;
+		if (c == 'q') break;
 	}
 	return 0;
 }
