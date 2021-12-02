@@ -42,6 +42,9 @@
 #define	BSD 0
 #endif
 
+typedef struct line_t line;
+typedef struct buffer_t buffer;
+
 #include "lv.h"
 #include "macro.h"
 #include "tty.h"
@@ -50,3 +53,5 @@
 #include "utf8.h"
 #include "keys.h"
 #include "input.h"
+#include "line.h"
+#include "buffer.h"

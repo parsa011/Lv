@@ -75,7 +75,7 @@ tty.o: tty.c /usr/include/stdc-predef.h types.h basics.h \
  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h lv.h macro.h tty.h \
- utils.h glob.h utf8.h keys.h input.h \
+ utils.h glob.h utf8.h keys.h input.h line.h buffer.h \
  /usr/include/x86_64-linux-gnu/sys/ioctl.h \
  /usr/include/x86_64-linux-gnu/bits/ioctls.h \
  /usr/include/x86_64-linux-gnu/asm/ioctls.h \
@@ -191,6 +191,8 @@ glob.h:
 utf8.h:
 keys.h:
 input.h:
+line.h:
+buffer.h:
 /usr/include/x86_64-linux-gnu/sys/ioctl.h:
 /usr/include/x86_64-linux-gnu/bits/ioctls.h:
 /usr/include/x86_64-linux-gnu/asm/ioctls.h:

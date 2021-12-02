@@ -1,4 +1,4 @@
-lv.o: lv.c /usr/include/stdc-predef.h types.h basics.h \
+input.o: input.c /usr/include/stdc-predef.h types.h basics.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

@@ -3,12 +3,12 @@ EXTRA_DIST = TODO
 # sysconf_lvdir = $(sysconfdir)/lv
 # data_lvdir = $(datadir)/lv
 
-noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h
+noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h buffer.h
 
 bin_PROGRAMS = lv
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 
-lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c
+lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c
 
 # termidx_SOURCES = termidx.c
 

@@ -21,7 +21,6 @@ FILE *termout = NULL;
 struct termios oldterm;		/* original terminal characteristics */
 struct termios newterm;		/* charactoristics to use inside */
 
-
 /* TTY mode flag.  1 for open, 0 for closed */
 static int ttymode = 0;
 
@@ -47,8 +46,6 @@ int obufsiz;
  */
 void ttopen(void)
 {
-	struct termios newterm;
-
 	if (!termin) {
 		if (idleout ? (!(termin = stdin) || !(termout = stdout)) : (!(termin = fopen("/dev/tty", "r")) || !(termout = fopen("/dev/tty", "w")))) {
 			fputs(_("Couldn\'t open /dev/tty\n"), stderr);
