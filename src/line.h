@@ -27,7 +27,6 @@ struct line_t {
 #define lputc(lp, n, c) ((lp)->chars[(n)] = (c))
 #define llength(lp)     ((lp)->len)
 
-
 /*
  * 	This routine allocates a block of memory large enough to hold a struct line
  * 	containing "used" characters. The block is always rounded up a bit. Return

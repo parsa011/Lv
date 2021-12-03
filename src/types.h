@@ -61,3 +61,4 @@ typedef struct window_t window;
 #include "input.h"
 #include "line.h"
 #include "buffer.h"
+#include "move.h"
