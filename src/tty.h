@@ -91,4 +91,10 @@ extern int have; 			/* set if we have typeahead */
 extern unsigned char havec; /* typeahead character */
 extern int leave; 			/* set if we're exiting (so don't check for typeahead) */
 
+/*
+ *	vt100 funcitons :)
+ */
+void clear_screen();
+void clear_row();
+
 #endif

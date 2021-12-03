@@ -1,8 +1,17 @@
 todo:
+	- Show file
+	- manager cursor
+	- edit file
+	- create message bar for prompt to user and show messages
+	- save and new file
+	- creating keys combos
+	- get query from message bar
+	- undo and redo
+	- highlight
 
 in progress :
-	- create tty manager to enter raw mode and ...
 
 for complete:
+	- create tty manager to enter raw mode and ...
 
 done:

@@ -22,6 +22,7 @@ struct termios oldterm;		/* original terminal characteristics */
 struct termios newterm;		/* charactoristics to use inside */
 
 /* TTY mode flag.  1 for open, 0 for closed */
+
 static int ttymode = 0;
 
 /* Global configuration variables */
@@ -72,8 +73,7 @@ void ttopen(void)
 		newterm.c_iflag &= ~(ICRNL | IGNCR | INLCR);
 
 	/* raw CR/NR etc output handling */
-	newterm.c_oflag &=
-		~(OPOST | ONLCR | OLCUC | OCRNL | ONOCR | ONLRET);
+	newterm.c_oflag &= ~(OPOST | ONLCR | OLCUC | OCRNL | ONOCR | ONLRET);
 
 	/* No signal handling, no echo etc */
 	newterm.c_lflag &= ~(ISIG | ICANON | XCASE | ECHO | ECHOE | ECHOK
@@ -85,6 +85,8 @@ void ttopen(void)
 	// when client exited by any accident , set orig term :)
 	atexit(ttclose);
 	tcsetattr(fileno(termin), TCSANOW, &newterm);
+
+	obuf = (unsigned char *)malloc(128);
 }
 
 /*
@@ -106,6 +108,9 @@ void ttclose(void)
 	leave = oleave;
 }
 
+/*
+ *	get key from user
+ */
 int ttgetc(void)
 {
 	static char buffer[32];
@@ -229,9 +234,21 @@ int ttflsh(void)
  */
 void ttputc(char *s)
 {
-	while (*s) {
+	while (*s)
 		obuf[obufp++] = *s++;
-		if (obufp == obufsiz)
-			ttflsh();
-	}
+	ttflsh();
+}
+
+/*
+ *	vt100 screens interfaces
+ */
+void clear_screen()
+{
+	ttputc("\x1b[2J");
+	ttputc("\x1b[H");
+}
+
+void clear_row()
+{
+	ttputc("\x1b[2K");
 }

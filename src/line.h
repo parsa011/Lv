@@ -9,6 +9,11 @@
  *	This file is part of Lv
  */
 
+/*
+ *	all lines of buffer and ... , will stored in this struct , this is doubly-linked list 
+ *	that means each line contains its next and prev line (they will stored in link prop) 
+ *	TODO : in future we need add more property like syntax highlight flags
+ */
 struct line_t {
 	LINK(line) link;	/* Doubly-linked list of lines for a particular buffer */
 	char *chars;		/* content of line , actually a bunch of chars :) */
@@ -18,8 +23,48 @@ struct line_t {
 
 #define lnext(lp)       ((lp)->link->next)
 #define lprev(lp)       ((lp)->link->prev)
-#define lgetc(lp, n)    ((lp)->l_text[(n)] & 0xFF)
-#define lputc(lp, n, c) ((lp)->l_text[(n)] = (c))
-#define llength(lp)     ((lp)->l_len)
+#define lgetc(lp, n)    ((lp)->chars[(n)] & 0xFF)
+#define lputc(lp, n, c) ((lp)->chars[(n)] = (c))
+#define llength(lp)     ((lp)->len)
 
+
+/*
+ * 	This routine allocates a block of memory large enough to hold a struct line
+ * 	containing "used" characters. The block is always rounded up a bit. Return
+ * 	a pointer to the new block, or NULL if there isn't any memory left. Print a
+ * 	message in the message line if no space.
+ * 	NOTE : we dont have message bar yet :)
+ */
+line *line_alloc(char *, int);
+
+/*
+ *	delete char in current position of cursor
+ */
+void line_del_char();
+
+/*
+ *	insert given char into current position of cursor
+ */
+void line_ins_char(char);
+
+/*
+ *	append given string in current position of cursor
+ */
+void line_append(char *);
+
+/*
+ *	delete a line , by the line number
+ *	we should connect next line prev (lnext(line)->link-prev) to given line next
+ */
+void line_delete(int);
+
+/*
+ *	alloc new new , and insert it in currnet positoin of cursor
+ */ 
+void line_new();
+
+/*
+ *	replace current char under the cursor with given char
+ */
+void line_rep_char(char);
 #endif

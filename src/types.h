@@ -1,5 +1,10 @@
-/* Global header file to Lv */
-
+/*
+ *	Global header file to Lv
+ *	Copyright
+ *		(C) 2021 Parsa Mahmoudy sahebi
+ *
+ *	This file is part of Lv
+ */
 #include "basics.h"
 
 /* Common header files */
@@ -44,6 +49,7 @@
 
 typedef struct line_t line;
 typedef struct buffer_t buffer;
+typedef struct window_t window;
 
 #include "lv.h"
 #include "macro.h"
