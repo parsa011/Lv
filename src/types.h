@@ -19,9 +19,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-/* Strings needing translation are marked with this macro */
-#define _(s) (s)
-
 /* Doubly-linked list node */
 #define LINK(type) struct { type *next; type *prev; }
 

@@ -12,17 +12,18 @@
 #define NFILEN  256		/* n of bytes, file name 	*/
 #define NBUFN   16		/* n of bytes, buffer name 	*/
 
-typedef struct buffer_t {
+struct buffer_t {
 	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
 	line *hline;			/* header line in this view (or page) 						 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
 	char fname[NFILEN];		/* file name 												 */
 	char bname[NBUFN];		/* buffer name 												 */
-	char flag;				/* flags 													 */
+	//char flag;			/* flags 													 */
 	char mode;				/* modes of this buffer 									 */
 	int loffset;			/* paased lines 											 */
 };
 
+/* mode for buffers */
 #define	MDLOCK	0x0001		/* lock mode                     */
 #define	MDCMOD	0x0002		/* c indentation and fence match */
 #define	MDSPELL	0x0004		/* spell error parcing           */

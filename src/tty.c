@@ -49,7 +49,7 @@ void ttopen(void)
 {
 	if (!termin) {
 		if (idleout ? (!(termin = stdin) || !(termout = stdout)) : (!(termin = fopen("/dev/tty", "r")) || !(termout = fopen("/dev/tty", "w")))) {
-			fputs(_("Couldn\'t open /dev/tty\n"), stderr);
+			fputs("Couldn\'t open /dev/tty\n", stderr);
 			exit(1);
 		}
 	}
