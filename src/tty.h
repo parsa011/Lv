@@ -18,7 +18,7 @@
  * "termp->t_field" style in the future, to make it possible to run more than
  * one terminal type.
  */
-struct terminal {
+struct terminal_t {
 	short t_mrow;					/* max number of rows allowable  */
 	short t_nrow;					/* current number of rows used   */
 	short t_mcol;					/* max Number of columns.        */

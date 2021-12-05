@@ -18,7 +18,7 @@
 #define ESC     0x1B		/* ESC character.               	*/
 #define BEL     0x07		/* ascii bell character         	*/
 
-extern struct terminal term;
+extern terminal term;
 
 /*
  *	vt100 funcitons :)

@@ -47,6 +47,7 @@
 typedef struct line_t line;
 typedef struct buffer_t buffer;
 typedef struct window_t window;
+typedef struct terminal_t terminal;
 
 #include "lv.h"
 #include "macro.h"

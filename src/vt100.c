@@ -11,7 +11,7 @@
  * Dispatch table.
  * All the hard fields just point into the terminal I/O code.
  */
-struct terminal term = {
+terminal term = {
 	NROW - 1,
 	NROW - 1,
 	NCOL,
