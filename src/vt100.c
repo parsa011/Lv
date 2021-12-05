@@ -40,9 +40,9 @@ void vt100beep()
 void vt100move(int row,int col)
 {
 	//ttputc(ESC);
-	ttputc("\x1b[Y");
+	//ttputc("\x1b[Y");
 	char buf[32];
-	sprintf(buf,"%d%d",row + BIAS , col + BIAS);
+	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", row, col);
 	ttputc(buf);
 }
 
