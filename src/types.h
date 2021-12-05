@@ -60,3 +60,4 @@ typedef struct window_t window;
 #include "buffer.h"
 #include "move.h"
 #include "vt100.h"
+#include "display.h"

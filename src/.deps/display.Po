@@ -1,4 +1,4 @@
-tty.o: tty.c /usr/include/stdc-predef.h types.h basics.h \
+display.o: display.c /usr/include/stdc-predef.h types.h basics.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -83,17 +83,7 @@ tty.o: tty.c /usr/include/stdc-predef.h types.h basics.h \
  /usr/include/x86_64-linux-gnu/asm/ioctl.h \
  /usr/include/asm-generic/ioctl.h \
  /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
- /usr/include/x86_64-linux-gnu/sys/ttydefaults.h /usr/include/termios.h \
- /usr/include/x86_64-linux-gnu/bits/termios.h \
- /usr/include/x86_64-linux-gnu/bits/termios-struct.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_cc.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_iflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-baud.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h \
- /usr/include/x86_64-linux-gnu/bits/termios-tcflow.h \
- /usr/include/x86_64-linux-gnu/bits/termios-misc.h
+ /usr/include/x86_64-linux-gnu/sys/ttydefaults.h
 /usr/include/stdc-predef.h:
 types.h:
 basics.h:
@@ -205,14 +195,3 @@ display.h:
 /usr/include/asm-generic/ioctl.h:
 /usr/include/x86_64-linux-gnu/bits/ioctl-types.h:
 /usr/include/x86_64-linux-gnu/sys/ttydefaults.h:
-/usr/include/termios.h:
-/usr/include/x86_64-linux-gnu/bits/termios.h:
-/usr/include/x86_64-linux-gnu/bits/termios-struct.h:
-/usr/include/x86_64-linux-gnu/bits/termios-c_cc.h:
-/usr/include/x86_64-linux-gnu/bits/termios-c_iflag.h:
-/usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h:
-/usr/include/x86_64-linux-gnu/bits/termios-baud.h:
-/usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h:
-/usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h:
-/usr/include/x86_64-linux-gnu/bits/termios-tcflow.h:
-/usr/include/x86_64-linux-gnu/bits/termios-misc.h:

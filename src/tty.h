@@ -51,8 +51,7 @@ struct terminal {
 	void (*t_scroll)(int, int,int);	/* scroll a region of the screen */
 };
 
-/*	TEMPORARY macros for terminal I/O  (to be placed in a machine
-	dependant place later)	*/
+/*	TEMPORARY macros for terminal I/O  */
 
 #define	TTopen		(*term.t_open)
 #define	TTclose		(*term.t_close)
