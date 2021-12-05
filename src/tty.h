@@ -37,6 +37,13 @@ struct terminal {
 	void (*t_eeol)(void);			/* Erase to end of line.         */
 	void (*t_eeop)(void);			/* Erase to end of page.         */
 	void (*t_beep)(void);			/* Beep.                         */
+	
+	// cursor reposition functions
+	void (*t_mnl)(void);			/* move next line 				 */
+	void (*t_mpl)(void);			/* move prev line			     */	
+	void (*t_mfw)(void);			/* move forward					 */
+	void (*t_mbw)(void);			/* move backward				 */
+
 	void (*t_rev)(int);				/* set reverse video state       */
 	int (*t_rez)(char *);			/* change screen resolution      */
 	int (*t_setfor) ();				/* set forground color           */

@@ -20,7 +20,14 @@ int main(int argc,char *argv[])
 		if (iscntrl(c)) {
 			printf("%d\r\n", c);
 		} else {
-			printf("%d ('%c')\r\n", c, c);
+			if (c == 's')
+				term.t_mnl();
+			else if (c == 'w')
+				term.t_mpl();
+			else if (c == 'd')
+				term.t_mfw();
+			else if (c == 'a')
+				term.t_mbw();
 		}
 		if (c == 'q') break;
 	}

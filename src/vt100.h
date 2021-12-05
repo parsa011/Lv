@@ -19,5 +19,9 @@ void vt100move();
 void vt100eeol();
 void vt100eeop();
 void vt100beep();
+void vt100mnl();
+void vt100mpl();
+void vt100mfw();
+void vt100mbw();
 
 #endif

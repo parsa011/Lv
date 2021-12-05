@@ -21,6 +21,10 @@ struct terminal term = {
 	&vt100eeol,
 	&vt100eeop,
 	&vt100beep,
+	&vt100mnl,
+	&vt100mpl,
+	&vt100mfw,
+	&vt100mbw,
 	NULL,
 	NULL,
 	NULL,
@@ -54,4 +58,40 @@ void vt100eeol()
 void vt100eeop()
 {
 	ttputc("\x1b[2J");
+}
+
+/*
+ *	move cursor to next line
+ *	(cursor down)
+ */
+void vt100mnl()
+{
+	ttputc("\x1b[B");
+}
+
+/*
+ *	move cursor to prev line
+ *	(cursor up)
+ */
+void vt100mpl()
+{
+	ttputc("\x1b[A");
+}
+
+/*
+ *	move cursor to next char 
+ *	(cursor right)
+ */
+void vt100mfw()
+{
+	ttputc("\x1b[C");
+}
+
+/*
+ *	move cursor to prev char 
+ *	(cursor left)
+ */
+void vt100mbw()
+{
+	ttputc("\x1b[D");
 }
