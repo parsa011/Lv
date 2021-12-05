@@ -226,7 +226,7 @@ int ttflsh(void)
 	}
 	// check for typeahead or next packet 
 	// ttcheck();
-	return 0;
+	return TRUE;
 }
 
 /* 
@@ -237,18 +237,4 @@ void ttputc(char *s)
 	while (*s)
 		obuf[obufp++] = *s++;
 	ttflsh();
-}
-
-/*
- *	vt100 screens interfaces
- */
-void clear_screen()
-{
-	ttputc("\x1b[2J");
-	ttputc("\x1b[H");
-}
-
-void clear_row()
-{
-	ttputc("\x1b[2K");
 }

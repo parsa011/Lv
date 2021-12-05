@@ -10,6 +10,54 @@
  */
 
 /*
+ * The editor communicates with the display using a high level interface. A
+ * "TERM" structure holds useful variables, and indirect pointers to routines
+ * that do useful operations. The low level get and put routines are here too.
+ * This lets a terminal, in addition to having non standard commands, have
+ * funny get and put character code too. The calls might get changed to
+ * "termp->t_field" style in the future, to make it possible to run more than
+ * one terminal type.
+ */
+struct terminal {
+	short t_mrow;					/* max number of rows allowable  */
+	short t_nrow;					/* current number of rows used   */
+	short t_mcol;					/* max Number of columns.        */
+	short t_ncol;					/* current Number of columns.    */
+	short t_margin;					/* min margin for extended lines */
+	short t_scrsiz;					/* size of scroll region "       */
+	int t_pause;					/* # times thru update to pause  */
+	void (*t_open)(void);			/* Open terminal at the start.   */
+	void (*t_close)(void);			/* Close terminal at end.        */
+	//void (*t_kopen)(void);		/* Open keyboard                 */
+	//void (*t_kclose)(void);		/* close keyboard                */
+	int (*t_getchar)();				/* Get character from keyboard.  */
+	void (*t_putchar)(char *);		/* Put character to display.     */
+	int (*t_flush) (void);			/* Flush output buffers.         */
+	void (*t_move)(int, int);		/* Move the cursor, origin 0.    */
+	void (*t_eeol)(void);			/* Erase to end of line.         */
+	void (*t_eeop)(void);			/* Erase to end of page.         */
+	void (*t_beep)(void);			/* Beep.                         */
+	void (*t_rev)(int);				/* set reverse video state       */
+	int (*t_rez)(char *);			/* change screen resolution      */
+	int (*t_setfor) ();				/* set forground color           */
+	int (*t_setback) ();			/* set background color          */
+	void (*t_scroll)(int, int,int);	/* scroll a region of the screen */
+};
+
+/*	TEMPORARY macros for terminal I/O  (to be placed in a machine
+	dependant place later)	*/
+
+#define	TTopen		(*term.t_open)
+#define	TTclose		(*term.t_close)
+#define	TTgetc		(*term.t_getchar)
+#define	TTputc		(*term.t_putchar)
+#define	TTflush		(*term.t_flush)
+#define	TTmove		(*term.t_move)
+#define	TTeeol		(*term.t_eeol)
+#define	TTeeop		(*term.t_eeop)
+#define	TTbeep		(*term.t_beep)
+
+/*
  *	open the tty for use in editor
  *
  *	fflush();
@@ -90,11 +138,5 @@ void ttputc(char *);
 extern int have; 			/* set if we have typeahead */
 extern unsigned char havec; /* typeahead character */
 extern int leave; 			/* set if we're exiting (so don't check for typeahead) */
-
-/*
- *	vt100 funcitons :)
- */
-void clear_screen();
-void clear_row();
 
 #endif

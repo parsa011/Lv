@@ -11,8 +11,8 @@
 int main(int argc,char *argv[])
 {
 	// initialize the terminal , and activate raw mode
-	ttopen();
-	clear_screen();
+	TTopen();
+	TTeeop();
 	int c;
 	while (1) {
 		c = ttgetc();
