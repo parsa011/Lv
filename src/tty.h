@@ -63,6 +63,10 @@ struct terminal {
 #define	TTeeol		(*term.t_eeol)
 #define	TTeeop		(*term.t_eeop)
 #define	TTbeep		(*term.t_beep)
+#define TTmnl		(*term.t_mnl)
+#define TTmpl		(*term.t_mpl)
+#define TTmfw		(*term.t_mfw)
+#define TTmbw		(*term.t_mbw)
 
 /*
  *	open the tty for use in editor

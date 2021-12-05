@@ -1,6 +1,14 @@
 #ifndef _VT100_H
 # define _VT100_H
 
+/*
+ *	control vt100 screen 
+ *	Copyright
+ *		(C) 2021 Parsa Mahmoudy sahebi
+ *
+ *	This file is part of Lv
+ */
+
 #define NROW    24			/* Screen size.                 	*/
 #define NCOL    80			/* edit if you want to.         	*/
 #define	MARGIN	8			/* size of minimim margin and   	*/

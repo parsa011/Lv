@@ -21,13 +21,13 @@ int main(int argc,char *argv[])
 			printf("%d\r\n", c);
 		} else {
 			if (c == 's')
-				term.t_mnl();
+				TTmnl();
 			else if (c == 'w')
-				term.t_mpl();
+				TTmpl();
 			else if (c == 'd')
-				term.t_mfw();
+				TTmfw();
 			else if (c == 'a')
-				term.t_mbw();
+				TTmbw();
 		}
 		if (c == 'q') break;
 	}
