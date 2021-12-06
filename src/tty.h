@@ -26,21 +26,21 @@ struct terminal_t {
 	short t_margin;					/* min margin for extended lines */
 	short t_scrsiz;					/* size of scroll region "       */
 	int t_pause;					/* # times thru update to pause  */
-	void (*t_open)(void);			/* Open terminal at the start.   */
-	void (*t_close)(void);			/* Close terminal at end.        */
-	//void (*t_kopen)(void);		/* Open keyboard                 */
+	void (*t_open)(void);			/* open terminal at the start.   */
+	void (*t_close)(void);			/* close terminal at end.        */
+	//void (*t_kopen)(void);		/* open keyboard                 */
 	//void (*t_kclose)(void);		/* close keyboard                */
-	int (*t_getchar)();				/* Get character from keyboard.  */
-	void (*t_putchar)(char *);		/* Put character to display.     */
-	int (*t_flush) (void);			/* Flush output buffers.         */
-	void (*t_move)(int, int);		/* Move the cursor, origin 0.    */
-	void (*t_eeol)(void);			/* Erase to end of line.         */
-	void (*t_eeop)(void);			/* Erase to end of page.         */
-	void (*t_beep)(void);			/* Beep.                         */
+	int (*t_getchar)();				/* get character from keyboard.  */
+	void (*t_putchar)(char *);		/* put character to display.     */
+	int (*t_flush) (void);			/* flush output buffers.         */
+	void (*t_move)(int, int);		/* move the cursor, origin 0.    */
+	void (*t_eeol)(void);			/* erase to end of line.         */
+	void (*t_eeop)(void);			/* erase to end of page.         */
+	void (*t_beep)(void);			/* beep.                         */
 	
 	// cursor reposition functions
 	void (*t_mnl)(void);			/* move next line 				 */
-	void (*t_mpl)(void);			/* move prev line			     */	
+	void (*t_mpl)(void);			/* move prev line			     */
 	void (*t_mfw)(void);			/* move forward					 */
 	void (*t_mbw)(void);			/* move backward				 */
 

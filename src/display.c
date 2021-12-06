@@ -23,13 +23,17 @@ void get_screen_size(int *wrow,int *wcol)
 
 	if (lv_ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
 		TTmove(999,999);
-		//getCursorPosition(wrow, wcol);
+		get_cursor_position(wrow,wcol);
 	} else {
 		*wcol = ws.ws_col;
 		*wrow = ws.ws_row;
 	}
 }
 
+/*
+ *	return cursor position on screen
+ *	return false if we cant get the cursor position by any accident
+ */
 bool get_cursor_position(int *rows, int *cols) 
 {
 	char buf[32];
