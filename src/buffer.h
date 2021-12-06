@@ -9,18 +9,22 @@
  *	This file is part of Lv
  */
 
-#define NFILEN  256		/* n of bytes, file name 	*/
-#define NBUFN   16		/* n of bytes, buffer name 	*/
+#define NFILEN  256			/* n of bytes, file name 	*/
+#define NBUFN   16			/* n of bytes, buffer name 	*/
 
 struct buffer_t {
 	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
 	line *hline;			/* header line in this view (or page) 						 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
+	int loffset;			/* paased lines 											 */
 	char fname[NFILEN];		/* file name 												 */
 	char bname[NBUFN];		/* buffer name 												 */
 	//char flag;			/* flags 													 */
 	char mode;				/* modes of this buffer 									 */
-	int loffset;			/* paased lines 											 */
+
+	/* cursor related stuff */
+	int crow;				/* cursor row in this buffer								 */
+	int ccol;				/* cursor col in this buffer 								 */
 };
 
 /* mode for buffers */
@@ -33,5 +37,7 @@ struct buffer_t {
 #define MDMAGIC	0x0040		/* regular expresions in search  */
 #define	MDCRYPT	0x0080		/* encrytion mode active         */
 #define	MDASAVE	0x0100		/* auto-save mode                */
+
+buffer *init_buffer(char *, char *, char);
 
 #endif

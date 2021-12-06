@@ -35,4 +35,9 @@ struct window_t {
 #define WFMODE  0x10		/* update mode line.            */
 #define	WFCOLR	0x20		/* needs a color change         */
 
+/*
+ *	create ana alloc new window and return that pointer
+ */
+window *init_window();
+
 #endif

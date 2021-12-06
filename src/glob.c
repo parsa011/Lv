@@ -1,5 +1,8 @@
 #include "types.h"
 
+window *curwp;		/* Current window               */
+buffer *curbp;		/* Current buffer               */
+
 /*
  * kill the program
  */

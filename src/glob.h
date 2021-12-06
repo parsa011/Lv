@@ -1,6 +1,9 @@
 #ifndef _GLOB_H
 # define _GLOB_H
 
+extern window *curwp;		/* Current window               */
+extern buffer *curbp;		/* Current buffer               */
+
 /*
  * kill the program
  *

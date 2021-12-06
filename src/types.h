@@ -49,7 +49,6 @@ typedef struct buffer_t buffer;
 typedef struct window_t window;
 typedef struct terminal_t terminal;
 
-#include "lv.h"
 #include "macro.h"
 #include "tty.h"
 #include "utils.h"
@@ -57,8 +56,10 @@ typedef struct terminal_t terminal;
 #include "utf8.h"
 #include "keys.h"
 #include "input.h"
+#include "window.h"
 #include "line.h"
 #include "buffer.h"
 #include "move.h"
 #include "vt100.h"
 #include "display.h"
+#include "lv.h"
