@@ -19,4 +19,6 @@ void get_screen_size(int *,int *);
  */
 bool get_cursor_position(int *, int *);
 
+void set_window_title(char *);
+
 #endif

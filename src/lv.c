@@ -14,6 +14,7 @@ int main(int argc,char *argv[])
 	TTopen();
 	TTeeop();
 	TTmove(0,0);
+	set_window_title("LV - Parsa mahmoudy");
 	int c;
 	while (1) {
 		c = ttgetc();
