@@ -8,19 +8,34 @@
 
 #include "types.h"
 
+void close_editor()
+{
+
+}
+
+/*
+ *	some basic initilization for editor
+ *	like initilize first window and buffer
+ *	open tty and clear screen then set cursor to 0,0
+ *	and set terminal title :D
+ */
 void init_editor()
 {
 	curwp = init_window();
+	curbp = init_buffer("",NO_NAME_BUFFER,0);
+	curwp->buffers = curbp;
+	TTopen();
+	system("clear");
+	//TTeeop();
+	TTmove(0,0);
+	set_window_title(TERMINAL_TITLE);
 }
 
 int main(int argc,char *argv[])
 {
 	// initialize the terminal , and activate raw mode
-	TTopen();
-	TTeeop();
-	TTmove(0,0);
 	init_editor();
-	set_window_title("LV - Parsa mahmoudy");
+	
 	/* update term global vairbale row and col */
 	get_screen_size(&term.t_mrow,&term.t_mcol);
 	if (argc > 1) {
