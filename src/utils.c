@@ -32,4 +32,14 @@ int lv_ioctl(int fd, int req, void *ptr)
 	return rt;
 }
 
+/*
+ *	original strncpy does not add \0 , so 
+ *	ours add :)
+ */
+void lv_strncpy(char *dst, char *src, int len)
+{
+	strncpy(dst,src,len - 1);
+	dst[len - 1] = '\0';
+}
+
 // keys stuff

@@ -6,9 +6,11 @@ buffer *init_buffer(char *filename, char *buffername,char modes)
 	if (!(bf = malloc(sizeof(buffer))))
 		die("malloc buffer");
 
-	if (strlen(buffername) < NBUFN)
-		memcpy(bf->bname,buffername,strlen(buffername));
+	if (strlen(buffername) < NBUFN) { 
+		lv_strncpy(bf->bname,buffername,NBUFN);
+	}
 	if (strlen(filename) < NFILEN)
-		memcpy(bf->fname,filename,strlen(filename));
+		lv_strncpy(bf->fname,filename,NFILEN);
 	bf->mode = modes;
+	return bf;
 }

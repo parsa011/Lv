@@ -29,6 +29,9 @@ void init_editor()
 	//TTeeop();
 	TTmove(0,0);
 	set_window_title(TERMINAL_TITLE);
+	/* update term global vairbale row and col */
+	get_screen_size(&term.t_mrow,&term.t_mcol);
+
 }
 
 int main(int argc,char *argv[])
@@ -36,8 +39,6 @@ int main(int argc,char *argv[])
 	// initialize the terminal , and activate raw mode
 	init_editor();
 	
-	/* update term global vairbale row and col */
-	get_screen_size(&term.t_mrow,&term.t_mcol);
 	if (argc > 1) {
 
 		FILE *fp = fopen(argv[1], "r");
@@ -58,6 +59,7 @@ int main(int argc,char *argv[])
 	}
 
 	int c;
+	printf("Buffer name is : %s;\n\r",curbp->bname);
 	while (1) {
 		c = ttgetc();
 		if (c == 'j')
