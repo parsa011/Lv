@@ -28,16 +28,17 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 			linelen--;
 		/* 
 		 * if buffer dont have any line , so this is first line 
-		 * in other hand , we have to append this line to last lines next
+		 * in other hand , we have to append this line to next of last line
 		 * and then set last line to this new line
 		 */
-		if (buf->lline == NULL)
-			buf->lline = line_alloc(line,linelen);
+		struct line_t *ln = line_alloc(line,linelen);
+		if (buf->fline == NULL)
+			buf->fline = ln;
 		else {
-			slnext(buf->lline,line_alloc(line,linelen));
-			buf->lline = lnext(buf->lline);
+			slnext(buf->lline,ln);
 		}
 		/* i think this line dont need any comment , but to be sure : increase total count of buffer lines */	
+		buf->lline = ln;
 		buf->lcount++;
 	}
 	free(line);

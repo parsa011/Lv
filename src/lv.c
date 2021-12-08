@@ -44,7 +44,7 @@ int main(int argc,char *argv[])
 		load_file_into_buffer(NULL,argv[1]);
 	}
 
-	printf("%d\n",curbp->lcount);
+	printf("%d\r\n %s\r\n",curbp->lcount,curbp->lline->chars);
 	int c;
 	while (1) {
 		c = ttgetc();

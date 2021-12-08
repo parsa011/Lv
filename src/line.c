@@ -12,7 +12,7 @@ line *line_alloc(char *content,int len)
 	line *ln = malloc(sizeof(line));
 	if (!ln)
 		die("Out ou memory i think :)");
-	ln->chars = content;
+	ln->chars = strdup(content);
 	ln->len = len;
 	return ln;
 }
