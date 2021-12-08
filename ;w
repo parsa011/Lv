@@ -11,33 +11,27 @@
 /*
  *	load file of given path and write it into buffer
  */
-int load_file_into_buffer(buffer *buf,char *filepath)
+int laod_file_into_buffer(buffer *buf,char *filepath)
 {
 	FILE *fp = fopen(filepath, "r");
 	/* if file not found , return NOT FOUND */
 	if (!fp) 
 		return FNOTF;	
-	/* if given buffer is NULL using curbp instead */
 	buf = buf != NULL ? buf : curbp;
+	int lines = 0;
 	char *line = NULL;
 	size_t linecap = 0;
 	ssize_t linelen;
-	while ((linelen = getline(&line, &linecap, fp)) != EOF) { 
-		/* remove extra 'new line' and 'line feed' characters of end of line */
+	while ((linelen = getline(&line, &linecap, fp)) != -1 && lines < term.t_mrow - 1) {
 		while (linelen > 0 && (line[linelen - 1] == '\n' ||	line[linelen - 1] == '\r'))
 			linelen--;
-		/* 
-		 * if buffer dont have any line , so this is first line 
-		 * in other hand , we have to append this line to last lines next
-		 * and then set last line to this new line
-		 */
+
 		if (buf->lline == NULL)
 			buf->lline = line_alloc(line,linelen);
 		else {
 			slnext(buf->lline,line_alloc(line,linelen));
 			buf->lline = lnext(buf->lline);
 		}
-		/* i think this line dont need any comment , but to be sure : increase total count of buffer lines */	
 		buf->lcount++;
 	}
 	free(line);

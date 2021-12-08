@@ -26,8 +26,8 @@ struct line_t {
 #define lgetc(lp, n)    ((lp)->chars[(n)] & 0xFF)
 #define lputc(lp, n, c) ((lp)->chars[(n)] = (c))
 #define llength(lp)     ((lp)->len)
-#define slnext(l,n) (l->link.next = n)	/* set next line for given line */ 
-#define slprev(l,p) (l->link.prev = p)	/* set prev line for given line*/
+#define slnext(l,n) 	(l->link.next = n)	/* set next line for given line */ 
+#define slprev(l,p) 	(l->link.prev = p)	/* set prev line for given line*/
 
 /*
  * 	This routine allocates a block of memory large enough to hold a struct line
@@ -37,7 +37,6 @@ struct line_t {
  * 	NOTE : we dont have message bar yet :)
  */
 line *line_alloc(char *, int);
-
 
 /*
  *	delete char in current position of cursor

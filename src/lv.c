@@ -41,24 +41,10 @@ int main(int argc,char *argv[])
 	init_editor();
 	
 	if (argc > 1) {
-
-		FILE *fp = fopen(argv[1], "r");
-		if (!fp) die("fopen");
-		int lines = 0;
-		char *line = NULL;
-		size_t linecap = 0;
-		ssize_t linelen;
-		while ((linelen = getline(&line, &linecap, fp)) != -1 && lines < term.t_mrow - 1) {
-			while (linelen > 0 && (line[linelen - 1] == '\n' ||	line[linelen - 1] == '\r'))
-				linelen--;
-			ttputc(line);
-			ttputc("\r");
-			lines++;
-		}
-		free(line);
-		fclose(fp);
+		load_file_into_buffer(NULL,argv[1]);
 	}
 
+	printf("%d\n",curbp->lcount);
 	int c;
 	while (1) {
 		c = ttgetc();
