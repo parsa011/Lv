@@ -15,14 +15,15 @@
 struct buffer_t {
 	LINK(buffer) link;		/* buffers doubly-link list */
 	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
+	line *lline;			/* last line of buffer 										 */
 	line *hline;			/* header line in this view (or page) 						 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
+	int lcount;				/* total count of buffer lines 								 */
 	int loffset;			/* paased lines 											 */
 	char fname[NFILEN];		/* file name 												 */
 	char bname[NBUFN];		/* buffer name 												 */
 	//char flag;			/* flags 													 */
 	char mode;				/* modes of this buffer 									 */
-
 	/* cursor related stuff */
 	int crow;				/* cursor row in this buffer								 */
 	int ccol;				/* cursor col in this buffer 								 */
@@ -46,6 +47,6 @@ struct buffer_t {
 
 buffer *init_buffer(char *, char *, char);
 void append_buffer(buffer *);
-buffer *get_last_buffer(window *);
+line *get_last_line(buffer *);
 
 #endif

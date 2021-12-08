@@ -15,3 +15,16 @@ window *init_window()
 		die("malloc window");
 	return wp;
 }
+
+/*
+ *	return last buffer of given window
+ *	if window is NULL we will get last buffer of curwp
+ */
+buffer *get_last_buffer(window *wp)
+{
+	/* set to curwp if wp is null */
+	window *win = wp != NULL ? wp : curwp;
+	buffer *b = win->buffers;
+	for (; b != NULL;b = bnext(b));
+	return b;
+}

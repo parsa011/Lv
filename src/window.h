@@ -39,5 +39,6 @@ struct window_t {
  *	create ana alloc new window and return that pointer
  */
 window *init_window();
+buffer *get_last_buffer(window *);
 
 #endif

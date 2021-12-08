@@ -43,14 +43,14 @@ void append_buffer(buffer *bf)
 }
 
 /*
- *	return last buffer of given window
- *	if window is NULL we will get last buffer of curwp
+ *	return last line of given buffer 
+ *	if given buffer is NULL we will get last line of curbp
  */
-buffer *get_last_buffer(window *wp)
+line *get_last_line(buffer *bf)
 {
 	/* set to curwp if wp is null */
-	window *win = wp != NULL ? wp : curwp;
-	buffer *b = win->buffers;
-	for (buffer *b = win->buffers; b != NULL;b = bnext(b));
-	return b;
+	buffer *buff = bf != NULL ? bf : curbp;
+	line *l = buff->fline;
+	for (; l != NULL;l = lnext(l));
+	return l;
 }
