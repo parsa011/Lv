@@ -25,7 +25,8 @@ void init_editor()
 	curbp = init_buffer("",NO_NAME_BUFFER,0);
 	append_buffer(curbp);
 	TTopen();
-	system("clear");
+	if (system("clear") != 0)
+		TTbeep();
 	//TTeeop();
 	TTmove(0,0);
 	set_window_title(TERMINAL_TITLE);
