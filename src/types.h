@@ -62,4 +62,5 @@ typedef struct terminal_t terminal;
 #include "move.h"
 #include "vt100.h"
 #include "display.h"
+#include "file.h"
 #include "lv.h"

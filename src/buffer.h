@@ -13,6 +13,7 @@
 #define NBUFN   16			/* n of bytes, buffer name 	*/
 
 struct buffer_t {
+	LINK(buffer) link;		/* buffers doubly-link list */
 	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
 	line *hline;			/* header line in this view (or page) 						 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
@@ -27,6 +28,11 @@ struct buffer_t {
 	int ccol;				/* cursor col in this buffer 								 */
 };
 
+#define bnext(b) (b->link.next)			/* next buffer of given buffer 		*/
+#define bprev(b) (b->link.prev)			/* prev buffer of given buffer 		*/
+#define sbnext(b,n) (b->link.next = n)	/* set next buffer for given buffer */ 
+#define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
+
 /* mode for buffers */
 #define	MDLOCK	0x0001		/* lock mode                     */
 #define	MDCMOD	0x0002		/* c indentation and fence match */
@@ -39,5 +45,7 @@ struct buffer_t {
 #define	MDASAVE	0x0100		/* auto-save mode                */
 
 buffer *init_buffer(char *, char *, char);
+void append_buffer(buffer *);
+buffer *get_last_buffer(window *);
 
 #endif

@@ -23,7 +23,7 @@ void init_editor()
 {
 	curwp = init_window();
 	curbp = init_buffer("",NO_NAME_BUFFER,0);
-	append_buffer(curbp);
+	curwp->buffers = curbp;
 	TTopen();
 	system("clear");
 	//TTeeop();
@@ -39,6 +39,8 @@ int main(int argc,char *argv[])
 	// initialize the terminal , and activate raw mode
 	init_editor();
 	
+	append_buffer(init_buffer("name","name",0));
+	pritnf("%d\n",curwp->bcount);
 	if (argc > 1) {
 
 		FILE *fp = fopen(argv[1], "r");
