@@ -39,12 +39,13 @@ bool get_cursor_position(int *rows, int *cols)
 	char buf[32];
 	unsigned int i = 0;
 
-	if (lv_write(STDOUT_FILENO, "\x1b[6n", 4) != 4) return false;
+	if (lv_write(STDOUT_FILENO, "\x1b[6n", 4) != 4)
+		return false;
 
 	while (i < sizeof(buf) - 1) {
-		if (lv_read(STDIN_FILENO, &buf[i], 1) != 1) 
+		if (lv_read(STDIN_FILENO, &buf[i], 1) != 1)
 			break;
-		if (buf[i] == 'R') 
+		if (buf[i] == 'R')
 			break;
 		i++;
 	}
@@ -59,6 +60,20 @@ bool get_cursor_position(int *rows, int *cols)
 }
 
 /*
+ * move cursor to specified location 
+ */
+bool move_cursor(int row, int col)
+{
+	if (row != curbp->crow && col != curbp->ccol) {
+		curbp->crow = row;
+		curbp->ccol = col;
+		TTmove(row,col);
+		return true;
+	}
+	return false;
+}
+
+/*
  *	set terminal title
  */
 void set_window_title(char *title)
@@ -66,4 +81,48 @@ void set_window_title(char *title)
 	char buf[250];
 	int len = sprintf(buf,"\033]0;%s\007",title);
 	ttputc(buf);
+}
+
+void update()
+{
+	move_cursor(0,0);
+	write_windows();
+
+	// ===========================================
+	// set cursor to 0,0
+	// wirte windows on top (tabs)
+	// write buffer into screen
+	// wrtite status bar
+	// create a place for message bar
+	// ===========================================
+
+	int count = 0;
+	for (line *ln = curbp->fline;ln != NULL && count < term.t_mrow - 1;ln = lnext(ln),count++) {
+		TTputc(ln->chars);	
+		TTputc("\r");
+	}
+}
+
+/*
+ *	write editor title on top and window names
+ *	if window have buffer , we will use active buffer bname
+ *	else will use NO_NAME_BUFFER const
+ */
+void write_windows()
+{
+	if (curbp->crow != 0 || curbp->ccol != 0)
+		move_cursor(0,0);
+	TTputc(EDITOR_TITLE);
+	TTputc("\t");
+	/* later we have to check if we have any special color for windows section */
+	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
+		if (wp->fbuffer == NULL)
+			TTputc(NO_NAME_BUFFER);
+		else
+			TTputc(wp->fbuffer->bname);	
+		/* if this is not last window , wirte | separator */
+		if (wnext(wp) != NULL)
+			TTputc(" | ");
+	}
+	TTputc("\r\n");
 }

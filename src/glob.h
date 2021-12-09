@@ -4,8 +4,9 @@
 #define TERMINAL_TITLE "LV - Parsa mahmoudy" /* default title for terminal */
 #define NO_NAME_BUFFER "[NO NAME]" 	/* default name for buffers that don't have name */
 
-extern window *curwp;		/* Current window               */
-extern buffer *curbp;		/* Current buffer               */
+extern window *firstwp;		/* first window		*/
+extern window *curwp;		/* current window   */
+extern buffer *curbp;		/* current buffer   */
 
 /*
  * kill the program

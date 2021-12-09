@@ -42,26 +42,33 @@ terminal term = {
 /*
  *	vt100 screens interfaces
  */
+
+/*
+ * beep :)
+ */
 void vt100beep()
 {
-	//ttputc(BEL);
 	ttputc("\x07");
 }
 
 void vt100move(int row,int col)
 {
-	//ttputc(ESC);
-	//ttputc("\x1b[Y");
 	char buf[32];
 	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", row, col);
 	ttputc(buf);
 }
 
+/*
+ *	erase end of line
+ */
 void vt100eeol()
 {
 	ttputc("\x1b[2K");
 }
 
+/*
+ *	erase end of page
+ */
 void vt100eeop()
 {
 	ttputc("\x1b[2J");

@@ -16,16 +16,15 @@
  */
 struct window_t {
 	LINK(window) link;		/* Doubly-linked list of windows 			*/
-	buffer *buffers;		/* buffers in this window 					*/
+	buffer *fbuffer;		/* buffers in this window 					*/
 	int bcount;				/* total buffers count in this window 		*/
 	//buffer *cb;			/* current buffer (active) 					*/
 	int cbindex;			/* index of current buffer (active buffer)  */	
 	char flags;				/* flags that holds state of window 		*/
 };
 
-#define wnext(w) (w.link->next)				/* next window of given window 		*/
-#define wprev(w) (w.link->prev)				/* prev window of given window 		*/
-#define wcbuffer(w) (w.buffers[w.cb_index]) /* return current buffer in window 	*/
+#define wnext(w) (w->link.next)				/* next window of given window 		*/
+#define wprev(w) (w->link.prev)				/* prev window of given window 		*/
 
 /* window modes */
 #define WFFORCE 0x01		/* window needs forced reframe  */

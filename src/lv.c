@@ -10,7 +10,7 @@
 
 void close_editor()
 {
-
+	
 }
 
 /*
@@ -22,17 +22,16 @@ void close_editor()
 void init_editor()
 {
 	curwp = init_window();
+	firstwp = curwp;
 	curbp = init_buffer("",NO_NAME_BUFFER,0);
 	append_buffer(curbp);
 	TTopen();
 	if (system("clear") != 0)
 		TTbeep();
-	//TTeeop();
 	TTmove(0,0);
 	set_window_title(TERMINAL_TITLE);
 	/* update term global vairbale row and col */
 	get_screen_size(&term.t_mrow,&term.t_mcol);
-
 }
 
 int main(int argc,char *argv[])
@@ -44,7 +43,7 @@ int main(int argc,char *argv[])
 		load_file_into_buffer(NULL,argv[1]);
 	}
 
-	printf("%d\r\n %s\r\n",curbp->lcount,curbp->lline->chars);
+		update();
 	int c;
 	while (1) {
 		c = ttgetc();

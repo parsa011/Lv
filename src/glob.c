@@ -1,7 +1,8 @@
 #include "types.h"
 
-window *curwp;		/* Current window               */
-buffer *curbp;		/* Current buffer               */
+window *firstwp;	/* first winow		*/
+window *curwp;		/* Current window   */
+buffer *curbp;		/* Current buffer   */
 
 /*
  * kill the program

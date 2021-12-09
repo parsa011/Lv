@@ -31,8 +31,8 @@ void append_buffer(buffer *bf)
 	if (curwp == NULL)
 		die("NO any window");
 	/* if currwp buffers null , so it's first one , otherwise add to last buffers next */
-	if (curwp->buffers == NULL)
-		curwp->buffers = bf;
+	if (curwp->fbuffer == NULL)
+		curwp->fbuffer = bf;
 	else {
 		buffer *lbuffer = get_last_buffer(NULL);
 		if (lbuffer == NULL)

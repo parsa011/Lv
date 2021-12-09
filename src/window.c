@@ -24,7 +24,7 @@ buffer *get_last_buffer(window *wp)
 {
 	/* set to curwp if wp is null */
 	window *win = wp != NULL ? wp : curwp;
-	buffer *b = win->buffers;
+	buffer *b = win->fbuffer;
 	for (; b != NULL;b = bnext(b));
 	return b;
 }
