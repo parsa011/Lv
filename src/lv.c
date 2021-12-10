@@ -43,7 +43,7 @@ int main(int argc,char *argv[])
 		load_file_into_buffer(NULL,argv[1]);
 	}
 
-		update();
+	update();
 	int c;
 	while (1) {
 		c = ttgetc();

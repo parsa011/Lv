@@ -10,6 +10,22 @@
 #include <sys/ioctl.h>
 
 /*
+|----------------------------------------------------|
+|PMS 0.0.1  [NO NAME]				     			 |
+|----------------------------------------------------|
+|10 void write_messagebar()			     			 |
+|11 {						     					 |
+|12    TTmove(term.t_mrow,0);		     		 |
+|13    TTputc("this is a test message"); 	     	 |
+|14 }					             				 |	
+|----------------------------------------------------|
+|display.c | 100 line | 10.1		     	 c type  |
+|----------------------------------------------------|
+|381 byte wroted				     				 |
+|----------------------------------------------------|
+*/
+
+/*
  *	get termianl size from system
  *	if returned value from ioctl was valid ( more than 0 )
  *	we will set row and col by winsize row and col
@@ -60,17 +76,6 @@ bool get_cursor_position(int *rows, int *cols)
 }
 
 /*
- * move cursor to specified location 
- */
-bool move_cursor(int row, int col)
-{
-	curbp->crow = row;
-	curbp->ccol = col;
-	TTmove(row,col);
-	return true;
-}
-
-/*
  *	set terminal title
  */
 void set_window_title(char *title)
@@ -82,18 +87,19 @@ void set_window_title(char *title)
 
 void update()
 {
-	move_cursor(0,0);
+	TTmove(0,0);
 	write_windows();
 	write_buffer();
 	write_statusbar();
 	write_messagebar();
+	TTmove(curbp->crow,curbp->ccol);
 
 	// ===========================================
 	// + set cursor to 0,0
 	// + wirte windows on top (tabs)
 	// + write buffer into screen
 	// + wrtite status bar
-	// create a place for message bar
+	// + create a place for message bar
 	// ===========================================
 }
 
@@ -105,14 +111,14 @@ void update()
 void write_windows()
 {
 	if (curbp->crow != 0 || curbp->ccol != 0)
-		move_cursor(0,0);
+		TTmove(0,0);
 	TTputc(INVERT);
 	int temp = 0;
 	while (temp < term.t_mcol) {
 		TTputc(" ");
 		temp++;
 	}
-	move_cursor(1,0);
+	TTmove(1,0);
 	TTputc(EDITOR_TITLE);
 	TTputc("\t");
 	/* later we have to check if we have any special color for windows section */
@@ -134,8 +140,8 @@ void write_windows()
  */
 void write_buffer()
 {
-	if (curbp->crow != 1 || curbp->ccol != 0)
-		move_cursor(2,0);
+	if (curbp->crow != 2 || curbp->ccol != 0)
+		TTmove(2,0);
 	int count = 0;
 	for (line *ln = curbp->fline;ln != NULL && count < term.t_mrow - 2;ln = lnext(ln),count++) {
 		TTputc(ln->chars);
@@ -146,7 +152,7 @@ void write_buffer()
 void write_statusbar()
 {
 	if (curbp->crow != term.t_mrow - 1  || curbp->ccol != 0)
-		move_cursor(term.t_mrow - 1,0);
+		TTmove(term.t_mrow - 1,0);
 	TTputc(INVERT);
 	int temp = 0;
 	while (temp < term.t_mcol) {
@@ -154,12 +160,11 @@ void write_statusbar()
 		temp++;
 	}	
 	TTputc(DEFAULT);
-
 }
 
 void write_messagebar()
 {
 	if (curbp->crow != term.t_mrow || curbp->ccol != 0)
-		move_cursor(term.t_mrow,0);
+		TTmove(term.t_mrow,0);
 	TTputc("this is a test message");
 }
