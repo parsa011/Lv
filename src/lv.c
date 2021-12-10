@@ -10,7 +10,8 @@
 
 void close_editor()
 {
-	
+	TTeeop();
+	exit(0);
 }
 
 /*
@@ -48,14 +49,15 @@ int main(int argc,char *argv[])
 	while (1) {
 		c = ttgetc();
 		if (c == 'j')
-			TTmnl();
+			move_cursor(MOVE_DOWN);
 		else if (c == 'k')
-			TTmpl();
+			move_cursor(MOVE_UP);
 		else if (c == 'l')
-			TTmfw();
+			move_cursor(MOVE_RIGHT);
 		else if (c == 'h')
-			TTmbw();
-		if (c == 'q') break;
+			move_cursor(MOVE_LEFT);
+		if (c == 'q') 
+			close_editor();
 	}
 	return 0;
 }
