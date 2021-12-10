@@ -49,6 +49,7 @@ typedef struct buffer_t buffer;
 typedef struct window_t window;
 typedef struct terminal_t terminal;
 
+#include "color.h"
 #include "macro.h"
 #include "tty.h"
 #include "utils.h"

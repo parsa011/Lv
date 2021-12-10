@@ -31,4 +31,18 @@ void update();
  */
 void write_windows();
 
+/*
+ * 	write current buffer into screen
+ * 	TODO : write multiple buffers in screen
+ */
+void write_buffer();
+
+/*
+ *	write status bar into screen , the place that we will put information about 
+ *	current state of editor and cursor and file
+ */
+void write_statusbar();
+
+void write_messagebar();
+
 #endif
