@@ -16,7 +16,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 	FILE *fp = fopen(filepath, "r");
 	/* if file not found , return NOT FOUND */
 	if (!fp) 
-		return FNOTF;	
+		return FNOTF;
 	/* if given buffer is NULL using curbp instead */
 	buf = buf != NULL ? buf : curbp;
 	char *line_chars = NULL;

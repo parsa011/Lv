@@ -17,6 +17,8 @@ int move_cursor(int dir)
 		if (cursor_col < llen) {
 			curbp->ccol++;
 		} else {
+			if (lnext(current_line) == NULL)
+				return NULL;
 			curbp->ccol = 1;
 			move_cursor(MOVE_DOWN);
 		}
@@ -24,6 +26,8 @@ int move_cursor(int dir)
 			if (cursor_col > 1) {
 				curbp->ccol--;
 			} else {
+				if (lprev(current_line) == NULL)
+					return false;
 				move_cursor(MOVE_UP);
 				curbp->ccol = current_line->len;
 			}
