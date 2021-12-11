@@ -17,12 +17,8 @@ int move_cursor(int dir)
 		if (cursor_col < llen) {
 			curbp->ccol++;
 		} else {
-			/*
-			 *	ok , at this point , we will check for next line , of it's NULL , so we are at the end of buffer , just return false
-			 *	otherwise go to next line and set cursor col to 1
-			 */
 			if (lnext(current_line) == NULL)
-				return false;
+				return NULL;
 			curbp->ccol = 1;
 			move_cursor(MOVE_DOWN);
 		}
@@ -30,27 +26,19 @@ int move_cursor(int dir)
 			if (cursor_col > 1) {
 				curbp->ccol--;
 			} else {
-				/*
-				 * 	well , if prev line is NULL so we are at the top of buffer , we just have to return
-				 * 	otherwise we will call move_cursor with move up argumant
-				 * 	then set cursor col to next line (it's current line now) length
-				 */
 				if (lprev(current_line) == NULL)
 					return false;
 				move_cursor(MOVE_UP);
 				curbp->ccol = current_line->len;
 			}
 	} else if (dir == MOVE_UP) {
-		/* check if we not going to windowsbar_start_offset region */
 		if (cursor_row - 1 > windowsbar_start_offset) {
 			curbp->crow--;
-			curbp->clindex--;
 			current_line = lprev(current_line);
 		}
 	} else if (dir == MOVE_DOWN) {
-		if (cursor_row + 1 < statusbar_start_offset && curbp->clindex + 1 < curbp->lcount) {
+		if (cursor_row + 1 < statusbar_start_offset && cursor_row - windowsbar_start_offset < curbp->lcount) {
 			curbp->crow++;
-			curbp->clindex++;
 			current_line = lnext(current_line);
 		}
 	}
@@ -59,9 +47,4 @@ int move_cursor(int dir)
 		cursor_col = current_line->len + 1;
 	TTmove(cursor_row,cursor_col);
 	return TRUE;
-}
-
-int scroll(int dir, int times)
-{
-
 }

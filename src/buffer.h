@@ -18,6 +18,7 @@ struct buffer_t {
 	line *lline;			/* last line of buffer 										 */
 	line *hline;			/* header line in this view (or page) 						 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
+	int clindex;			/* current line index */
 	int lcount;				/* total count of buffer lines 								 */
 	int loffset;			/* paased lines 											 */
 	char fname[NFILEN];		/* file name 												 */

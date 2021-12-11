@@ -22,4 +22,9 @@
  */
 int move_cursor(int);
 
+/*
+ *	scroll page , into given direction , to specified times
+ */
+int scroll(int, int);
+
 #endif

@@ -24,6 +24,7 @@ buffer *init_buffer(char *filename, char *buffername,char modes)
 	bf->mode &= modes;
 	bf->crow = buffers_start_offset;
 	bf->ccol = 1;
+	bf->clindex = 0;
 	return bf;
 }
 

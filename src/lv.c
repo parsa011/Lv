@@ -11,6 +11,7 @@
 void close_editor()
 {
 	TTeeop();
+	TTmove(1,1);
 	exit(0);
 }
 
