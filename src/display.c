@@ -37,7 +37,7 @@ void get_screen_size(int *wrow,int *wcol)
 {
 	struct winsize ws;
 
-	if (lv_ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+	if (lv_ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1) {
 		TTmove(999,999);
 		get_cursor_position(wrow,wcol);
 	} else {
@@ -116,12 +116,6 @@ void write_windows()
 		TTmove(windowsbar_start_offset,1);
 	TTeeol();
 	TTputc(INVERT);
-	int temp = 0;
-	while (temp < term.t_mcol) {
-		TTputc(" ");
-		temp++;
-	}
-	TTmove(1,0);
 	TTputc(EDITOR_TITLE);
 	TTputc("\t");
 	/* later we have to check if we have any special color for windows section */
@@ -167,7 +161,20 @@ void write_statusbar()
 		TTmove(statusbar_start_offset,1);
 	TTeeol();
 	TTputc(INVERT);
-	TTputc("============");
+	char lstatus[256];
+	char rstatus[128];
+	int llen = sprintf(lstatus,"file : %s , %d line %d col",curbp->bname,curbp->lcount,term.t_mcol);	
+	int rlen = sprintf(rstatus,"%d | %d",curbp->clindex + 1,cursor_col);
+	TTputc(lstatus);
+	while (llen < term.t_mcol) {
+		if (llen + rlen == term.t_mcol) {
+			TTputc(rstatus);
+			break;
+		} 
+		TTputc(" ");
+		llen++;
+	}
+	TTputc("\r");
 	TTputc(DEFAULT);
 }
 

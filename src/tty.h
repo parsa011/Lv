@@ -19,10 +19,8 @@
  * one terminal type.
  */
 struct terminal_t {
-	short t_mrow;					/* max number of rows allowable  */
-	short t_nrow;					/* current number of rows used   */
-	short t_mcol;					/* max Number of columns.        */
-	short t_ncol;					/* current Number of columns.    */
+	int t_mrow;					/* max number of rows allowable  */
+	int t_mcol;					/* max Number of columns.        */
 	short t_margin;					/* min margin for extended lines */
 	short t_scrsiz;					/* size of scroll region "       */
 	int t_pause;					/* # times thru update to pause  */

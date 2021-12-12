@@ -13,8 +13,6 @@
  */
 terminal term = {
 	NROW - 1,
-	NROW - 1,
-	NCOL,
 	NCOL,
 	MARGIN,
 	SCRSIZ,
