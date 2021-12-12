@@ -236,5 +236,4 @@ void ttputs(char *s)
 		if (obufp == OBUFSIZE)
 			ttflsh();
 	}
-	ttflsh();
 }

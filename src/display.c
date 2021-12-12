@@ -95,7 +95,7 @@ void update()
 	write_messagebar();
 	TTmove(curbp->crow,curbp->ccol);
 	TTcshow();
-
+	TTflush();
 	// ===========================================
 	// + set cursor to 0,0
 	// + wirte windows on top (tabs)
