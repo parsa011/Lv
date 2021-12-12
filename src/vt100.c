@@ -20,7 +20,7 @@ terminal term = {
 	&ttopen,
 	&ttclose,
 	&ttgetc,
-	&ttputc,
+	&ttputs,
 	&ttflsh,
 	&vt100move,
 	&vt100eeol,
@@ -48,14 +48,14 @@ terminal term = {
  */
 void vt100beep()
 {
-	ttputc("\x07");
+	ttputs("\x07");
 }
 
 void vt100move(int row,int col)
 {
 	char buf[32];
 	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", row, col);
-	ttputc(buf);
+	ttputs(buf);
 }
 
 /*
@@ -63,7 +63,7 @@ void vt100move(int row,int col)
  */
 void vt100eeol()
 {
-	ttputc("\x1b[2K");
+	ttputs("\x1b[2K");
 }
 
 /*
@@ -71,7 +71,7 @@ void vt100eeol()
  */
 void vt100eeop()
 {
-	ttputc("\x1b[2J");
+	ttputs("\x1b[2J");
 }
 
 /*
@@ -80,7 +80,7 @@ void vt100eeop()
  */
 void vt100mnl()
 {
-	ttputc("\x1b[B");
+	ttputs("\x1b[B");
 }
 
 /*
@@ -89,7 +89,7 @@ void vt100mnl()
  */
 void vt100mpl()
 {
-	ttputc("\x1b[A");
+	ttputs("\x1b[A");
 }
 
 /*
@@ -98,7 +98,7 @@ void vt100mpl()
  */
 void vt100mfw()
 {
-	ttputc("\x1b[C");
+	ttputs("\x1b[C");
 }
 
 /*
@@ -107,15 +107,15 @@ void vt100mfw()
  */
 void vt100mbw()
 {
-	ttputc("\x1b[D");
+	ttputs("\x1b[D");
 }
 
 void vt100cursorhide()
 {
-	ttputc("\x1b[?25l");
+	ttputs("\x1b[?25l");
 }
 
 void vt100cursorshow()
 {
-	ttputc("\x1b[?25h");
+	ttputs("\x1b[?25h");
 }

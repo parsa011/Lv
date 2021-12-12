@@ -37,6 +37,7 @@ void update();
  *	write all exist windows into screen
  */
 void write_windows();
+#define WINDOWS_SEPARAROR " | "
 
 /*
  * 	write current buffer into screen

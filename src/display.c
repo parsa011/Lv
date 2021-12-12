@@ -15,8 +15,8 @@
 |----------------------------------------------------|
 |10 void write_messagebar()			     			 |
 |11 {						     					 |
-|12    TTmove(term.t_mrow,0);		     		 |
-|13    TTputc("this is a test message"); 	     	 |
+|12    TTmove(term.t_mrow,0);		     		 	 |
+|13    TTputs("this is a test message"); 	     	 |
 |14 }					             				 |	
 |----------------------------------------------------|
 |display.c | 100 line | 10.1		     	 c type  |
@@ -82,7 +82,7 @@ void set_window_title(char *title)
 {
 	char buf[250];
 	int len = sprintf(buf,"\033]0;%s\007",title);
-	ttputc(buf);
+	TTputs(buf);
 }
 
 void update()
@@ -115,21 +115,32 @@ void write_windows()
 	if (curbp->crow != windowsbar_start_offset || curbp->ccol != 1)
 		TTmove(windowsbar_start_offset,1);
 	TTeeol();
-	TTputc(INVERT);
-	TTputc(EDITOR_TITLE);
-	TTputc("\t");
+	TTputs(INVERT);
+	char temp[256];
+	int len = sprintf(temp,"%s ",EDITOR_TITLE);
+	TTputs(temp);
 	/* later we have to check if we have any special color for windows section */
 	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
-		if (wp->fbuffer == NULL)
-			TTputc(NO_NAME_BUFFER);
-		else
-			TTputc(wp->fbuffer->bname);	
+		if (wp->fbuffer == NULL) {
+			TTputs(NO_NAME_BUFFER);
+			len += sizeof(NO_NAME_BUFFER);
+		}
+		else {
+			TTputs(wp->fbuffer->bname);	
+			len += sizeof(wp->fbuffer->bname);
+		}	
 		/* if this is not last window , wirte | separator */
-		if (wnext(wp) != NULL)
-			TTputc(" | ");
+		if (wnext(wp) != NULL) {
+			TTputs(WINDOWS_SEPARAROR);
+			len += sizeof(WINDOWS_SEPARAROR);
+		}
 	}
-	TTputc(DEFAULT);
-	TTputc("\r\n");
+	while (len <= term.t_mcol)  {
+		TTputs(" ");
+		len++;
+	}
+	TTputs(DEFAULT);
+	TTputs("\r\n");
 }
 
 /*
@@ -151,8 +162,8 @@ void write_buffer()
 void write_line(line *ln)
 {
 	TTeeol();
-	TTputc(ln->chars);
-	TTputc("\r");
+	TTputs(ln->chars);
+	TTputs("\r");
 }
 
 /*
@@ -169,22 +180,22 @@ void write_statusbar()
 	if (curbp->crow != statusbar_start_offset || curbp->ccol != 1)
 		TTmove(statusbar_start_offset,1);
 	TTeeol();
-	TTputc(INVERT);
+	TTputs(INVERT);
 	char lstatus[256];
 	char rstatus[128];
 	int llen = sprintf(lstatus,"file : %s , %d line",curbp->bname,curbp->lcount);	
 	int rlen = sprintf(rstatus,"%d | %d",curbp->clindex + 1,cursor_col);
-	TTputc(lstatus);
+	TTputs(lstatus);
 	while (llen < term.t_mcol) {
 		if (llen + rlen == term.t_mcol) {
-			TTputc(rstatus);
+			TTputs(rstatus);
 			break;
 		} 
-		TTputc(" ");
+		TTputs(" ");
 		llen++;
 	}
-	TTputc("\r");
-	TTputc(DEFAULT);
+	TTputs("\r");
+	TTputs(DEFAULT);
 }
 
 void write_messagebar()
@@ -192,5 +203,5 @@ void write_messagebar()
 	if (curbp->crow != messagebar_start_offset || curbp->ccol != 1)
 		TTmove(messagebar_start_offset,1);
 	TTeeol();
-	TTputc("this is a test message");
+	TTputs("this is a test message");
 }

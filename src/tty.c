@@ -229,7 +229,7 @@ int ttflsh(void)
 /* 
  * write string to output buffer
  */
-void ttputc(char *s)
+void ttputs(char *s)
 {
 	while (*s) {
 		obuf[obufp++] = *s++;
