@@ -112,9 +112,9 @@ void update()
  */
 void write_windows()
 {
+	if (curbp->crow != windowsbar_start_offset || curbp->ccol != 1)
+		TTmove(windowsbar_start_offset,1);
 	TTeeol();
-	if (curbp->crow != windowsbar_start_offset || curbp->ccol != 0)
-		TTmove(windowsbar_start_offset,0);
 	TTputc(INVERT);
 	int temp = 0;
 	while (temp < term.t_mcol) {
@@ -143,8 +143,8 @@ void write_windows()
  */
 void write_buffer()
 {
-	if (curbp->crow != buffers_start_offset || curbp->ccol != 0)
-		TTmove(buffers_start_offset,0);
+	if (curbp->crow != buffers_start_offset || curbp->ccol != 1)
+		TTmove(buffers_start_offset,1);
 	int count = 0;
 	for (line *ln = curbp->hline;ln != NULL && count < term.t_mrow - 2;ln = lnext(ln),count++) {
 		write_line(ln);
@@ -152,7 +152,7 @@ void write_buffer()
 }
 
 /*
- *	write line into screen, convert non-printable chars into something printable :)
+ *	write line into screen, convert non-printable chars into something printable :) (not implemented yet)
  */
 void write_line(line *ln)
 {
@@ -163,22 +163,18 @@ void write_line(line *ln)
 
 void write_statusbar()
 {
+	if (curbp->crow != statusbar_start_offset || curbp->ccol != 1)
+		TTmove(statusbar_start_offset,1);
 	TTeeol();
-	if (curbp->crow != statusbar_start_offset || curbp->ccol != 0)
-		TTmove(statusbar_start_offset,0);
 	TTputc(INVERT);
-	int temp = 0;
-	while (temp < term.t_mcol) {
-		TTputc(" ");
-		temp++;
-	}	
+	TTputc("============");
 	TTputc(DEFAULT);
 }
 
 void write_messagebar()
 {
+	if (curbp->crow != messagebar_start_offset || curbp->ccol != 1)
+		TTmove(messagebar_start_offset,1);
 	TTeeol();
-	if (curbp->crow != messagebar_start_offset || curbp->ccol != 0)
-		TTmove(messagebar_start_offset,0);
 	TTputc("this is a test message");
 }

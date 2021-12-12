@@ -62,9 +62,9 @@ int move_cursor(int dir)
 	if (cursor_col > current_line->len)
 		cursor_col = current_line->len + 1;
 	TTmove(cursor_row,cursor_col);
-	char temp[180];
-	sprintf(temp,"%s | %s",curbp->hline->chars,current_line->chars);
-	set_window_title(temp);
+//	char temp[180];
+//	sprintf(temp,"%s | %s",curbp->hline->chars,current_line->chars);
+//	set_window_title(temp);
 
 	return TRUE;
 }
