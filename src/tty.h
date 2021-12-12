@@ -44,6 +44,9 @@ struct terminal_t {
 	void (*t_mfw)(void);			/* move forward					 */
 	void (*t_mbw)(void);			/* move backward				 */
 
+	void (*t_chide)(void);			/* hide cursor 					 */
+	void (*t_cshow)(void);			/* show cursor					 */ 
+
 	void (*t_rev)(int);				/* set reverse video state       */
 	int (*t_rez)(char *);			/* change screen resolution      */
 	int (*t_setfor) ();				/* set forground color           */
@@ -66,6 +69,8 @@ struct terminal_t {
 #define TTmpl		(*term.t_mpl)
 #define TTmfw		(*term.t_mfw)
 #define TTmbw		(*term.t_mbw)
+#define TTchide		(*term.t_chide)
+#define TTcshow		(*term.t_cshow)
 
 /*
  *	open the tty for use in editor
@@ -106,9 +111,9 @@ int ttgetc(void);
  * 	write a character to the output buffer.  If it becomes
  * 	full, call ttflsh()
  */
+#define OBUFSIZE 128 
 extern int obufp; 			/* output buffer index */
-extern int obufsiz; 		/* output buffer size */
-extern unsigned char *obuf; /* output buffer */
+extern unsigned char obuf[OBUFSIZE]; /* output buffer */
 
 /* 	flush the output buffer and check for typeahead.
  *

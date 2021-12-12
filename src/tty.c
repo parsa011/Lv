@@ -38,9 +38,8 @@ int leave = 0;			/* When set, typeahead checking is disabled */
 
 /* Output buffer, index and size */
 
-unsigned char *obuf = NULL;
+unsigned char obuf[OBUFSIZE];
 int obufp = 0;
-int obufsiz;
 
 /*
  *  open terminal
@@ -85,8 +84,6 @@ void ttopen(void)
 	// when client exited by any accident , set orig term :)
 	atexit(ttclose);
 	tcsetattr(fileno(termin), TCSANOW, &newterm);
-
-	obuf = (unsigned char *)malloc(128);
 }
 
 /*
@@ -234,7 +231,10 @@ int ttflsh(void)
  */
 void ttputc(char *s)
 {
-	while (*s)
+	while (*s) {
 		obuf[obufp++] = *s++;
+		if (obufp == OBUFSIZE)
+			ttflsh();
+	}
 	ttflsh();
 }

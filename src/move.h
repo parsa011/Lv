@@ -27,4 +27,11 @@ int move_cursor(int);
  */
 int scroll(int, int);
 
+/*
+ *	set next line to current line and increase cursor row
+ */
+int move_nextline();
+
+int move_prevline();
+
 #endif

@@ -87,12 +87,14 @@ void set_window_title(char *title)
 
 void update()
 {
+	TTchide();
 	TTmove(0,0);
 	write_windows();
 	write_buffer();
 	write_statusbar();
 	write_messagebar();
 	TTmove(curbp->crow,curbp->ccol);
+	TTcshow();
 
 	// ===========================================
 	// + set cursor to 0,0
@@ -110,6 +112,7 @@ void update()
  */
 void write_windows()
 {
+	TTeeol();
 	if (curbp->crow != windowsbar_start_offset || curbp->ccol != 0)
 		TTmove(windowsbar_start_offset,0);
 	TTputc(INVERT);
@@ -143,14 +146,24 @@ void write_buffer()
 	if (curbp->crow != buffers_start_offset || curbp->ccol != 0)
 		TTmove(buffers_start_offset,0);
 	int count = 0;
-	for (line *ln = curbp->fline;ln != NULL && count < term.t_mrow - 2;ln = lnext(ln),count++) {
-		TTputc(ln->chars);
-		TTputc("\r");
+	for (line *ln = curbp->hline;ln != NULL && count < term.t_mrow - 2;ln = lnext(ln),count++) {
+		write_line(ln);
 	}
+}
+
+/*
+ *	write line into screen, convert non-printable chars into something printable :)
+ */
+void write_line(line *ln)
+{
+	TTeeol();
+	TTputc(ln->chars);
+	TTputc("\r");
 }
 
 void write_statusbar()
 {
+	TTeeol();
 	if (curbp->crow != statusbar_start_offset || curbp->ccol != 0)
 		TTmove(statusbar_start_offset,0);
 	TTputc(INVERT);
@@ -164,6 +177,7 @@ void write_statusbar()
 
 void write_messagebar()
 {
+	TTeeol();
 	if (curbp->crow != messagebar_start_offset || curbp->ccol != 0)
 		TTmove(messagebar_start_offset,0);
 	TTputc("this is a test message");

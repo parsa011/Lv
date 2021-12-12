@@ -32,6 +32,8 @@ terminal term = {
 	&vt100mpl,
 	&vt100mfw,
 	&vt100mbw,
+	&vt100cursorhide,
+	&vt100cursorshow,
 	NULL,
 	NULL,
 	NULL,
@@ -108,4 +110,14 @@ void vt100mfw()
 void vt100mbw()
 {
 	ttputc("\x1b[D");
+}
+
+void vt100cursorhide()
+{
+	ttputc("\x1b[?25l");
+}
+
+void vt100cursorshow()
+{
+	ttputc("\x1b[?25h");
 }

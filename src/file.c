@@ -34,9 +34,10 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 		 * and then set last line to this new line
 		 */
 		ln = line_alloc(line_chars,linelen);
-		if (buf->fline == NULL) {
+		if (buf->fline == NULL && buf->lcount == 0) {
 			buf->fline = ln;
 			buf->cline = ln;
+			buf->hline = ln;
 		} else {
 			slnext(buf->lline,ln);
 		}

@@ -59,6 +59,7 @@ int main(int argc,char *argv[])
 			move_cursor(MOVE_LEFT);
 		if (c == 'q') 
 			close_editor();
+		update();
 	}
 	return 0;
 }

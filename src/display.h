@@ -44,6 +44,8 @@ void write_windows();
  */
 void write_buffer();
 
+void write_line(line *);
+
 /*
  *	write status bar into screen , the place that we will put information about 
  *	current state of editor and cursor and file

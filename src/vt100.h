@@ -31,5 +31,7 @@ void vt100mnl();
 void vt100mpl();
 void vt100mfw();
 void vt100mbw();
+void vt100cursorshow();
+void vt100cursorhide();
 
 #endif
