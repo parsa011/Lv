@@ -155,6 +155,15 @@ void write_line(line *ln)
 	TTputc("\r");
 }
 
+/*
+ *	write left status and right into status bar
+ *	we use llen and rlen to detect size of wroted chars,
+ *	first we will write lstatus , then increase llen ,
+ *	until the sum of its size with the length on the right
+ *	be equal to the size of terminal col, then we will write 
+ *	other one but if sum of them is less than terminal col size , 
+ *	we will put space to fill status bar
+ */
 void write_statusbar()
 {
 	if (curbp->crow != statusbar_start_offset || curbp->ccol != 1)
@@ -163,7 +172,7 @@ void write_statusbar()
 	TTputc(INVERT);
 	char lstatus[256];
 	char rstatus[128];
-	int llen = sprintf(lstatus,"file : %s , %d line %d col",curbp->bname,curbp->lcount,term.t_mcol);	
+	int llen = sprintf(lstatus,"file : %s , %d line",curbp->bname,curbp->lcount);	
 	int rlen = sprintf(rstatus,"%d | %d",curbp->clindex + 1,cursor_col);
 	TTputc(lstatus);
 	while (llen < term.t_mcol) {
