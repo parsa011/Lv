@@ -124,11 +124,11 @@ void write_windows()
 	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
 		if (wp->fbuffer == NULL) {
 			TTputs(NO_NAME_BUFFER);
-			len = sizeof(NO_NAME_BUFFER);
+			len += strlen(NO_NAME_BUFFER);
 		}
 		else {
 			TTputs(wp->fbuffer->bname);	
-			len += sizeof(wp->fbuffer->bname);
+			len += strlen(wp->fbuffer->bname);
 		}	
 		/* if this is not last window , wirte | separator */
 		if (wnext(wp) != NULL) {
@@ -194,7 +194,7 @@ void write_statusbar()
 	char lstatus[256];
 	char rstatus[128];
 	int llen = sprintf(lstatus,"file : %s , %d line ",curbp->bname,curbp->lcount);
-	int rlen = sprintf(rstatus," %d | %d",curbp->clindex + 1,cursor_col);
+	int rlen = sprintf(rstatus," %d | %d - %d",curbp->clindex + 1,cursor_col,current_line->len);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
 		if (llen + rlen == term.t_mcol) {
