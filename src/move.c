@@ -1,5 +1,5 @@
 /*
- *  Manager cursor and position of screen	
+ *	Manager cursor and position of screen	
  *	Copyright
  *		(C) 2021 Parsa Mahmoudy sahebi
  *
@@ -11,40 +11,15 @@ int move_cursor(int dir)
 {
 	if (curbp->lcount == 0)
 		return false;
-
-	int llen = current_line->len;
 	if (dir == MOVE_RIGHT) {
-		if (cursor_col < llen) {
-			curbp->ccol++;
-		} else {
-			/*
-			 *	ok , at this point , we will check for next line , of it's NULL , so we are at the end of buffer , just return false
-			 *	otherwise go to next line and set cursor col to 1
-			 */
-			if (lnext(current_line) == NULL)
-				return false;
-			curbp->ccol = 1;
-			move_cursor(MOVE_DOWN);
-		}
+		next_char();
 	} else if (dir == MOVE_LEFT) {
-			if (cursor_col > 1) {
-				curbp->ccol--;
-			} else {
-				/*
-				 * 	well , if prev line is NULL so we are at the top of buffer , we just have to return
-				 * 	otherwise we will call move_cursor with move up argumant
-				 * 	then set cursor col to next line (it's current line now) length
-				 */
-				if (lprev(current_line) == NULL)
-					return false;
-				move_cursor(MOVE_UP);
-				curbp->ccol = current_line->len;
-			}
+			prev_char();
 	} else if (dir == MOVE_UP) {
 		/* check if we not going to windowsbar_start_offset region */
 		if (cursor_row - 1 > windowsbar_start_offset) {
 			move_prevline();
-			curbp->crow--;
+			cursor_row--;
 		} else if (cursor_row == windowsbar_start_offset + 1) {
 			scroll(MOVE_UP,1);
 		}
@@ -53,20 +28,35 @@ int move_cursor(int dir)
 			return false;
 		if (cursor_row + 1 < statusbar_start_offset) {
 			move_nextline();
-			curbp->crow++;
+			cursor_row++;
 		} else if (cursor_row + 1 == statusbar_start_offset) {
 			scroll(MOVE_DOWN,1);
 		}
 	}
-	/* if cursor is out the line , set it to line length + 1 */
-	if (cursor_col > current_line->len)
-		cursor_col = current_line->len + 1;
+	check_cursor();
 	TTmove(cursor_row,cursor_col);
-//	char temp[180];
-//	sprintf(temp,"%s | %s",curbp->hline->chars,current_line->chars);
-//	set_window_title(temp);
+	char temp[180];
+	char c =lgetc(current_line,curbp->coffset);
+	sprintf(temp,"%d | %d | %d | %c%s",curbp->coffset,cursor_col,current_line->len,c == '\t' ? ' ':c ,c == '\t' ? "\\t":"");
+	set_window_title(temp);
 
 	return TRUE;
+}
+
+void check_cursor()
+{
+	if (cursor_row == windowsbar_start_offset || cursor_row <= 0)
+		cursor_row = buffers_start_offset;
+	if (!cursor_col || !curbp->coffset) {
+		cursor_col = 1;
+		curbp->coffset = 0;
+	}
+
+	/* if cursor is out the line , set it to line length + 1 */
+	if (curbp->coffset > current_line->len || cursor_col > line_length(current_line)) {
+		cursor_col = current_line->len + 1;
+		curbp->coffset  = current_line->len - 1;
+	}
 }
 
 /*
@@ -106,4 +96,56 @@ int move_prevline()
 	curbp->clindex--;
 	current_line = lprev(current_line);
 	return true;
+}
+
+int next_char()
+{
+	jump_tab(MOVE_RIGHT);
+	if (curbp->coffset < current_line->len) {
+		curbp->coffset++;
+		cursor_col++;
+	} else {
+		/*
+		 *	ok , at this point , we will check for next line , of it's NULL , so we are at the end of buffer , just return false
+		 *	otherwise go to next line and set cursor col to 1
+		 */
+		if (lnext(current_line) == NULL)
+			return false;
+		cursor_col = 1;
+		curbp->coffset = 0;
+		move_cursor(MOVE_DOWN);
+	}
+	return true;
+}
+
+int prev_char()
+{
+	jump_tab(MOVE_LEFT);
+	if (curbp->coffset > 0) {
+		cursor_col--;
+		curbp->coffset--;
+	} else {
+		/*
+		 * 	well , if prev line is NULL so we are at the top of buffer , we just have to return
+		 * 	otherwise we will call move_cursor with move up argumant
+		 * 	then set cursor col to next line (it's current line now) length
+		 */
+		if (lprev(current_line) == NULL)
+			return false;
+		move_cursor(MOVE_UP);
+		cursor_col = line_length(current_line); 
+		curbp->coffset = current_line->len;
+	}
+	return true;
+}
+
+void jump_tab(int dir)
+{
+	if (lgetc(current_line,curbp->coffset) == '\t') {
+		if (dir == MOVE_RIGHT) {
+			cursor_col += tab_size - 1;
+		} else if (dir == MOVE_LEFT) {
+			cursor_col -= tab_size - 1;
+		}
+	}
 }

@@ -38,6 +38,8 @@ struct line_t {
  */
 line *line_alloc(char *, int);
 
+int line_length(line *);
+
 /*
  *	delete char in current position of cursor
  */

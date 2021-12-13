@@ -9,8 +9,8 @@ extern window *curwp;		/* current window   */
 extern buffer *curbp;		/* current buffer   */
 
 #define current_line 	curbp->cline
-#define cursor_row 		curbp->crow
-#define cursor_col 		curbp->ccol
+#define cursor_row 		curwp->crow
+#define cursor_col 		curwp->ccol
 
 /*
  * kill the program

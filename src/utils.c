@@ -42,4 +42,29 @@ void lv_strncpy(char *dst, char *src, int len)
 	dst[len - 1] = '\0';
 }
 
+int count_tabs(char *string,int len)
+{
+	int count = 0;
+	for (int i = 0;i < len;i++)
+		if (string[i] == '\t')
+			count++;
+	return count;
+}
+
+int detab(char *string)
+{
+	int len = strlen(string) + count_tabs(string,strlen(string)) * tab_size;
+	char *res = (char *)malloc(len);			
+	int index = 0;
+	for (int i = 0;i < strlen(string);i++) {
+		if (string[i] == '\t') {
+			for (int j = 0;j < tab_size;j++)
+				res[index++] = ' ';
+		} else 
+			res[index++] = string[i];
+	}
+	string = strdup(res);
+	return len;
+}
+
 // keys stuff

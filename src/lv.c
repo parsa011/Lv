@@ -1,5 +1,5 @@
 /*
- *	Main file of lv editor :)	
+ *	Main file of lv editor :)
  *	Copyright
  *		(C) 2021 Parsa Mahmoudy sahebi
  *
@@ -7,6 +7,8 @@
  */
 
 #include "types.h"
+
+int tab_size = 4;
 
 void close_editor()
 {
@@ -40,7 +42,7 @@ int main(int argc,char *argv[])
 {
 	// initialize the terminal , and activate raw mode
 	init_editor();
-	
+
 	if (argc > 1) {
 		load_file_into_buffer(NULL,argv[1]);
 	}
@@ -57,7 +59,7 @@ int main(int argc,char *argv[])
 			move_cursor(MOVE_RIGHT);
 		else if (c == 'h')
 			move_cursor(MOVE_LEFT);
-		if (c == 'q') 
+		if (c == 'q')
 			close_editor();
 		update();
 	}

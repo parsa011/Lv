@@ -21,6 +21,8 @@ struct window_t {
 	//buffer *cb;			/* current buffer (active) 					*/
 	int cbindex;			/* index of current buffer (active buffer)  */	
 	char flags;				/* flags that holds state of window 		*/
+	int crow;				/* cursor row in this window				*/
+	int ccol;				/* cursor col								*/
 };
 
 #define wnext(w) (w->link.next)				/* next window of given window 		*/

@@ -25,9 +25,9 @@ struct buffer_t {
 	char bname[NBUFN];		/* buffer name 												 */
 	//char flag;			/* flags 													 */
 	char mode;				/* modes of this buffer 									 */
-	/* cursor related stuff */
-	int crow;				/* cursor row in this buffer								 */
-	int ccol;				/* cursor col in this buffer 								 */
+	int coffset;			/* char offset in line ( how many char passed )				 */
+	int mtop;				/* buffer margin top from window							 */
+	int mleft;				/* marging left frop window									 */
 };
 
 #define bnext(b) (b->link.next)			/* next buffer of given buffer 		*/

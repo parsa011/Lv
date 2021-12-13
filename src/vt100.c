@@ -21,6 +21,7 @@ terminal term = {
 	&ttclose,
 	&ttgetc,
 	&ttputs,
+	&ttputc,
 	&ttflsh,
 	&vt100move,
 	&vt100eeol,

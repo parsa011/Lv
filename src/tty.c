@@ -232,8 +232,16 @@ int ttflsh(void)
 void ttputs(char *s)
 {
 	while (*s) {
-		obuf[obufp++] = *s++;
-		if (obufp == OBUFSIZE)
-			ttflsh();
+		//obuf[obufp++] = *s++;
+		//if (obufp == OBUFSIZE)
+		//	ttflsh();
+		ttputc(*s++);
 	}
+}
+
+void ttputc(char c)
+{
+	if (obufp == OBUFSIZE)
+		ttflsh();
+	obuf[obufp++] = c;
 }

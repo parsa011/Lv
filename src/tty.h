@@ -29,7 +29,8 @@ struct terminal_t {
 	//void (*t_kopen)(void);		/* open keyboard                 */
 	//void (*t_kclose)(void);		/* close keyboard                */
 	int (*t_getchar)();				/* get character from keyboard.  */
-	void (*t_putstring)(char *);	/* put character to display.     */
+	void (*t_puts)(char *);			/* put character to display.     */
+	void (*t_putc)(char);			/* put char						 */
 	int (*t_flush) (void);			/* flush output buffers.         */
 	void (*t_move)(int, int);		/* move the cursor, origin 0.    */
 	void (*t_eeol)(void);			/* erase to end of line.         */
@@ -57,7 +58,8 @@ struct terminal_t {
 #define	TTopen		(*term.t_open)
 #define	TTclose		(*term.t_close)
 #define	TTgetc		(*term.t_getchar)
-#define	TTputs		(*term.t_putstring)
+#define	TTputs		(*term.t_puts)
+#define TTputc		(*term.t_putc)
 #define	TTflush		(*term.t_flush)
 #define	TTmove		(*term.t_move)
 #define	TTeeol		(*term.t_eeol)
@@ -147,6 +149,8 @@ int ttflsh(void);
  * 	full, call ttflsh()
  */
 void ttputs(char *);
+
+void ttputc(char);
 
 extern int have; 			/* set if we have typeahead */
 extern unsigned char havec; /* typeahead character */

@@ -93,7 +93,8 @@ void update()
 	write_buffer();
 	write_statusbar();
 	write_messagebar();
-	TTmove(curbp->crow,curbp->ccol);
+	check_cursor();
+	TTmove(cursor_row,cursor_col);
 	TTcshow();
 	TTflush();
 	// ===========================================
@@ -112,7 +113,7 @@ void update()
  */
 void write_windows()
 {
-	if (curbp->crow != windowsbar_start_offset || curbp->ccol != 1)
+	if (cursor_row != windowsbar_start_offset || cursor_col != 1)
 		TTmove(windowsbar_start_offset,1);
 	TTeeol();
 	TTputs(INVERT);
@@ -123,7 +124,7 @@ void write_windows()
 	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
 		if (wp->fbuffer == NULL) {
 			TTputs(NO_NAME_BUFFER);
-			len += sizeof(NO_NAME_BUFFER);
+			len = sizeof(NO_NAME_BUFFER);
 		}
 		else {
 			TTputs(wp->fbuffer->bname);	
@@ -131,8 +132,8 @@ void write_windows()
 		}	
 		/* if this is not last window , wirte | separator */
 		if (wnext(wp) != NULL) {
-			TTputs(WINDOWS_SEPARAROR);
-			len += sizeof(WINDOWS_SEPARAROR);
+			TTputs(WINDOWS_SEPARATOR);
+			len += sizeof(WINDOWS_SEPARATOR);
 		}
 	}
 	while (len <= term.t_mcol)  {
@@ -148,7 +149,7 @@ void write_windows()
  */
 void write_buffer()
 {
-	if (curbp->crow != buffers_start_offset || curbp->ccol != 1)
+	if (cursor_row != buffers_start_offset || cursor_col != 1)
 		TTmove(buffers_start_offset,1);
 	int count = 0;
 	for (line *ln = curbp->hline;ln != NULL && count < term.t_mrow - 2;ln = lnext(ln),count++) {
@@ -162,7 +163,16 @@ void write_buffer()
 void write_line(line *ln)
 {
 	TTeeol();
-	TTputs(ln->chars);
+	char *temp = strdup(ln->chars);
+	while (*temp) {
+		if (*temp == '\t') {
+			for (int i = 0;i < tab_size;i++) {
+				TTputc(' ');
+			}
+		} else 
+			TTputc(*temp);
+		*temp++;
+	}	
 	TTputs("\r");
 }
 
@@ -177,21 +187,21 @@ void write_line(line *ln)
  */
 void write_statusbar()
 {
-	if (curbp->crow != statusbar_start_offset || curbp->ccol != 1)
+	if (cursor_row != statusbar_start_offset || cursor_col != 1)
 		TTmove(statusbar_start_offset,1);
 	TTeeol();
 	TTputs(INVERT);
 	char lstatus[256];
 	char rstatus[128];
-	int llen = sprintf(lstatus,"file : %s , %d line",curbp->bname,curbp->lcount);	
-	int rlen = sprintf(rstatus,"%d | %d",curbp->clindex + 1,cursor_col);
+	int llen = sprintf(lstatus,"file : %s , %d line ",curbp->bname,curbp->lcount);
+	int rlen = sprintf(rstatus," %d | %d",curbp->clindex + 1,cursor_col);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
 		if (llen + rlen == term.t_mcol) {
 			TTputs(rstatus);
 			break;
-		} 
-		TTputs(" ");
+		}
+		TTputc('-');
 		llen++;
 	}
 	TTputs("\r");
@@ -200,7 +210,7 @@ void write_statusbar()
 
 void write_messagebar()
 {
-	if (curbp->crow != messagebar_start_offset || curbp->ccol != 1)
+	if (cursor_row != messagebar_start_offset || cursor_col != 1)
 		TTmove(messagebar_start_offset,1);
 	TTeeol();
 	TTputs("this is a test message");

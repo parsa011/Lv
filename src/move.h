@@ -23,6 +23,11 @@
 int move_cursor(int);
 
 /*
+ *	check and control cursor to not be in unexpected regions like windowsbar and ...
+ */
+void check_cursor();
+
+/*
  *	scroll page , into given direction , to specified times
  */
 int scroll(int, int);
@@ -33,5 +38,17 @@ int scroll(int, int);
 int move_nextline();
 
 int move_prevline();
+
+/*
+ * 	move cursor by 1 char to next
+ */
+int next_char();
+
+int prev_char();
+
+/*
+ *	move cursor if current char in line is tab 
+ */
+void jump_tab(int);
 
 #endif

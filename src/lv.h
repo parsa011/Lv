@@ -4,6 +4,8 @@
 #define EDITOR_VERSION "0.0.1"
 #define EDITOR_TITLE "PMS " EDITOR_VERSION
 
+extern int tab_size;
+
 /*
  * 	do some basic initilization for editor
  */

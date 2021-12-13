@@ -16,3 +16,10 @@ line *line_alloc(char *content,int len)
 	ln->len = len;
 	return ln;
 }
+
+int line_length(line *ln)
+{
+	int tabs_count = count_tabs(ln->chars,ln->len);
+	int res = strlen(ln->chars) + tabs_count * tab_size - tabs_count;
+	return res;
+}

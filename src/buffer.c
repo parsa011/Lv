@@ -22,8 +22,7 @@ buffer *init_buffer(char *filename, char *buffername,char modes)
 	/* when a buffer initilized , we have set lock mode for it , if we dont want to be locked ,we must specify it at modes input */
 	bf->mode &= MDLOCK;
 	bf->mode &= modes;
-	bf->crow = buffers_start_offset;
-	bf->ccol = 1;
+	bf->coffset = 0;
 	bf->clindex = 0;
 	return bf;
 }
