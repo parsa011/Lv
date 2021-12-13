@@ -67,4 +67,28 @@ int detab(char *string)
 	return len;
 }
 
-// keys stuff
+/*
+ *	this function is like this question :
+ *		if we have x string and y col position in string , so how much is coffset
+ */
+int convert_cursorcol_to_coffset(char *string, int col)
+{
+	int coffset = 0;
+	for (;col > 1;col--) {
+		if (string[coffset] == '\t')
+			col -= tab_size - 1;
+		coffset++;
+	}
+	return coffset;
+}
+
+int convert_coffset_to_cursorcol(char *string, int offset)
+{
+	int col = 0;
+	for (;offset >= 0;offset--) {
+		if (string[offset] == '\t')
+			col += tab_size - 1;
+		col++;
+	}
+	return col;
+}

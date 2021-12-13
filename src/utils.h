@@ -9,7 +9,13 @@ int lv_ioctl(int fd, int req, void *ptr);
 void lv_strncpy(char *,char *,int);
 
 int count_tabs(char *,int);
+/*
+ *	convert tabs to spaces and return new length of string
+ */
 int detab(char *);
+
+int convert_cursorcol_to_coffset(char *,int);
+int convert_coffset_to_cursorcol(char *,int);
 
 // keys stuff
 void convert_key_to_string();

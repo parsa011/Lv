@@ -49,6 +49,6 @@ int prev_char();
 /*
  *	move cursor if current char in line is tab 
  */
-void jump_tab(int);
+bool jump_tab(int);
 
 #endif

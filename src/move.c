@@ -19,7 +19,6 @@ int move_cursor(int dir)
 		/* check if we not going to windowsbar_start_offset region */
 		if (cursor_row - 1 > windowsbar_start_offset) {
 			move_prevline();
-			cursor_row--;
 		} else if (cursor_row == windowsbar_start_offset + 1) {
 			scroll(MOVE_UP,1);
 		}
@@ -28,13 +27,13 @@ int move_cursor(int dir)
 			return false;
 		if (cursor_row + 1 < statusbar_start_offset) {
 			move_nextline();
-			cursor_row++;
 		} else if (cursor_row + 1 == statusbar_start_offset) {
 			scroll(MOVE_DOWN,1);
 		}
 	}
 	check_cursor();
 	TTmove(cursor_row,cursor_col);
+
 	char temp[180];
 	char c =lgetc(current_line,curbp->coffset);
 	sprintf(temp,"%d | %d | %d | %c%s",curbp->coffset,cursor_col,current_line->len,c == '\t' ? ' ':c ,c == '\t' ? "\\t":"");
@@ -54,9 +53,15 @@ void check_cursor()
 
 	/* if cursor is out the line , set it to line length + 1 */
 	if (curbp->coffset > current_line->len || cursor_col > line_length(current_line)) {
-		cursor_col = current_line->len + 1;
-		curbp->coffset  = current_line->len - 1;
+		cursor_col = line_length(current_line);
+		curbp->coffset  = current_line->len;
 	}
+}
+
+void update_position()
+{
+	curbp->coffset = convert_cursorcol_to_coffset(current_line->chars,cursor_col);
+	cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
 }
 
 /*
@@ -85,7 +90,9 @@ int move_nextline()
 	if (lnext(current_line) == NULL)
 		return false;
 	curbp->clindex++;
+	cursor_row++;
 	current_line = lnext(current_line);
+	update_position();
 	return true;
 }
 
@@ -94,13 +101,14 @@ int move_prevline()
 	if (lprev(current_line) == NULL)
 		return false;
 	curbp->clindex--;
+	cursor_row--;
 	current_line = lprev(current_line);
+	update_position();
 	return true;
 }
 
 int next_char()
 {
-	jump_tab(MOVE_RIGHT);
 	if (curbp->coffset < current_line->len) {
 		curbp->coffset++;
 		cursor_col++;
@@ -115,6 +123,8 @@ int next_char()
 		curbp->coffset = 0;
 		move_cursor(MOVE_DOWN);
 	}
+	jump_tab(MOVE_RIGHT);
+	update_position();
 	return true;
 }
 
@@ -139,7 +149,7 @@ int prev_char()
 	return true;
 }
 
-void jump_tab(int dir)
+bool jump_tab(int dir)
 {
 	if (lgetc(current_line,curbp->coffset) == '\t') {
 		if (dir == MOVE_RIGHT) {
@@ -147,5 +157,7 @@ void jump_tab(int dir)
 		} else if (dir == MOVE_LEFT) {
 			cursor_col -= tab_size - 1;
 		}
+		return true;
 	}
+	return false;
 }
