@@ -10,7 +10,7 @@
  */
 
 #define NFILEN  256			/* n of bytes, file name 	*/
-#define NBUFN   16			/* n of bytes, buffer name 	*/
+#define NBUFN   32			/* n of bytes, buffer name 	*/
 
 struct buffer_t {
 	LINK(buffer) link;		/* buffers doubly-link list */

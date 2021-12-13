@@ -17,6 +17,9 @@ int detab(char *);
 int convert_cursorcol_to_coffset(char *,int);
 int convert_coffset_to_cursorcol(char *,int);
 
+void strreverse(char *);
+int get_filename_of_path(char *,char *);
+
 // keys stuff
 void convert_key_to_string();
 int convert_string_to_key(char);

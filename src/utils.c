@@ -92,3 +92,23 @@ int convert_coffset_to_cursorcol(char *string, int offset)
 	}
 	return col;
 }
+
+void strreverse(char *str)
+{
+	int n = strlen(str);
+	for (int i = 0; i < n / 2; i++) {
+		char temp = str[i];
+		str[i] = str[n - i - 1];
+		str[n - i - 1] = temp;
+	}
+}
+
+int get_filename_of_path(char *buf,char *path)
+{
+	char *ch;
+	ch = strtok(path, "/");
+	while (ch != NULL) {
+		strcpy(buf, ch);
+		ch = strtok(NULL, "/");
+	}
+}
