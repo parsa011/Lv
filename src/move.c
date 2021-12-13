@@ -10,7 +10,7 @@
 int move_cursor(int dir)
 {
 	if (curbp->lcount == 0)
-		return false;
+		return OUTOFBUFFER;
 	if (dir == MOVE_RIGHT) {
 		next_char();
 	} else if (dir == MOVE_LEFT) {
@@ -24,7 +24,7 @@ int move_cursor(int dir)
 		}
 	} else if (dir == MOVE_DOWN) {
 		if (curbp->clindex + 1 >= curbp->lcount)
-			return false;
+			return OUTOFBUFFER;
 		if (cursor_row + 1 < statusbar_start_offset) {
 			move_nextline();
 		} else if (cursor_row + 1 == statusbar_start_offset) {
@@ -33,13 +33,7 @@ int move_cursor(int dir)
 	}
 	check_cursor();
 	TTmove(cursor_row,cursor_col);
-
-	char temp[180];
-	char c =lgetc(current_line,curbp->coffset);
-	sprintf(temp,"%d | %d | %d | %c%s",curbp->coffset,cursor_col,current_line->len,c == '\t' ? ' ':c ,c == '\t' ? "\\t":"");
-	set_window_title(temp);
-
-	return TRUE;
+	return true;
 }
 
 void check_cursor()
@@ -88,7 +82,7 @@ int scroll(int dir, int times)
 int move_nextline()
 {
 	if (lnext(current_line) == NULL)
-		return false;
+		return ENDOFBUFFER;
 	curbp->clindex++;
 	cursor_row++;
 	current_line = lnext(current_line);
@@ -99,7 +93,7 @@ int move_nextline()
 int move_prevline()
 {
 	if (lprev(current_line) == NULL)
-		return false;
+		return TOPOFBUFFER;
 	curbp->clindex--;
 	cursor_row--;
 	current_line = lprev(current_line);
@@ -118,7 +112,7 @@ int next_char()
 		 *	otherwise go to next line and set cursor col to 1
 		 */
 		if (lnext(current_line) == NULL)
-			return false;
+			return ENDOFBUFFER;
 		cursor_col = 1;
 		curbp->coffset = 0;
 		move_cursor(MOVE_DOWN);
@@ -141,7 +135,7 @@ int prev_char()
 		 * 	then set cursor col to next line (it's current line now) length
 		 */
 		if (lprev(current_line) == NULL)
-			return false;
+			return TOPOFBUFFER;
 		move_cursor(MOVE_UP);
 		cursor_col = line_length(current_line); 
 		curbp->coffset = current_line->len;

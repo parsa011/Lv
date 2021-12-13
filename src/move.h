@@ -7,6 +7,11 @@
 #define MOVE_UP 	3
 #define MOVE_DOWN 	4
 
+/* states of move */
+#define OUTOFBUFFER 	0x001
+#define TOPOFBUFFER		0x002
+#define ENDOFBUFFER		0x003
+
 /*
  *  Manager cursor and position of screen	
  *	Copyright
