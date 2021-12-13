@@ -14,12 +14,13 @@ int move_cursor(int dir)
 	if (dir == MOVE_RIGHT) {
 		next_char();
 	} else if (dir == MOVE_LEFT) {
-			prev_char();
+		prev_char();
 	} else if (dir == MOVE_UP) {
 		/* check if we not going to windowsbar_start_offset region */
 		if (cursor_row - 1 > windowsbar_start_offset) {
 			move_prevline();
-		} else if (cursor_row == windowsbar_start_offset + 1) {
+			cursor_row--;
+		} else if (cursor_row >= windowsbar_start_offset + 1 && lprev(current_line)) {
 			scroll(MOVE_UP,1);
 		}
 	} else if (dir == MOVE_DOWN) {
@@ -27,6 +28,7 @@ int move_cursor(int dir)
 			return OUTOFBUFFER;
 		if (cursor_row + 1 < statusbar_start_offset) {
 			move_nextline();
+			cursor_row++;
 		} else if (cursor_row + 1 == statusbar_start_offset) {
 			scroll(MOVE_DOWN,1);
 		}
@@ -40,11 +42,13 @@ void check_cursor()
 {
 	if (cursor_row == windowsbar_start_offset || cursor_row <= 0)
 		cursor_row = buffers_start_offset;
-	if (!cursor_col || !curbp->coffset) {
+	if (cursor_row >= statusbar_start_offset)
+		cursor_row = statusbar_start_offset - 1;
+	if (cursor_col <= 0 || curbp->coffset <= 0) {
 		cursor_col = 1;
 		curbp->coffset = 0;
 	}
-
+	
 	/* if cursor is out the line , set it to line length + 1 */
 	if (curbp->coffset > current_line->len || cursor_col > line_length(current_line)) {
 		cursor_col = line_length(current_line);
@@ -63,15 +67,17 @@ void update_position()
  */
 int scroll(int dir, int times)
 {
-	if (dir == MOVE_DOWN) {
-		if (lnext(curbp->hline) != NULL) {
-			curbp->hline = lnext(curbp->hline);
-			move_nextline();
-		}
-	} else if (dir == MOVE_UP) {
-		if (lprev(curbp->hline) != NULL) {
-			curbp->hline = lprev(curbp->hline);
-			move_prevline();
+	for (int i = 0;i < times;i++) {
+		if (dir == MOVE_DOWN) {
+			if (lnext(curbp->hline) != NULL) {
+				curbp->hline = lnext(curbp->hline);
+				move_nextline();
+			}
+		} else if (dir == MOVE_UP) {
+			if (lprev(curbp->hline) != NULL) {
+				curbp->hline = lprev(curbp->hline);
+				move_prevline();
+			}
 		}
 	}
 }
@@ -84,7 +90,6 @@ int move_nextline()
 	if (lnext(current_line) == NULL)
 		return ENDOFBUFFER;
 	curbp->clindex++;
-	cursor_row++;
 	current_line = lnext(current_line);
 	update_position();
 	return true;
@@ -95,7 +100,6 @@ int move_prevline()
 	if (lprev(current_line) == NULL)
 		return TOPOFBUFFER;
 	curbp->clindex--;
-	cursor_row--;
 	current_line = lprev(current_line);
 	update_position();
 	return true;

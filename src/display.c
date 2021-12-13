@@ -136,7 +136,7 @@ void write_windows()
 			len += sizeof(WINDOWS_SEPARATOR);
 		}
 	}
-	while (len <= term.t_mcol)  {
+	while (len < term.t_mcol)  {
 		TTputs(" ");
 		len++;
 	}
@@ -172,7 +172,7 @@ void write_line(line *ln)
 		} else 
 			TTputc(*temp);
 		*temp++;
-	}	
+	}
 	TTputs("\r");
 }
 

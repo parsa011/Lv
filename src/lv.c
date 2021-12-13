@@ -47,9 +47,9 @@ int main(int argc,char *argv[])
 		load_file_into_buffer(NULL,argv[1]);
 	}
 
-	update();
 	int c;
-	while (1) {
+	do {
+		update();
 		c = ttgetc();
 		if (c == 'j')
 			move_cursor(MOVE_DOWN);
@@ -61,7 +61,6 @@ int main(int argc,char *argv[])
 			move_cursor(MOVE_LEFT);
 		if (c == 'q')
 			close_editor();
-		update();
-	}
+	} while (1);
 	return 0;
 }
