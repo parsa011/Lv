@@ -16,7 +16,7 @@ int move_cursor(int dir)
 	} else if (dir == MOVE_LEFT) {
 		prev_char();
 	} else if (dir == MOVE_UP) {
-		/* check if we not going to windowsbar_start_offset region */
+		/* check if we're not going to windowsbar_start_offset region */
 		if (cursor_row - 1 > windowsbar_start_offset) {
 			move_prevline();
 			cursor_row--;
@@ -114,7 +114,7 @@ int next_char()
 		cursor_col++;
 	} else {
 		/*
-		 *	ok , at this point , we will check for next line , of it's NULL , so we are at the end of buffer , just return false
+		 *	ok , at this point , we will check for next line , of its NULL , so we are at the end of buffer , just return false
 		 *	otherwise go to next line and set cursor col to 1
 		 */
 		if (lnext(current_line) == NULL)
@@ -136,8 +136,8 @@ int prev_char()
 		curbp->coffset--;
 	} else {
 		/*
-		 * 	well , if prev line is NULL so we are at the top of buffer , we just have to return
-		 * 	otherwise we will call move_cursor with move up argumant
+		 * 	well , if prev line is NULL, so we are at the top of buffer , we just have to return
+		 * 	otherwise we will call move_cursor with move up argument
 		 * 	then set cursor col to next line (it's current line now) length
 		 */
 		if (lprev(current_line) == NULL)

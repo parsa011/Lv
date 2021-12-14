@@ -12,7 +12,7 @@
 #define CONTROL 0x1000000
 #define META 	0x2000000
 
-// conver a normal key into its ^k
+// convert a normal key into its ^k
 #define CTRL_KEY(k) (CONTROL | k)
 
 #endif

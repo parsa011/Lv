@@ -2,7 +2,7 @@
 # define _DISPLAY_H
 
 /*
- *	this definitions will specify our grid offset from top of screen
+ *	these definitions will specify our grid offset from top of screen
  */
 #define windowsbar_start_offset 1
 #define buffers_start_offset 	windowsbar_start_offset + 1

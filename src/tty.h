@@ -80,7 +80,7 @@ struct terminal_t {
  *	save current state of tty
  *
  *	disable CR/LF/NL input translation
- *	diaable all output processing
+ *	disable all output processing
  *	disable echo 
  *	set time for tty input
  *

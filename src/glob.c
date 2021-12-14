@@ -1,6 +1,6 @@
 #include "types.h"
 
-window *firstwp;	/* first winow		*/
+window *firstwp;	/* first window		*/
 window *curwp;		/* Current window   */
 buffer *curbp;		/* Current buffer   */
 

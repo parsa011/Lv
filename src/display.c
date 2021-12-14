@@ -26,11 +26,11 @@
 */
 
 /*
- *	get termianl size from system
+ *	get terminal size from system
  *	if returned value from ioctl was valid ( more than 0 )
  *	we will set row and col by winsize row and col
  *	but if return value from ioctl wan not valid , we will 
- *	move the cursor to lowest corner of the screen , the request the 
+ *	move the cursor to the lowest corner of the screen , the request the
  *	cursor position
  */
 void get_screen_size(int *wrow,int *wcol)
@@ -48,7 +48,7 @@ void get_screen_size(int *wrow,int *wcol)
 
 /*
  *	return cursor position on screen
- *	return false if we cant get the cursor position by any accident
+ *	return false if we can't get the cursor position by any accident
  */
 bool get_cursor_position(int *rows, int *cols) 
 {
@@ -99,9 +99,9 @@ void update()
 	TTflush();
 	// ===========================================
 	// + set cursor to 0,0
-	// + wirte windows on top (tabs)
+	// + write windows on top (tabs)
 	// + write buffer into screen
-	// + wrtite status bar
+	// + write status bar
 	// + create a place for message bar
 	// ===========================================
 }
@@ -130,7 +130,7 @@ void write_windows()
 			TTputs(wp->fbuffer->bname);	
 			len += strlen(wp->fbuffer->bname);
 		}	
-		/* if this is not last window , wirte | separator */
+		/* if this is not last window , write | separator */
 		if (wnext(wp) != NULL) {
 			TTputs(WINDOWS_SEPARATOR);
 			len += sizeof(WINDOWS_SEPARATOR);
@@ -178,7 +178,7 @@ void write_line(line *ln)
 
 /*
  *	write left status and right into status bar
- *	we use llen and rlen to detect size of wroted chars,
+ *	we use llen and rlen to detect size of wrote chars,
  *	first we will write lstatus , then increase llen ,
  *	until the sum of its size with the length on the right
  *	be equal to the size of terminal col, then we will write 

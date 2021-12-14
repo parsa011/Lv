@@ -29,7 +29,7 @@ struct window_t {
 #define wprev(w) (w->link.prev)				/* prev window of given window 		*/
 
 /* window modes */
-#define WFFORCE 0x01		/* window needs forced reframe  */
+#define WFFORCE 0x01		/* window needs to be forced reframe  */
 #define WFMOVE  0x02		/* movement from line to line   */
 #define WFEDIT  0x04		/* editing within a line        */
 #define WFHARD  0x08		/* better to a full display     */

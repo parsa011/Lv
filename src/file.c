@@ -30,7 +30,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 		while (linelen > 0 && (line_chars[linelen - 1] == '\n' || line_chars[linelen - 1] == '\r'))
 			linelen--;
 		/* 
-		 * if buffer dont have any line , so this is first line 
+		 * if buffer don't have any line , so this is first line
 		 * in other hand , we have to append this line to next of last line
 		 * and then set last line to this new line
 		 */
@@ -42,7 +42,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 		} else {
 			slnext(buf->lline,ln);
 		}
-		/* i think this line dont need any comment , but to be sure : increase total count of buffer lines */	
+		/* I think this line don't need any comment , but to be sure : increase total count of buffer lines */
 		buf->lline = ln;
 		slprev(buf->lline,last_line);
 		buf->lcount++;

@@ -20,14 +20,14 @@ struct buffer_t {
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
 	int clindex;			/* current line index */
 	int lcount;				/* total count of buffer lines 								 */
-	int loffset;			/* paased lines 											 */
+	int loffset;			/* passed lines 											 */
 	char fname[NFILEN];		/* file name 												 */
 	char bname[NBUFN];		/* buffer name 												 */
 	//char flag;			/* flags 													 */
 	short mode;				/* modes of this buffer 									 */
 	int coffset;			/* char offset in line ( how many char passed )				 */
 	int mtop;				/* buffer margin top from window							 */
-	int mleft;				/* marging left frop window									 */
+	int mleft;				/* margin left from window									 */
 };
 
 #define bnext(b) 	(b->link.next)		/* next buffer of given buffer 		*/
@@ -45,10 +45,10 @@ struct buffer_t {
 #define	MDVIEW	0x0008		/* read-only buffer              */
 #define	MDASAVE	0x0010		/* auto-save mode                */
 //#define	MDCMOD	0x0002		/* c indentation and fence match */
-//#define	MDSPELL	0x0004		/* spell error parcing           */
+//#define	MDSPELL	0x0004		/* spell error parsing           */
 //#define	MDEXACT	0x0008		/* exact matching for searches   */
 //#define MDOVER	0x0020		/* overwrite mode                */
-//#define MDMAGIC	0x0040		/* regular expresions in search  */
+//#define MDMAGIC	0x0040		/* regular expressions in search  */
 
 buffer *init_buffer(char *, char *, char);
 void append_buffer(buffer *);

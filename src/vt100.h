@@ -11,9 +11,9 @@
 
 #define NROW    24			/* Screen size.                 	*/
 #define NCOL    80			/* edit if you want to.         	*/
-#define	MARGIN	8			/* size of minimim margin and   	*/
+#define	MARGIN	8			/* size of minimum margin and   	*/
 #define	SCRSIZ	64			/* scroll size for extended lines   */
-#define	NPAUSE	100			/* n times thru update to pause 	*/
+#define	NPAUSE	100			/* n times through update to pause 	*/
 #define BIAS    0x20		/* origin 0 coordinate bias.    	*/
 #define ESC     0x1B		/* ESC character.               	*/
 #define BEL     0x07		/* ascii bell character         	*/
@@ -21,7 +21,7 @@
 extern terminal term;
 
 /*
- *	vt100 funcitons :)
+ *	vt100 functions :)
  */
 void vt100move();
 void vt100eeol();

@@ -19,7 +19,7 @@ FILE *termin = NULL;
 FILE *termout = NULL;
 
 struct termios oldterm;		/* original terminal characteristics */
-struct termios newterm;		/* charactoristics to use inside */
+struct termios newterm;		/* characteristics to use inside */
 
 /* TTY mode flag.  1 for open, 0 for closed */
 
@@ -28,7 +28,6 @@ static int ttymode = 0;
 /* Global configuration variables */
 
 int noxon = 0;			/* Set if ^S/^Q processing should be disabled */
-int Baud = 0;			/* Baud rate from joerc, cmd line or environment */
 
 /* Input buffer */
 

@@ -34,7 +34,7 @@ struct line_t {
  * 	containing "used" characters. The block is always rounded up a bit. Return
  * 	a pointer to the new block, or NULL if there isn't any memory left. Print a
  * 	message in the message line if no space.
- * 	NOTE : we dont have message bar yet :)
+ * 	NOTE : we don't have message bar yet :)
  */
 line *line_alloc(char *, int);
 
@@ -62,7 +62,7 @@ void line_append(char *);
 void line_delete(int);
 
 /*
- *	alloc new new , and insert it in currnet positoin of cursor
+ *	alloc new , and insert it in current position of cursor
  */ 
 void line_new();
 

@@ -18,8 +18,8 @@ void close_editor()
 }
 
 /*
- *	some basic initilization for editor
- *	like initilize first window and buffer
+ *	some basic initialization for editor
+ *	like initialize first window and buffer
  *	open tty and clear screen then set cursor to 0,0
  *	and set terminal title :D
  */
@@ -34,7 +34,7 @@ void init_editor()
 		TTbeep();
 	TTmove(0,0);
 	set_window_title(TERMINAL_TITLE);
-	/* update term global vairbale row and col */
+	/* update term global variable row and col */
 	get_screen_size(&term.t_mrow,&term.t_mcol);
 }
 
@@ -53,7 +53,7 @@ int main(int argc,char *argv[])
 		c = get_key();
 		if (c == CTRL_KEY('[')) {
 			set_mode_for_buffer(MDLOCK);
-		}	
+		}
 		if (c == 'i' && bmtest(curbp,MDLOCK)) {
 			set_mode_for_buffer(MDINST);
 		}

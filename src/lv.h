@@ -7,7 +7,7 @@
 extern int tab_size;
 
 /*
- * 	do some basic initilization for editor
+ * 	do some basic initialization for editor
  */
 void init_editor();
 
