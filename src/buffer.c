@@ -20,8 +20,8 @@ buffer *init_buffer(char *filename, char *buffername,char modes)
 	if (strlen(filename) < NFILEN)
 		lv_strncpy(bf->fname,filename,NFILEN);
 	/* when a buffer initilized , we have set lock mode for it , if we dont want to be locked ,we must specify it at modes input */
-	bf->mode &= MDLOCK;
-	bf->mode &= modes;
+	bf->mode |= MDLOCK;
+	bf->mode |= modes;
 	bf->coffset = 0;
 	bf->clindex = 0;
 	return bf;
@@ -57,4 +57,28 @@ line *get_last_line(buffer *bf)
 	line *l = buff->fline;
 	for (; l != NULL;l = lnext(l));
 	return l;
+}
+
+/*
+ *	set given mode for buffer
+ *	we have to check given mode , for example if that was insert mode
+ *	we have to turn lock and visual mode to off and ...
+ */
+void set_mode_for_buffer(int mode)
+{
+	if (mode == MDLOCK) {
+		usmode(curbp,MDVISL);
+		usmode(curbp,MDINST);
+		stmode(curbp,MDLOCK);
+	} else if (mode == MDVISL) {
+		usmode(curbp,MDLOCK);
+		usmode(curbp,MDINST);
+		stmode(curbp,MDVISL);
+	} else if (mode == MDINST) {
+		usmode(curbp,MDVISL);
+		usmode(curbp,MDLOCK);
+		stmode(curbp,MDINST);
+	} else {
+		stmode(curbp,mode);
+	}
 }

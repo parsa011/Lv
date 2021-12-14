@@ -152,7 +152,7 @@ void write_buffer()
 	if (cursor_row != buffers_start_offset || cursor_col != 1)
 		TTmove(buffers_start_offset,1);
 	int count = 0;
-	for (line *ln = curbp->hline;ln != NULL && count < term.t_mrow - 2;ln = lnext(ln),count++) {
+	for (line *ln = curbp->hline;ln != NULL && count < statusbar_start_offset - buffers_start_offset - 1;ln = lnext(ln),count++) {
 		write_line(ln);
 	}
 }
@@ -194,7 +194,8 @@ void write_statusbar()
 	char lstatus[256];
 	char rstatus[128];
 	int llen = sprintf(lstatus,"file : %s , %d line ",curbp->bname,curbp->lcount);
-	int rlen = sprintf(rstatus," %d | %d - %d",curbp->clindex + 1,cursor_col,current_line->len);
+	int rlen = sprintf(rstatus," %s --- %d | %d - %d",
+			bmtest(curbp,MDLOCK) ? "+ lock" : "! insert",curbp->clindex + 1,curbp->coffset + 1,current_line != NULL ? current_line->len : 0);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
 		if (llen + rlen == term.t_mcol) {

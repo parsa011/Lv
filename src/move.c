@@ -48,6 +48,8 @@ void check_cursor()
 		cursor_col = 1;
 		curbp->coffset = 0;
 	}
+	if (current_line == NULL)
+		return;
 	
 	/* if cursor is out the line , set it to line length + 1 */
 	if (curbp->coffset > current_line->len || cursor_col > line_length(current_line)) {

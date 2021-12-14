@@ -217,7 +217,8 @@ int ttflsh(void)
 {
 	// if output buffer pointer was biggger than zero , it will came into this if statement and write our data to output
 	if (obufp) {
-		lv_write(fileno(termout), obuf, obufp);
+		if (lv_write(fileno(termout), obuf, obufp) == 0)
+			die("something went wront when writing into termout");
 		// set zero to start again of first
 		obufp = 0;
 	}

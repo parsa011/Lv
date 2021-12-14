@@ -9,10 +9,10 @@
  *	This file is part of Lv
  */
 
-#define CONTROL 0x01
-#define META 	0x02
+#define CONTROL 0x1000000
+#define META 	0x2000000
 
 // conver a normal key into its ^k
-#define CTRL_KEY(k) (k & 0x1F)
+#define CTRL_KEY(k) (CONTROL | k)
 
 #endif
