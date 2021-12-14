@@ -27,7 +27,7 @@ static int ttymode = 0;
 
 /* Global configuration variables */
 
-int noxon = 0;			/* Set if ^S/^Q processing should be disabled */
+int noxon = 1;			/* Set if ^S/^Q processing should be disabled */
 
 /* Input buffer */
 
@@ -72,6 +72,8 @@ void ttopen(void)
 
 	/* raw CR/NR etc output handling */
 	newterm.c_oflag &= ~(OPOST | ONLCR | OLCUC | OCRNL | ONOCR | ONLRET);
+
+	newterm.c_cflag |= (CS8);
 
 	/* No signal handling, no echo etc */
 	newterm.c_lflag &= ~(ISIG | ICANON | XCASE | ECHO | ECHOE | ECHOK

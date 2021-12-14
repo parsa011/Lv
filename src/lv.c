@@ -50,14 +50,14 @@ int main(int argc,char *argv[])
 	int c;
 	do {
 		update();
-		c = get_key();
+		c = get_cmd();
 		if (c == CTRL_KEY('[')) {
 			set_mode_for_buffer(MDLOCK);
 		}
 		if (c == 'i' && bmtest(curbp,MDLOCK)) {
 			set_mode_for_buffer(MDINST);
 		}
-		if (c == CTRL_KEY('J'))
+		if (c == CTRL_KEY('j'))
 			move_cursor(MOVE_DOWN);
 		else if (c == CTRL_KEY('K'))
 			move_cursor(MOVE_UP);
@@ -65,7 +65,7 @@ int main(int argc,char *argv[])
 			move_cursor(MOVE_RIGHT);
 		else if (c == CTRL_KEY('H'))
 			move_cursor(MOVE_LEFT);
-		if (c == 'q')
+		if (c == CTRL_KEY('q'))
 			close_editor();
 	} while (1);
 	return 0;

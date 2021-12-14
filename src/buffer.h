@@ -44,6 +44,8 @@ struct buffer_t {
 #define MDVISL 	0x0004		/* visual mode					 */
 #define	MDVIEW	0x0008		/* read-only buffer              */
 #define	MDASAVE	0x0010		/* auto-save mode                */
+#define MDCMMD 	0x0020		/* typing command mode			 */
+
 //#define	MDCMOD	0x0002		/* c indentation and fence match */
 //#define	MDSPELL	0x0004		/* spell error parsing           */
 //#define	MDEXACT	0x0008		/* exact matching for searches   */

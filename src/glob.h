@@ -12,6 +12,9 @@ extern buffer *curbp;		/* current buffer   */
 #define cursor_row 		curwp->crow
 #define cursor_col 		curwp->ccol
 
+extern int metac;		/* current meta character */
+extern int ctlxc;		/* current control X prefix char */
+
 /*
  * kill the program
  *

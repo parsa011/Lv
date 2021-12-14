@@ -9,7 +9,11 @@
  *	This file is part of Lv
  */
 
-extern const char *all_keys[];
+/*
+ *	will get just one key from user ( just control keys )
+ */
 int get_key();
+
+int get_cmd();
 
 #endif
