@@ -16,6 +16,6 @@ void init_editor();
  *	but before closing , check for edited buffer to save them or prevent
  *	of closing
  */
-void close_editor();
+int close_editor(int,int);
 
 #endif

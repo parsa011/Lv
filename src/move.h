@@ -33,7 +33,7 @@
  * 	and update buffer current line
  * 	and buffer cursor row and col
  */
-int move_cursor(int);
+void move_cursor();
 
 /*
  *	check and control cursor to not be in unexpected regions like windowsbar and ...
@@ -48,16 +48,16 @@ int scroll(int, int);
 /*
  *	set next line to current line and increase cursor row
  */
-int move_nextline();
+int move_nextline(int, int);
 
-int move_prevline();
+int move_prevline(int, int);
 
 /*
  * 	move cursor by 1 char to next
  */
-int next_char();
+int next_char(int, int);
 
-int prev_char();
+int prev_char(int, int);
 
 /*
  *	move cursor if current char in line is tab 

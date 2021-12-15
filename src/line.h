@@ -38,6 +38,15 @@ struct line_t {
  */
 line *line_alloc(char *, int);
 
+/*
+ *	appden line to buffer and change last line and ...
+ *	if given buffer is NULL , we will count buffer as curbp
+ */
+int append_line(buffer *,line *);
+
+/*
+ * calculate line length with tabs (convert a tab char to its specified size in tab_size)
+ */
 int line_length(line *);
 
 /*

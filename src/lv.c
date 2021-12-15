@@ -10,7 +10,11 @@
 
 int tab_size = 4;
 
-void close_editor()
+/*
+ * close editor command , if force is 1 , so we will close editor without
+ * prompting dirty buffers . and code is for exit() function arg
+ */
+int close_editor(int focre, int code)
 {
 	TTeeop();
 	TTmove(1,1);
@@ -55,7 +59,7 @@ int main(int argc,char *argv[])
 		c = get_key();
 		macro = find_macro(c);
 		if (macro != NULL)
-			macro->func();
+			macro->func(0,0);
 	} while (1);
 	return 0;
 }

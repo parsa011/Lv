@@ -7,35 +7,14 @@
  */
 #include "types.h"
 
-int move_cursor(int dir)
+void move_cursor()
 {
-	if (curbp->lcount == 0)
-		return OUTOFBUFFER;
-	if (dir == MOVE_RIGHT) {
-		next_char();
-	} else if (dir == MOVE_LEFT) {
-		prev_char();
-	} else if (dir == MOVE_UP) {
-		/* check if we're not going to windowsbar_start_offset region */
-		if (cursor_row - 1 > windowsbar_start_offset) {
-			move_prevline();
-			cursor_row--;
-		} else if (cursor_row >= windowsbar_start_offset + 1 && lprev(current_line)) {
-			scroll(MOVE_UP,1);
-		}
-	} else if (dir == MOVE_DOWN) {
-		if (curbp->clindex + 1 >= curbp->lcount)
-			return OUTOFBUFFER;
-		if (cursor_row + 1 < statusbar_start_offset) {
-			move_nextline();
-			cursor_row++;
-		} else if (cursor_row + 1 == statusbar_start_offset) {
-			scroll(MOVE_DOWN,1);
-		}
-	}
 	check_cursor();
 	TTmove(cursor_row,cursor_col);
-	return true;
+	char temp[180];
+	char c =lgetc(current_line,curbp->coffset);
+	sprintf(temp,"%d | %d | %d | %c%s",curbp->coffset,cursor_col,current_line->len,c == '\t' ? ' ':c ,c == '\t' ? "\\t":"");
+	set_window_title(temp);
 }
 
 void check_cursor()
@@ -73,12 +52,12 @@ int scroll(int dir, int times)
 		if (dir == MOVE_DOWN) {
 			if (lnext(curbp->hline) != NULL) {
 				curbp->hline = lnext(curbp->hline);
-				move_nextline();
+				move_nextline(0,0);
 			}
 		} else if (dir == MOVE_UP) {
 			if (lprev(curbp->hline) != NULL) {
 				curbp->hline = lprev(curbp->hline);
-				move_prevline();
+				move_prevline(0,0);
 			}
 		}
 	}
@@ -87,27 +66,45 @@ int scroll(int dir, int times)
 /*
  * move cursor to next line
  */
-int move_nextline()
+int move_nextline(int f, int n)
 {
-	if (lnext(current_line) == NULL)
-		return ENDOFBUFFER;
-	curbp->clindex++;
-	current_line = lnext(current_line);
-	update_position();
+	/* check if we're not going to windowsbar_start_offset region */
+	if (cursor_row - 1 > windowsbar_start_offset) {
+		if (lnext(current_line) == NULL)
+			die("asdf");
+			//return ENDOFBUFFER;
+		curbp->clindex++;
+		current_line = lnext(current_line);
+		update_position();
+		return true;
+
+		cursor_row--;
+	} else if (cursor_row >= windowsbar_start_offset + 1 && lprev(current_line)) {
+		scroll(MOVE_UP,1);
+	}
+	move_cursor();
 	return true;
 }
 
-int move_prevline()
+int move_prevline(int f, int n)
 {
-	if (lprev(current_line) == NULL)
-		return TOPOFBUFFER;
-	curbp->clindex--;
-	current_line = lprev(current_line);
-	update_position();
+	if (curbp->clindex + 1 >= curbp->lcount)
+		return OUTOFBUFFER;
+	if (cursor_row + 1 < statusbar_start_offset) {
+		if (lprev(current_line) == NULL)
+			return TOPOFBUFFER;
+		curbp->clindex--;
+		current_line = lprev(current_line);
+		update_position();
+		cursor_row++;
+	} else if (cursor_row + 1 == statusbar_start_offset) {
+		scroll(MOVE_DOWN,1);
+	}
+	move_cursor();
 	return true;
 }
 
-int next_char()
+int next_char(int f, int n)
 {
 	if (curbp->coffset < current_line->len) {
 		curbp->coffset++;
@@ -125,10 +122,11 @@ int next_char()
 	}
 	jump_tab(MOVE_RIGHT);
 	update_position();
+	move_cursor();
 	return true;
 }
 
-int prev_char()
+int prev_char(int f, int n)
 {
 	jump_tab(MOVE_LEFT);
 	if (curbp->coffset > 0) {
@@ -146,6 +144,7 @@ int prev_char()
 		cursor_col = line_length(current_line); 
 		curbp->coffset = current_line->len;
 	}
+	move_cursor();
 	return true;
 }
 
