@@ -54,8 +54,8 @@ int generate_basic_macros()
 {
 	append_macro(init_macro(CTRL_KEY('q'),close_editor,0,"close editor"));
 
-	append_macro(init_macro(CTRL_KEY('k'),move_nextline,0,"go to next line"));
-	append_macro(init_macro(CTRL_KEY('j'),move_prevline,0,"go to prev line"));
+	append_macro(init_macro(CTRL_KEY('j'),move_nextline,0,"go to next line"));
+	append_macro(init_macro(CTRL_KEY('k'),move_prevline,0,"go to prev line"));
 	append_macro(init_macro(CTRL_KEY('l'),next_char,0,"go to next char"));
 	append_macro(init_macro(CTRL_KEY('h'),prev_char,0,"go to prev char"));
 

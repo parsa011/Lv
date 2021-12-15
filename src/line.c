@@ -31,10 +31,10 @@ int append_line(buffer *buf,line *ln)
 		buf->hline = ln;
 	} else {
 		slnext(buf->lline,ln);
+		slprev(ln,buf->lline);
 	}
 	/* I think this line don't need any comment , but to be sure : increase total count of buffer lines */
 	buf->lline = ln;
-	slprev(buf->lline,ln);
 	buf->lcount++;
 }
 

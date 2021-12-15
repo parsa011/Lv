@@ -13,7 +13,7 @@ void move_cursor()
 	TTmove(cursor_row,cursor_col);
 	char temp[180];
 	char c =lgetc(current_line,curbp->coffset);
-	sprintf(temp,"%d | %d | %d | %c%s",curbp->coffset,cursor_col,current_line->len,c == '\t' ? ' ':c ,c == '\t' ? "\\t":"");
+	sprintf(temp,"%d | %d | %d | %d | %c%s",curbp->coffset,cursor_row,cursor_col,current_line->len,c == '\t' ? ' ':c ,c == '\t' ? "\\t":"");
 	set_window_title(temp);
 }
 
@@ -50,17 +50,22 @@ int scroll(int dir, int times)
 {
 	for (int i = 0;i < times;i++) {
 		if (dir == MOVE_DOWN) {
-			if (lnext(curbp->hline) != NULL) {
+			if (lnext(curbp->hline) != NULL)
 				curbp->hline = lnext(curbp->hline);
-				move_nextline(0,0);
-			}
 		} else if (dir == MOVE_UP) {
-			if (lprev(curbp->hline) != NULL) {
+			if (lprev(curbp->hline) != NULL)
 				curbp->hline = lprev(curbp->hline);
-				move_prevline(0,0);
-			}
 		}
 	}
+}
+
+bool can_scroll(int dir)
+{
+	if (dir == MOVE_DOWN && cursor_row + 1 == statusbar_start_offset) 
+		return true;
+	else if (dir == MOVE_UP && cursor_row - 1 == windowsbar_start_offset)
+		return true;
+	return false;
 }
 
 /*
@@ -68,38 +73,30 @@ int scroll(int dir, int times)
  */
 int move_nextline(int f, int n)
 {
-	/* check if we're not going to windowsbar_start_offset region */
-	if (cursor_row - 1 > windowsbar_start_offset) {
-		if (lnext(current_line) == NULL)
-			die("asdf");
-			//return ENDOFBUFFER;
-		curbp->clindex++;
-		current_line = lnext(current_line);
-		update_position();
-		return true;
-
-		cursor_row--;
-	} else if (cursor_row >= windowsbar_start_offset + 1 && lprev(current_line)) {
-		scroll(MOVE_UP,1);
-	}
+	if (lnext(current_line) == NULL)
+		return ENDOFBUFFER;
+	if (can_scroll(MOVE_DOWN)) {
+		scroll(MOVE_DOWN,1);
+	} else
+		cursor_row++;
+	curbp->clindex++;
+	current_line = lnext(current_line);
+	update_position();
 	move_cursor();
 	return true;
 }
 
 int move_prevline(int f, int n)
 {
-	if (curbp->clindex + 1 >= curbp->lcount)
-		return OUTOFBUFFER;
-	if (cursor_row + 1 < statusbar_start_offset) {
-		if (lprev(current_line) == NULL)
-			return TOPOFBUFFER;
-		curbp->clindex--;
-		current_line = lprev(current_line);
-		update_position();
-		cursor_row++;
-	} else if (cursor_row + 1 == statusbar_start_offset) {
-		scroll(MOVE_DOWN,1);
-	}
+	if (lprev(current_line) == NULL)
+		return TOPOFBUFFER;
+	if (can_scroll(MOVE_UP)) {
+		scroll(MOVE_UP,1);
+	} else 
+		cursor_row--;
+	curbp->clindex--;
+	current_line = lprev(current_line);
+	update_position();
 	move_cursor();
 	return true;
 }
@@ -109,6 +106,9 @@ int next_char(int f, int n)
 	if (curbp->coffset < current_line->len) {
 		curbp->coffset++;
 		cursor_col++;
+		update_position();
+		move_cursor();
+		return true;
 	} else {
 		/*
 		 *	ok , at this point , we will check for next line , of its NULL , so we are at the end of buffer , just return false
@@ -118,12 +118,9 @@ int next_char(int f, int n)
 			return ENDOFBUFFER;
 		cursor_col = 1;
 		curbp->coffset = 0;
-		move_cursor(MOVE_DOWN);
+		move_nextline(0,0);
+		return true;
 	}
-	jump_tab(MOVE_RIGHT);
-	update_position();
-	move_cursor();
-	return true;
 }
 
 int prev_char(int f, int n)
@@ -132,6 +129,8 @@ int prev_char(int f, int n)
 	if (curbp->coffset > 0) {
 		cursor_col--;
 		curbp->coffset--;
+		move_cursor();
+		return true;
 	} else {
 		/*
 		 * 	well , if prev line is NULL, so we are at the top of buffer , we just have to return
@@ -140,12 +139,11 @@ int prev_char(int f, int n)
 		 */
 		if (lprev(current_line) == NULL)
 			return TOPOFBUFFER;
-		move_cursor(MOVE_UP);
+		move_prevline(0,0);
 		cursor_col = line_length(current_line); 
 		curbp->coffset = current_line->len;
+		return true;
 	}
-	move_cursor();
-	return true;
 }
 
 bool jump_tab(int dir)
