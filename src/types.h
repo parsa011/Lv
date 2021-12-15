@@ -48,6 +48,7 @@ typedef struct line_t line;
 typedef struct buffer_t buffer;
 typedef struct window_t window;
 typedef struct terminal_t terminal;
+typedef struct key_macro_t key_macro;
 
 #include "color.h"
 #include "macro.h"

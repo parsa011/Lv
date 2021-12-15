@@ -8,7 +8,7 @@
 
 #include "types.h"
 
-buffer *init_buffer(char *filename, char *buffername,char modes)
+buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 {
 	buffer *bf;
 	if (!(bf = malloc(sizeof(buffer))))
@@ -20,8 +20,10 @@ buffer *init_buffer(char *filename, char *buffername,char modes)
 	if (strlen(filename) < NFILEN)
 		lv_strncpy(bf->fname,filename,NFILEN);
 	/* when a buffer initialized , we have set lock mode for it , if we don't want to be locked ,we must specify it at modes input */
-	bf->mode |= MDLOCK;
-	bf->mode |= modes;
+	bf->modes |= MDLOCK;
+	bf->modes |= modes;
+	bf->flags = FFULLS;
+	bf->flags = flags;
 	bf->coffset = 0;
 	bf->clindex = 0;
 	return bf;

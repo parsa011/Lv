@@ -9,7 +9,7 @@
  *	This file is part of Lv
  */
 
-#define	DIFCASE		0x20
+#define	DIFCASE	0x20
 
 #define CONTROL 0x10000
 #define META 	0x20000

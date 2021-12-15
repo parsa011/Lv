@@ -266,7 +266,7 @@ noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h
 
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c display.c buffer.c	 \
-					window.c file.c
+					window.c file.c macro.h
 
 all: all-am
 

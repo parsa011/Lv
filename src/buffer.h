@@ -23,8 +23,8 @@ struct buffer_t {
 	int loffset;			/* passed lines 											 */
 	char fname[NFILEN];		/* file name 												 */
 	char bname[NBUFN];		/* buffer name 												 */
-	//char flag;			/* flags 													 */
-	short mode;				/* modes of this buffer 									 */
+	short flags;			/* flags for buffer like size flags and ...					 */
+	short modes;			/* modes of this buffer 									 */
 	int coffset;			/* char offset in line ( how many char passed )				 */
 	int mtop;				/* buffer margin top from window							 */
 	int mleft;				/* margin left from window									 */
@@ -34,9 +34,14 @@ struct buffer_t {
 #define bprev(b) 	(b->link.prev)		/* prev buffer of given buffer 		*/
 #define sbnext(b,n) (b->link.next = n)	/* set next buffer for given buffer */ 
 #define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
-#define bmtest(b,m)	(b->mode & m)		/* test if buffer is in given mode 	*/ 
-#define usmode(b,m)	(b->mode &= ~m)		/* unset a mode from buffer modes	*/
-#define stmode(b,m)	(b->mode |= m)		/* set mode for buffer 				*/
+#define bmtest(b,m)	(b->modes & m)		/* test if buffer is in given mode 	*/ 
+#define usmode(b,m)	(b->modes &= ~m)		/* unset a mode from buffer modes	*/
+#define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
+
+/* buffer flags */
+#define FFULLS	0x0001 		/* full size buffer  */
+#define FVTBUF	0x0002		/* vertical buffer	 */
+#define FHRBUF	0x0004		/* horizontal buffer */
 
 /* mode for buffers */
 #define	MDLOCK	0x0001		/* lock mode                     */
@@ -52,7 +57,7 @@ struct buffer_t {
 //#define MDOVER	0x0020		/* overwrite mode                */
 //#define MDMAGIC	0x0040		/* regular expressions in search  */
 
-buffer *init_buffer(char *, char *, char);
+buffer *init_buffer(char *, char *, short, short);
 void append_buffer(buffer *);
 line *get_last_line(buffer *);
 

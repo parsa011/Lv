@@ -27,7 +27,7 @@ void init_editor()
 {
 	curwp = init_window();
 	firstwp = curwp;
-	curbp = init_buffer("",NO_NAME_BUFFER,0);
+	curbp = init_buffer("",NO_NAME_BUFFER,0,0);
 	append_buffer(curbp);
 	TTopen();
 	if (system("clear") != 0)
@@ -36,6 +36,7 @@ void init_editor()
 	set_window_title(TERMINAL_TITLE);
 	/* update term global variable row and col */
 	get_screen_size(&term.t_mrow,&term.t_mcol);
+	generate_basic_macros();
 }
 
 int main(int argc,char *argv[])
@@ -50,7 +51,7 @@ int main(int argc,char *argv[])
 	int c;
 	do {
 		update();
-		c = get_cmd();
+		c = get_key();
 		if (c == CTRL_KEY('[')) {
 			set_mode_for_buffer(MDLOCK);
 		}

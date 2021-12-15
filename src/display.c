@@ -11,17 +11,17 @@
 
 /*
 |----------------------------------------------------|
-|PMS 0.0.1  [NO NAME]				     			 |
+|PMS 0.0.1  [NO NAME]                                |
 |----------------------------------------------------|
-|10 void write_messagebar()			     			 |
-|11 {						     					 |
-|12    TTmove(term.t_mrow,0);		     		 	 |
-|13    TTputs("this is a test message"); 	     	 |
-|14 }					             				 |	
+|10 void write_messagebar()                          |
+|11 {                                                |
+|12    TTmove(term.t_mrow,0);                        |
+|13    TTputs("this is a test message");             |
+|14 }                                                |	
 |----------------------------------------------------|
-|display.c | 100 line | 10.1		     	 c type  |
+|display.c | 100 line | 10.1                 c type  |
 |----------------------------------------------------|
-|381 byte wroted				     				 |
+|381 byte wroted                                     |
 |----------------------------------------------------|
 */
 
