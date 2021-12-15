@@ -10,7 +10,7 @@ bin_PROGRAMS = lv
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 
 lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c display.c buffer.c	 \
-					window.c file.c macro.h
+					window.c file.c macro.c
 
 # termidx_SOURCES = termidx.c
 

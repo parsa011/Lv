@@ -49,25 +49,13 @@ int main(int argc,char *argv[])
 	}
 
 	int c;
+	key_macro *macro = NULL;
 	do {
 		update();
 		c = get_key();
-		if (c == CTRL_KEY('[')) {
-			set_mode_for_buffer(MDLOCK);
-		}
-		if (c == 'i' && bmtest(curbp,MDLOCK)) {
-			set_mode_for_buffer(MDINST);
-		}
-		if (c == CTRL_KEY('j'))
-			move_cursor(MOVE_DOWN);
-		else if (c == CTRL_KEY('K'))
-			move_cursor(MOVE_UP);
-		else if (c == CTRL_KEY('L'))
-			move_cursor(MOVE_RIGHT);
-		else if (c == CTRL_KEY('H'))
-			move_cursor(MOVE_LEFT);
-		if (c == CTRL_KEY('q'))
-			close_editor();
+		macro = find_macro(c);
+		if (macro != NULL)
+			macro->func();
 	} while (1);
 	return 0;
 }

@@ -22,6 +22,11 @@ struct key_macro_t {
 	void (*func)();			/* function to run when this macro called */
 };
 
+
+#define mnext(m) ((m)->link.next)
+#define mprev(m) ((m)->link.prev)
+
+
 extern int macros_count;	/* total count of macros	 */
 extern key_macro *fmacro;	/* first generated key macro */
 extern key_macro *lmacro;	/* last appended key macro	 */
