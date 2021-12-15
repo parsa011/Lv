@@ -17,6 +17,11 @@
  *	This file is part of Lv
  */
 
+/*
+ *	init terminal and trun on raw mode
+ */
+int init_term();
+
 /*	
  *	get terminal size from system.
  */

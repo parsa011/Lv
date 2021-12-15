@@ -33,14 +33,9 @@ void init_editor()
 	firstwp = curwp;
 	curbp = init_buffer("",NO_NAME_BUFFER,0,0);
 	append_buffer(curbp);
-	TTopen();
-	if (system("clear") != 0)
-		TTbeep();
-	TTmove(0,0);
 	set_window_title(TERMINAL_TITLE);
-	/* update term global variable row and col */
-	get_screen_size(&term.t_mrow,&term.t_mcol);
 	generate_basic_macros();
+	init_term();
 }
 
 int main(int argc,char *argv[])

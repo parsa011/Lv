@@ -26,6 +26,20 @@
 */
 
 /*
+ *	initialize terminal and trun it into raw mode
+ *	and other basic configurations for terminal :)
+ */
+int init_term()
+{
+	TTopen();
+	if (system("clear") != 0)
+		TTbeep();
+	TTmove(0,0);
+	/* update term global variable row and col */
+	get_screen_size(&term.t_mrow,&term.t_mcol);
+}
+
+/*
  *	get terminal size from system
  *	if returned value from ioctl was valid ( more than 0 )
  *	we will set row and col by winsize row and col
