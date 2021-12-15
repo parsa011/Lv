@@ -73,6 +73,8 @@ bool can_scroll(int dir)
  */
 int move_nextline(int f, int n)
 {
+	if (current_line == NULL || curbp->lcount == 0)
+		return EMPTYBUFFER;
 	if (lnext(current_line) == NULL)
 		return ENDOFBUFFER;
 	if (can_scroll(MOVE_DOWN)) {
@@ -88,6 +90,9 @@ int move_nextline(int f, int n)
 
 int move_prevline(int f, int n)
 {
+	if (current_line == NULL || curbp->lcount == 0)
+		return EMPTYBUFFER;
+
 	if (lprev(current_line) == NULL)
 		return TOPOFBUFFER;
 	if (can_scroll(MOVE_UP)) {
@@ -103,6 +108,8 @@ int move_prevline(int f, int n)
 
 int next_char(int f, int n)
 {
+	if (current_line == NULL || curbp->lcount == 0)
+		return EMPTYBUFFER;
 	if (curbp->coffset < current_line->len) {
 		curbp->coffset++;
 		cursor_col++;
@@ -125,6 +132,9 @@ int next_char(int f, int n)
 
 int prev_char(int f, int n)
 {
+	if (current_line == NULL || curbp->lcount == 0)
+		return EMPTYBUFFER;
+
 	jump_tab(MOVE_LEFT);
 	if (curbp->coffset > 0) {
 		cursor_col--;

@@ -19,6 +19,7 @@
 #define OUTOFBUFFER 	0x001
 #define TOPOFBUFFER		0x002
 #define ENDOFBUFFER		0x003
+#define EMPTYBUFFER		0x004
 
 /*
  *  Manager cursor and position of screen	
