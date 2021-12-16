@@ -22,13 +22,6 @@ line *line_alloc(char *content,int len)
 	return ln;
 }
 
-int line_insert(int c)
-{
-	if (c == (CONTROL | 'M'))
-		line_new();
-	return true;
-}
-
 int append_line(buffer *buf,line *ln)
 {
 	buf = buf == NULL ? curbp : buf;
@@ -50,8 +43,11 @@ int append_line(buffer *buf,line *ln)
 	buf->lcount++;
 }
 
-void line_new()
+int line_new()
 {
+	/* TODO : in future we have to show user a message : this macro is available in insert mode and .... */
+	if ((curbp->modes & (MDINST)))
+		return false;
 	line *ln = line_alloc("",0);
 	if (current_line == NULL) {
 		append_line(curbp,ln);
@@ -62,6 +58,7 @@ void line_new()
 		 * and set new line prev and next */
 		if (curbp->coffset == 0) {
 			line *current_prev = lprev(current_line);
+			// if prev line is null , so we are at the top of buffer (first line)
 			if (current_prev == NULL) {
 				curbp->fline = ln;
 				curbp->hline = ln;
@@ -69,6 +66,7 @@ void line_new()
 				slprev(ln,NULL);
 				slnext(ln,current_line);
 			} else {
+				// else if , we just have to change currnet line and it's next line
 				slprev(ln,current_prev);
 				slnext(ln,current_line);
 
@@ -77,6 +75,9 @@ void line_new()
 			}
 			current_line = ln;
 			move_nextline(0,0);
+		} else {
+			/* and at this case , we are away from start of string */
+
 		}
 		curbp->lcount++;
 	}

@@ -170,10 +170,10 @@ void write_buffer()
 		if (ln != NULL) {
 			write_line(ln);
 			ln = lnext(ln);
-		} //else {
-	//		TTputs(LINE_MASK);
-	//		TTputs("\r\n");
-	//	}
+		} else {
+			TTputs(LINE_MASK);
+			TTputs("\r\n");
+		}
 	}
 }
 

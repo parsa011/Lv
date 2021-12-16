@@ -22,6 +22,12 @@ extern int ctlxc;		/* current control X prefix char */
 int generate_basic_macros();
 
 /*
+ *	take a key and check it
+ *	for example if it was new line , so we will add new line
+ */
+int manage_insert_key(int);
+
+/*
  * kill the program
  *
  * set the old term by calling ttclose()

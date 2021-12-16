@@ -26,6 +26,19 @@ int generate_basic_macros()
 }
 
 /*
+ *	after user press key in insert mode , we will check for c 
+ *	and we do the work related to the entered character
+ *	for example if given key is new line , so we will call add
+ * 	new line function , or it was backslash , we will delete char and ...
+ */
+int manage_insert_key(int c)
+{
+	if (c == (CONTROL | 'M'))
+		line_new();
+	return true;
+}
+
+/*
  * kill the program
  */
 void die(const char *s) {

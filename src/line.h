@@ -44,12 +44,6 @@ line *line_alloc(char *, int);
 int append_line(buffer *,line *);
 
 /*
- *	take a key and check it
- *	for example if it was new line , so we will add new line
- */
-int line_insert(int);
-
-/*
  * calculate line length with tabs (convert a tab char to its specified size in tab_size)
  */
 int line_length(line *);
@@ -78,7 +72,7 @@ void line_delete(int);
 /*
  *	alloc new , and insert it in current position of cursor
  */ 
-void line_new();
+int line_new();
 
 /*
  *	replace current char under the cursor with given char
