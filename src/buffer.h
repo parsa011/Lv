@@ -24,7 +24,7 @@ struct buffer_t {
 	char fname[NFILEN];		/* file name 												 */
 	char bname[NBUFN];		/* buffer name 												 */
 	short flags;			/* flags for buffer like size flags and ...					 */
-	short modes;			/* modes of this buffer 									 */
+	ushort modes;			/* modes of this buffer 									 */
 	int coffset;			/* char offset in line ( how many char passed )				 */
 	int mtop;				/* buffer margin top from window							 */
 	int mleft;				/* margin left from window									 */
@@ -51,6 +51,9 @@ struct buffer_t {
 #define	MDASAVE	0x0010		/* auto-save mode                */
 #define MDCMMD 	0x0020		/* typing command mode			 */
 
+/* this is usefull for macros , when they are avaiable in all modes */
+#define ALLMODES (MDLOCK | MDINST | MDVISL | MDVIEW)	
+
 //#define	MDCMOD	0x0002		/* c indentation and fence match */
 //#define	MDSPELL	0x0004		/* spell error parsing           */
 //#define	MDEXACT	0x0008		/* exact matching for searches   */
@@ -62,5 +65,8 @@ void append_buffer(buffer *);
 line *get_last_line(buffer *);
 
 void set_mode_for_buffer(int);
+int set_lock_mode(int, int);
+int set_visual_mode(int, int);
+int set_insert_mode(int, int);
 
 #endif

@@ -50,14 +50,53 @@ key_macro *find_macro_by_name(char *name)
 	return NULL;
 }
 
-int generate_basic_macros()
+int exec_macro(key_macro *macro)
 {
-	append_macro(init_macro(CTRL_KEY('q'),close_editor,0,"close editor"));
+	if (curbp->modes & macro->modes) {
+		macro->func(0,0);
+		return true;
+	}
+	return false;
+}
 
-	append_macro(init_macro(CTRL_KEY('j'),move_nextline,0,"go to next line"));
-	append_macro(init_macro(CTRL_KEY('k'),move_prevline,0,"go to prev line"));
-	append_macro(init_macro(CTRL_KEY('l'),next_char,0,"go to next char"));
-	append_macro(init_macro(CTRL_KEY('h'),prev_char,0,"go to prev char"));
+/*
+ * change a key command to a string we can print out
+ *
+ * int c;		sequence to translate
+ * char *seq;		destination string for sequence
+ */
+void cmdstr(int c, char *seq)
+{
+	char *ptr;		/* pointer into current position in sequence */
 
-	return macros_count;
+	ptr = seq;
+
+	/* apply meta sequence if needed */
+	if (c & META) {
+		*ptr++ = 'M';
+		*ptr++ = '-';
+	}
+
+	/* apply ^X sequence if needed */
+	if (c & CTLX) {
+		*ptr++ = '^';
+		*ptr++ = 'X';
+	}
+
+	/* apply SPEC sequence if needed */
+	if (c & SPEC) {
+		*ptr++ = 'F';
+		*ptr++ = 'N';
+	}
+
+	/* apply control sequence if needed */
+	if (c & CONTROL) {
+		*ptr++ = '^';
+	}
+
+	/* and output the final sequence */
+
+	*ptr++ = c & 255;	/* strip the prefixes */
+
+	*ptr = 0;		/* terminate the string */
 }

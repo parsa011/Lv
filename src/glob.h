@@ -16,6 +16,11 @@ extern int metac;		/* current meta character */
 extern int ctlxc;		/* current control X prefix char */
 
 /*
+ *	this function will initilize and append all of basic macros
+ */
+int generate_basic_macros();
+
+/*
  * kill the program
  *
  * set the old term by calling ttclose()

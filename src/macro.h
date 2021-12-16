@@ -34,11 +34,6 @@ extern key_macro *lmacro;	/* last appended key macro	 */
 key_macro *init_macro(int , int(*)(int, int), ushort, char *);
 
 /*
- *	this function will initilize and append all of basic macros
- */
-int generate_basic_macros();
-
-/*
  *	add a key macro to last macros next
  */
 void append_macro(key_macro *);
@@ -52,5 +47,12 @@ key_macro *find_macro(int);
  * find macro by it's name
  */
 key_macro *find_macro_by_name(char *);
+
+/*
+ *	execute a macro , check for modes
+ */
+int exec_macro(key_macro *);
+
+void cmdstr(int,char *);
 
 #endif

@@ -74,7 +74,7 @@ handle_CSI:
 			else
 				return SPEC | c | cmask;
 		}
-		if (c == (CONTROL | '['))
+		if (c == (SPEC | 'P')) // f1 key
 		{
 			cmask = META;
 			goto proc_metac;

@@ -84,3 +84,22 @@ void set_mode_for_buffer(int mode)
 		stmode(curbp,mode);
 	}
 }
+
+/* macro compatible change mode functions */
+int set_lock_mode(int f, int n)
+{
+	set_mode_for_buffer(MDLOCK);
+	return true;
+}
+
+int set_visual_mode(int f, int n)
+{
+	set_mode_for_buffer(MDVISL);
+	return true;
+}
+
+int set_insert_mode(int f, int n)
+{
+	set_mode_for_buffer(MDINST);
+	return true;
+}

@@ -16,7 +16,7 @@ int tab_size = 4;
  */
 int close_editor(int focre, int code)
 {
-	TTeeop();
+  	TTeeop();
 	TTmove(1,1);
 	exit(0);
 }
@@ -54,7 +54,7 @@ int main(int argc,char *argv[])
 		c = get_key();
 		macro = find_macro(c);
 		if (macro != NULL)
-			macro->func(0,0);
+			exec_macro(macro);
 	} while (1);
 	return 0;
 }
