@@ -3,6 +3,7 @@
 
 #define TERMINAL_TITLE "LV - Parsa mahmoudy" /* default title for terminal */
 #define NO_NAME_BUFFER "[NO NAME]" 	/* default name for buffers that don't have name */
+#define LINE_MASK	   "~" /* we line is empty , we will write this */
 
 extern window *firstwp;		/* first window		*/
 extern window *curwp;		/* current window   */

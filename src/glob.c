@@ -4,12 +4,12 @@ window *firstwp;	/* first window		*/
 window *curwp;		/* Current window   */
 buffer *curbp;		/* Current buffer   */
 
-int metac = CONTROL | '[';	/* current meta character */
+int metac = SPEC | 'P';	/* current meta character 		 */
 int ctlxc = CONTROL | 'X';	/* current control X prefix char */
 
 int generate_basic_macros()
 {
-	append_macro(init_macro(CTRL_KEY('q'),close_editor,(MDLOCK),"close editor"));
+	append_macro(init_macro(CTRL_KEY('q'),close_editor,(ALLMODES),"close editor"));
 
 	//move keys
 	append_macro(init_macro('j',move_nextline,(MDLOCK | MDVISL | MDVIEW),"go to next line"));

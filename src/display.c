@@ -166,8 +166,15 @@ void write_buffer()
 	if (cursor_row != buffers_start_offset || cursor_col != 1)
 		TTmove(buffers_start_offset,1);
 	int count = 0;
-	for (line *ln = curbp->hline;ln != NULL && count < statusbar_start_offset - buffers_start_offset - 1;ln = lnext(ln),count++) {
-		write_line(ln);
+	for (line *ln = curbp->hline;count < statusbar_start_offset - buffers_start_offset - 1;count++) {
+		if (ln != NULL) {
+			write_line(ln);
+			ln = lnext(ln);
+		}
+		else {
+			TTputs(LINE_MASK);
+			TTputs("\r\n");
+		}
 	}
 }
 
