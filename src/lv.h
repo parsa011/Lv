@@ -7,6 +7,12 @@
 extern int tab_size;
 
 /*
+ *	main loop of program , get key and insert it into buffer
+ *	or if thats a macro , so execute it
+ */
+void lv_loop();
+
+/*
  * 	do some basic initialization for editor
  */
 void init_editor();

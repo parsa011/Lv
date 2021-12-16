@@ -24,9 +24,6 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 	size_t linecap = 0;
 	ssize_t linelen;
 	while ((linelen = getline(&line_chars, &linecap, fp)) != EOF) { 
-		/* remove extra 'new line' and 'line feed' characters of end of line */
-		while (linelen > 0 && (line_chars[linelen - 1] == '\n' || line_chars[linelen - 1] == '\r'))
-			linelen--;
 		append_line(curbp,line_alloc(line_chars,linelen));
 	}
 	free(line_chars);

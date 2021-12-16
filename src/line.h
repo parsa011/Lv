@@ -18,7 +18,6 @@ struct line_t {
 	LINK(line) link;	/* Doubly-linked list of lines for a particular buffer */
 	char *chars;		/* content of line , actually a bunch of chars :) */
 	int len;			/* length of current line */
-	buffer *buf;		/* owner buffer of this line */
 };
 
 #define lnext(lp)       ((lp)->link.next)
@@ -26,8 +25,8 @@ struct line_t {
 #define lgetc(lp, n)    ((lp)->chars[(n)] & 0xFF)
 #define lputc(lp, n, c) ((lp)->chars[(n)] = (c))
 #define llength(lp)     ((lp)->len)
-#define slnext(l,n) 	(l->link.next = n)	/* set next line for given line */ 
-#define slprev(l,p) 	(l->link.prev = p)	/* set prev line for given line*/
+#define slnext(lp,n) 	((lp)->link.next = n)	/* set next line for given line */ 
+#define slprev(lp,p) 	((lp)->link.prev = p)	/* set prev line for given line */
 
 /*
  * 	This routine allocates a block of memory large enough to hold a struct line
@@ -43,6 +42,12 @@ line *line_alloc(char *, int);
  *	if given buffer is NULL , we will count buffer as curbp
  */
 int append_line(buffer *,line *);
+
+/*
+ *	take a key and check it
+ *	for example if it was new line , so we will add new line
+ */
+int line_insert(int);
 
 /*
  * calculate line length with tabs (convert a tab char to its specified size in tab_size)

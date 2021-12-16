@@ -11,6 +11,10 @@ void move_cursor()
 {
 	check_cursor();
 	TTmove(cursor_row,cursor_col);
+	char temp[180];
+	char c =lgetc(current_line,curbp->coffset);
+	sprintf(temp,"%d | %d | %d | %d | %c%s",curbp->coffset,cursor_row,cursor_col,current_line->len,c == '\t' ? ' ':c ,c == '\t' ? "\\t":"");
+	set_window_title(temp);
 }
 
 void check_cursor()

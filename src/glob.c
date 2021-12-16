@@ -20,6 +20,7 @@ int generate_basic_macros()
 	//change buffer mode functions 
 	append_macro(init_macro('i',set_insert_mode,MDLOCK,"lock mode"));
 	append_macro(init_macro(CONTROL | '[',set_lock_mode,MDINST,"lock mode"));
+	append_macro(init_macro('v',set_lock_mode,MDINST,"lock mode"));
 
 	return macros_count;
 }

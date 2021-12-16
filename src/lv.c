@@ -38,6 +38,23 @@ void init_editor()
 	init_term();
 }
 
+void lv_loop()
+{
+	int c;
+	key_macro *macro = NULL;
+	do {
+		update();
+		c = get_cmd();
+		macro = find_macro(c);
+		if (macro != NULL)
+			exec_macro(macro);
+		else {
+			if (bmtest(curbp,MDINST))
+				line_insert(c);
+		}
+	} while (1);
+}
+
 int main(int argc,char *argv[])
 {
 	// initialize the terminal , and activate raw mode
@@ -46,15 +63,6 @@ int main(int argc,char *argv[])
 	if (argc > 1) {
 		load_file_into_buffer(NULL,argv[1]);
 	}
-
-	int c;
-	key_macro *macro = NULL;
-	do {
-		update();
-		c = get_key();
-		macro = find_macro(c);
-		if (macro != NULL)
-			exec_macro(macro);
-	} while (1);
+	lv_loop();
 	return 0;
 }
