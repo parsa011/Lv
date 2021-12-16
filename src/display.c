@@ -184,7 +184,7 @@ void write_buffer()
 void write_line(line *ln)
 {
 	TTeeol();
-	char *temp = strdup(ln->chars);
+	char *temp = ln->chars;
 	while (*temp) {
 		if (*temp == '\t') {
 			for (int i = 0;i < tab_size;i++) {
