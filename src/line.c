@@ -9,9 +9,9 @@
 
 line *line_alloc(char *content,int len)
 {
-	line *ln = malloc(sizeof(line));
+	line *ln = calloc(1,sizeof(line));
 	/* remove extra 'new line' and 'line feed' characters of end of line */
-	while (len > 0 && (content[len - 1] == '\n' || content[len - 1] == '\r'))
+	while (len > 0 && ((content[len - 1] == '\n' || content[len - 1] == '\r')))
 		len--;
 	content[len] = '\0';
 
@@ -50,37 +50,31 @@ int line_new()
 		return false;
 	line *ln = line_alloc("",0);
 	if (current_line == NULL) {
-		append_line(curbp,ln);
-		move_nextline(0,0);
+		/* if buffer is null , so we have to append line to buffer , it's gonna be first line */
 		append_line(curbp,line_alloc("",0));
 	} else {
-		/* at this case we are at the first of line so we have to move current line to down
-		 * and set new line prev and next */
-		if (curbp->coffset == 0) {
-			line *current_prev = lprev(current_line);
-			// if prev line is null , so we are at the top of buffer (first line)
-			if (current_prev == NULL) {
-				curbp->fline = ln;
-				curbp->hline = ln;
-				slprev(current_line,ln);
-				slprev(ln,NULL);
-				slnext(ln,current_line);
-			} else {
-				// else if , we just have to change currnet line and it's next line
-				slprev(ln,current_prev);
-				slnext(ln,current_line);
-
-				slprev(current_line,ln);
-				slnext(current_prev,ln);
-			}
-			current_line = ln;
-			move_nextline(0,0);
-		} else {
-			/* and at this case , we are away from start of string */
-
+		/* otherwise , we will break current line into two part , before and after the cursor , 
+		 * and move after the cursor part into next line */
+		//lv_strncpy(ln->chars,&current_line->chars[curbp->coffset],current_line->len - curbp->coffset);
+		ln->chars = strdup(&current_line->chars[curbp->coffset]);
+		current_line->chars[curbp->coffset] = '\0';
+		current_line->len = strlen(current_line->chars);
+		ln->len = strlen(ln->chars);
+		/* if next line is not null , set ln next to current_next 
+		 * and prev of current_next to ln */
+		line *current_next = lnext(current_line);
+		if (current_next != NULL) {
+			slprev(current_next,ln);	
+			slnext(ln,current_next);
 		}
+		slprev(ln,current_line);
+		slnext(current_line,ln);
+		cursor_col = 1;
+		curbp->coffset = 0;
+		move_nextline(0,0);
 		curbp->lcount++;
 	}
+	return true;
 }
 
 int line_length(line *ln)

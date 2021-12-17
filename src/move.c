@@ -19,17 +19,19 @@ void check_cursor()
 		cursor_row = buffers_start_offset;
 	if (cursor_row >= statusbar_start_offset)
 		cursor_row = statusbar_start_offset - 1;
-	if (cursor_col <= 0 || curbp->coffset <= 0) {
+
+	if (cursor_col <= 0) {
 		cursor_col = 1;
 		curbp->coffset = 0;
 	}
+
 	if (current_line == NULL)
 		return;
 	
 	/* if cursor is out the line , set it to line length + 1 */
-	if (curbp->coffset > current_line->len || cursor_col > line_length(current_line)) {
-		cursor_col = line_length(current_line);
-		curbp->coffset  = current_line->len;
+	if (curbp->coffset > current_line->len || cursor_col > line_length(current_line) + 1) {
+		cursor_col = line_length(current_line) + 1;
+		curbp->coffset = current_line->len;
 	}
 }
 
@@ -111,7 +113,6 @@ int next_char(int f, int n)
 		cursor_col++;
 		update_position();
 		move_cursor();
-		return true;
 	} else {
 		/*
 		 *	ok , at this point , we will check for next line , of its NULL , so we are at the end of buffer , just return false
@@ -122,21 +123,19 @@ int next_char(int f, int n)
 		cursor_col = 1;
 		curbp->coffset = 0;
 		move_nextline(0,0);
-		return true;
 	}
+	return true;
 }
 
 int prev_char(int f, int n)
 {
 	if (current_line == NULL || curbp->lcount == 0)
 		return EMPTYBUFFER;
-
 	jump_tab(MOVE_LEFT);
 	if (curbp->coffset > 0) {
 		cursor_col--;
 		curbp->coffset--;
 		move_cursor();
-		return true;
 	} else {
 		/*
 		 * 	well , if prev line is NULL, so we are at the top of buffer , we just have to return
@@ -146,10 +145,10 @@ int prev_char(int f, int n)
 		if (lprev(current_line) == NULL)
 			return TOPOFBUFFER;
 		move_prevline(0,0);
-		cursor_col = line_length(current_line); 
+		cursor_col = line_length(current_line) + 1; 
 		curbp->coffset = current_line->len;
-		return true;
 	}
+	return true;
 }
 
 bool jump_tab(int dir)

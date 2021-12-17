@@ -38,8 +38,9 @@ int lv_ioctl(int fd, int req, void *ptr)
  */
 void lv_strncpy(char *dst, char *src, int len)
 {
-	strncpy(dst,src,len - 1);
-	dst[len - 1] = '\0';
+	strncpy(dst,src,len);
+	if (dst[len] != '\0')
+		dst[len] = '\0';
 }
 
 int count_tabs(char *string,int len)
