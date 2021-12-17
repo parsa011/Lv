@@ -1,5 +1,5 @@
 /*
- * 	Manager lines 
+ * 	Manager lines
  *	Copyright
  *		(C) 2021 Parsa Mahmoudy sahebi
  *
@@ -25,7 +25,7 @@ line *line_alloc(char *content,int len)
 int append_line(buffer *buf,line *ln)
 {
 	buf = buf == NULL ? curbp : buf;
-	/* 
+	/*
 	 * if buffer don't have any line , so this is first line
 	 * in other hand , we have to append this line to next of last line
 	 * and then set last line to this new line
@@ -46,7 +46,7 @@ int append_line(buffer *buf,line *ln)
 int line_new()
 {
 	/* TODO : in future we have to show user a message : this macro is available in insert mode and .... */
-	if ((curbp->modes & (MDINST)))
+	if (!(curbp->modes & (MDINST)))
 		return false;
 	line *ln = line_alloc("",0);
 	if (current_line == NULL) {

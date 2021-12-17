@@ -17,7 +17,7 @@
 |11 {                                                |
 |12    TTmove(term.t_mrow,0);                        |
 |13    TTputs("this is a test message");             |
-|14 }                                                |	
+|14 }                                                |
 |----------------------------------------------------|
 |display.c | 100 line | 10.1                 c type  |
 |----------------------------------------------------|
@@ -43,7 +43,7 @@ int init_term()
  *	get terminal size from system
  *	if returned value from ioctl was valid ( more than 0 )
  *	we will set row and col by winsize row and col
- *	but if return value from ioctl wan not valid , we will 
+ *	but if return value from ioctl wan not valid , we will
  *	move the cursor to the lowest corner of the screen , the request the
  *	cursor position
  */
@@ -64,7 +64,7 @@ void get_screen_size(int *wrow,int *wcol)
  *	return cursor position on screen
  *	return false if we can't get the cursor position by any accident
  */
-bool get_cursor_position(int *rows, int *cols) 
+bool get_cursor_position(int *rows, int *cols)
 {
 	char buf[32];
 	unsigned int i = 0;
@@ -81,10 +81,10 @@ bool get_cursor_position(int *rows, int *cols)
 	}
 	buf[i] = '\0';
 
-	if (buf[0] != '\x1b' || buf[1] != '[') 
+	if (buf[0] != '\x1b' || buf[1] != '[')
 		return false;
 	if (sscanf(&buf[2], "%d;%d", rows, cols) != 2)
-		return false; 
+		return false;
 
 	return true;
 }
@@ -141,9 +141,9 @@ void write_windows()
 			len += strlen(NO_NAME_BUFFER);
 		}
 		else {
-			TTputs(wp->fbuffer->bname);	
+			TTputs(wp->fbuffer->bname);
 			len += strlen(wp->fbuffer->bname);
-		}	
+		}
 		/* if this is not last window , write | separator */
 		if (wnext(wp) != NULL) {
 			TTputs(WINDOWS_SEPARATOR);
@@ -189,7 +189,7 @@ void write_line(line *ln)
 			for (int i = 0;i < tab_size;i++) {
 				TTputc(' ');
 			}
-		} else 
+		} else
 			TTputc(*temp);
 		*temp++;
 	}
@@ -201,8 +201,8 @@ void write_line(line *ln)
  *	we use llen and rlen to detect size of wrote chars,
  *	first we will write lstatus , then increase llen ,
  *	until the sum of its size with the length on the right
- *	be equal to the size of terminal col, then we will write 
- *	other one but if sum of them is less than terminal col size , 
+ *	be equal to the size of terminal col, then we will write
+ *	other one but if sum of them is less than terminal col size ,
  *	we will put space to fill status bar
  */
 void write_statusbar()
