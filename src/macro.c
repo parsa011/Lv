@@ -53,7 +53,7 @@ key_macro *find_macro_by_name(char *name)
 int exec_macro(key_macro *macro)
 {
 	if (curbp->modes & macro->modes) {
-		macro->func(0,0);
+		macro->func(1,1);
 		return true;
 	}
 	return false;

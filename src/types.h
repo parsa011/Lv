@@ -65,4 +65,5 @@ typedef struct key_macro_t key_macro;
 #include "vt100.h"
 #include "display.h"
 #include "file.h"
+#include "word.h"
 #include "lv.h"

@@ -17,6 +17,11 @@ int generate_basic_macros()
 	append_macro(init_macro('l',next_char,(MDLOCK | MDVISL | MDVIEW),"go to next char"));
 	append_macro(init_macro('h',prev_char,(MDLOCK | MDVISL | MDVIEW),"go to prev char"));
 
+	append_macro(init_macro('w',forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
+	append_macro(init_macro('b',backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
+
+
+
 	//change buffer mode functions 
 	append_macro(init_macro('i',set_insert_mode,MDLOCK,"lock mode"));
 	append_macro(init_macro(CONTROL | '[',set_lock_mode,MDINST,"lock mode"));
@@ -35,6 +40,8 @@ int manage_insert_key(int c)
 {
 	if (c == (CONTROL | 'M'))
 		line_new();
+	else if (c == 127)
+		die("aasd");
 	return true;
 }
 

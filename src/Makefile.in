@@ -104,7 +104,7 @@ am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
 	glob.$(OBJEXT) utf8.$(OBJEXT) input.$(OBJEXT) line.$(OBJEXT) \
 	move.$(OBJEXT) vt100.$(OBJEXT) display.$(OBJEXT) \
 	buffer.$(OBJEXT) window.$(OBJEXT) file.$(OBJEXT) \
-	macro.$(OBJEXT)
+	macro.$(OBJEXT) word.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -127,7 +127,7 @@ am__depfiles_remade = ./$(DEPDIR)/buffer.Po ./$(DEPDIR)/display.Po \
 	./$(DEPDIR)/line.Po ./$(DEPDIR)/lv.Po ./$(DEPDIR)/macro.Po \
 	./$(DEPDIR)/move.Po ./$(DEPDIR)/tty.Po ./$(DEPDIR)/utf8.Po \
 	./$(DEPDIR)/utils.Po ./$(DEPDIR)/vt100.Po \
-	./$(DEPDIR)/window.Po
+	./$(DEPDIR)/window.Po ./$(DEPDIR)/word.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -264,11 +264,11 @@ EXTRA_DIST = TODO
 # sysconf_lvdir = $(sysconfdir)/lv
 # data_lvdir = $(datadir)/lv
 noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h buffer.h move.h \
-					vt100.h display.h window.h file.h color.h
+					vt100.h display.h window.h file.h color.h word.h
 
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c display.c buffer.c	 \
-					window.c file.c macro.c
+					window.c file.c macro.c word.c
 
 all: all-am
 
@@ -370,6 +370,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utils.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vt100.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/window.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/word.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -533,6 +534,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f ./$(DEPDIR)/vt100.Po
 	-rm -f ./$(DEPDIR)/window.Po
+	-rm -f ./$(DEPDIR)/word.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-local distclean-tags
@@ -592,6 +594,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f ./$(DEPDIR)/vt100.Po
 	-rm -f ./$(DEPDIR)/window.Po
+	-rm -f ./$(DEPDIR)/word.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
