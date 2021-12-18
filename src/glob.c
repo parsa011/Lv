@@ -27,8 +27,8 @@ int generate_basic_macros()
 	append_macro(init_macro('$',gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
 	append_macro(init_macro('^',gotosol,(MDLOCK | MDVISL | MDVIEW),"move to start of line"));
 
-	append_macro(init_macro('o',line_new_down,(MDLOCK | MDVISL | MDVIEW),"new line down"));
-	append_macro(init_macro('O',line_new_up,(MDLOCK | MDVISL | MDVIEW),"new line top"));
+	append_macro(init_macro('o',line_new_down,(MDLOCK),"new line down"));
+	append_macro(init_macro('O',line_new_up,(MDLOCK),"new line top"));
 
 	return macros_count;
 }
