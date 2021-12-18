@@ -1,5 +1,5 @@
 /*
- *	Manager cursor and position of screen	
+ *	Manager cursor and position of screen
  *	Copyright
  *		(C) 2021 Parsa Mahmoudy sahebi
  *

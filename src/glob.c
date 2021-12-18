@@ -10,9 +10,9 @@ int ctlxc = CONTROL | 'X';	/* current control X prefix char */
 int generate_basic_macros()
 {
 	//change buffer mode functions
-	append_macro(init_macro('i',set_insert_mode,MDLOCK,"lock mode"));
+	append_macro(init_macro('i',set_insert_mode,MDLOCK,"insert mode"));
 	append_macro(init_macro(CONTROL | '[',set_lock_mode,MDINST,"lock mode"));
-	append_macro(init_macro('v',set_lock_mode,MDINST,"lock mode"));
+	append_macro(init_macro('v',set_visual_mode,MDLOCK,"visual mode"));
 
 	append_macro(init_macro(CTRL_KEY('q'),close_editor,(ALLMODES),"close editor"));
 
@@ -45,8 +45,8 @@ int manage_insert_key(int c)
 		line_new(false);
 	else if (c == 127)
 		die("aasd");
-	else if (c == '\t')
-	  die("tab");
+	else 
+		line_ins_char(c);
 	return true;
 }
 

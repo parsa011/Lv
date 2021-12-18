@@ -46,8 +46,10 @@ void lv_loop()
 		update();
 		c = get_cmd();
 		macro = find_macro(c);
-		if (macro != NULL)
+		if (macro != NULL) {
 			exec_macro(macro);
+			macro = NULL;
+		}
 		else {
 			if (bmtest(curbp,MDINST))
 				manage_insert_key(c);

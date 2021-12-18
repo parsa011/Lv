@@ -83,6 +83,8 @@ int line_new(int force)
 
 int line_new_down(int f, int n)
 {
+	if (gotoeol(1,1) == EMPTYBUFFER)
+		return EMPTYBUFFER;
 	gotoeol(1,1);
 	line_new(true);
 	return true;
@@ -90,6 +92,8 @@ int line_new_down(int f, int n)
 
 int line_new_up(int f, int n)
 {
+	if (gotosol(1,1) == EMPTYBUFFER)
+		return EMPTYBUFFER;
 	gotosol(1,1);
 	line_new(true);
 	move_prevline(1,1);
@@ -101,4 +105,12 @@ int line_length(line *ln)
 	int tabs_count = count_tabs(ln->chars,ln->len);
 	int res = strlen(ln->chars) + tabs_count * tab_size - tabs_count;
 	return res;
+}
+
+void line_ins_char(char c)
+{
+	if (current_line == NULL)
+		line_new(true);
+	current_line->len++;
+	curbp->coffset++;
 }

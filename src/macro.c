@@ -37,7 +37,7 @@ void append_macro(key_macro *macro)
 key_macro *find_macro(int key)
 {
 	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
-		if (macro->key == key)
+		if (macro->key == key && macro->modes & curbp->modes)
 			return macro;
 	return NULL;
 }
