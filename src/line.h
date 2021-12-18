@@ -72,7 +72,10 @@ void line_delete(int);
 /*
  *	alloc new , and insert it in current position of cursor
  */ 
-int line_new();
+int line_new(int);
+
+int line_new_down(int,int);
+int line_new_up(int,int);
 
 /*
  *	replace current char under the cursor with given char

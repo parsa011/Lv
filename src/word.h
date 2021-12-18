@@ -14,4 +14,7 @@ int forwword();
 int backword();
 int word_count();
 
+int gotoeol(int,int);
+int gotosol(int,int);
+
 #endif

@@ -43,10 +43,14 @@ int append_line(buffer *buf,line *ln)
 	buf->lcount++;
 }
 
-int line_new()
+/*
+ *	alloc and append new line 
+ *	if force is true , so we have to add new line without considering curbp->mode
+ */
+int line_new(int force)
 {
 	/* TODO : in future we have to show user a message : this macro is available in insert mode and .... */
-	if (!(curbp->modes & (MDINST)))
+	if (!(curbp->modes & (MDINST)) && force != true)
 		return false;
 	line *ln = line_alloc("",0);
 	if (current_line == NULL) {
@@ -74,6 +78,21 @@ int line_new()
 		move_nextline(0,0);
 		curbp->lcount++;
 	}
+	return true;
+}
+
+int line_new_down(int f, int n)
+{
+	gotoeol(1,1);
+	line_new(true);
+	return true;
+}
+
+int line_new_up(int f, int n)
+{
+	gotosol(1,1);
+	line_new(true);
+	move_prevline(1,1);
 	return true;
 }
 

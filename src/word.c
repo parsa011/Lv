@@ -58,3 +58,23 @@ int backword(int f, int n)
 	}
 	return true;
 }
+
+/*
+ *	move cursor to end of line
+ */
+int gotoeol(int f, int n) 
+{
+	curbp->coffset = current_line->len;
+	cursor_col = line_length(current_line) + 1;
+	return true;
+}
+
+/*
+ *	move cursor to start of line
+ */
+int gotosol(int f, int n) 
+{
+	curbp->coffset = 0;
+	cursor_col = 1;
+	return true;
+}
