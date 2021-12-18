@@ -22,6 +22,13 @@ int generate_basic_macros()
 	append_macro(init_macro('l',next_char,(MDLOCK | MDVISL | MDVIEW),"go to next char"));
 	append_macro(init_macro('h',prev_char,(MDLOCK | MDVISL | MDVIEW),"go to prev char"));
 
+	// move with arrow keys
+	append_macro(init_macro(SPEC | 'B',move_nextline,ALLMODES,"go to next line"));
+	append_macro(init_macro(SPEC | 'A',move_prevline,ALLMODES,"go to prev line"));
+	append_macro(init_macro(SPEC | 'C',next_char,ALLMODES,"go to next char"));
+	append_macro(init_macro(SPEC | 'D',prev_char,ALLMODES,"go to prev char"));
+
+
 	append_macro(init_macro('w',forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
 	append_macro(init_macro('b',backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
 	append_macro(init_macro('$',gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
@@ -45,6 +52,8 @@ int manage_insert_key(int c)
 		line_new(false);
 	else if (c == 127)
 		die("aasd");
+	else if (c == '\t')
+		insert_tab();
 	else 
 		line_ins_char(c);
 	return true;

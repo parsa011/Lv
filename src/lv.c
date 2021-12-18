@@ -44,7 +44,11 @@ void lv_loop()
 	key_macro *macro = NULL;
 	do {
 		update();
-		c = get_cmd();
+		if (!bmtest(curbp,MDINST)) {
+			c = get_cmd();
+		}
+		else 
+			c = get_key();
 		macro = find_macro(c);
 		if (macro != NULL) {
 			exec_macro(macro);

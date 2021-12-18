@@ -24,4 +24,6 @@ int get_filename_of_path(char *,char *);
 void convert_key_to_string();
 int convert_string_to_key(char);
 
+void shift_right(char*,int,int);
+
 #endif

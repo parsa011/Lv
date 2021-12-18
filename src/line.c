@@ -107,10 +107,24 @@ int line_length(line *ln)
 	return res;
 }
 
+/*
+ * 	insert char into current position of cursor in line
+ *	also if it's the first line in buffer , we have to add one into it.
+ *	or if we are out of buffer
+ */
 void line_ins_char(char c)
 {
 	if (current_line == NULL)
 		line_new(true);
 	current_line->len++;
-	curbp->coffset++;
+	current_line->chars  = realloc(current_line->chars,current_line->len + 1);
+	shift_right(current_line->chars,current_line->len,curbp->coffset);
+	lputc(current_line,curbp->coffset,c);
+	lputc(current_line,current_line->len,'\0');
+	next_char(1,1);
+}
+
+void insert_tab()
+{
+
 }
