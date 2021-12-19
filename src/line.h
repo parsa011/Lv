@@ -63,7 +63,7 @@ void insert_tab();
 /*
  *	append given string in current position of cursor
  */
-void line_append(char *);
+void line_append(line *,char *,int);
 
 /*
  *	delete a line , by the line number

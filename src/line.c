@@ -124,6 +124,14 @@ void line_ins_char(char c)
 	next_char(1,1);
 }
 
+void line_append(line *ln,char *s,int len)
+{
+	ln->chars = realloc(ln->chars,ln->len + len + 1);
+	memcpy(&ln->chars[ln->len],s,len);
+	ln->len += len;
+	ln->chars[ln->len + 1] = '\0';
+}
+
 void line_del_char()
 {
 	if (current_line == NULL)
@@ -132,7 +140,10 @@ void line_del_char()
 		line *prev_line = lprev(current_line);
 		if (prev_line == NULL)
 			return;
-		// append current line to prev line
+		cursor_col = line_length(prev_line) + 1;
+		curbp->coffset = prev_line->len;
+		line_append(prev_line,current_line->chars,current_line->len);
+		line_delete(curbp->clindex);
 		return;
 	}
 	int at = curbp->coffset - 1;
@@ -140,9 +151,48 @@ void line_del_char()
 		cursor_col -= tab_size - 1;
 	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
 	current_line->len--;
-	//current_line->chars = realloc(current_line->chars,current_line->len);
-	//shift_left(current_line->chars,current_line->len,curbp->coffset - 1);
 	prev_char(1,1);
+}
+
+line *get_line_by_index(int index)
+{
+	if (curbp->lcount < index)
+		return NULL;
+	int i = 0;
+	for (line *ln = curbp->fline;ln != NULL;ln = lnext(ln),i++)
+		if (i == index)
+			return ln;
+	return NULL;
+}
+
+void line_delete(int index)
+{
+	line *ln = get_line_by_index(index);	
+	line *lnext = lnext(ln);
+	line *lprev = lprev(ln);
+	if (curbp->hline == ln) {
+		curbp->hline = lprev;
+	}
+	if (lnext == NULL) {
+		curbp->lline = lprev;
+		goto set_prev;
+	}
+	if (lprev(ln) == NULL) {
+		current_line = lnext;
+		curbp->fline = lnext;
+		slnext(lnext,NULL);
+		goto free;
+	} else {
+		cursor_row--;
+		slnext(lprev,lnext);
+		slprev(lnext,lprev);
+	}
+set_prev:
+	current_line = lprev;
+free:
+	curbp->clindex--;
+	curbp->lcount--;
+	free(ln);
 }
 
 void insert_tab()
