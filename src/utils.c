@@ -117,9 +117,18 @@ int get_filename_of_path(char *buf,char *path)
 // do shift write for buf string , start from end and end in start_index 
 void shift_right(char *buf,int buflen,int start_index)
 {
-	char next = 0,temp = buf[start_index];
+	char temp = buf[start_index];
 	for (int i = buflen - 1;i > start_index;i--) {
 		buf[i] = buf[i - 1];
 		buf[i - 1] = ' ';
+	}
+}
+
+void shift_left(char *buf,int buflen,int start_index)
+{
+	char temp = buf[start_index];
+	for (;start_index < buflen - 1;start_index++) {
+		buf[start_index] = buf[start_index + 1];
+		buf[start_index + 1] = ' ';
 	}
 }

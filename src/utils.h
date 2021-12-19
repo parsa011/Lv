@@ -25,5 +25,7 @@ void convert_key_to_string();
 int convert_string_to_key(char);
 
 void shift_right(char*,int,int);
+void shift_left(char*,int,int);
+
 
 #endif

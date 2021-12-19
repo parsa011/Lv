@@ -124,6 +124,22 @@ void line_ins_char(char c)
 	next_char(1,1);
 }
 
+void line_del_char()
+{
+	if (current_line == NULL)
+		line_new(true);
+	if (curbp->coffset == 0) {
+		if (lprev(current_line) == NULL)
+			return;
+		return;
+	}
+	current_line->len--;
+	shift_left(current_line->chars,current_line->len,curbp->coffset - 1);
+	current_line->chars = realloc(current_line->chars,current_line->len);
+	lputc(current_line,current_line->len,'\0');
+	prev_char(1,1);
+}
+
 void insert_tab()
 {
 

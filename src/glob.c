@@ -51,7 +51,7 @@ int manage_insert_key(int c)
 	if (c == (CONTROL | 'M'))
 		line_new(false);
 	else if (c == 127)
-		die("aasd");
+		line_del_char();
 	else if (c == '\t')
 		insert_tab();
 	else 
