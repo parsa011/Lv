@@ -171,6 +171,7 @@ void write_buffer()
 			write_line(ln);
 			ln = lnext(ln);
 		} else {
+			TTeeol();
 			TTputs(LINE_MASK);
 			TTputs("\r\n");
 		}
