@@ -129,14 +129,19 @@ void line_del_char()
 	if (current_line == NULL)
 		line_new(true);
 	if (curbp->coffset == 0) {
-		if (lprev(current_line) == NULL)
+		line *prev_line = lprev(current_line);
+		if (prev_line == NULL)
 			return;
+		// append current line to prev line
 		return;
 	}
+	int at = curbp->coffset - 1;
+	if (current_line->chars[at] == '\t')
+		cursor_col -= tab_size - 1;
+	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
 	current_line->len--;
-	shift_left(current_line->chars,current_line->len,curbp->coffset - 1);
-	current_line->chars = realloc(current_line->chars,current_line->len);
-	lputc(current_line,current_line->len,'\0');
+	//current_line->chars = realloc(current_line->chars,current_line->len);
+	//shift_left(current_line->chars,current_line->len,curbp->coffset - 1);
 	prev_char(1,1);
 }
 
