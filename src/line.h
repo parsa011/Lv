@@ -57,6 +57,7 @@ void line_del_char();
  *	insert given char into current position of cursor
  */
 void line_ins_char(char);
+void line_del_next();
 
 /*
  *	append given string in current position of cursor

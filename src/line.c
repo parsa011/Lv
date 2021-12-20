@@ -185,6 +185,12 @@ void line_del_char()
 	prev_char(1,1);
 }
 
+void line_del_next()
+{
+	if (next_char(true,1))
+		line_del_char();;
+}
+
 /*
  *	return line by it's index (remember , index , means start from 0 )
  */

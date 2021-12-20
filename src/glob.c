@@ -55,6 +55,8 @@ int manage_insert_key(int c)
 		line_del_char();
 	else if (c == CTRL_KEY('i')) /* tab */
 		line_ins_char('\t');
+	else if (c == (SPEC | '3'))
+		line_del_next();
 	else 
 		line_ins_char(c);
 	return true;
