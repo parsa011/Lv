@@ -61,8 +61,8 @@ int line_new(int force)
 		 * and move after the cursor part into next line */
 		//lv_strncpy(ln->chars,&current_line->chars[curbp->coffset],current_line->len - curbp->coffset);
 		ln->chars = strdup(&current_line->chars[curbp->coffset]);
-		current_line->len = strlen(current_line->chars);
 		current_line->chars[curbp->coffset] = '\0';
+		current_line->len = strlen(current_line->chars);
 		ln->len = strlen(ln->chars);
 		/* if next line is not null , set ln next to current_next 
 		 * and prev of current_next to ln */
@@ -172,29 +172,33 @@ void line_delete(int index)
 	line *ln = get_line_by_index(index);	
 	line *lnext = lnext(ln);
 	line *lprev = lprev(ln);
-	if (curbp->hline == ln) {
-		curbp->hline = lprev != NULL ? lprev : lnext;
-	}
-	if (lnext == NULL) {
-		curbp->lline = lprev;
-		goto set_prev;
-	}
-	if (lprev == NULL) {
-		current_line = lnext;
-		curbp->fline = lnext;
-		slnext(lnext,NULL);
-		goto free;
-	} else {
+	if (index == curbp->lcount - 1) {
+		if (lprev == NULL)
+			goto ret;
+		current_line = lprev;
 		cursor_row--;
-		slnext(lprev,lnext);
-		slprev(lnext,lprev);
+		slnext(current_line,NULL);
+		curbp->lline = current_line;
+		goto ret;
+	} else if (index == 0) {
+		if (lnext == NULL)
+			goto ret;
+		current_line  = lnext;
+		slprev(current_line,NULL);
+		curbp->fline = current_line;
+		goto ret;
 	}
-set_prev:
+	slnext(lprev,lnext);		
+	slprev(lnext,lprev);
 	current_line = lprev;
-free:
+	if (ln == curbp->hline)
+		curbp->hline = lprev;
+	else
+		cursor_row--;
+
+ret:
 	curbp->clindex--;
 	curbp->lcount--;
-	free(ln);
 }
 
 void insert_tab()

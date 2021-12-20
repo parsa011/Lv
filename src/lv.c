@@ -46,7 +46,7 @@ void lv_loop()
 		update();
 		//if (!bmtest(curbp,MDINST)) {
 			c = get_cmd();
-	//	}
+		//}
 		//else 
 		//	c = get_key();
 		macro = find_macro(c);
