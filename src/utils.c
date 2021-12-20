@@ -86,10 +86,11 @@ int convert_cursorcol_to_coffset(char *string, int col)
 int convert_coffset_to_cursorcol(char *string, int offset)
 {
 	int col = 0;
-	for (;offset >= 0;offset--) {
-		if (string[offset] == '\t')
-			col += tab_size - 1;
-		col++;
+	for (int i = 0;offset >= i;i++) {
+		if (string[i] == '\t' && i != offset) /* if it's last tab , dont add tabsize to col */
+			col += tab_size;
+		else
+			col++;
 	}
 	return col;
 }

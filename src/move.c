@@ -37,7 +37,8 @@ void check_cursor()
 
 void update_position()
 {
-	curbp->coffset = convert_cursorcol_to_coffset(current_line->chars,cursor_col);
+	int temp_coffset = curbp->coffset;
+	//curbp->coffset = convert_cursorcol_to_coffset(current_line->chars,cursor_col);
 	cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
 }
 
@@ -109,9 +110,9 @@ int next_char(int f, int n)
 	if (current_line == NULL || curbp->lcount == 0)
 		return EMPTYBUFFER;
 	if (curbp->coffset < current_line->len) {
+		if (jump_tab(MOVE_RIGHT) == false)
+			cursor_col++;
 		curbp->coffset++;
-		cursor_col++;
-		update_position();
 		move_cursor();
 	} else {
 		/*
@@ -131,10 +132,10 @@ int prev_char(int f, int n)
 {
 	if (current_line == NULL || curbp->lcount == 0)
 		return EMPTYBUFFER;
-	jump_tab(MOVE_LEFT);
 	if (curbp->coffset > 0) {
-		cursor_col--;
 		curbp->coffset--;
+		if (jump_tab(MOVE_LEFT) == false)
+			cursor_col--;
 		move_cursor();
 	} else {
 		/*
@@ -155,9 +156,9 @@ bool jump_tab(int dir)
 {
 	if (lgetc(current_line,curbp->coffset) == '\t') {
 		if (dir == MOVE_RIGHT) {
-			cursor_col += tab_size - 1;
+			cursor_col += tab_size;
 		} else if (dir == MOVE_LEFT) {
-			cursor_col -= tab_size - 1;
+			cursor_col -= tab_size;
 		}
 		return true;
 	}
