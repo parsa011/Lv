@@ -151,7 +151,7 @@ void line_append(line *ln,char *s,int len)
 	ln->chars = realloc(ln->chars,ln->len + len + 1);
 	memcpy(&ln->chars[ln->len],s,len);
 	ln->len += len;
-	ln->chars[ln->len + 1] = '\0';
+	ln->chars[ln->len] = '\0';
 }
 
 /*
