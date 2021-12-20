@@ -61,8 +61,8 @@ int line_new(int force)
 		 * and move after the cursor part into next line */
 		//lv_strncpy(ln->chars,&current_line->chars[curbp->coffset],current_line->len - curbp->coffset);
 		ln->chars = strdup(&current_line->chars[curbp->coffset]);
-		current_line->chars[curbp->coffset] = '\0';
 		current_line->len = strlen(current_line->chars);
+		current_line->chars[curbp->coffset] = '\0';
 		ln->len = strlen(ln->chars);
 		/* if next line is not null , set ln next to current_next 
 		 * and prev of current_next to ln */
@@ -142,8 +142,10 @@ void line_del_char()
 			return;
 		cursor_col = line_length(prev_line) + 1;
 		curbp->coffset = prev_line->len;
+
 		line_append(prev_line,current_line->chars,current_line->len);
 		line_delete(curbp->clindex);
+
 		return;
 	}
 	int at = curbp->coffset - 1;
@@ -171,13 +173,13 @@ void line_delete(int index)
 	line *lnext = lnext(ln);
 	line *lprev = lprev(ln);
 	if (curbp->hline == ln) {
-		curbp->hline = lprev;
+		curbp->hline = lprev != NULL ? lprev : lnext;
 	}
 	if (lnext == NULL) {
 		curbp->lline = lprev;
 		goto set_prev;
 	}
-	if (lprev(ln) == NULL) {
+	if (lprev == NULL) {
 		current_line = lnext;
 		curbp->fline = lnext;
 		slnext(lnext,NULL);
