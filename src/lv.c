@@ -16,7 +16,7 @@ int tab_size = 4;
  */
 int close_editor(int focre, int code)
 {
-  	TTeeop();
+	TTeeop();
 	TTmove(1,1);
 	exit(0);
 }

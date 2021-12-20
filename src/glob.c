@@ -48,12 +48,13 @@ int generate_basic_macros()
  */
 int manage_insert_key(int c)
 {
-	if (c == (CONTROL | 'M'))
+	/* enter */
+	if (c == CTRL_KEY('m'))
 		line_new(false);
 	else if (c == 127)
 		line_del_char();
-	else if (c == '\t')
-		insert_tab();
+	else if (c == CTRL_KEY('i')) /* tab */
+		line_ins_char('\t');
 	else 
 		line_ins_char(c);
 	return true;

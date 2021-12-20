@@ -58,8 +58,6 @@ void line_del_char();
  */
 void line_ins_char(char);
 
-void insert_tab();
-
 /*
  *	append given string in current position of cursor
  */

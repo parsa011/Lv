@@ -7,6 +7,10 @@
  */
 #include "types.h"
 
+/*
+ *	this routing used for allocate new line , and remove extra new line
+ *	and line feed characters from end of line
+ */
 line *line_alloc(char *content,int len)
 {
 	line *ln = calloc(1,sizeof(line));
@@ -22,6 +26,12 @@ line *line_alloc(char *content,int len)
 	return ln;
 }
 
+/*
+ *	append given line to given buffer 
+ *	if its first line , we will set basic configs for buffer and set all of
+ *	buffer line pointer into ln
+ *	otherwise we will add it into last of buffer
+ */
 int append_line(buffer *buf,line *ln)
 {
 	buf = buf == NULL ? curbp : buf;
@@ -81,6 +91,9 @@ int line_new(int force)
 	return true;
 }
 
+/*
+ *	create new line in bottom of current line , witout break it
+ */
 int line_new_down(int f, int n)
 {
 	if (gotoeol(1,1) == EMPTYBUFFER)
@@ -90,6 +103,9 @@ int line_new_down(int f, int n)
 	return true;
 }
 
+/*
+ *	create new line in top of current line , without break it
+ */
 int line_new_up(int f, int n)
 {
 	if (gotosol(1,1) == EMPTYBUFFER)
@@ -100,6 +116,9 @@ int line_new_up(int f, int n)
 	return true;
 }
 
+/*
+ *	calculate line length with tabs (count every tab as tab_size value)
+ */
 int line_length(line *ln)
 {
 	int tabs_count = count_tabs(ln->chars,ln->len);
@@ -124,6 +143,9 @@ void line_ins_char(char c)
 	next_char(1,1);
 }
 
+/*
+ *	append string into end of give line
+ */
 void line_append(line *ln,char *s,int len)
 {
 	ln->chars = realloc(ln->chars,ln->len + len + 1);
@@ -132,6 +154,12 @@ void line_append(line *ln,char *s,int len)
 	ln->chars[ln->len + 1] = '\0';
 }
 
+/*
+ *	delete a character before cursro ( coffset - 1 )
+ *	if we are at start of line we will cut current line and 
+ *	paste it into the last of prev line , then delete current line
+ *	from list
+ */
 void line_del_char()
 {
 	if (current_line == NULL)
@@ -149,6 +177,7 @@ void line_del_char()
 		return;
 	}
 	int at = curbp->coffset - 1;
+	/* check if we are deleting a tab , if it's a tab , so we decrease cursor col by tab size */
 	if (current_line->chars[at] == '\t')
 		cursor_col -= tab_size - 1;
 	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
@@ -156,6 +185,9 @@ void line_del_char()
 	prev_char(1,1);
 }
 
+/*
+ *	return line by it's index (remember , index , means start from 0 )
+ */
 line *get_line_by_index(int index)
 {
 	if (curbp->lcount < index)
@@ -167,6 +199,13 @@ line *get_line_by_index(int index)
 	return NULL;
 }
 
+/*
+ *	remove a line from doubly linked list , set prev lines next to currnet next
+ *	then set next lines prev to current prev
+ *	and also check for last line or first line , if current line is last
+ *	line of buffer , so we will set last line to prev line ,
+ *	and also set next line for first line if current line is fline (first line in buffer)
+ */
 void line_delete(int index)
 {
 	line *ln = get_line_by_index(index);	
@@ -191,6 +230,7 @@ void line_delete(int index)
 	slnext(lprev,lnext);		
 	slprev(lnext,lprev);
 	current_line = lprev;
+	/* if this is header line in buffer , we will set header to prev line */
 	if (ln == curbp->hline)
 		curbp->hline = lprev;
 	else
@@ -199,9 +239,5 @@ void line_delete(int index)
 ret:
 	curbp->clindex--;
 	curbp->lcount--;
-}
-
-void insert_tab()
-{
-
+	free(ln);
 }
