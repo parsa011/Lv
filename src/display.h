@@ -60,4 +60,9 @@ void write_statusbar();
 
 void write_messagebar();
 
+/*
+ *	show a message in messagebar
+ */
+void showmsg(char *);
+
 #endif

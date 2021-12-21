@@ -17,6 +17,15 @@ extern int metac;		/* current meta character */
 extern int ctlxc;		/* current control X prefix char */
 
 /*
+ *	global structs like message bar struct and ...
+ */
+struct msg_bag_t {
+	char *message;
+	time_t msg_time;
+	int timer;
+};
+
+/*
  *	this function will initilize and append all of basic macros
  */
 int generate_basic_macros();

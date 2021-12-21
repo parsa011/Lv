@@ -50,13 +50,19 @@ void lv_loop()
 		//else 
 		//	c = get_key();
 		macro = find_macro(c);
-		if (macro != NULL) {
-			exec_macro(macro);
-			macro = NULL;
-		}
-		else {
-			if (bmtest(curbp,MDINST))
+		if (bmtest(curbp,MDINST) && macro == NULL) {
+			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
+				wstmode(curbp,WFEDIT);
+			}
+		} else {
+			if (macro != NULL) {
+				exec_macro(macro);
+				macro = NULL;
+				wusmode(curbp,WFEDIT);
+			} else {
+				showmsg("key not found");	
+			}
 		}
 	} while (1);
 }

@@ -25,16 +25,17 @@ struct window_t {
 	int ccol;				/* cursor col								*/
 };
 
-#define wnext(w) (w->link.next)				/* next window of given window 		*/
-#define wprev(w) (w->link.prev)				/* prev window of given window 		*/
+#define wnext(w) 		(w->link.next)		/* next window of given window 		*/
+#define wprev(w) 		(w->link.prev)		/* prev window of given window 		*/
+#define wusmode(b,m)	(b->flags &= ~m)	/* unset a flag for window			*/
+#define wstmode(b,m)	(b->flags |= m)		/* set flag for window				*/
+
 
 /* window modes */
-#define WFFORCE 0x01		/* window needs to be forced reframe  */
-#define WFMOVE  0x02		/* movement from line to line   */
-#define WFEDIT  0x04		/* editing within a line        */
-#define WFHARD  0x08		/* better to a full display     */
-#define WFMODE  0x10		/* update mode line.            */
-#define	WFCOLR	0x20		/* needs a color change         */
+#define WFFORCE 0x01	/* window needs to be forced reframe  */
+#define WFMOVE  0x02	/* movement from line to line   */
+#define WFEDIT  0x04	/* editing within a line        */
+#define WFHARD  0x08	/* better to a full display     */
 
 /*
  *	create ana alloc new window and return that pointer

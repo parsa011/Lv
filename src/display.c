@@ -234,6 +234,11 @@ void write_messagebar()
 {
 	if (cursor_row != messagebar_start_offset || cursor_col != 1)
 		TTmove(messagebar_start_offset,1);
-	TTeeol();
-	TTputs("this is a test message");
+}
+
+void showmsg(char *msg)
+{
+	if (cursor_row != messagebar_start_offset || cursor_col != 1)
+		TTmove(messagebar_start_offset,1);
+	TTputs(msg);
 }

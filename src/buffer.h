@@ -35,7 +35,7 @@ struct buffer_t {
 #define sbnext(b,n) (b->link.next = n)	/* set next buffer for given buffer */ 
 #define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
 #define bmtest(b,m)	(b->modes & m)		/* test if buffer is in given mode 	*/ 
-#define usmode(b,m)	(b->modes &= ~m)		/* unset a mode from buffer modes	*/
+#define usmode(b,m)	(b->modes &= ~m)	/* unset a mode from buffer modes	*/
 #define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
 
 /* buffer flags */
