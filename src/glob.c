@@ -30,6 +30,7 @@ int generate_basic_macros()
 	append_macro(init_macro(SPEC | 'D',prev_char,ALLMODES,"go to prev char"));
 
 
+	append_macro(init_macro('x',delete_current_char,(MDLOCK),"delete char under cursor"));
 	append_macro(init_macro('w',forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
 	append_macro(init_macro('b',backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
 	append_macro(init_macro('$',gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));

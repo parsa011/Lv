@@ -58,6 +58,7 @@ void line_del_char();
  */
 void line_ins_char(char);
 void line_del_next();
+int delete_current_char(int,int);
 
 /*
  *	append given string in current position of cursor

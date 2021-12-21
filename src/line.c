@@ -191,6 +191,12 @@ void line_del_next()
 		line_del_char();;
 }
 
+int delete_current_char(int f,int n)
+{
+	next_char(true,1);
+	line_del_char();
+}
+
 /*
  *	return line by it's index (remember , index , means start from 0 )
  */
