@@ -3,6 +3,7 @@
 window *firstwp;	/* first window		*/
 window *curwp;		/* Current window   */
 buffer *curbp;		/* Current buffer   */
+msg_bag msgbag;		/* global msg bag	*/
 
 int metac = SPEC | 'P';	/* current meta character 		 */
 int ctlxc = CONTROL | 'X';	/* current control X prefix char */

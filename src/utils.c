@@ -131,3 +131,45 @@ void shift_left(char *buf,int buflen,int start_index)
 		buf[start_index + 1] = ' ';
 	}
 }
+
+/*
+ * change a key command to a string we can print out
+ *
+ * int c;		sequence to translate
+ * char *seq;		destination string for sequence
+ */
+void cmdstr(int c, char *seq)
+{
+	char *ptr;		/* pointer into current position in sequence */
+
+	ptr = seq;
+
+	/* apply meta sequence if needed */
+	if (c & META) {
+		*ptr++ = 'M';
+		*ptr++ = '-';
+	}
+
+	/* apply ^X sequence if needed */
+	if (c & CTLX) {
+		*ptr++ = '^';
+		*ptr++ = 'X';
+	}
+
+	/* apply SPEC sequence if needed */
+	if (c & SPEC) {
+		*ptr++ = 'F';
+		*ptr++ = 'N';
+	}
+
+	/* apply control sequence if needed */
+	if (c & CONTROL) {
+		*ptr++ = '^';
+	}
+
+	/* and output the final sequence */
+
+	*ptr++ = c & 255;	/* strip the prefixes */
+
+	*ptr = 0;		/* terminate the string */
+}

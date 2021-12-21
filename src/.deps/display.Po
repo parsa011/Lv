@@ -84,7 +84,10 @@ display.o: display.c /usr/include/stdc-predef.h types.h basics.h \
  /usr/include/x86_64-linux-gnu/asm/ioctl.h \
  /usr/include/asm-generic/ioctl.h \
  /usr/include/x86_64-linux-gnu/bits/ioctl-types.h \
- /usr/include/x86_64-linux-gnu/sys/ttydefaults.h
+ /usr/include/x86_64-linux-gnu/sys/ttydefaults.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h
 /usr/include/stdc-predef.h:
 types.h:
 basics.h:
@@ -200,3 +203,7 @@ lv.h:
 /usr/include/asm-generic/ioctl.h:
 /usr/include/x86_64-linux-gnu/bits/ioctl-types.h:
 /usr/include/x86_64-linux-gnu/sys/ttydefaults.h:
+/usr/include/time.h:
+/usr/include/x86_64-linux-gnu/bits/time.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:

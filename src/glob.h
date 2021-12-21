@@ -5,9 +5,12 @@
 #define NO_NAME_BUFFER "[NO NAME]" 	/* default name for buffers that don't have name */
 #define LINE_MASK	   "~" /* we line is empty , we will write this */
 
+#define MESSAGE_MAX_LENGTH 120
+
 extern window *firstwp;		/* first window		*/
 extern window *curwp;		/* current window   */
 extern buffer *curbp;		/* current buffer   */
+extern msg_bag msgbag;
 
 #define current_line 	curbp->cline
 #define cursor_row 		curwp->crow
@@ -20,10 +23,11 @@ extern int ctlxc;		/* current control X prefix char */
  *	global structs like message bar struct and ...
  */
 struct msg_bag_t {
-	char *message;
+	char message[MESSAGE_MAX_LENGTH];
 	time_t msg_time;
 	int timer;
 };
+
 
 /*
  *	this function will initilize and append all of basic macros

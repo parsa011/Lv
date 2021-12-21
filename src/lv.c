@@ -61,7 +61,9 @@ void lv_loop()
 				macro = NULL;
 				wusmode(curbp,WFEDIT);
 			} else {
-				showmsg("key not found");	
+				char key[10];
+				cmdstr(c,key);
+				showmsg(true,"key %s not found",key);
 			}
 		}
 	} while (1);

@@ -53,6 +53,4 @@ key_macro *find_macro_by_name(char *);
  */
 int exec_macro(key_macro *);
 
-void cmdstr(int,char *);
-
 #endif

@@ -63,6 +63,6 @@ void write_messagebar();
 /*
  *	show a message in messagebar
  */
-void showmsg(char *);
+void showmsg(bool,char *,...);
 
 #endif

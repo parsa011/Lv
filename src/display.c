@@ -8,6 +8,8 @@
 #include "types.h"
 
 #include <sys/ioctl.h>
+#include <stdarg.h>
+#include <time.h>
 
 /*
 |----------------------------------------------------|
@@ -234,11 +236,26 @@ void write_messagebar()
 {
 	if (cursor_row != messagebar_start_offset || cursor_col != 1)
 		TTmove(messagebar_start_offset,1);
+	TTeeol();
+	if (msgbag.timer) {
+		if (time(NULL) - msgbag.msg_time < 5) {
+			TTputs(msgbag.message);		
+		}
+	} else 
+		TTputs(msgbag.message);
 }
 
-void showmsg(char *msg)
+void showmsg(bool timer, char *msg,...)
 {
 	if (cursor_row != messagebar_start_offset || cursor_col != 1)
 		TTmove(messagebar_start_offset,1);
-	TTputs(msg);
+	if (timer) {
+		msgbag.timer = true;
+		msgbag.msg_time = time(NULL);
+	}
+	va_list ap;
+	va_start(ap, msg);
+	vsnprintf(msgbag.message, MESSAGE_MAX_LENGTH, msg, ap);
+	va_end(ap);
+
 }
