@@ -69,6 +69,24 @@ void lv_loop()
 	} while (1);
 }
 
+int topof_buffer()
+{
+	showmsg(true,"top of buffer");
+	return TOPOFBUFFER;
+}
+
+int endof_buffer()
+{
+	showmsg(true,"end of buffer");
+	return ENDOFBUFFER;
+}
+
+int empty_buffer()
+{
+	showmsg(true,"buffer is empty");
+	return EMPTYBUFFER;
+}
+
 int main(int argc,char *argv[])
 {
 	// initialize the terminal , and activate raw mode

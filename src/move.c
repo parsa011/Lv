@@ -73,9 +73,9 @@ bool can_scroll(int dir)
 int move_nextline(int f, int n)
 {
 	if (current_line == NULL || curbp->lcount == 0)
-		return EMPTYBUFFER;
+		return empty_buffer();
 	if (lnext(current_line) == NULL)
-		return ENDOFBUFFER;
+		return endof_buffer();
 	if (can_scroll(MOVE_DOWN)) {
 		scroll(MOVE_DOWN,1);
 	} else
@@ -90,10 +90,10 @@ int move_nextline(int f, int n)
 int move_prevline(int f, int n)
 {
 	if (current_line == NULL || curbp->lcount == 0)
-		return EMPTYBUFFER;
+		return empty_buffer();;
 
 	if (lprev(current_line) == NULL)
-		return TOPOFBUFFER;
+		return topof_buffer();
 	if (can_scroll(MOVE_UP)) {
 		scroll(MOVE_UP,1);
 	} else 
@@ -108,7 +108,7 @@ int move_prevline(int f, int n)
 int next_char(int f, int n)
 {
 	if (current_line == NULL || curbp->lcount == 0)
-		return EMPTYBUFFER;
+		return empty_buffer();
 	if (curbp->coffset < current_line->len) {
 		if (jump_tab(MOVE_RIGHT) == false)
 			cursor_col++;
@@ -120,7 +120,7 @@ int next_char(int f, int n)
 		 *	otherwise go to next line and set cursor col to 1
 		 */
 		if (lnext(current_line) == NULL)
-			return ENDOFBUFFER;
+			return endof_buffer();
 		cursor_col = 1;
 		curbp->coffset = 0;
 		move_nextline(0,0);
@@ -131,7 +131,7 @@ int next_char(int f, int n)
 int prev_char(int f, int n)
 {
 	if (current_line == NULL || curbp->lcount == 0)
-		return EMPTYBUFFER;
+		return empty_buffer();
 	if (curbp->coffset > 0) {
 		curbp->coffset--;
 		if (jump_tab(MOVE_LEFT) == false)
@@ -144,7 +144,7 @@ int prev_char(int f, int n)
 		 * 	then set cursor col to next line (it's current line now) length
 		 */
 		if (lprev(current_line) == NULL)
-			return TOPOFBUFFER;
+			return topof_buffer();
 		move_prevline(0,0);
 		cursor_col = line_length(current_line) + 1; 
 		curbp->coffset = current_line->len;

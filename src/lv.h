@@ -24,4 +24,8 @@ void init_editor();
  */
 int close_editor(int,int);
 
+int empty_buffer();
+int endof_buffer();
+int topof_buffer();
+
 #endif

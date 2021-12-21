@@ -65,7 +65,7 @@ int backword(int f, int n)
 int gotoeol(int f, int n) 
 {
 	if (current_line == NULL || curbp->lcount == 0)
-		return EMPTYBUFFER;
+		return empty_buffer();
 	curbp->coffset = current_line->len;
 	cursor_col = line_length(current_line) + 1;
 	return true;
@@ -77,7 +77,7 @@ int gotoeol(int f, int n)
 int gotosol(int f, int n) 
 {
 	if (current_line == NULL || curbp->lcount == 0)
-		return EMPTYBUFFER;
+		return empty_buffer();
 	curbp->coffset = 0;
 	cursor_col = 1;
 	return true;
