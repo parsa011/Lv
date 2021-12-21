@@ -238,7 +238,7 @@ void write_messagebar()
 		TTmove(messagebar_start_offset,1);
 	TTeeol();
 	if (msgbag.timer) {
-		if (time(NULL) - msgbag.msg_time < 5) {
+		if (time(NULL) - msgbag.msg_time < msgbar_msg_time) {
 			TTputs(msgbag.message);		
 		}
 	} else 

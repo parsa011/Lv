@@ -9,6 +9,7 @@
 #include "types.h"
 
 int tab_size = 4;
+int msgbar_msg_time = 4;
 
 /*
  * close editor command , if force is 1 , so we will close editor without

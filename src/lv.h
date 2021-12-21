@@ -5,6 +5,7 @@
 #define EDITOR_TITLE "PMS " EDITOR_VERSION
 
 extern int tab_size;
+extern int msgbar_msg_time;
 
 /*
  *	main loop of program , get key and insert it into buffer

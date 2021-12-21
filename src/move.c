@@ -68,7 +68,10 @@ bool can_scroll(int dir)
 }
 
 /*
- * move cursor to next line
+ * 	move cursor to next line
+ * 	and also check if we are not at start of buffer (very first line)
+ * 	and if cursro_row + 1 will goes into next section , instead of
+ * 	moving next line , will scroll down
  */
 int move_nextline(int f, int n)
 {
@@ -87,6 +90,12 @@ int move_nextline(int f, int n)
 	return true;
 }
 
+/*
+ *	move cursor to next line , but before that will check if we are not 
+ *	at the end of buffer
+ *	and also check if cursor_row - 1 will goes to prev section in editor
+ *	if it goes , it will scroll top instead of moving cursor
+ */
 int move_prevline(int f, int n)
 {
 	if (current_line == NULL || curbp->lcount == 0)
