@@ -34,6 +34,8 @@ int generate_basic_macros()
 	append_macro(init_macro('b',backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
 	append_macro(init_macro('$',gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
 	append_macro(init_macro('^',gotosol,(MDLOCK | MDVISL | MDVIEW),"move to start of line"));
+	append_macro(init_macro(SPEC | '6',move_nextpage,(ALLMODES),"move to next page"));
+	append_macro(init_macro(SPEC | '5',move_prevpage,(ALLMODES),"move to next page"));
 
 	append_macro(init_macro('o',line_new_down,(MDLOCK),"new line down"));
 	append_macro(init_macro('O',line_new_up,(MDLOCK),"new line top"));

@@ -82,3 +82,32 @@ int gotosol(int f, int n)
 	cursor_col = 1;
 	return true;
 }
+
+/*
+ *	move to next page , scroll down until reach it :)
+ */
+int move_nextpage(int f, int n)
+{
+	if (n < 0)
+		return move_prevpage(f,-n);
+	while (n--) {
+		int temp = statusbar_start_offset - windowsbar_start_offset; // how many row we have for buffers	
+		for (int i = 0;i < temp;i++)
+			if (!move_nextline(true,1))
+				return false;
+	}
+	return true;
+}
+
+int move_prevpage(int f,int n)
+{
+	if (n < 0)
+		return move_nextpage(f,-n);
+	while (n--) {
+		int temp = statusbar_start_offset - windowsbar_start_offset; // how many row we have for buffers	
+		for (int i = 0;i < temp;i++)
+			if (!move_prevline(true,1))
+				return false;
+	}
+	return true;
+}

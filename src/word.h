@@ -17,4 +17,7 @@ int word_count();
 int gotoeol(int,int);
 int gotosol(int,int);
 
+int move_nextpage(int,int);
+int move_prevpage(int,int);
+
 #endif
