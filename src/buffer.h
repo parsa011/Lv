@@ -71,6 +71,5 @@ int set_lock_mode(int, int);
 int set_visual_mode(int, int);
 int set_insert_mode(int, int);
 int set_command_mode(int, int);
-void leave_prompt_mode();
 
 #endif

@@ -34,12 +34,26 @@ struct msg_bag_t {
 	int timer;
 };
 
+extern prompt_key *fprompt_key;
+extern prompt_key *lprompt_key;
+
+struct prompt_key_t {
+	LINK(prompt_key) link;
+	int key;
+	int (*func)(int,int); /* function to run */
+};
+
+void generate_prompt_keys();
+int change_prompt_key(int,int (*)(int,int));
+prompt_key *get_prompt_key(int);
+int leave_prompt_mode(int,int);
+int prompt_enter_key(int,int);
+int prompt_tab_key(int,int);
 
 /*
  *	this function will initilize and append all of basic macros
  */
 int generate_basic_macros();
-
 
 int generate_basic_commands();
 

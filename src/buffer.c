@@ -26,6 +26,7 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	bf->flags = flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
 	bf->coffset = bf->clindex = bf->mtop = bf->mleft = 0;
+	bf->flags |= FREDRW;
 	return bf;
 }
 
@@ -109,13 +110,4 @@ int set_command_mode(int f, int n)
 {
 	set_mode_for_buffer(MDCMMD);
 	msgbar_cursor_col = 2;
-}
-
-/*
- *	when user cancelec insertin char in prompt mode (or command mode or ..)
- *	will change buffer mode to lock 
- */
-void leave_prompt_mode()
-{
-	set_mode_for_buffer(MDLOCK);
 }

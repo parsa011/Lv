@@ -38,8 +38,13 @@ void init_editor()
 	set_window_title(TERMINAL_TITLE);
 	generate_basic_macros();
 	generate_basic_commands();
+	generate_prompt_keys();
 }
 
+/*
+ *	main loop of editor
+ *	get key and run it if was command , or insert it into buffer
+ */
 void lv_loop()
 {
 	int c;
@@ -63,7 +68,7 @@ void lv_loop()
 				macro = NULL;
 				wusmode(curbp,WFEDIT);
 			} else {
-				char key[10];
+				char key[5];
 				cmdstr(c,key);
 				showmsg(true,"key %s not found",key);
 			}

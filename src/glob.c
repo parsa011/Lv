@@ -5,6 +5,9 @@ window *curwp;		/* Current window   */
 buffer *curbp;		/* Current buffer   */
 msg_bag msgbag;		/* global msg bag	*/
 
+prompt_key *fprompt_key;
+prompt_key *lprompt_key;
+
 // prompt from message bar statuses
 int msgbar_cursor_col = 1;
 char msgbar_prompt[PROMPT_MAX_LENGTH];
@@ -17,7 +20,7 @@ int generate_basic_macros()
 {
 	//change buffer mode functions
 	append_macro(init_macro('i',set_insert_mode,MDLOCK,"insert mode"));
-	append_macro(init_macro(CONTROL | '[',set_lock_mode,MDINST,"lock mode"));
+	append_macro(init_macro(ESCAPE_KEY,set_lock_mode,MDINST,"lock mode"));
 	append_macro(init_macro('v',set_visual_mode,MDLOCK,"visual mode"));
 	append_macro(init_macro(':',set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
@@ -58,47 +61,18 @@ int generate_basic_commands()
 	return commands_count;
 }
 
+void generate_prompt_keys()
+{
+	change_prompt_key(ESCAPE_KEY,leave_prompt_mode);
+	change_prompt_key(ENTER_KEY,prompt_enter_key);
+	change_prompt_key(TAB_KEY,prompt_tab_key);
+}
+
 /*
  *	after user press key in insert mode , we will check for c
  *	and we do the work related to the entered character
  *	for example if given key is new line , so we will call add
- * 	new line function , or it was backslash , we will delete char and ...
- */
-int manage_insert_key(int c)
-{
-	/* enter */
-	if (c == CTRL_KEY('m'))
-		line_new(false);
-	else if (c == 127)
-		line_del_char();
-	else if (c == CTRL_KEY('i')) /* tab */
-		line_ins_char('\t');
-	else if (c == (SPEC | '3'))
-		line_del_next();
-	else 
-		line_ins_char(c);
-	return true;
-}
-
-/*
- *	when buffer is in command mode or function mode or prompt mode
- *	this function will handle user inputs , store inputs and move
- *	cursor in message bar
- */
-int manage_prompt_key(int c)
-{
-	if (c == (CONTROL | '[')) {
-		msgbar_prompt_p = 0;
-		msgbar_cursor_col = 1;
-		leave_prompt_mode();
-	}
-	if (c == 127 && msgbar_prompt_p > 0) {
-		msgbar_prompt_p--;
-		msgbar_cursor_col--;
-	} else if (isdigit(c) || isalpha(c)){
-		msgbar_prompt[msgbar_prompt_p++] = c;
-		msgbar_cursor_col++;
-	} else if (c == (CTRL_KEY('m'))) {
+ * 	new line function , or it was backslash , we will delete char if (c == (CTRL_KEY('m'))) {
 		if (bmtest(curbp,MDCMMD)) {
 			command *cmd = find_command(msgbar_prompt);
 			if (cmd == NULL) {
@@ -108,8 +82,115 @@ int manage_prompt_key(int c)
 				cmd->func(true,1);
 			}
 		}
+	}nd ...
+ */
+int manage_insert_key(int c)
+{
+	/* enter */
+	if (c == ENTER_KEY)
+		line_new(false);
+	else if (c == 127)
+		line_del_char();
+	else if (c == TAB_KEY) /* tab */
+		line_ins_char('\t');
+	else if (c == (SPEC | '3'))
+		line_del_next();
+	else 
+		line_ins_char(c);
+	return true;
+}
+
+/*
+ *	when user cancelec insertin char in prompt mode (or command mode or ..)
+ *	will change buffer mode to lock 
+ */
+int leave_prompt_mode(int f, int n)
+{
+	msgbar_prompt_p = 0;
+	msgbar_cursor_col = 1;
+	set_mode_for_buffer(MDLOCK);
+	curbp->flags &= FREDRW;
+	// set prompt keys to default
+	generate_prompt_keys();
+}
+
+int prompt_enter_key(int f,int n)
+{
+	if (bmtest(curbp,MDCMMD)) {
+		command *cmd = find_command(msgbar_prompt);
+		if (cmd == NULL) {
+			showmsg(false,"(command not found)");
+			msgbag.timer = true;
+		} else {
+			cmd->func(true,1);
+		}
+	}
+}
+
+int prompt_tab_key(int f,int n) 
+{
+	TTmove(buffers_start_offset,1);
+	command *cmd = fcommand;
+	for (int i = 0;i < statusbar_start_offset - windowsbar_start_offset - 1;i++) {
+		TTeeol();
+		if (cmd != NULL) {
+			TTputs(cmd->name);
+			cmd = cmd->link.next;
+		}
+		TTputs("\r\n");
+	}
+}
+
+/*
+ *	when buffer is in command mode or function mode or prompt mode
+ *	this function will handle user inputs , store inputs and move
+ *	cursor in message bar
+ */
+int manage_prompt_key(int c)
+{
+	prompt_key *pk = get_prompt_key(c);
+	if (pk != NULL) {
+		pk->func(true,1);
+		return true;
+	}
+	if (isdigit(c) || isalpha(c)){
+		msgbar_prompt[msgbar_prompt_p++] = c;
+		msgbar_cursor_col++;
+		return true;
+	} else if (c == 127 && msgbar_prompt_p > 0) {
+		msgbar_prompt_p--;
+		msgbar_cursor_col--;
 	}
 	msgbar_prompt[msgbar_prompt_p] = '\0';
+	return true;
+}
+
+int change_prompt_key(int key,int (*func)(int,int)) {
+	for (prompt_key *pk = fprompt_key;pk != NULL;pk = pk->link.next) {
+		if (pk->key == key) {
+			pk->func = func;
+			return true;
+		}
+	}
+	prompt_key *pk = (prompt_key *)malloc(sizeof(prompt_key));
+	pk->func = func;
+	pk->key = key;
+	if (fprompt_key == NULL) {
+		fprompt_key = pk;
+	} else {
+		lprompt_key->link.next = pk;
+	}
+	lprompt_key = pk;
+	return true;
+}
+
+prompt_key *get_prompt_key(int key)
+{
+	for (prompt_key *pk = fprompt_key;pk != NULL;pk = pk->link.next) {
+		if (pk->key == key)
+			return pk;
+	}
+	return NULL;
 }
 
 /*

@@ -18,7 +18,6 @@ struct window_t {
 	LINK(window) link;		/* Doubly-linked list of windows 			*/
 	buffer *fbuffer;		/* buffers in this window 					*/
 	int bcount;				/* total buffers count in this window 		*/
-	//buffer *cb;			/* current buffer (active) 					*/
 	int cbindex;			/* index of current buffer (active buffer)  */	
 	char flags;				/* flags that holds state of window 		*/
 	int crow;				/* cursor row in this window				*/

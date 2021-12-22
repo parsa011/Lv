@@ -130,8 +130,7 @@ void update()
  */
 void write_windows()
 {
-	if (cursor_row != windowsbar_start_offset || cursor_col != 1)
-		TTmove(windowsbar_start_offset,1);
+	TTmove(windowsbar_start_offset,1);
 	TTeeol();
 	TTputs(INVERT);
 	char temp[256];
@@ -166,8 +165,7 @@ void write_windows()
  */
 void write_buffer()
 {
-	if (cursor_row != buffers_start_offset || cursor_col != 1)
-		TTmove(buffers_start_offset,1);
+	TTmove(buffers_start_offset,1);
 	int count = 0;
 	for (line *ln = curbp->hline;count < curbp->nrow;count++) {
 		if (ln != NULL) {
@@ -211,8 +209,7 @@ void write_line(line *ln)
  */
 void write_statusbar()
 {
-	if (cursor_row != statusbar_start_offset || cursor_col != 1)
-		TTmove(statusbar_start_offset,1);
+TTmove(statusbar_start_offset,1);
 	TTeeol();
 	TTputs(INVERT);
 	char lstatus[256];
@@ -235,8 +232,7 @@ void write_statusbar()
 
 void write_messagebar()
 {
-	if (cursor_row != messagebar_start_offset || cursor_col != 1)
-		TTmove(messagebar_start_offset,1);
+	TTmove(messagebar_start_offset,1);
 	TTeeol();
 	if (bmtest(curbp,MDCMMD)) {
 		TTputs(":");
@@ -254,8 +250,7 @@ void write_messagebar()
 
 void showmsg(bool timer, char *msg,...)
 {
-	if (cursor_row != messagebar_start_offset || cursor_col != 1)
-		TTmove(messagebar_start_offset,1);
+	TTmove(messagebar_start_offset,1);
 	if (timer) {
 		msgbag.timer = true;
 		msgbag.msg_time = time(NULL);

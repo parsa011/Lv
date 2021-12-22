@@ -16,6 +16,10 @@
 #define CTLX    0x40000	/* ^X flag, or'ed in            */
 #define	SPEC	0x80000	/* special key (function keys)  */
 
+#define ESCAPE_KEY (CONTROL | '[')
+#define ENTER_KEY (CONTROL | 'M')
+#define TAB_KEY (CONTROL | 'I')
+
 // convert a normal key into its ^k
 // note that given k should uppercase , if itsn't upper ,  we will
 // convert it :)

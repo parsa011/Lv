@@ -50,6 +50,7 @@ typedef struct window_t window;
 typedef struct key_macro_t key_macro;
 typedef struct command_t command;
 typedef struct msg_bag_t msg_bag;
+typedef struct prompt_key_t prompt_key;
 typedef struct terminal_t terminal;
 
 #include "color.h"
