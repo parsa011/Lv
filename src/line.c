@@ -143,6 +143,7 @@ void line_ins_char(char c)
 	lputc(current_line,curbp->coffset,c);
 	lputc(current_line,current_line->len,'\0');
 	next_char(1,1);
+	curbp->flags |= FREDRW;
 }
 
 /*
@@ -154,6 +155,7 @@ void line_append(line *ln,char *s,int len)
 	memcpy(&ln->chars[ln->len],s,len);
 	ln->len += len;
 	ln->chars[ln->len] = '\0';
+	curbp->flags |= FREDRW;
 }
 
 /*
@@ -185,18 +187,23 @@ void line_del_char()
 	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
 	current_line->len--;
 	prev_char(1,1);
+	curbp->flags |= FREDRW;
 }
 
 void line_del_next()
 {
-	if (next_char(true,1))
-		line_del_char();;
+	if (next_char(true,1)) {
+		line_del_char();
+		curbp->flags |= FREDRW;
+	}
 }
 
 int delete_current_char(int f,int n)
 {
-	next_char(true,1);
-	line_del_char();
+	if (next_char(true,1)) {
+		line_del_char();
+		curbp->flags |= FREDRW;
+	}
 }
 
 /*
