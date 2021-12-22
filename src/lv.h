@@ -28,5 +28,6 @@ int close_editor(int,int);
 int empty_buffer();
 int endof_buffer();
 int topof_buffer();
+int file_notfound();
 
 #endif

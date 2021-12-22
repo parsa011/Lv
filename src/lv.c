@@ -93,6 +93,12 @@ int empty_buffer()
 	return EMPTYBUFFER;
 }
 
+int file_notfound()
+{
+	showmsg(true,"file not found !!");
+	return FNOTF;
+}
+
 int main(int argc,char *argv[])
 {
 	// initialize the terminal , and activate raw mode
