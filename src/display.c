@@ -209,7 +209,7 @@ void write_line(line *ln)
  */
 void write_statusbar()
 {
-TTmove(statusbar_start_offset,1);
+	TTmove(statusbar_start_offset,1);
 	TTeeol();
 	TTputs(INVERT);
 	char lstatus[256];
@@ -248,11 +248,15 @@ void write_messagebar()
 	}
 }
 
+/*
+ *	write msg to msgbag messages and set timer for
+ *	it if needed
+ */
 void showmsg(bool timer, char *msg,...)
 {
 	TTmove(messagebar_start_offset,1);
-	if (timer) {
-		msgbag.timer = true;
+	msgbag.timer = timer;
+	if (timer) {	
 		msgbag.msg_time = time(NULL);
 	}
 	va_list ap;

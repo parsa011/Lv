@@ -109,7 +109,7 @@ int leave_prompt_mode(int f, int n)
 	msgbar_prompt_p = 0;
 	msgbar_cursor_col = 1;
 	set_mode_for_buffer(MDLOCK);
-	curbp->flags &= FREDRW;
+	write_buffer();
 	// set prompt keys to default
 	generate_prompt_keys();
 }
