@@ -191,6 +191,8 @@ void write_line(line *ln)
 			for (int i = 0;i < tab_size;i++) {
 				TTputc(' ');
 			}
+		} else if (iscntrl(*temp)) {
+			TTputc(*temp <= 26 ? '@' + *temp : '?');
 		} else
 			TTputc(*temp);
 		*temp++;
@@ -200,8 +202,8 @@ void write_line(line *ln)
 
 /*
  *	write left status and right into status bar
- *	we use llen and rlen to detect size of wrote chars,
- *	first we will write lstatus , then increase llen ,
+ *	we use llen and rlen to detect size of wroted chars,
+ *	first we will write lest status , then increase llen ,
  *	until the sum of its size with the length on the right
  *	be equal to the size of terminal col, then we will write
  *	other one but if sum of them is less than terminal col size ,
