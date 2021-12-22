@@ -113,3 +113,43 @@ int move_prevpage(int f,int n)
 	}
 	return true;
 }
+
+int find_sibling(int f,int n)
+{
+	if (current_line == NULL)
+		return empty_buffer();
+	int cur_char_index = get_twin_char_index(lgetc(current_line,curbp->coffset));	
+	if (cur_char_index == -1) {
+		showmsg(true,"can not find sibling of this char");
+		return false;
+	}
+	bool odd = cur_char_index % 2 != 0;
+	char twin = twin_chars[odd ? cur_char_index - 1: cur_char_index + 1];
+	bool same_char = twin == twin_chars[cur_char_index];
+	int count = 1;
+	bool done = true;
+	int clindex = curbp->clindex;
+	while (true) {
+		if (odd) {
+			if (prev_char(true,1) != true)
+				done = false;
+		}
+		else {
+			if (next_char(true,1) != true)
+				done = false;
+		}
+
+		if (!same_char && lgetc(current_line,curbp->coffset) == twin_chars[cur_char_index])
+			count++;
+		else if (lgetc(current_line,curbp->coffset) == twin)
+			count--;
+		if (count == 0)
+			break;
+		if (done == false) {
+			// TODO : goto line here for back to saved line
+			showmsg(true,"can not find sibling , check out your code again :)");
+			break;
+		}
+	}
+	return done;
+}

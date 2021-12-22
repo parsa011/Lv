@@ -20,4 +20,6 @@ int gotosol(int,int);
 int move_nextpage(int,int);
 int move_prevpage(int,int);
 
+int find_sibling(int,int);
+
 #endif

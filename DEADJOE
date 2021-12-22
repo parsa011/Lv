@@ -1,0 +1,65 @@
+
+*** These modified files were found in JOE when it aborted on Wed Dec 22 15:42:00 2021
+*** JOE was aborted because the terminal closed
+
+*** File 'test/input.txt'
+asdfkasjdfkasjdfkajsdf
+asdkfjaskdfjaskdfas
+dfaskdfjaskdfjasd
+fas
+dfa
+sdf
+as
+dfas
+df
+
+
+asdfas
+dfas
+df
+asdf
+as
+dfas
+df
+asdf
+a
+sdf
+as
+dfa
+asdfasdfadasdfasdff  asd fasd fasdf asdff asdf asdf asdf asdf
+{
+
+as
+df a
+
+*** File '(Unnamed)'
+1
+2
+
+*** File '(Unnamed)'
+mouse
+mouse-support
+line
+lindent
+line
+line
+line
+
+*** File '(Unnamed)'
+* Startup Log *
+* Shell 1 *
+* Startup Log *
+* Shell 1 *
+* Startup Log *
+* Shell 1 *
+* Startup Log *
+* Shell 4 *
+* Grep Log *
+practice.c.lock~
+test/input.txt
+
+*** File '* Startup Log *'
+Processing '/etc/joe/joerc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/joerc

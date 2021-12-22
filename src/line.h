@@ -83,4 +83,6 @@ int line_new_up(int,int);
  *	replace current char under the cursor with given char
  */
 void line_rep_char(char);
+
+line *get_line_by_index(int);
 #endif

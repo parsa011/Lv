@@ -29,4 +29,7 @@ void shift_left(char*,int,int);
 
 void cmdstr(int,char *);
 
+extern char twin_chars[];
+int get_twin_char_index(int);
+
 #endif

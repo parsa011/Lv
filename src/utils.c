@@ -174,3 +174,19 @@ void cmdstr(int c, char *seq)
 
 	*ptr = 0;		/* terminate the string */
 }
+
+char twin_chars[] = {
+	'"','"',
+	'\'','\'',
+	'(',')',
+	'[',']',
+	'{','}'
+};
+
+int get_twin_char_index(int c)
+{
+	for (int i = 0;i < ARRAY_LENGTH(twin_chars);i++)
+		if (twin_chars[i] == c)
+			return i;
+	return -1;
+}
