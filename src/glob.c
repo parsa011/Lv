@@ -100,7 +100,7 @@ int manage_prompt_key(int c)
 		if (bmtest(curbp,MDCMMD)) {
 			command *cmd = find_command(msgbar_prompt);
 			if (cmd == NULL) {
-				sprintf(msgbag.message,"(command not found)");
+				showmsg(true,"(command not found)");
 				msgbag.timer = true;
 			} else {
 				cmd->func(true,1);
