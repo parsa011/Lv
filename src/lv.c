@@ -99,6 +99,12 @@ int file_notfound()
 	return FNOTF;
 }
 
+int read_only()
+{
+	showmsg(true,"buffer is read only");
+	return false;
+}
+
 int main(int argc,char *argv[])
 {
 	// initialize the terminal , and activate raw mode

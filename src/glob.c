@@ -54,6 +54,7 @@ int generate_basic_macros()
 int generate_basic_commands()
 {
 	append_command(init_command("q",close_editor,0));
+	append_command(init_command("w",save_file,0));
 	return commands_count;
 }
 
@@ -101,7 +102,7 @@ int manage_prompt_key(int c)
 		if (bmtest(curbp,MDCMMD)) {
 			command *cmd = find_command(msgbar_prompt);
 			if (cmd == NULL) {
-				showmsg(true,"(command not found)");
+				showmsg(false,"(command not found)");
 				msgbag.timer = true;
 			} else {
 				cmd->func(true,1);

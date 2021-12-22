@@ -39,17 +39,18 @@ struct buffer_t {
 #define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
 
 /* buffer flags */
-#define FFULLS	0x0001 		/* full size buffer  */
-#define FVTBUF	0x0002		/* vertical buffer	 */
-#define FHRBUF	0x0004		/* horizontal buffer */
+#define FFULLS	0x0001 	/* full size buffer  */
+#define FVTBUF	0x0002	/* vertical buffer	 */
+#define FHRBUF	0x0004	/* horizontal buffer */
+#define FREDRW	0x0008	/* buffer need redraw*/
 
 /* mode for buffers */
-#define	MDLOCK	0x0001		/* lock mode                     */
-#define MDINST  0x0002		/* insert mode					 */
-#define MDVISL 	0x0004		/* visual mode					 */
-#define	MDVIEW	0x0008		/* read-only buffer              */
-#define	MDASAVE	0x0010		/* auto-save mode                */
-#define MDCMMD 	0x0020		/* typing command mode			 */
+#define	MDLOCK	0x0001	/* lock mode                     */
+#define MDINST  0x0002	/* insert mode					 */
+#define MDVISL 	0x0004	/* visual mode					 */
+#define	MDVIEW	0x0008	/* read-only buffer              */
+#define	MDASAVE	0x0010	/* auto-save mode                */
+#define MDCMMD 	0x0020	/* typing command mode			 */
 
 /* this is usefull for macros , when they are avaiable in all modes */
 #define ALLMODES (MDLOCK | MDINST | MDVISL | MDVIEW)	
@@ -58,7 +59,7 @@ struct buffer_t {
 //#define	MDSPELL	0x0004		/* spell error parsing           */
 //#define	MDEXACT	0x0008		/* exact matching for searches   */
 //#define MDOVER	0x0020		/* overwrite mode                */
-//#define MDMAGIC	0x0040		/* regular expressions in search  */
+//#define MDMAGIC	0x0040		/* regular expressions in search */
 
 buffer *init_buffer(char *, char *, short, short);
 void append_buffer(buffer *);

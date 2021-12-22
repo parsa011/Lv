@@ -106,7 +106,10 @@ void update()
 	TTchide();
 	TTmove(0,0);
 	write_windows();
-	write_buffer();
+	if (curbp->flags & FREDRW) {
+		write_buffer();
+		curbp->flags &= ~FREDRW;
+	}
 	write_statusbar();
 	write_messagebar();
 	check_cursor();
@@ -248,8 +251,10 @@ void write_messagebar()
 		if (time(NULL) - msgbag.msg_time < msgbar_msg_time) {
 			TTputs(msgbag.message);		
 		} 
-	} else 
+	} else {
 		TTputs(msgbag.message);
+		msgbag.message[0] = '\0';
+	}
 }
 
 void showmsg(bool timer, char *msg,...)
@@ -264,5 +269,4 @@ void showmsg(bool timer, char *msg,...)
 	va_start(ap, msg);
 	vsnprintf(msgbag.message, MESSAGE_MAX_LENGTH, msg, ap);
 	va_end(ap);
-
 }

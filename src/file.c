@@ -30,3 +30,18 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 	free(line_chars);
 	fclose(fp);
 }
+
+/*
+ *	save buffer lines into associated file
+ */
+int save_file(int f,int n)
+{
+	if (bmtest(curbp,MDVIEW)) {
+		return read_only();
+	}
+	if (curbp->fname[0] == 0) {
+		showmsg(false,"(buffer should have a name to save)");
+		return false;
+	}
+	return true;
+}

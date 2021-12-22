@@ -51,6 +51,7 @@ int append_line(buffer *buf,line *ln)
 	/* I think this line don't need any comment , but to be sure : increase total count of buffer lines */
 	buf->lline = ln;
 	buf->lcount++;
+	curbp->flags |= FREDRW;
 }
 
 /*
@@ -88,6 +89,7 @@ int line_new(int force)
 		move_nextline(0,0);
 		curbp->lcount++;
 	}
+	curbp->flags |= FREDRW;
 	return true;
 }
 
@@ -252,4 +254,5 @@ ret:
 	curbp->clindex--;
 	curbp->lcount--;
 	free(ln);
+	curbp->flags |= FREDRW;
 }

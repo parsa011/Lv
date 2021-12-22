@@ -131,8 +131,10 @@ int move_prevpage(int f,int n)
  * 	also when we are moving , we will check new chars , if it was like 
  * 	first char , we will increase count variable , otherwise if it was
  * 	twin one , we will decrease. 
+ * 	NOTE : sometimes siblings are same , like quote chars , we have to 
+ * 	check for them when we want to increase count variable
  * 	at the end check count variable , if was 0 , so we founded twin char , 
- * 	and just break loop. 
+ * 	and just break the loop. 
  * 	sometimes we cant find other one, means count is bigger than 0
  * 	so we will break the loop and will show a message to user that 
  * 	says : we cant find and ...

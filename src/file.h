@@ -20,4 +20,9 @@
  */
 int load_file_into_buffer(buffer *,char *);
 
+/*
+ * save buffer and write lines into associated file
+ */
+int save_file(int,int);
+
 #endif

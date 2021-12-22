@@ -46,7 +46,7 @@ void update_position()
  */
 int scroll(int dir, int times)
 {
-	for (int i = 0;i < times;i++) {
+	for (;0 < times;times--) {
 		if (dir == MOVE_DOWN) {
 			if (lnext(curbp->hline) != NULL)
 				curbp->hline = lnext(curbp->hline);
@@ -54,6 +54,7 @@ int scroll(int dir, int times)
 			if (lprev(curbp->hline) != NULL)
 				curbp->hline = lprev(curbp->hline);
 		}
+		curbp->flags |= FREDRW;
 	}
 }
 
