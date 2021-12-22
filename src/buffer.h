@@ -18,11 +18,12 @@ struct buffer_t {
 	line *lline;			/* last line of buffer 										 */
 	line *hline;			/* header line in this view (or page) 						 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
-	int clindex;			/* current line index */
+	int clindex;			/* current line index 										 */
 	int lcount;				/* total count of buffer lines 								 */
-	int loffset;			/* passed lines 											 */
-	char fname[NFILEN];		/* file name 												 */
-	char bname[NBUFN];		/* buffer name 												 */
+	int loffset;			/* passed lines (how much we scrolled down)					 */
+	int nrow;				/* n number of row avaiable in this buffer					 */
+	char fname[NFILEN];		/* file name (full path of name)							 */
+	char bname[NBUFN];		/* buffer name (just for show , contains just file name)	 */
 	short flags;			/* flags for buffer like size flags and ...					 */
 	ushort modes;			/* modes of this buffer 									 */
 	int coffset;			/* char offset in line ( how many char passed )				 */

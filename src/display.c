@@ -106,8 +106,10 @@ void update()
 	TTchide();
 	TTmove(0,0);
 	write_windows();
+	// check if buffer need to redraw ot not
 	if (curbp->flags & FREDRW) {
 		write_buffer();
+		// cause we draw buffer again , so dont need it anymore , until another change
 		curbp->flags &= ~FREDRW;
 	}
 	write_statusbar();
@@ -119,13 +121,6 @@ void update()
 		TTmove(cursor_row,cursor_col);
 	TTcshow();
 	TTflush();
-	// ===========================================
-	// + set cursor to 0,0
-	// + write windows on top (tabs)
-	// + write buffer into screen
-	// + write status bar
-	// + create a place for message bar
-	// ===========================================
 }
 
 /*
@@ -174,7 +169,7 @@ void write_buffer()
 	if (cursor_row != buffers_start_offset || cursor_col != 1)
 		TTmove(buffers_start_offset,1);
 	int count = 0;
-	for (line *ln = curbp->hline;count < statusbar_start_offset - buffers_start_offset - 1;count++) {
+	for (line *ln = curbp->hline;count < curbp->nrow;count++) {
 		if (ln != NULL) {
 			write_line(ln);
 			ln = lnext(ln);

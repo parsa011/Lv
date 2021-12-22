@@ -30,6 +30,7 @@ int close_editor(int focre, int code)
  */
 void init_editor()
 {
+	init_term();
 	curwp = init_window();
 	firstwp = curwp;
 	curbp = init_buffer("",NO_NAME_BUFFER,0,0);
@@ -37,7 +38,6 @@ void init_editor()
 	set_window_title(TERMINAL_TITLE);
 	generate_basic_macros();
 	generate_basic_commands();
-	init_term();
 }
 
 void lv_loop()
@@ -46,11 +46,7 @@ void lv_loop()
 	key_macro *macro = NULL;
 	do {
 		update();
-		//if (!bmtest(curbp,MDINST)) {
-			c = get_cmd();
-		//}
-		//else 
-		//	c = get_key();
+		c = get_cmd();
 		if (bmtest(curbp,MDCMMD)) {
 			manage_prompt_key(c);
 			continue;
