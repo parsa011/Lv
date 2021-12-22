@@ -5,6 +5,11 @@ window *curwp;		/* Current window   */
 buffer *curbp;		/* Current buffer   */
 msg_bag msgbag;		/* global msg bag	*/
 
+// prompt from message bar statuses
+int msgbar_cursor_col = 1;
+char msgbar_prompt[PROMPT_MAX_LENGTH];
+int msgbar_prompt_p = 0;
+
 int metac = SPEC | 'P';	/* current meta character 		 */
 int ctlxc = CONTROL | 'X';	/* current control X prefix char */
 
@@ -14,6 +19,7 @@ int generate_basic_macros()
 	append_macro(init_macro('i',set_insert_mode,MDLOCK,"insert mode"));
 	append_macro(init_macro(CONTROL | '[',set_lock_mode,MDINST,"lock mode"));
 	append_macro(init_macro('v',set_visual_mode,MDLOCK,"visual mode"));
+	append_macro(init_macro(':',set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
 	append_macro(init_macro(CTRL_KEY('q'),close_editor,(ALLMODES),"close editor"));
 
@@ -64,6 +70,28 @@ int manage_insert_key(int c)
 	else 
 		line_ins_char(c);
 	return true;
+}
+
+/*
+ *	when buffer is in command mode or function mode or prompt mode
+ *	this function will handle user inputs , store inputs and move
+ *	cursor in message bar
+ */
+int manage_prompt_key(int c)
+{
+	if (c == (CONTROL | '[')) {
+		msgbar_prompt_p = 0;
+		msgbar_cursor_col = 1;
+		leave_prompt_mode();
+	}
+	if (c == 127 && msgbar_prompt_p > 0) {
+		msgbar_prompt_p--;
+		msgbar_cursor_col--;
+	} else {
+		msgbar_prompt[msgbar_prompt_p++] = c;
+		msgbar_cursor_col++;
+	}
+	msgbar_prompt[msgbar_prompt_p] = '\0';
 }
 
 /*

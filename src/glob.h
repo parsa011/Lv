@@ -12,6 +12,12 @@ extern window *curwp;		/* current window   */
 extern buffer *curbp;		/* current buffer   */
 extern msg_bag msgbag;
 
+// prompt from message bar statuses
+#define PROMPT_MAX_LENGTH 1024
+extern int msgbar_cursor_col;
+extern char msgbar_prompt[PROMPT_MAX_LENGTH];
+extern int msgbar_prompt_p;
+
 #define current_line 	curbp->cline
 #define cursor_row 		curwp->crow
 #define cursor_col 		curwp->ccol
@@ -39,6 +45,11 @@ int generate_basic_macros();
  *	for example if it was new line , so we will add new line
  */
 int manage_insert_key(int);
+
+/*
+ *	manager user inputs when we are getting prompt
+ */
+int manage_prompt_key(int);
 
 /*
  * kill the program

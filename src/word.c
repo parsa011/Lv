@@ -12,6 +12,8 @@
  */
 int in_word()
 {
+	if (current_line == NULL)
+		return false;
 	int c;
 	if (curbp->coffset > current_line->len)
 		return false;

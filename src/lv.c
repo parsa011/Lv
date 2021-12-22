@@ -50,6 +50,10 @@ void lv_loop()
 		//}
 		//else 
 		//	c = get_key();
+		if (bmtest(curbp,MDCMMD)) {
+			manage_prompt_key(c);
+			continue;
+		}
 		macro = find_macro(c);
 		if (bmtest(curbp,MDINST) && macro == NULL) {
 			if (c != (c & SPEC) || c != (c & META)) {

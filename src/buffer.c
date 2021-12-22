@@ -71,6 +71,7 @@ void set_mode_for_buffer(int mode)
 	if (mode == MDLOCK) {
 		usmode(curbp,MDVISL);
 		usmode(curbp,MDINST);
+		usmode(curbp,MDCMMD);
 		stmode(curbp,MDLOCK);
 	} else if (mode == MDVISL) {
 		usmode(curbp,MDLOCK);
@@ -102,4 +103,19 @@ int set_insert_mode(int f, int n)
 {
 	set_mode_for_buffer(MDINST);
 	return true;
+}
+
+int set_command_mode(int f, int n)
+{
+	set_mode_for_buffer(MDCMMD);
+	msgbar_cursor_col = 2;
+}
+
+/*
+ *	when user cancelec insertin char in prompt mode (or command mode or ..)
+ *	will change buffer mode to lock 
+ */
+void leave_prompt_mode()
+{
+	set_mode_for_buffer(MDLOCK);
 }

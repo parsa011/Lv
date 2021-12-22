@@ -110,7 +110,10 @@ void update()
 	write_statusbar();
 	write_messagebar();
 	check_cursor();
-	TTmove(cursor_row,cursor_col);
+	if (bmtest(curbp,MDCMMD))
+		TTmove(messagebar_start_offset,msgbar_cursor_col);
+	else
+		TTmove(cursor_row,cursor_col);
 	TTcshow();
 	TTflush();
 	// ===========================================
@@ -237,10 +240,14 @@ void write_messagebar()
 	if (cursor_row != messagebar_start_offset || cursor_col != 1)
 		TTmove(messagebar_start_offset,1);
 	TTeeol();
+	if (bmtest(curbp,MDCMMD)) {
+		TTputs(":");
+		TTputs(msgbar_prompt);
+	}
 	if (msgbag.timer) {
 		if (time(NULL) - msgbag.msg_time < msgbar_msg_time) {
 			TTputs(msgbag.message);		
-		}
+		} 
 	} else 
 		TTputs(msgbag.message);
 }
