@@ -104,7 +104,7 @@ am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
 	glob.$(OBJEXT) utf8.$(OBJEXT) input.$(OBJEXT) line.$(OBJEXT) \
 	move.$(OBJEXT) vt100.$(OBJEXT) display.$(OBJEXT) \
 	buffer.$(OBJEXT) window.$(OBJEXT) file.$(OBJEXT) \
-	macro.$(OBJEXT) word.$(OBJEXT)
+	macro.$(OBJEXT) word.$(OBJEXT) commands.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -122,11 +122,11 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/buffer.Po ./$(DEPDIR)/display.Po \
-	./$(DEPDIR)/file.Po ./$(DEPDIR)/glob.Po ./$(DEPDIR)/input.Po \
-	./$(DEPDIR)/line.Po ./$(DEPDIR)/lv.Po ./$(DEPDIR)/macro.Po \
-	./$(DEPDIR)/move.Po ./$(DEPDIR)/tty.Po ./$(DEPDIR)/utf8.Po \
-	./$(DEPDIR)/utils.Po ./$(DEPDIR)/vt100.Po \
+am__depfiles_remade = ./$(DEPDIR)/buffer.Po ./$(DEPDIR)/commands.Po \
+	./$(DEPDIR)/display.Po ./$(DEPDIR)/file.Po ./$(DEPDIR)/glob.Po \
+	./$(DEPDIR)/input.Po ./$(DEPDIR)/line.Po ./$(DEPDIR)/lv.Po \
+	./$(DEPDIR)/macro.Po ./$(DEPDIR)/move.Po ./$(DEPDIR)/tty.Po \
+	./$(DEPDIR)/utf8.Po ./$(DEPDIR)/utils.Po ./$(DEPDIR)/vt100.Po \
 	./$(DEPDIR)/window.Po ./$(DEPDIR)/word.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
@@ -264,11 +264,11 @@ EXTRA_DIST = TODO
 # sysconf_lvdir = $(sysconfdir)/lv
 # data_lvdir = $(datadir)/lv
 noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h buffer.h move.h \
-					vt100.h display.h window.h file.h color.h word.h
+					vt100.h display.h window.h file.h color.h word.h commands.h
 
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c display.c buffer.c	 \
-					window.c file.c macro.c word.c
+					window.c file.c macro.c word.c commands.c
 
 all: all-am
 
@@ -357,6 +357,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/buffer.Po # am--include-marker
+include ./$(DEPDIR)/commands.Po # am--include-marker
 include ./$(DEPDIR)/display.Po # am--include-marker
 include ./$(DEPDIR)/file.Po # am--include-marker
 include ./$(DEPDIR)/glob.Po # am--include-marker
@@ -521,6 +522,7 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/buffer.Po
+	-rm -f ./$(DEPDIR)/commands.Po
 	-rm -f ./$(DEPDIR)/display.Po
 	-rm -f ./$(DEPDIR)/file.Po
 	-rm -f ./$(DEPDIR)/glob.Po
@@ -581,6 +583,7 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/buffer.Po
+	-rm -f ./$(DEPDIR)/commands.Po
 	-rm -f ./$(DEPDIR)/display.Po
 	-rm -f ./$(DEPDIR)/file.Po
 	-rm -f ./$(DEPDIR)/glob.Po

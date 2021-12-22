@@ -47,9 +47,10 @@
 typedef struct line_t line;
 typedef struct buffer_t buffer;
 typedef struct window_t window;
-typedef struct terminal_t terminal;
 typedef struct key_macro_t key_macro;
+typedef struct command_t command;
 typedef struct msg_bag_t msg_bag;
+typedef struct terminal_t terminal;
 
 #include "color.h"
 #include "macro.h"
@@ -67,4 +68,5 @@ typedef struct msg_bag_t msg_bag;
 #include "display.h"
 #include "file.h"
 #include "word.h"
+#include "commands.h"
 #include "lv.h"

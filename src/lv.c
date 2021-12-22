@@ -17,7 +17,7 @@ int msgbar_msg_time = 4;
  */
 int close_editor(int focre, int code)
 {
-	TTeeop();
+	system("clear");
 	TTmove(1,1);
 	exit(0);
 }
@@ -36,6 +36,7 @@ void init_editor()
 	append_buffer(curbp);
 	set_window_title(TERMINAL_TITLE);
 	generate_basic_macros();
+	generate_basic_commands();
 	init_term();
 }
 

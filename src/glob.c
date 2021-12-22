@@ -50,6 +50,12 @@ int generate_basic_macros()
 	return macros_count;
 }
 
+int generate_basic_commands()
+{
+	append_command(init_command("q",close_editor,0));
+	return commands_count;
+}
+
 /*
  *	after user press key in insert mode , we will check for c
  *	and we do the work related to the entered character
@@ -87,9 +93,19 @@ int manage_prompt_key(int c)
 	if (c == 127 && msgbar_prompt_p > 0) {
 		msgbar_prompt_p--;
 		msgbar_cursor_col--;
-	} else {
+	} else if (isdigit(c) || isalpha(c)){
 		msgbar_prompt[msgbar_prompt_p++] = c;
 		msgbar_cursor_col++;
+	} else if (c == (CTRL_KEY('m'))) {
+		if (bmtest(curbp,MDCMMD)) {
+			command *cmd = find_command(msgbar_prompt);
+			if (cmd == NULL) {
+				sprintf(msgbag.message,"(command not found)");
+				msgbag.timer = true;
+			} else {
+				cmd->func(true,1);
+			}
+		}
 	}
 	msgbar_prompt[msgbar_prompt_p] = '\0';
 }

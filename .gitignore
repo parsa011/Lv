@@ -3,6 +3,7 @@
 *.swp
 test/*.txt
 lv
+src/.deps
 dist/
 autom4te.cache/
 tags

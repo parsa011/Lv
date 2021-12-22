@@ -40,6 +40,9 @@ struct msg_bag_t {
  */
 int generate_basic_macros();
 
+
+int generate_basic_commands();
+
 /*
  *	take a key and check it
  *	for example if it was new line , so we will add new line
