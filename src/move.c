@@ -37,8 +37,7 @@ void check_cursor()
 
 void update_position()
 {
-	int temp_coffset = curbp->coffset;
-	//curbp->coffset = convert_cursorcol_to_coffset(current_line->chars,cursor_col);
+	curbp->coffset = convert_cursorcol_to_coffset(current_line->chars,cursor_col);
 	cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
 }
 
