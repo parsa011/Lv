@@ -18,9 +18,9 @@ extern int msgbar_cursor_col;
 extern char msgbar_prompt[PROMPT_MAX_LENGTH];
 extern int msgbar_prompt_p;
 
-#define current_line 	curbp->cline
-#define cursor_row 		curwp->crow
-#define cursor_col 		curwp->ccol
+#define current_line curbp->cline
+#define cursor_row curwp->crow
+#define cursor_col curwp->ccol
 
 extern int metac;		/* current meta character */
 extern int ctlxc;		/* current control X prefix char */

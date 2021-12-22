@@ -1,14 +1,15 @@
 todo:
-	- jump of tabs when moving cursor
-	- Show file
-	- manager cursor
-	- edit file
-	- create message bar for prompt to user and show messages
 	- save and new file
-	- creating keys combos
 	- get query from message bar
 	- undo and redo
 	- highlight
+
+right now we need to add more commands like save file and open and ...
+but , also we need to parse input from user , for example :
+when user input equals to : set tabsize=4 , we need to tokenize input
+and detect what option user wants to change
+or when input is : o file.txt , we have to get file name and open it 
+it new window
 
 in progress :
 
