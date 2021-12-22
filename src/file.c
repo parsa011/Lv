@@ -15,11 +15,12 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 {
 	FILE *fp = fopen(filepath, "r");
 	/* if file not found , return NOT FOUND */
+	memcpy(curbp->fname,filepath,strlen(filepath));
+	get_filename_of_path(curbp->bname,filepath);
 	if (!fp) 
 		return file_notfound();
 	/* if given buffer is NULL using curbp instead */
 	buf = buf != NULL ? buf : curbp;
-	get_filename_of_path(curbp->bname,filepath);
 	char *line_chars = NULL;
 	size_t linecap = 0;
 	ssize_t linelen;

@@ -107,8 +107,9 @@ void strreverse(char *str)
 
 int get_filename_of_path(char *buf,char *path)
 {
+	char *p = path;
 	char *ch;
-	ch = strtok(path, "/");
+	ch = strtok(p, "/");
 	while (ch != NULL) {
 		strcpy(buf, ch);
 		ch = strtok(NULL, "/");
