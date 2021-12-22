@@ -114,6 +114,31 @@ int move_prevpage(int f,int n)
 	return true;
 }
 
+/*
+ *	find twin char of current char under cursor
+ *	if it was a twin char we will look for it's sibling
+ *	otherwise just showing error to user that this is not twin char
+ *	for check for if current char is twin , we use of twin_char array
+ *	that it twin elements placecs side by side in rows , like this :
+ *
+ *	even	odd
+ *	 {		 }
+ *	 (		 )
+ *
+ * 	for finding sibling , we need to know what is current char , and
+ * 	in what direction we have to move , if current char is even so we
+ * 	have to move a char to rigth , otherwise to left.
+ * 	also when we are moving , we will check new chars , if it was like 
+ * 	first char , we will increase count variable , otherwise if it was
+ * 	twin one , we will decrease. 
+ * 	at the end check count variable , if was 0 , so we founded twin char , 
+ * 	and just break loop. 
+ * 	sometimes we cant find other one, means count is bigger than 0
+ * 	so we will break the loop and will show a message to user that 
+ * 	says : we cant find and ...
+ *	this happens if we cant move any more(move next and prev will return false)
+ *	when 'done' is false we have to back to last position(where the cursor was)
+ */
 int find_sibling(int f,int n)
 {
 	if (current_line == NULL)

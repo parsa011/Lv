@@ -9,12 +9,26 @@
  *	This file is part of Lv
  */
 
+/*
+ *	check if cursor is in a word or not
+ */
 int in_word();
+/*
+ *	move a word , forward 
+ */
 int forwword();
+/*
+ *	move a word , backward
+ */
 int backword();
+/*
+ *	count of words in specified region or buffer
+ */
 int word_count();
 
+/* got to end of line */
 int gotoeol(int,int);
+/* got to start of line */
 int gotosol(int,int);
 
 int move_nextpage(int,int);
