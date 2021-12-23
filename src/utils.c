@@ -190,3 +190,45 @@ int get_twin_char_index(int c)
 			return i;
 	return -1;
 }
+
+char **tokenize_string(char* string, const char d)
+{
+	char **result = 0;
+	size_t count = 0;
+	char *tmp = string;
+	char *last_comma = 0;
+	// convert to char array to user in strtok
+	char delim[2];
+	delim[0] = c;
+	delim[1] = 0;
+	/* count how many elements will be extracted. */
+	while (*tmp) {
+		if (c == *tmp) {
+			count++;
+			last_comma = tmp;
+		}
+		tmp++;
+	}
+
+	/* add space for trailing token. */
+	count += last_comma < (string + strlen(string) - 1);
+
+	/* add space for terminating null string so caller
+	   knows where the list of returned strings ends. */
+	count++;
+
+	result = malloc(sizeof(char*) * count);
+
+	if (result) {
+		size_t idx  = 0;
+		char* token = strtok(string, delim);
+		while (token) {
+			assert(idx < count);
+			*(result + idx++) = strdup(token);
+			token = strtok(0, delim);
+		}
+		assert(idx == count - 1);
+		*(result + idx) = 0;
+	}
+	return result;
+}
