@@ -25,4 +25,6 @@ int load_file_into_buffer(buffer *,char *);
  */
 int save_file(int,int);
 
+int fputline(line *);
+
 #endif

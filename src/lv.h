@@ -29,5 +29,6 @@ int empty_buffer();
 int endof_buffer();
 int topof_buffer();
 int file_notfound();
+int read_only();
 
 #endif

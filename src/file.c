@@ -8,6 +8,8 @@
 
 #include "types.h"
 
+FILE *fp;
+
 /*
  *	load file of given path and write it into buffer
  */
@@ -41,6 +43,26 @@ int save_file(int f,int n)
 	}
 	if (curbp->fname[0] == 0) {
 		showmsg(false,"(buffer should have a name to save)");
+		return false;
+	}
+	showmsg(true,"writing file ...");
+	fp = fopen(curbp->fname,"w");
+	for (line *ln = curbp->fline;ln != NULL;ln = lnext(ln)) {
+		if (fputline(ln) == FALSE)
+			return false;
+	}
+
+	return true;
+}
+
+int fputline(line *ln)
+{
+	for (int i = 0; i < ln->len; ++i)
+		fputc(ln->chars[i] & 0xFF, fp);
+	fputc('\n', fp);
+
+	if (ferror(fp)) {
+		showmsg(true,"Write I/O error");
 		return false;
 	}
 	return true;
