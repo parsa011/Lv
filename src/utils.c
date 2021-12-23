@@ -1,6 +1,7 @@
 #include "types.h"
 
 #include <sys/ioctl.h> 
+#include <assert.h>
 
 /* Versions of 'read' and 'write' which automatically retry when interrupted */
 ssize_t lv_read(int fd, void *buf, size_t size)
@@ -191,7 +192,7 @@ int get_twin_char_index(int c)
 	return -1;
 }
 
-char **tokenize_string(char* string, const char d)
+char **tokenize_string(char *string, const char c)
 {
 	char **result = 0;
 	size_t count = 0;

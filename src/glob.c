@@ -56,8 +56,8 @@ int generate_basic_macros()
 
 int generate_basic_commands()
 {
-	append_command(init_command("q",close_editor,0));
-	append_command(init_command("w",save_file,0));
+	//append_command(init_command("q",close_editor,0));
+	//append_command(init_command("w",save_file,0));
 	return commands_count;
 }
 
@@ -113,11 +113,12 @@ int leave_prompt_mode(int f, int n)
 int prompt_enter_key(int f,int n)
 {
 	if (bmtest(curbp,MDCMMD)) {
-		command *cmd = find_command(msgbar_prompt);
+		char **args = tokenize_string(msgbar_prompt,' ');
+		command *cmd = find_command(args[0]);
 		if (cmd == NULL) {
 			showmsg(false,"(command not found)");
 		} else {
-			cmd->func(true,1);
+			cmd->func(true,"");
 			leave_prompt_mode(true,1);
 		}
 	}

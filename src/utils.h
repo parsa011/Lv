@@ -32,6 +32,6 @@ void cmdstr(int,char *);
 extern char twin_chars[];
 int get_twin_char_index(int);
 
-char **tokenize_string(char* string, const char d)
+char **tokenize_string(char *, const char);
 
 #endif

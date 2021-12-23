@@ -13,7 +13,7 @@ struct command_t {
 	LINK(command) link;
 	char *name;		/* command name 		  */
 	int	flag;		/* execution flags 		  */
-	int (*func)(int,int); /* function bound to name */
+	int (*func)(int,char*); /* function bound to name */
 };
 
 #define cnext(m) ((m)->link.next)
@@ -23,7 +23,7 @@ extern int commands_count;	/* total count of commands */
 extern command *fcommand;	/* first generated command */
 extern command *lcommand;	/* last appended command   */
 
-command *init_command(char *,int(*)(int,int),int);
+command *init_command(char *,int(*)(int,char*),int);
 
 /*
  * append command to our list
