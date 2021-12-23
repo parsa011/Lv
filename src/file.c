@@ -51,7 +51,7 @@ int save_file(int f,int n)
 		if (fputline(ln) == FALSE)
 			return false;
 	}
-
+	showmsg(true,"file wroted in %s",curbp->fname);
 	return true;
 }
 

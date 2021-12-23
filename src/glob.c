@@ -72,17 +72,7 @@ void generate_prompt_keys()
  *	after user press key in insert mode , we will check for c
  *	and we do the work related to the entered character
  *	for example if given key is new line , so we will call add
- * 	new line function , or it was backslash , we will delete char if (c == (CTRL_KEY('m'))) {
-		if (bmtest(curbp,MDCMMD)) {
-			command *cmd = find_command(msgbar_prompt);
-			if (cmd == NULL) {
-				showmsg(false,"(command not found)");
-				msgbag.timer = true;
-			} else {
-				cmd->func(true,1);
-			}
-		}
-	}nd ...
+ * 	new line function , or it was backslash , we will delete char and ...
  */
 int manage_insert_key(int c)
 {
@@ -107,6 +97,7 @@ int manage_insert_key(int c)
 int leave_prompt_mode(int f, int n)
 {
 	msgbar_prompt_p = 0;
+	msgbar_prompt[0] = '\0';
 	msgbar_cursor_col = 1;
 	set_mode_for_buffer(MDLOCK);
 	write_buffer();
@@ -114,19 +105,30 @@ int leave_prompt_mode(int f, int n)
 	generate_prompt_keys();
 }
 
+/*
+ *	default propmt enter key event
+ *	i dont think we need this anywhere by we can
+ *	implement it again if needed :)
+ */
 int prompt_enter_key(int f,int n)
 {
 	if (bmtest(curbp,MDCMMD)) {
 		command *cmd = find_command(msgbar_prompt);
 		if (cmd == NULL) {
 			showmsg(false,"(command not found)");
-			msgbag.timer = true;
 		} else {
 			cmd->func(true,1);
+			leave_prompt_mode(true,1);
 		}
 	}
 }
 
+/*
+ *	default propmt tab event 
+ *	it will write all command into pop up screen
+ *	if user wroted something it will find by name
+ *	then print them
+ */
 int prompt_tab_key(int f,int n) 
 {
 	TTmove(buffers_start_offset,1);
@@ -165,6 +167,13 @@ int manage_prompt_key(int c)
 	return true;
 }
 
+/*
+ *	excuse me SRP :)
+ *	this function will do tree task : 
+ *	if key exists it will change its function
+ *	if dosnt exist , it will create new one , ane
+ *	append it into our prompt key list
+ */
 int change_prompt_key(int key,int (*func)(int,int)) {
 	for (prompt_key *pk = fprompt_key;pk != NULL;pk = pk->link.next) {
 		if (pk->key == key) {
@@ -184,6 +193,9 @@ int change_prompt_key(int key,int (*func)(int,int)) {
 	return true;
 }
 
+/*
+ *	find in prompt keys by given key
+ */
 prompt_key *get_prompt_key(int key)
 {
 	for (prompt_key *pk = fprompt_key;pk != NULL;pk = pk->link.next) {
