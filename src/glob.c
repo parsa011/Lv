@@ -118,7 +118,7 @@ int prompt_enter_key(int f,int n)
 		if (cmd == NULL) {
 			showmsg(false,"(command not found)");
 		} else {
-			cmd->func(true,"");
+			cmd->func(true,args);
 			leave_prompt_mode(true,1);
 		}
 	}

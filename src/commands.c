@@ -11,7 +11,7 @@ int commands_count = 0;	/* total count of commands */
 command *fcommand;	/* first generated command */
 command *lcommand;	/* last appended command   */
 
-command *init_command(char *name,int (*func)(int,char *),int flags)
+command *init_command(char *name,int (*func)(int,char **),int flags)
 {
 	command *cmd= calloc(1,sizeof(command));
 	cmd->name = name;

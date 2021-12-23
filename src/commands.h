@@ -23,7 +23,7 @@ extern int commands_count;	/* total count of commands */
 extern command *fcommand;	/* first generated command */
 extern command *lcommand;	/* last appended command   */
 
-command *init_command(char *,int(*)(int,char*),int);
+command *init_command(char *,int(*)(int,char **),int);
 
 /*
  * append command to our list
