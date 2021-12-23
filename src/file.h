@@ -14,6 +14,11 @@
 #define FADND	0x004	/* access denied  */
 
 /*
+ *	will open file and set 'fp' global FILE pointer
+ */
+int open_file(char *,char *);
+
+/*
  *	will take a file path , and load it into given buffer
  *	if buffer is empty , it will load it into current buffer
  *	IMPORTANT : if we are loading into current buffer , it will clear first
@@ -25,6 +30,11 @@ int load_file_into_buffer(buffer *,char *);
  */
 int save_file(int,int);
 
+/*
+ *	append given line chars into last of global FILE
+ */
 int fputline(line *);
+
+void close_file();
 
 #endif

@@ -17,7 +17,8 @@ int msgbar_msg_time = 4;
  */
 int close_editor(int focre, int code)
 {
-	system("clear");
+	if (!system("clear"))
+		TTeeop();
 	TTmove(1,1);
 	exit(0);
 }
@@ -116,5 +117,6 @@ int main(int argc,char *argv[])
 	}
 
 	lv_loop();
+	close_file();
 	return 0;
 }

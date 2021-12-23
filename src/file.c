@@ -10,12 +10,20 @@
 
 FILE *fp;
 
+int open_file(char *filepath,char *mode)
+{
+	fp = fopen(filepath,mode);
+	if (ferror(fp))
+		return false;
+	return true;
+}
+
 /*
  *	load file of given path and write it into buffer
  */
 int load_file_into_buffer(buffer *buf,char *filepath)
 {
-	FILE *fp = fopen(filepath, "r");
+	open_file(filepath,"r");
 	/* if file not found , return NOT FOUND */
 	memcpy(curbp->fname,filepath,strlen(filepath));
 	get_filename_of_path(curbp->bname,filepath);
@@ -30,7 +38,6 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 		append_line(curbp,line_alloc(line_chars,linelen));
 	}
 	free(line_chars);
-	fclose(fp);
 }
 
 /*
@@ -46,7 +53,7 @@ int save_file(int f,int n)
 		return false;
 	}
 	showmsg(true,"writing file ...");
-	fp = fopen(curbp->fname,"w");
+	open_file(curbp->fname,"w");
 	for (line *ln = curbp->fline;ln != NULL;ln = lnext(ln)) {
 		if (fputline(ln) == FALSE)
 			return false;
@@ -66,4 +73,9 @@ int fputline(line *ln)
 		return false;
 	}
 	return true;
+}
+
+void close_file()
+{
+	fclose(fp);
 }
