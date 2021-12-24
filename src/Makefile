@@ -100,11 +100,14 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am__dirstamp = $(am__leading_dot)dirstamp
 am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
 	glob.$(OBJEXT) utf8.$(OBJEXT) input.$(OBJEXT) line.$(OBJEXT) \
 	move.$(OBJEXT) vt100.$(OBJEXT) display.$(OBJEXT) \
 	buffer.$(OBJEXT) window.$(OBJEXT) file.$(OBJEXT) \
-	macro.$(OBJEXT) word.$(OBJEXT) commands.$(OBJEXT)
+	macro.$(OBJEXT) word.$(OBJEXT) commands.$(OBJEXT) \
+	builtins/q.$(OBJEXT) builtins/w.$(OBJEXT) \
+	builtins/set.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -127,7 +130,9 @@ am__depfiles_remade = ./$(DEPDIR)/buffer.Po ./$(DEPDIR)/commands.Po \
 	./$(DEPDIR)/input.Po ./$(DEPDIR)/line.Po ./$(DEPDIR)/lv.Po \
 	./$(DEPDIR)/macro.Po ./$(DEPDIR)/move.Po ./$(DEPDIR)/tty.Po \
 	./$(DEPDIR)/utf8.Po ./$(DEPDIR)/utils.Po ./$(DEPDIR)/vt100.Po \
-	./$(DEPDIR)/window.Po ./$(DEPDIR)/word.Po
+	./$(DEPDIR)/window.Po ./$(DEPDIR)/word.Po \
+	builtins/$(DEPDIR)/q.Po builtins/$(DEPDIR)/set.Po \
+	builtins/$(DEPDIR)/w.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -264,11 +269,11 @@ EXTRA_DIST = TODO
 # sysconf_lvdir = $(sysconfdir)/lv
 # data_lvdir = $(datadir)/lv
 noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h buffer.h move.h \
-					vt100.h display.h window.h file.h color.h word.h commands.h
+					vt100.h display.h window.h file.h color.h word.h commands.h builtins/builtins.h
 
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c display.c buffer.c	 \
-					window.c file.c macro.c word.c commands.c
+					window.c file.c macro.c word.c commands.c builtins/q.c builtins/w.c builtins/set.c
 
 all: all-am
 
@@ -345,6 +350,18 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+builtins/$(am__dirstamp):
+	@$(MKDIR_P) builtins
+	@: > builtins/$(am__dirstamp)
+builtins/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) builtins/$(DEPDIR)
+	@: > builtins/$(DEPDIR)/$(am__dirstamp)
+builtins/q.$(OBJEXT): builtins/$(am__dirstamp) \
+	builtins/$(DEPDIR)/$(am__dirstamp)
+builtins/w.$(OBJEXT): builtins/$(am__dirstamp) \
+	builtins/$(DEPDIR)/$(am__dirstamp)
+builtins/set.$(OBJEXT): builtins/$(am__dirstamp) \
+	builtins/$(DEPDIR)/$(am__dirstamp)
 
 lv$(EXEEXT): $(lv_OBJECTS) $(lv_DEPENDENCIES) $(EXTRA_lv_DEPENDENCIES) 
 	@rm -f lv$(EXEEXT)
@@ -352,6 +369,7 @@ lv$(EXEEXT): $(lv_OBJECTS) $(lv_DEPENDENCIES) $(EXTRA_lv_DEPENDENCIES)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f builtins/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -372,6 +390,9 @@ include ./$(DEPDIR)/utils.Po # am--include-marker
 include ./$(DEPDIR)/vt100.Po # am--include-marker
 include ./$(DEPDIR)/window.Po # am--include-marker
 include ./$(DEPDIR)/word.Po # am--include-marker
+include builtins/$(DEPDIR)/q.Po # am--include-marker
+include builtins/$(DEPDIR)/set.Po # am--include-marker
+include builtins/$(DEPDIR)/w.Po # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -512,6 +533,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f builtins/$(DEPDIR)/$(am__dirstamp)
+	-rm -f builtins/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -537,6 +560,9 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/vt100.Po
 	-rm -f ./$(DEPDIR)/window.Po
 	-rm -f ./$(DEPDIR)/word.Po
+	-rm -f builtins/$(DEPDIR)/q.Po
+	-rm -f builtins/$(DEPDIR)/set.Po
+	-rm -f builtins/$(DEPDIR)/w.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-local distclean-tags
@@ -598,6 +624,9 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/vt100.Po
 	-rm -f ./$(DEPDIR)/window.Po
 	-rm -f ./$(DEPDIR)/word.Po
+	-rm -f builtins/$(DEPDIR)/q.Po
+	-rm -f builtins/$(DEPDIR)/set.Po
+	-rm -f builtins/$(DEPDIR)/w.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

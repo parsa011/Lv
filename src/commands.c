@@ -39,4 +39,3 @@ command *find_command(char *name)
 			return cmd;
 	return NULL;
 }
-

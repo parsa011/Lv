@@ -56,8 +56,8 @@ int generate_basic_macros()
 
 int generate_basic_commands()
 {
-	//append_command(init_command("q",close_editor,0));
-	//append_command(init_command("w",save_file,0));
+	append_command(init_command("q",quit,0));
+	append_command(init_command("w",write_cmd,0));
 	return commands_count;
 }
 
@@ -156,7 +156,7 @@ int manage_prompt_key(int c)
 		pk->func(true,1);
 		return true;
 	}
-	if (isdigit(c) || isalpha(c)){
+	if (isdigit(c) || isalpha(c) || c == ' '){
 		msgbar_prompt[msgbar_prompt_p++] = c;
 		msgbar_cursor_col++;
 		return true;

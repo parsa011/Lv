@@ -53,6 +53,7 @@ typedef struct msg_bag_t msg_bag;
 typedef struct prompt_key_t prompt_key;
 typedef struct terminal_t terminal;
 
+#include "builtins/builtins.h"
 #include "color.h"
 #include "macro.h"
 #include "tty.h"

@@ -28,7 +28,7 @@ int load_file_into_buffer(buffer *,char *);
 /*
  * save buffer and write lines into associated file
  */
-int save_file(int,int);
+int save_file();
 
 /*
  *	append given line chars into last of global FILE

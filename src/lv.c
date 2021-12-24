@@ -117,6 +117,5 @@ int main(int argc,char *argv[])
 	}
 
 	lv_loop();
-	close_file();
 	return 0;
 }

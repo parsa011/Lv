@@ -43,7 +43,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 /*
  *	save buffer lines into associated file
  */
-int save_file(int f,int n)
+int save_file()
 {
 	if (bmtest(curbp,MDVIEW)) {
 		return read_only();
@@ -62,6 +62,9 @@ int save_file(int f,int n)
 	return true;
 }
 
+/*
+ *	put line into file 
+ */
 int fputline(line *ln)
 {
 	for (int i = 0; i < ln->len; ++i)
