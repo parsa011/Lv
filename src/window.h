@@ -46,4 +46,11 @@ buffer *get_last_buffer(window *);
 
 int append_window(window *);
 
+/* go to next window */
+int next_window(int,int);
+/* go to prev window */
+int prev_window(int,int);
+
+
+
 #endif

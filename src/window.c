@@ -38,3 +38,27 @@ buffer *get_last_buffer(window *wp)
 	for (; b != NULL;b = bnext(b));
 	return b;
 }
+
+int next_window(int f, int n) 
+{
+	if (wnext(curwp) == NULL) {
+		showmsg(true,"Last window");
+		return false;
+	}
+	curwp = wnext(curwp);
+	curbp = curwp->fbuffer;
+	write_buffer();
+	return true;
+}
+
+int prev_window(int f, int n) 
+{
+	if (wprev(curwp) == NULL) {
+		showmsg(true,"Firt window");
+		return false;
+	}
+	curwp = wprev(curwp);
+	curbp = curwp->fbuffer;
+	write_buffer();
+	return true;
+}
