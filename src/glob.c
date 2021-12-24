@@ -1,6 +1,7 @@
 #include "types.h"
 
 window *firstwp;	/* first window		*/
+window *lastwp;		/* last window 		*/
 window *curwp;		/* Current window   */
 buffer *curbp;		/* Current buffer   */
 msg_bag msgbag;		/* global msg bag	*/
@@ -58,6 +59,7 @@ int generate_basic_commands()
 {
 	append_command(init_command("q",quit,0));
 	append_command(init_command("w",write_cmd,0));
+	append_command(init_command("o",open_command,0));
 	return commands_count;
 }
 

@@ -34,6 +34,7 @@ void init_editor()
 	init_term();
 	curwp = init_window();
 	firstwp = curwp;
+	lastwp = curwp;
 	curbp = init_buffer("",NO_NAME_BUFFER,0,0);
 	append_buffer(curbp);
 	set_window_title(TERMINAL_TITLE);

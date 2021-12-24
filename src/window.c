@@ -17,6 +17,16 @@ window *init_window()
 }
 
 /*
+ *	append given window into last windows next
+ */
+int append_window(window *wp)
+{
+	swnext(lastwp,wp);
+	swprev(wp,lastwp);
+	lastwp = curwp = wp; 
+}
+
+/*
  *	return last buffer of given window
  *	if window is NULL we will get last buffer of curwp
  */

@@ -26,6 +26,8 @@ struct window_t {
 
 #define wnext(w) 		(w->link.next)		/* next window of given window 		*/
 #define wprev(w) 		(w->link.prev)		/* prev window of given window 		*/
+#define swnext(wp,n) 	((wp)->link.next = n)	/* set next window for given window */ 
+#define swprev(wp,p) 	((wp)->link.prev = p)	/* set prev window for given window */
 #define wusmode(b,m)	(b->flags &= ~m)	/* unset a flag for window			*/
 #define wstmode(b,m)	(b->flags |= m)		/* set flag for window				*/
 
@@ -41,5 +43,7 @@ struct window_t {
  */
 window *init_window();
 buffer *get_last_buffer(window *);
+
+int append_window(window *);
 
 #endif
