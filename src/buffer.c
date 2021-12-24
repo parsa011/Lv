@@ -31,6 +31,15 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 }
 
 /*
+ *	set buffer name and path by given string (path)
+ */
+void set_buffer_name(char *path)
+{
+	memcpy(curbp->fname,path,strlen(path));
+	get_filename_of_path(curbp->bname,path);
+}
+
+/*
  *	add given buffer into active window last buffers next
  */
 void append_buffer(buffer *bf)

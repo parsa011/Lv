@@ -156,7 +156,7 @@ int manage_prompt_key(int c)
 		pk->func(true,1);
 		return true;
 	}
-	if (isdigit(c) || isalpha(c) || c == ' '){
+	if (isdigit(c) || isalpha(c) || c == ' ' || c == '.'){
 		msgbar_prompt[msgbar_prompt_p++] = c;
 		msgbar_cursor_col++;
 		return true;

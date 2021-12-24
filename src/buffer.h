@@ -63,6 +63,8 @@ struct buffer_t {
 //#define MDMAGIC	0x0040		/* regular expressions in search */
 
 buffer *init_buffer(char *, char *, short, short);
+void set_buffer_name(char *);
+
 void append_buffer(buffer *);
 line *get_last_line(buffer *);
 

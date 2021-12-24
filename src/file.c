@@ -25,8 +25,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 {
 	open_file(filepath,"r");
 	/* if file not found , return NOT FOUND */
-	memcpy(curbp->fname,filepath,strlen(filepath));
-	get_filename_of_path(curbp->bname,filepath);
+	set_buffer_name(filepath);
 	if (!fp) 
 		return file_notfound();
 	/* if given buffer is NULL using curbp instead */

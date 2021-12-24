@@ -15,6 +15,10 @@
  */
 int write_cmd(int f, char **args)
 {
+	// get file name of argumants
+	if (args[1] != NULL) {
+		set_buffer_name(args[1]);
+	}
 	save_file();
 	return true;
 }
