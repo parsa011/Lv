@@ -37,6 +37,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 		append_line(curbp,line_alloc(line_chars,linelen));
 	}
 	free(line_chars);
+	return true;
 }
 
 /*

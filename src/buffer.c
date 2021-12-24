@@ -56,6 +56,7 @@ void append_buffer(buffer *bf)
 		sbnext(lbuffer,bf);
 	}
 	curwp->bcount++;
+	curbp = bf;
 }
 
 /*

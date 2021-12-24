@@ -16,7 +16,13 @@
  */
 int open_command(int f, char **args)
 {
+	if (args[1] == NULL) {
+		showmsg(false,"You must enter file name");
+		return false;
+	}
 	window *wp = init_window();
 	append_window(wp);
-	return true;
+	append_buffer(init_buffer(args[1],"",0,0));
+	// TODO : check if we got '.' or not , if we got , we should load file into current buffer
+	return load_file_into_buffer(curbp,args[1]);
 }
