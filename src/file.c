@@ -13,8 +13,8 @@ FILE *fp;
 int open_file(char *filepath,char *mode)
 {
 	fp = fopen(filepath,mode);
-	if (ferror(fp))
-		return false;
+//	if (ferror(fp))
+//		return false;
 	return true;
 }
 
