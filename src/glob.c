@@ -156,13 +156,13 @@ int manage_prompt_key(int c)
 		pk->func(true,1);
 		return true;
 	}
-	if (isdigit(c) || isalpha(c) || c == ' ' || c == '.'){
+	if (c == 127 && msgbar_prompt_p > 0) {
+		msgbar_prompt_p--;
+		msgbar_cursor_col--;
+	} else {
 		msgbar_prompt[msgbar_prompt_p++] = c;
 		msgbar_cursor_col++;
 		return true;
-	} else if (c == 127 && msgbar_prompt_p > 0) {
-		msgbar_prompt_p--;
-		msgbar_cursor_col--;
 	}
 	msgbar_prompt[msgbar_prompt_p] = '\0';
 	return true;
