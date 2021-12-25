@@ -102,8 +102,7 @@ int move_prevline(int f, int n)
 {
 	while (n--) {
 		if (current_line == NULL || curbp->lcount == 0)
-			return empty_buffer();;
-
+			return empty_buffer();
 		if (lprev(current_line) == NULL)
 			return topof_buffer();
 		if (can_scroll(MOVE_UP)) {

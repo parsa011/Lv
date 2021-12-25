@@ -59,6 +59,8 @@ typedef char * 				string;
 # define CONCAT(a,b) a ## b
 #endif
 
+#define ISNUMBER(c) (c >= '0' && c <= '9')
+
 /* 
  * n string concatination
  */

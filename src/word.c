@@ -93,8 +93,7 @@ int move_nextpage(int f, int n)
 	if (n < 0)
 		return move_prevpage(f,-n);
 	while (n--) {
-		int temp = statusbar_start_offset - windowsbar_start_offset; // how many row we have for buffers	
-		for (int i = 0;i < temp;i++)
+		for (int i = 0;i < curbp->nrow;i++)
 			if (!move_nextline(true,1))
 				return false;
 	}
@@ -106,8 +105,7 @@ int move_prevpage(int f,int n)
 	if (n < 0)
 		return move_nextpage(f,-n);
 	while (n--) {
-		int temp = statusbar_start_offset - windowsbar_start_offset; // how many row we have for buffers	
-		for (int i = 0;i < temp;i++)
+		for (int i = 0;i < curbp->nrow;i++)
 			if (!move_prevline(true,1))
 				return false;
 	}

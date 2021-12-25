@@ -52,14 +52,14 @@ void lv_loop()
 {
 	int c;
 	key_macro *macro = NULL;
+	char key[5];
 	do {
 		update();
 		c = get_cmd();
-		if (bmtest(curbp,MDLOCK) && isdigit(c)) {
+		if (bmtest(curbp,MDLOCK) && ISNUMBER(c)) {
 			add_to_number_stack(c);
 			continue;
-		}
-		if (bmtest(curbp,MDCMMD)) {
+		} else if (bmtest(curbp,MDCMMD)) {
 			manage_prompt_key(c);
 			continue;
 		}
@@ -75,7 +75,6 @@ void lv_loop()
 				macro = NULL;
 				wusmode(curbp,WFEDIT);
 			} else {
-				char key[5];
 				cmdstr(c,key);
 				showmsg(true,"key %s not found",key);
 			}
