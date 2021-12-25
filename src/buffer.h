@@ -29,6 +29,7 @@ struct buffer_t {
 	int coffset;			/* char offset in line ( how many char passed )				 */
 	int mtop;				/* buffer margin top from window							 */
 	int mleft;				/* margin left from window									 */
+	int dirty;				/* how much this buffer become dirty						 */
 };
 
 #define bnext(b) 	(b->link.next)		/* next buffer of given buffer 		*/

@@ -51,6 +51,7 @@ int append_line(buffer *buf,line *ln)
 	/* I think this line don't need any comment , but to be sure : increase total count of buffer lines */
 	buf->lline = ln;
 	buf->lcount++;
+	buf->dirty++;
 	curbp->flags |= FREDRW;
 }
 
@@ -90,6 +91,7 @@ int line_new(int force)
 		curbp->lcount++;
 	}
 	curbp->flags |= FREDRW;
+	curbp->dirty++;
 	return true;
 }
 
@@ -144,6 +146,7 @@ void line_ins_char(char c)
 	lputc(current_line,current_line->len,'\0');
 	next_char(1,1);
 	curbp->flags |= FREDRW;
+	curbp->dirty++;
 }
 
 /*
@@ -156,6 +159,7 @@ void line_append(line *ln,char *s,int len)
 	ln->len += len;
 	ln->chars[ln->len] = '\0';
 	curbp->flags |= FREDRW;
+	curbp->dirty++;
 }
 
 /*
@@ -188,6 +192,7 @@ void line_del_char()
 	current_line->len--;
 	prev_char(1,1);
 	curbp->flags |= FREDRW;
+	curbp->dirty++;
 }
 
 void line_del_next()
@@ -260,6 +265,7 @@ void line_delete(int index)
 ret:
 	curbp->clindex--;
 	curbp->lcount--;
+	curbp->dirty++;
 	free(ln);
 	curbp->flags |= FREDRW;
 }
