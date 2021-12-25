@@ -123,10 +123,10 @@ int prompt_enter_key(int f,int n)
 		if (cmd == NULL) {
 			showmsg(false,"(command not found)");
 		} else {
+			leave_prompt_mode(true,1);
 			cmd->func(true,args);
 		}
 	}
-	leave_prompt_mode(true,1);
 }
 
 /*
@@ -169,7 +169,7 @@ int manage_prompt_key(int c)
 		msgbar_cursor_col++;
 		return true;
 	}
-	msgbar_prompt[msgbar_prompt_p] = '\0';
+	msgbar_prompt[msgbar_prompt_p + 1] = '\0';
 	return true;
 }
 
