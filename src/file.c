@@ -36,6 +36,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 	while ((linelen = getline(&line_chars, &linecap, fp)) != EOF) { 
 		append_line(curbp,line_alloc(line_chars,linelen));
 	}
+	buf->dirty = 0;
 	free(line_chars);
 	return true;
 }
