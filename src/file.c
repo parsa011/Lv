@@ -59,6 +59,7 @@ int save_file()
 		if (fputline(ln) == FALSE)
 			return false;
 	}
+	curbp->dirty = 0;
 	showmsg(true,"file wroted in %s",curbp->fname);
 	return true;
 }
@@ -81,5 +82,6 @@ int fputline(line *ln)
 
 void close_file()
 {
-	fclose(fp);
+	if (fp)
+		fclose(fp);
 }
