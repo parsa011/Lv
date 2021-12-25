@@ -13,7 +13,7 @@
 
 int idleout = 1;
 
-/* The terminal */
+/* the terminal */
 
 FILE *termin = NULL;
 FILE *termout = NULL;
@@ -25,17 +25,17 @@ struct termios newterm;		/* characteristics to use inside */
 
 static int ttymode = 0;
 
-/* Global configuration variables */
+/* global configuration variables */
 
 int noxon = 1;			/* Set if ^S/^Q processing should be disabled */
 
-/* Input buffer */
+/* input buffer */
 
 int have = 0;			/* Set if we have pending input */
 unsigned char havec;	/* Character read in during pending input check */
 int leave = 0;			/* When set, typeahead checking is disabled */
 
-/* Output buffer, index and size */
+/* output buffer, index and size */
 
 unsigned char obuf[OBUFSIZE];
 int obufp = 0;
@@ -129,13 +129,13 @@ int ttgetc(void)
 		goto done;
 
 	/*
-	 * Lazy. We don't bother calculating the exact
+	 * lazy. We don't bother calculating the exact
 	 * expected length. We want at least two characters
 	 * for the special character case (ESC+[) and for
 	 * the normal short UTF8 sequence that starts with
 	 * the 110xxxxx pattern.
 	 *
-	 * But if we have any of the other patterns, just
+	 * but if we have any of the other patterns, just
 	 * try to get more characters. At worst, that will
 	 * just result in a barely perceptible 0.1 second
 	 * delay for some *very* unusual utf8 character
@@ -145,7 +145,7 @@ int ttgetc(void)
 	if ((c & 0xe0) == 0xe0)
 		expected = 6;
 
-	/* Special character - try to fill buffer */
+	/* special character - try to fill buffer */
 	if (count < expected) {
 		int n;
 		newterm.c_cc[VMIN] = 0;
@@ -154,7 +154,7 @@ int ttgetc(void)
 
 		n = read(0, buffer + count, sizeof(buffer) - count);
 
-		/* Undo timeout */
+		/* undo timeout */
 		newterm.c_cc[VMIN] = 1;
 		newterm.c_cc[VTIME] = 0;
 		tcsetattr(0, TCSANOW, &newterm);
@@ -165,7 +165,7 @@ int ttgetc(void)
 	if (pending > 1) {
 		unsigned char second = buffer[1];
 
-		/* Turn ESC+'[' into CSI */
+		/* turn ESC+'[' into CSI */
 		if (c == 27 && second == '[') {
 			bytes = 2;
 			c = 128 + 27;
@@ -174,7 +174,7 @@ int ttgetc(void)
 	}
 	bytes = utf8_to_unicode(buffer, 0, pending, &c);
 
-	/* Hackety hack! Turn no-break space into regular space */
+	/* hackety hack! Turn no-break space into regular space */
 	if (c == 0xa0)
 		c = ' ';
 done:
@@ -234,9 +234,6 @@ int ttflsh(void)
 void ttputs(char *s)
 {
 	while (*s) {
-		//obuf[obufp++] = *s++;
-		//if (obufp == OBUFSIZE)
-		//	ttflsh();
 		ttputc(*s++);
 	}
 }

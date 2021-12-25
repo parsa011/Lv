@@ -51,8 +51,7 @@ int append_line(buffer *buf,line *ln)
 	/* I think this line don't need any comment , but to be sure : increase total count of buffer lines */
 	buf->lline = ln;
 	buf->lcount++;
-	buf->dirty++;
-	curbp->flags |= FREDRW;
+	buffer_changed();
 }
 
 /*
@@ -90,8 +89,7 @@ int line_new(int force)
 		move_nextline(true,1);
 		curbp->lcount++;
 	}
-	curbp->flags |= FREDRW;
-	curbp->dirty++;
+	buffer_changed();
 	return true;
 }
 
@@ -145,8 +143,7 @@ void line_ins_char(char c)
 	lputc(current_line,curbp->coffset,c);
 	lputc(current_line,current_line->len,'\0');
 	next_char(true,1);
-	curbp->flags |= FREDRW;
-	curbp->dirty++;
+	buffer_changed();
 }
 
 /*
@@ -158,8 +155,7 @@ void line_append(line *ln,char *s,int len)
 	memcpy(&ln->chars[ln->len],s,len);
 	ln->len += len;
 	ln->chars[ln->len] = '\0';
-	curbp->flags |= FREDRW;
-	curbp->dirty++;
+	buffer_changed();
 }
 
 /*
@@ -191,15 +187,13 @@ void line_del_char()
 	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
 	current_line->len--;
 	prev_char(true,1);
-	curbp->flags |= FREDRW;
-	curbp->dirty++;
+	buffer_changed();
 }
 
 void line_del_next()
 {
 	if (next_char(true,1)) {
 		line_del_char();
-		curbp->flags |= FREDRW;
 	}
 }
 
@@ -207,7 +201,6 @@ int delete_current_char(int f,int n)
 {
 	if (next_char(true,1)) {
 		line_del_char();
-		curbp->flags |= FREDRW;
 	}
 }
 
@@ -265,7 +258,6 @@ void line_delete(int index)
 ret:
 	curbp->clindex--;
 	curbp->lcount--;
-	curbp->dirty++;
 	free(ln);
-	curbp->flags |= FREDRW;
+	buffer_changed();
 }

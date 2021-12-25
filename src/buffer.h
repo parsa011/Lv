@@ -66,6 +66,11 @@ struct buffer_t {
 buffer *init_buffer(char *, char *, short, short);
 void set_buffer_name(char *);
 
+/*
+ *	works that we need to do when buffer changed
+ */
+void buffer_changed();
+
 void append_buffer(buffer *);
 line *get_last_line(buffer *);
 

@@ -40,6 +40,15 @@ void set_buffer_name(char *path)
 }
 
 /*
+ *	works that we need to do when buffer changed
+ */
+void buffer_changed()
+{
+	curbp->flags |= FREDRW;
+	curbp->dirty++;
+}
+
+/*
  *	add given buffer into active window last buffers next
  */
 void append_buffer(buffer *bf)
