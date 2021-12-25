@@ -16,11 +16,12 @@
  */
 int quit(int f, char **args)
 {
-	if (strcmp(args[1],"a") == 0) {
+	if (args[1] == NULL) {
+		if (remove_window(curwp) == ALONEWINDOW)
+			close_editor(true,EXIT_SUCCESS);
+	} else if (strcmp(args[1],"a") == 0) {
 		while (remove_window(curwp) != ALONEWINDOW);
-		close_editor(true,1);
-		close_file();
-	} else
-		remove_window(curwp);
+		close_editor(true,EXIT_SUCCESS);
+	 }
 	return true;
 }

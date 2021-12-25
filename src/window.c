@@ -16,6 +16,11 @@ window *init_window()
 	return wp;
 }
 
+/*
+ *	remove a window and kill it's buffer 
+ *	also it will check for all possible states , for example 
+ *	check if given window is last , or first , check lastwp and ...
+ */
 int remove_window(window *wp)
 {
 	window *pwp = wprev(wp);
@@ -26,22 +31,38 @@ int remove_window(window *wp)
 	}
 	if (pwp == NULL) {
 		swprev(nwp,NULL);
+		firstwp = nwp;
 		activate_window(nwp);
 		goto free_wp;
 	}
 	if (nwp == NULL) {
 		swnext(pwp,NULL);
+		lastwp = pwp;
 		activate_window(pwp);
 		goto free_wp;
 	}
 	swnext(pwp,nwp);
 	swprev(nwp,pwp);
 	activate_window(pwp);
-
+	if (compare_windows(firstwp,wp)) {
+	}
 free_wp:
 	//destory_buffer(wp);
 	free(wp);
 	return true;
+}
+
+/*
+ *	it's very simple for check , we have to enhance it
+ */
+bool compare_windows(window *wp1,window *wp2)
+{
+	if (wp1->crow == wp2->crow &&
+		wp1->ccol == wp2->ccol &&
+		wp1->flags == wp2->flags &&
+		wp1->cbindex == wp2->cbindex) 
+		return true;
+	return false;
 }
 
 /*

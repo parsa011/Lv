@@ -20,7 +20,8 @@ int close_editor(int focre, int code)
 	if (!system("clear"))
 		TTeeop();
 	TTmove(1,1);
-	exit(0);
+	close_file();
+	exit(code);
 }
 
 /*

@@ -54,6 +54,11 @@ int remove_window(window *);
  */
 buffer *get_last_buffer(window *);
 
+/*
+ *	compare two window , to check if they are equals
+ */
+bool compare_windows(window *,window *);
+
 void activate_window(window *);
 
 int append_window(window *);
