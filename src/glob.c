@@ -6,6 +6,8 @@ window *curwp;		/* Current window   */
 buffer *curbp;		/* Current buffer   */
 msg_bag msgbag;		/* global msg bag	*/
 
+int number_stack = 0;
+
 prompt_key *fprompt_key;
 prompt_key *lprompt_key;
 
@@ -93,6 +95,11 @@ int manage_insert_key(int c)
 	else 
 		line_ins_char(c);
 	return true;
+}
+
+void add_to_number_stack(char c)
+{
+	number_stack = number_stack * 10 + (c - '0');
 }
 
 /*

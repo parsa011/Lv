@@ -55,6 +55,10 @@ void lv_loop()
 	do {
 		update();
 		c = get_cmd();
+		if (bmtest(curbp,MDLOCK) && isdigit(c)) {
+			add_to_number_stack(c);
+			continue;
+		}
 		if (bmtest(curbp,MDCMMD)) {
 			manage_prompt_key(c);
 			continue;

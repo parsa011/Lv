@@ -49,12 +49,12 @@ int backword(int f, int n)
 	while (n--) {
 		// escape of chars
 		while (in_word() == true) {
-			if (prev_char(false, 1) != true)
+			if (prev_char(true, 1) != true)
 				return false;
 		}
 		// escape of spaces , to go to the start of next word
 		while (in_word() == false) {
-			if (prev_char(false, 1) != true)
+			if (prev_char(true, 1) != true)
 				return false;
 		}
 	}

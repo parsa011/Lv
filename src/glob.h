@@ -13,6 +13,8 @@ extern window *curwp;		/* current window   */
 extern buffer *curbp;		/* current buffer   */
 extern msg_bag msgbag;
 
+extern int number_stack;	/* this is used for store number , for macro repeat time */
+
 // prompt from message bar statuses
 #define PROMPT_MAX_LENGTH 1024
 extern int msgbar_cursor_col;
@@ -57,6 +59,8 @@ int prompt_tab_key(int,int);
 int generate_basic_macros();
 
 int generate_basic_commands();
+
+void add_to_number_stack(char);
 
 /*
  *	take a key and check it
