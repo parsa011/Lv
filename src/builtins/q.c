@@ -17,7 +17,9 @@
 int quit(int f, char **args)
 {
 	//if (strcmp(args[1],"a") == 0) 
-	close_editor(true,1);
-	close_file();
+	if (remove_window(curwp) == ALONEWINDOW) {
+		close_editor(true,1);
+		close_file();
+	}
 	return true;
 }

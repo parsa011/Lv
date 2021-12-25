@@ -24,13 +24,12 @@ struct window_t {
 	int ccol;				/* cursor col								*/
 };
 
-#define wnext(w) 		(w->link.next)		/* next window of given window 		*/
-#define wprev(w) 		(w->link.prev)		/* prev window of given window 		*/
-#define swnext(wp,n) 	((wp)->link.next = n)	/* set next window for given window */ 
-#define swprev(wp,p) 	((wp)->link.prev = p)	/* set prev window for given window */
-#define wusmode(b,m)	(b->flags &= ~m)	/* unset a flag for window			*/
-#define wstmode(b,m)	(b->flags |= m)		/* set flag for window				*/
-
+#define wnext(w) 	 (w->link.next)		/* next window of given window 		*/
+#define wprev(w) 	 (w->link.prev)		/* prev window of given window 		*/
+#define swnext(wp,n) ((wp)->link.next = n)	/* set next window for given window */ 
+#define swprev(wp,p) ((wp)->link.prev = p)	/* set prev window for given window */
+#define wusmode(b,m) (b->flags &= ~m)	/* unset a flag for window			*/
+#define wstmode(b,m) (b->flags |= m)		/* set flag for window				*/
 
 /* window modes */
 #define WFFORCE 0x01	/* window needs to be forced reframe  */
@@ -38,11 +37,24 @@ struct window_t {
 #define WFEDIT  0x04	/* editing within a line        */
 #define WFHARD  0x08	/* better to a full display     */
 
+#define ALONEWINDOW 0x02 /* needed in remove window and .. */
+
 /*
  *	create ana alloc new window and return that pointer
  */
 window *init_window();
+
+/*
+ *	delete a window and remove its buffers and lines and ...
+ */
+int remove_window(window *);
+
+/*
+ *	return last buffer of given window
+ */
 buffer *get_last_buffer(window *);
+
+void activate_window(window *);
 
 int append_window(window *);
 

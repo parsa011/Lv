@@ -124,9 +124,9 @@ int prompt_enter_key(int f,int n)
 			showmsg(false,"(command not found)");
 		} else {
 			cmd->func(true,args);
-			leave_prompt_mode(true,1);
 		}
 	}
+	leave_prompt_mode(true,1);
 }
 
 /*

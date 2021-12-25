@@ -16,6 +16,46 @@ window *init_window()
 	return wp;
 }
 
+int remove_window(window *wp)
+{
+	window *pwp = wprev(wp);
+	window *nwp = wnext(wp);
+	if (nwp == NULL && pwp == NULL) {
+		free(wp);
+		return ALONEWINDOW;
+	}
+	if (pwp == NULL) {
+		swprev(nwp,NULL);
+		activate_window(nwp);
+		goto free_wp;
+	}
+	if (nwp == NULL) {
+		swnext(pwp,NULL);
+		activate_window(pwp);
+		goto free_wp;
+	}
+	swnext(pwp,nwp);
+	swprev(nwp,pwp);
+	activate_window(pwp);
+
+free_wp:
+	//destory_buffer(wp);
+	free(wp);
+	return true;
+}
+
+/*
+ *	set curwp to given wp
+ *	and set its first buffer to curbp , and also set
+ *	redraw flag for buffer to re-write it
+ */
+void activate_window(window *wp)
+{
+	curwp = wp;
+	curbp = curwp->fbuffer;
+	curbp->flags |= FREDRW;
+}
+
 /*
  *	append given window into last windows next
  */
@@ -45,9 +85,7 @@ int next_window(int f, int n)
 		showmsg(true,"Last window");
 		return false;
 	}
-	curwp = wnext(curwp);
-	curbp = curwp->fbuffer;
-	write_buffer();
+	activate_window(wnext(curwp));
 	return true;
 }
 
@@ -57,8 +95,6 @@ int prev_window(int f, int n)
 		showmsg(true,"Firt window");
 		return false;
 	}
-	curwp = wprev(curwp);
-	curbp = curwp->fbuffer;
-	write_buffer();
+	activate_window(wprev(curwp));
 	return true;
 }
