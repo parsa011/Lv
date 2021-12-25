@@ -67,13 +67,12 @@ void lv_loop()
 		if (bmtest(curbp,MDINST) && macro == NULL) {
 			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
-				wstmode(curbp,WFEDIT);
+				//wstmode(curwp,WFEDIT);
 			}
 		} else {
 			if (macro != NULL) {
 				exec_macro(macro);
 				macro = NULL;
-				wusmode(curbp,WFEDIT);
 			} else {
 				cmdstr(c,key);
 				showmsg(true,"key %s not found",key);

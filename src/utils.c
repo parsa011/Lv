@@ -202,12 +202,14 @@ char **tokenize_string(char *string, const char c)
 	char delim[2];
 	delim[0] = c;
 	delim[1] = 0;
+	char last_char;
 	/* count how many elements will be extracted. */
 	while (*tmp) {
-		if (c == *tmp) {
+		if (c == *tmp && last_char != c) {
 			count++;
 			last_comma = tmp;
 		}
+		last_char = *tmp;
 		tmp++;
 	}
 
@@ -224,11 +226,9 @@ char **tokenize_string(char *string, const char c)
 		size_t idx  = 0;
 		char* token = strtok(string, delim);
 		while (token) {
-			assert(idx < count);
 			*(result + idx++) = strdup(token);
 			token = strtok(0, delim);
 		}
-		assert(idx == count - 1);
 		*(result + idx) = 0;
 	}
 	return result;

@@ -87,7 +87,7 @@ int line_new(int force)
 		slnext(current_line,ln);
 		cursor_col = 1;
 		curbp->coffset = 0;
-		move_nextline(0,0);
+		move_nextline(true,1);
 		curbp->lcount++;
 	}
 	curbp->flags |= FREDRW;
@@ -116,7 +116,7 @@ int line_new_up(int f, int n)
 		return EMPTYBUFFER;
 	gotosol(1,1);
 	line_new(true);
-	move_prevline(1,1);
+	move_prevline(true,1);
 	return true;
 }
 
@@ -144,7 +144,7 @@ void line_ins_char(char c)
 	shift_right(current_line->chars,current_line->len,curbp->coffset);
 	lputc(current_line,curbp->coffset,c);
 	lputc(current_line,current_line->len,'\0');
-	next_char(1,1);
+	next_char(true,1);
 	curbp->flags |= FREDRW;
 	curbp->dirty++;
 }
@@ -190,7 +190,7 @@ void line_del_char()
 		cursor_col -= tab_size - 1;
 	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
 	current_line->len--;
-	prev_char(1,1);
+	prev_char(true,1);
 	curbp->flags |= FREDRW;
 	curbp->dirty++;
 }
