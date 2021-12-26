@@ -52,6 +52,7 @@ void buffer_changed()
 int toggle_linenumber()
 {
 	curbp->linenm = !curbp->linenm;
+	curbp->flags |= FREDRW;
 	return update_linenumber_padding();
 }
 

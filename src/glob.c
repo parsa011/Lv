@@ -27,6 +27,7 @@ int generate_basic_macros()
 	append_macro(init_macro('v',set_visual_mode,MDLOCK,"visual mode"));
 	append_macro(init_macro(':',set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
+	append_macro(init_macro(CTRL_KEY('n'),toggle_linenumber,(ALLMODES),"toggle line number"));
 	append_macro(init_macro(CTRL_KEY('q'),close_editor,(ALLMODES),"close editor"));
 
 	//move keys
