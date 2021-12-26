@@ -109,7 +109,7 @@ void add_to_number_stack(char c)
 int leave_prompt_mode(int f, int n)
 {
 	msgbar_prompt_p = 0;
-	msgbar_prompt[0] = '\0';
+	memset(msgbar_prompt,0,PROMPT_MAX_LENGTH);
 	msgbar_cursor_col = 1;
 	set_mode_for_buffer(MDLOCK);
 	write_buffer();
@@ -178,9 +178,7 @@ int manage_prompt_key(int c)
 		msgbar_cursor_col++;
 		goto ret;
 	}
-	msgbar_prompt[msgbar_prompt_p + 1] = '\0';
-ret:
-	find_and_set_command_keys();
+	msgbar_prompt[msgbar_prompt_p] = '\0';
 	return true;
 }
 

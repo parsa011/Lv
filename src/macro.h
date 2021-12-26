@@ -11,6 +11,8 @@
 
 #define MMACRON 32	/* max length for macro name */
 
+typedef int	(*MACRO_FUNC_POINTER)(int, int);	/* generally useful type */
+
 /*
  *	each macro should be stored in this struct
  */
@@ -19,7 +21,7 @@ struct key_macro_t {
 	int key;				/* key for macro						  */
 	char name[MMACRON];		/* just a name for this macro			  */
 	ushort modes;			/* in which modes this macro is available */
-	int (*func)(int, int);	/* function to run when this macro called */
+	MACRO_FUNC_POINTER func;	/* function to run when this macro called */
 };
 
 #define mnext(m) ((m)->link.next)
@@ -29,7 +31,7 @@ extern int macros_count;	/* total count of macros	 */
 extern key_macro *fmacro;	/* first generated key macro */
 extern key_macro *lmacro;	/* last appended key macro	 */
 
-key_macro *init_macro(int , int(*)(int, int), ushort, char *);
+key_macro *init_macro(int ,MACRO_FUNC_POINTER , ushort, char *);
 
 /*
  *	add a key macro to last macros next

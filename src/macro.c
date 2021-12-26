@@ -12,7 +12,7 @@ int macros_count = 0;
 key_macro *fmacro;	/* first generated key macro */
 key_macro *lmacro;	/* last appended key macro	 */
 
-key_macro *init_macro(int key, int (*func)(int, int), ushort modes, char *name)
+key_macro *init_macro(int key,MACRO_FUNC_POINTER func, ushort modes, char *name)
 {
 	key_macro *macro = calloc(1,sizeof(key_macro));
 	macro->key = key;

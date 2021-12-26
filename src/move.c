@@ -48,11 +48,15 @@ int scroll(int dir, int times)
 {
 	for (;0 < times;times--) {
 		if (dir == MOVE_DOWN) {
-			if (lnext(curbp->hline) != NULL)
+			if (lnext(curbp->hline) != NULL) {
 				curbp->hline = lnext(curbp->hline);
+				curbp->loffset++;
+			}
 		} else if (dir == MOVE_UP) {
-			if (lprev(curbp->hline) != NULL)
+			if (lprev(curbp->hline) != NULL) {	
 				curbp->hline = lprev(curbp->hline);
+				curbp->loffset--;
+			}
 		}
 		curbp->flags |= FREDRW;
 	}
