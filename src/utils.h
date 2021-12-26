@@ -36,4 +36,6 @@ char **tokenize_string(char *, const char);
 
 int number_len(int);
 
+void repeat_char(char *,char,int);
+
 #endif

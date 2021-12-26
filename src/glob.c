@@ -19,6 +19,9 @@ int msgbar_prompt_p = 0;
 int metac = SPEC | 'P';	/* current meta character 		 */
 int ctlxc = CONTROL | 'X';	/* current control X prefix char */
 
+char macro_stack[MAX_MACRO_STACK];
+int macro_stack_p = 0;
+
 int generate_basic_macros()
 {
 	//change buffer mode functions
@@ -76,6 +79,25 @@ void generate_prompt_keys()
 	change_prompt_key(TAB_KEY,prompt_tab_key);
 }
 
+void add_to_macro_stack(char c)
+{
+	if (macro_stack_p >= MAX_MACRO_STACK - 1) {
+no_space:
+		showmsg(true,"Macro not found : %s",macro_stack);
+		repeat_char(macro_stack,0,MAX_MACRO_STACK);
+		macro_stack_p = 0;
+		return;
+	}
+	char key[6];
+	cmdstr(c,key);
+	int i = 0;
+	while (*(key + i)) {
+		if (macro_stack_p >= MAX_MACRO_STACK - 1)
+			goto no_space;
+		macro_stack[macro_stack_p++] = *(key + i++);
+	}
+}
+
 /*
  *	after user press key in insert mode , we will check for c
  *	and we do the work related to the entered character
@@ -110,7 +132,7 @@ void add_to_number_stack(char c)
 int leave_prompt_mode(int f, int n)
 {
 	msgbar_prompt_p = 0;
-	memset(msgbar_prompt,0,PROMPT_MAX_LENGTH);
+	repeat_char(msgbar_prompt,0,PROMPT_MAX_LENGTH);
 	msgbar_cursor_col = 1;
 	set_mode_for_buffer(MDLOCK);
 	write_buffer();

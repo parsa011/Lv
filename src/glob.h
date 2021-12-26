@@ -29,6 +29,13 @@ extern int metac;		/* current meta character */
 extern int ctlxc;		/* current control X prefix char */
 
 /*
+ *	macro key stack
+ */
+#define MAX_MACRO_STACK 8
+extern char macro_stack[MAX_MACRO_STACK];
+extern int macro_stack_p;
+
+/*
  *	global structs like message bar struct and ...
  */
 struct msg_bag_t {
@@ -63,6 +70,13 @@ int generate_basic_macros();
 int generate_basic_commands();
 
 void add_to_number_stack(char);
+
+/*
+ *	add key to macro stack , we will add chars when
+ *	we dont have any macro with them , maybe they are in
+ *	a macro with many keys
+ */
+void add_to_macro_stack(char);
 
 /*
  *	take a key and check it

@@ -52,7 +52,6 @@ void lv_loop()
 {
 	int c;
 	key_macro *macro = NULL;
-	char key[5];
 	do {
 		update();
 		c = get_cmd();
@@ -74,8 +73,7 @@ void lv_loop()
 				exec_macro(macro);
 				macro = NULL;
 			} else {
-				cmdstr(c,key);
-				showmsg(true,"key %s not found",key);
+				add_to_macro_stack(c);
 			}
 		}
 	} while (1);
