@@ -33,5 +33,6 @@ int write_cmd(int,char **);
  *	open file command
  */
 int open_command(int,char **);
+int open_command_tab(int,int);
 
 #endif

@@ -53,6 +53,8 @@ int leave_prompt_mode(int,int);
 int prompt_enter_key(int,int);
 int prompt_tab_key(int,int);
 
+void find_and_set_command_keys();
+
 /*
  *	this function will initilize and append all of basic macros
  */

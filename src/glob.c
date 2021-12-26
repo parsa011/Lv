@@ -125,6 +125,8 @@ int leave_prompt_mode(int f, int n)
 int prompt_enter_key(int f,int n)
 {
 	if (bmtest(curbp,MDCMMD)) {
+		if (msgbar_prompt_p == 0)
+			return false;
 		char **args = tokenize_string(msgbar_prompt,' ');
 		command *cmd = find_command(args[0]);
 		if (cmd == NULL) {
@@ -174,10 +176,22 @@ int manage_prompt_key(int c)
 	} else {
 		msgbar_prompt[msgbar_prompt_p++] = c;
 		msgbar_cursor_col++;
-		return true;
+		goto ret;
 	}
 	msgbar_prompt[msgbar_prompt_p + 1] = '\0';
+ret:
+	find_and_set_command_keys();
 	return true;
+}
+
+void find_and_set_command_keys()
+{
+	if (msgbar_prompt_p == 0)
+		return;
+	char **args = tokenize_string(msgbar_prompt,' ');
+	if (strcmp(args[0],"o") == 0) {
+		change_prompt_key(CTRL_KEY('i'),open_command_tab);
+	}
 }
 
 /*
@@ -187,7 +201,8 @@ int manage_prompt_key(int c)
  *	if dosnt exist , it will create new one , ane
  *	append it into our prompt key list
  */
-int change_prompt_key(int key,int (*func)(int,int)) {
+int change_prompt_key(int key,int (*func)(int,int)) 
+{
 	for (prompt_key *pk = fprompt_key;pk != NULL;pk = pk->link.next) {
 		if (pk->key == key) {
 			pk->func = func;

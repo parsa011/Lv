@@ -221,7 +221,6 @@ char **tokenize_string(char *string, const char c)
 	count++;
 
 	result = malloc(sizeof(char*) * count);
-
 	if (result) {
 		size_t idx  = 0;
 		char* token = strtok(string, delim);

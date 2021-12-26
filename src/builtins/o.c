@@ -7,6 +7,13 @@
  */
 #include "types.h"
 
+#include <dirent.h>
+
+int open_command_tab(int f,int n)
+{
+	return true;
+}
+
 /*
  *	open file command 
  *	structure of open command is like this :
