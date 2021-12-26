@@ -108,6 +108,7 @@ void update()
 	write_windows();
 	// check if buffer need to redraw ot not
 	if (curbp->flags & FREDRW) {
+		update_linenumber_padding();
 		write_buffer();
 		// cause we draw buffer again , so dont need it anymore , until another change
 		curbp->flags &= ~FREDRW;
@@ -118,7 +119,7 @@ void update()
 	if (bmtest(curbp,MDCMMD))
 		TTmove(messagebar_start_offset,msgbar_cursor_col);
 	else
-		TTmove(cursor_row,cursor_col);
+		TTmove(cursor_row,cursor_col + curbp->mleft);
 	TTcshow();
 	TTflush();
 }
@@ -167,8 +168,12 @@ void write_buffer()
 {
 	TTmove(buffers_start_offset,1);
 	int count = 0;
+	int linenu = curbp->loffset + 1;
+	int linenu_offst = number_len(curbp->lcount);
 	for (line *ln = curbp->hline;count < curbp->nrow;count++) {
+		TTeeol();
 		if (ln != NULL) {
+			write_linenumber(linenu++,linenu_offst);
 			write_line(ln);
 			ln = lnext(ln);
 		} else {
@@ -184,7 +189,7 @@ void write_buffer()
  */
 void write_line(line *ln)
 {
-	TTeeol();
+	//TTeeol();
 	char *temp = ln->chars;
 	while (*temp) {
 		if (*temp == '\t') {
@@ -198,6 +203,27 @@ void write_line(line *ln)
 		*temp++;
 	}
 	TTputs("\r\n");
+}
+
+int write_linenumber(int number,int offset)
+{
+	char temp[number];
+	int len = sprintf(temp,"%d",number);
+	TTputs(temp);
+	while (len++ <= offset) {
+		TTputc(' ');
+	}
+}
+
+int update_linenumber_padding()
+{
+	int len = number_len(curbp->lcount);
+	len++; // just a little space for separation
+	if (curbp->linenm)
+		curbp->mleft = len;
+	else
+		curbp->mleft = len;
+	return len;
 }
 
 /*

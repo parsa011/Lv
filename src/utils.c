@@ -219,9 +219,7 @@ char **tokenize_string(char *string, const char c)
 	/* add space for terminating null string so caller
 	   knows where the list of returned strings ends. */
 	count++;
-
 	result = malloc(sizeof(char*) * count);
-
 	if (result) {
 		size_t idx  = 0;
 		char* token = strtok(string, delim);
@@ -232,4 +230,16 @@ char **tokenize_string(char *string, const char c)
 		*(result + idx) = 0;
 	}
 	return result;
+}
+
+int number_len(int n)
+{
+	if (n < 0)
+		n = -n;
+	int len = 1;
+	while (n / 10) {
+		n /= 10;
+		len++;
+	}
+	return len;
 }

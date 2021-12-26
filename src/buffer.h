@@ -30,6 +30,8 @@ struct buffer_t {
 	int mtop;				/* buffer margin top from window							 */
 	int mleft;				/* margin left from window									 */
 	int dirty;				/* how much this buffer become dirty						 */
+	// there some options for tab
+	bool linenm;			/* activate line number for this buffer or no				 */
 };
 
 #define bnext(b) 	(b->link.next)		/* next buffer of given buffer 		*/
@@ -73,6 +75,7 @@ void buffer_changed();
 
 void append_buffer(buffer *);
 line *get_last_line(buffer *);
+int toggle_linenumber();
 
 void set_mode_for_buffer(int);
 int set_lock_mode(int, int);

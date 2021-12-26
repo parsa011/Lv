@@ -51,6 +51,8 @@ void write_windows();
 void write_buffer();
 
 void write_line(line *);
+int write_linenumber(int,int);
+int update_linenumber_padding();
 
 /*
  *	write status bar into screen , the place that we will put information about 
