@@ -15,6 +15,10 @@
  */
 int write_cmd(int f, char **args)
 {
+	if (curbp->dirty == 0) {
+		showmsg(false,"Buffer not changed");
+		return false;
+	}
 	// get file name of argumants
 	if (args[1] != NULL) {
 		set_buffer_name(args[1]);
