@@ -71,12 +71,18 @@ int generate_basic_commands();
 
 void add_to_number_stack(char);
 
+int refresh_lock_mode(int,int);
+
 /*
  *	add key to macro stack , we will add chars when
  *	we dont have any macro with them , maybe they are in
  *	a macro with many keys
  */
 void add_to_macro_stack(char);
+
+
+void clear_number_stack();
+void clear_macro_stack();
 
 /*
  *	take a key and check it

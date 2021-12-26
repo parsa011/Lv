@@ -27,6 +27,7 @@ int generate_basic_macros()
 	//change buffer mode functions
 	append_macro(init_macro('i',set_insert_mode,MDLOCK,"insert mode"));
 	append_macro(init_macro(ESCAPE_KEY,set_lock_mode,MDINST,"lock mode"));
+	append_macro(init_macro(ESCAPE_KEY,refresh_lock_mode,(MDLOCK | MDVIEW),"clear all stacks"));
 	append_macro(init_macro('v',set_visual_mode,MDLOCK,"visual mode"));
 	append_macro(init_macro(':',set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
@@ -79,13 +80,32 @@ void generate_prompt_keys()
 	change_prompt_key(TAB_KEY,prompt_tab_key);
 }
 
+void clear_macro_stack()
+{
+	repeat_char(macro_stack,0,MAX_MACRO_STACK);
+	macro_stack_p = 0;
+
+}
+
+void clear_number_stack()
+{
+	msgbar_prompt_p = 0;
+	repeat_char(msgbar_prompt,0,PROMPT_MAX_LENGTH);
+}
+
+
+int refresh_lock_mode(int f,int n)
+{
+	clear_macro_stack();
+	clear_number_stack();
+}
+
 void add_to_macro_stack(char c)
 {
 	if (macro_stack_p >= MAX_MACRO_STACK - 1) {
 no_space:
 		showmsg(true,"Macro not found : %s",macro_stack);
-		repeat_char(macro_stack,0,MAX_MACRO_STACK);
-		macro_stack_p = 0;
+		clear_macro_stack();
 		return;
 	}
 	char key[6];
@@ -96,6 +116,7 @@ no_space:
 			goto no_space;
 		macro_stack[macro_stack_p++] = *(key + i++);
 	}
+	macro_stack[macro_stack_p++] = ' ';
 }
 
 /*
@@ -131,8 +152,7 @@ void add_to_number_stack(char c)
  */
 int leave_prompt_mode(int f, int n)
 {
-	msgbar_prompt_p = 0;
-	repeat_char(msgbar_prompt,0,PROMPT_MAX_LENGTH);
+	clear_number_stack();
 	msgbar_cursor_col = 1;
 	set_mode_for_buffer(MDLOCK);
 	write_buffer();
