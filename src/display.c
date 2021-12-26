@@ -105,7 +105,9 @@ void update()
 {
 	TTchide();
 	TTmove(0,0);
+#if HAVE_WINDOWS_BAR
 	write_windows();
+#endif
 	// check if buffer need to redraw ot not
 	if (curbp->flags & FREDRW) {
 		update_linenumber_padding();

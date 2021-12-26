@@ -4,7 +4,11 @@
 /*
  *	these definitions will specify our grid offset from top of screen
  */
-#define windowsbar_start_offset 1
+#if HAVE_WINDOWS_BAR == 1
+#	define windowsbar_start_offset 1
+#else
+#	define windowsbar_start_offset 0
+#endif
 #define buffers_start_offset 	windowsbar_start_offset + 1
 #define statusbar_start_offset 	term.t_mrow - 1
 #define messagebar_start_offset term.t_mrow
