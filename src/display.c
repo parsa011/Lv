@@ -170,10 +170,12 @@ void write_buffer()
 	int count = 0;
 	int linenu = curbp->loffset + 1;
 	int linenu_offst = number_len(curbp->lcount);
+	bool linem = curbp->linenm;
 	for (line *ln = curbp->hline;count < curbp->nrow;count++) {
 		TTeeol();
 		if (ln != NULL) {
-			write_linenumber(linenu++,linenu_offst);
+			if (linem)
+				write_linenumber(linenu++,linenu_offst);
 			write_line(ln);
 			ln = lnext(ln);
 		} else {
@@ -233,10 +235,7 @@ int update_linenumber_padding()
 	}
 	int len = number_len(curbp->lcount);
 	len++; // just a little space for separation
-	if (curbp->linenm)
-		curbp->mleft = len;
-	else
-		curbp->mleft = 0;
+	curbp->mleft = curbp->linenm ? len : 0;
 	return len;
 }
 
