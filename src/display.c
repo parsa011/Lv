@@ -185,7 +185,8 @@ void write_buffer()
 }
 
 /*
- *	write line into screen, convert non-printable chars into something printable :) (not implemented yet)
+ *	write line into screen, convert non-printable chars into 
+ *	something printable :) (not implemented yet)
  */
 void write_line(line *ln)
 {
@@ -205,6 +206,11 @@ void write_line(line *ln)
 	TTputs("\r\n");
 }
 
+/*
+ *	write line number into  screen
+ *	number is current line number and offset is value of
+ *	line number section len(width)
+ */
 int write_linenumber(int number,int offset)
 {
 	char temp[number];
@@ -215,14 +221,22 @@ int write_linenumber(int number,int offset)
 	}
 }
 
+/*
+ *	update padding of buffer , caculate len of buffer lines count
+ *	and plus one one a space(separation line number of buffer lines)
+ */
 int update_linenumber_padding()
 {
+	if (curbp->lcount == 0) {
+		curbp->mleft = 0;
+		return 0;
+	}
 	int len = number_len(curbp->lcount);
 	len++; // just a little space for separation
 	if (curbp->linenm)
 		curbp->mleft = len;
 	else
-		curbp->mleft = len;
+		curbp->mleft = 0;
 	return len;
 }
 
