@@ -179,13 +179,17 @@ int manage_prompt_key(int c)
 		goto ret;
 	}
 	msgbar_prompt[msgbar_prompt_p] = '\0';
+ret:
+	find_and_set_command_keys();
 	return true;
 }
 
 void find_and_set_command_keys()
 {
-	if (msgbar_prompt_p == 0)
+	if (msgbar_prompt_p == 0) {
+		generate_prompt_keys();
 		return;
+	}
 	char **args = tokenize_string(msgbar_prompt,' ');
 	if (strcmp(args[0],"o") == 0) {
 		change_prompt_key(CTRL_KEY('i'),open_command_tab);
