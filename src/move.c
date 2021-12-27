@@ -64,9 +64,9 @@ int scroll(int dir, int times)
 
 bool can_scroll(int dir)
 {
-	if (dir == MOVE_DOWN && cursor_row + 1 == statusbar_start_offset) 
+	if (dir == MOVE_DOWN && cursor_row - windowsbar_start_offset - curbp->mtop == curbp->nrow - 1) 
 		return true;
-	else if (dir == MOVE_UP && cursor_row - 1 == windowsbar_start_offset)
+	else if (dir == MOVE_UP && cursor_row - 1 == curbp->mtop)
 		return true;
 	return false;
 }

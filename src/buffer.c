@@ -25,7 +25,8 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	bf->flags = FFULLS;
 	bf->flags = flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
-	bf->loffset = bf->coffset = bf->dirty = bf->clindex = bf->mtop = bf->mleft = 0;
+	bf->mtop = buffers_start_offset - 1;
+	bf->loffset = bf->coffset = bf->dirty = bf->clindex = bf->mleft = 0;
 	bf->flags |= FREDRW;
 	bf->linenm = false;
 	return bf;
