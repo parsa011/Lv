@@ -78,7 +78,7 @@ int refresh_lock_mode(int,int);
  *	we dont have any macro with them , maybe they are in
  *	a macro with many keys
  */
-void add_to_macro_stack(char);
+void add_to_macro_stack(int);
 
 
 void clear_number_stack();

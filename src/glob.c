@@ -100,7 +100,7 @@ int refresh_lock_mode(int f,int n)
 	clear_number_stack();
 }
 
-void add_to_macro_stack(char c)
+void add_to_macro_stack(int c)
 {
 	char key[6];
 	cmdstr(c,key);
