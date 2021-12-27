@@ -178,3 +178,32 @@ int find_sibling(int f,int n)
 	}
 	return done;
 }
+
+/*
+ *	goto line number with n index
+ */
+int goto_line(int f,int n)
+{
+	if (n > curbp->lcount) {
+		showmsg(false,"Oops ,What line ?");
+		return OUTOFBUFFER;
+	}
+	cursor_row = buffers_start_offset;
+	curbp->clindex = --n;
+	line *ln = get_line_by_index(n);
+	curbp->hline = curbp->cline = ln;
+	curbp->flags |= FREDRW;
+	return true;
+}
+
+int goto_end_of_buffer(int f,int n)
+{
+	goto_line(true,curbp->lcount);
+	return true;
+}
+
+int goto_start_of_buffer(int f,int n)
+{
+	goto_line(true,1);
+	return true;
+}

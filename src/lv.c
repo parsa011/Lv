@@ -74,7 +74,7 @@ void lv_loop()
 		} else {
 			if (macro != NULL) {
 				exec_macro(macro);
-				clear_macro_stack();
+				refresh_lock_mode(true,1);
 				macro = NULL;
 			}
 		}

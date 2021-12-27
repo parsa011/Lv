@@ -30,7 +30,9 @@ int word_count();
 int gotoeol(int,int);
 /* got to start of line */
 int gotosol(int,int);
-
+int goto_line(int,int);
+int goto_start_of_buffer(int,int);
+int goto_end_of_buffer(int,int);
 int move_nextpage(int,int);
 int move_prevpage(int,int);
 

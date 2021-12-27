@@ -31,8 +31,8 @@ int generate_basic_macros()
 	append_macro(init_macro('v',"v",set_visual_mode,MDLOCK,"visual mode"));
 	append_macro(init_macro(':',":",set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
-	append_macro(init_macro(CTRL_KEY('n'),"^n",toggle_linenumber,(ALLMODES),"toggle line number"));
-	append_macro(init_macro(CTRL_KEY('q'),"^q",close_editor,(ALLMODES),"close editor"));
+	append_macro(init_macro(CTRL_KEY('n'),"^N",toggle_linenumber,(ALLMODES),"toggle line number"));
+	append_macro(init_macro(CTRL_KEY('q'),"^Q",close_editor,(ALLMODES),"close editor"));
 
 	//move keys
 	append_macro(init_macro('j',"j",move_nextline,(MDLOCK | MDVISL | MDVIEW),"go to next line"));
@@ -48,6 +48,7 @@ int generate_basic_macros()
 
 
 	append_macro(init_macro('x',"x",delete_current_char,(MDLOCK),"delete char under cursor"));
+	append_macro(init_macro('G',"G",goto_line,(MDLOCK | MDVISL | MDVIEW),"goto to line"));
 	append_macro(init_macro('w',"w",forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
 	append_macro(init_macro('b',"b",backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
 	append_macro(init_macro('$',"$",gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
@@ -55,9 +56,11 @@ int generate_basic_macros()
 	append_macro(init_macro('^',"^",gotosol,(MDLOCK | MDVISL | MDVIEW),"move to start of line"));
 	append_macro(init_macro(SPEC | '6',"FN6",move_nextpage,(ALLMODES),"move to next page"));
 	append_macro(init_macro(SPEC | '5',"FN5",move_prevpage,(ALLMODES),"move to next page"));
-	//append_macro(init_macro((g | g),"g-g",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
-	append_macro(init_macro((CTLX | 'N'),"^xn",next_window,(ALLMODES),"go to next window"));
-	append_macro(init_macro((CTLX | 'P'),"^xn",prev_window,(ALLMODES),"go to prev window"));
+	// g | g dosnt mean , we have to inhance it
+	append_macro(init_macro(('g' | 'g'),"g-g",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
+	append_macro(init_macro(('g' | 'G'),"g-G",goto_end_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to end page"));
+	append_macro(init_macro((CTLX | 'N'),"^XN",next_window,(ALLMODES),"go to next window"));
+	append_macro(init_macro((CTLX | 'P'),"^XN",prev_window,(ALLMODES),"go to prev window"));
 
 	append_macro(init_macro('o',"o",line_new_down,(MDLOCK),"new line down"));
 	append_macro(init_macro('O',"O",line_new_up,(MDLOCK),"new line top"));
