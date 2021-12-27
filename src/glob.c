@@ -25,42 +25,42 @@ int macro_stack_p = 0;
 int generate_basic_macros()
 {
 	//change buffer mode functions
-	append_macro(init_macro('i',set_insert_mode,MDLOCK,"insert mode"));
-	append_macro(init_macro(ESCAPE_KEY,set_lock_mode,MDINST,"lock mode"));
-	append_macro(init_macro(ESCAPE_KEY,refresh_lock_mode,(MDLOCK | MDVIEW),"clear all stacks"));
-	append_macro(init_macro('v',set_visual_mode,MDLOCK,"visual mode"));
-	append_macro(init_macro(':',set_command_mode,(MDLOCK | MDVIEW),"command mode"));
+	append_macro(init_macro('i',"i",set_insert_mode,MDLOCK,"insert mode"));
+	append_macro(init_macro(ESCAPE_KEY,"^[",set_lock_mode,MDINST,"lock mode"));
+	append_macro(init_macro(ESCAPE_KEY,"^[",refresh_lock_mode,(MDLOCK | MDVIEW),"clear all stacks"));
+	append_macro(init_macro('v',"v",set_visual_mode,MDLOCK,"visual mode"));
+	append_macro(init_macro(':',":",set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
-	append_macro(init_macro(CTRL_KEY('n'),toggle_linenumber,(ALLMODES),"toggle line number"));
-	append_macro(init_macro(CTRL_KEY('q'),close_editor,(ALLMODES),"close editor"));
+	append_macro(init_macro(CTRL_KEY('n'),"^n",toggle_linenumber,(ALLMODES),"toggle line number"));
+	append_macro(init_macro(CTRL_KEY('q'),"^q",close_editor,(ALLMODES),"close editor"));
 
 	//move keys
-	append_macro(init_macro('j',move_nextline,(MDLOCK | MDVISL | MDVIEW),"go to next line"));
-	append_macro(init_macro('k',move_prevline,(MDLOCK | MDVISL | MDVIEW),"go to prev line"));
-	append_macro(init_macro('l',next_char,(MDLOCK | MDVISL | MDVIEW),"go to next char"));
-	append_macro(init_macro('h',prev_char,(MDLOCK | MDVISL | MDVIEW),"go to prev char"));
+	append_macro(init_macro('j',"j",move_nextline,(MDLOCK | MDVISL | MDVIEW),"go to next line"));
+	append_macro(init_macro('k',"k",move_prevline,(MDLOCK | MDVISL | MDVIEW),"go to prev line"));
+	append_macro(init_macro('l',"l",next_char,(MDLOCK | MDVISL | MDVIEW),"go to next char"));
+	append_macro(init_macro('h',"h",prev_char,(MDLOCK | MDVISL | MDVIEW),"go to prev char"));
 
 	// move with arrow keys
-	append_macro(init_macro(SPEC | 'B',move_nextline,ALLMODES,"go to next line"));
-	append_macro(init_macro(SPEC | 'A',move_prevline,ALLMODES,"go to prev line"));
-	append_macro(init_macro(SPEC | 'C',next_char,ALLMODES,"go to next char"));
-	append_macro(init_macro(SPEC | 'D',prev_char,ALLMODES,"go to prev char"));
+	append_macro(init_macro(SPEC | 'B',"FNB",move_nextline,ALLMODES,"go to next line"));
+	append_macro(init_macro(SPEC | 'A',"FNA",move_prevline,ALLMODES,"go to prev line"));
+	append_macro(init_macro(SPEC | 'C',"FNC",next_char,ALLMODES,"go to next char"));
+	append_macro(init_macro(SPEC | 'D',"FND",prev_char,ALLMODES,"go to prev char"));
 
 
-	append_macro(init_macro('x',delete_current_char,(MDLOCK),"delete char under cursor"));
-	append_macro(init_macro('w',forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
-	append_macro(init_macro('b',backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
-	append_macro(init_macro('$',gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
-	append_macro(init_macro('%',find_sibling,(MDLOCK | MDVISL | MDVIEW),"find current char sibling"));
-	append_macro(init_macro('^',gotosol,(MDLOCK | MDVISL | MDVIEW),"move to start of line"));
-	append_macro(init_macro(SPEC | '6',move_nextpage,(ALLMODES),"move to next page"));
-	append_macro(init_macro(SPEC | '5',move_prevpage,(ALLMODES),"move to next page"));
+	append_macro(init_macro('x',"x",delete_current_char,(MDLOCK),"delete char under cursor"));
+	append_macro(init_macro('w',"w",forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
+	append_macro(init_macro('b',"b",backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
+	append_macro(init_macro('$',"$",gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
+	append_macro(init_macro('%',"%",find_sibling,(MDLOCK | MDVISL | MDVIEW),"find current char sibling"));
+	append_macro(init_macro('^',"^",gotosol,(MDLOCK | MDVISL | MDVIEW),"move to start of line"));
+	append_macro(init_macro(SPEC | '6',"FN6",move_nextpage,(ALLMODES),"move to next page"));
+	append_macro(init_macro(SPEC | '5',"FN5",move_prevpage,(ALLMODES),"move to next page"));
+	//append_macro(init_macro((g | g),"g-g",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
+	append_macro(init_macro((CTLX | 'N'),"^xn",next_window,(ALLMODES),"go to next window"));
+	append_macro(init_macro((CTLX | 'P'),"^xn",prev_window,(ALLMODES),"go to prev window"));
 
-	append_macro(init_macro((CTLX | 'N'),next_window,(ALLMODES),"go to next window"));
-	append_macro(init_macro((CTLX | 'P'),prev_window,(ALLMODES),"go to prev window"));
-
-	append_macro(init_macro('o',line_new_down,(MDLOCK),"new line down"));
-	append_macro(init_macro('O',line_new_up,(MDLOCK),"new line top"));
+	append_macro(init_macro('o',"o",line_new_down,(MDLOCK),"new line down"));
+	append_macro(init_macro('O',"O",line_new_up,(MDLOCK),"new line top"));
 
 	return macros_count;
 }
@@ -105,6 +105,8 @@ void add_to_macro_stack(int c)
 	char key[6];
 	cmdstr(c,key);
 	int i = 0;
+	if (macro_stack_p > 0)
+		macro_stack[macro_stack_p++] = '-';
 	while (*(key + i)) {
 		if (macro_stack_p >= MAX_MACRO_STACK)
 			goto no_space;
@@ -116,7 +118,6 @@ no_space:
 		clear_macro_stack();
 		return;
 	}
-	macro_stack[macro_stack_p++] = '-';
 }
 
 /*

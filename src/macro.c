@@ -11,12 +11,13 @@ int macros_count = 0;
 key_macro *fmacro;	/* first generated key macro */
 key_macro *lmacro;	/* last appended key macro	 */
 
-key_macro *init_macro(int key,MACRO_FUNC_POINTER func, ushort modes, char *name)
+key_macro *init_macro(int key,char *key_str,MACRO_FUNC_POINTER func, ushort modes, char *name)
 {
 	key_macro *macro = calloc(1,sizeof(key_macro));
 	macro->key = key;
 	macro->func = func;
 	macro->modes = modes;
+	macro->key_str = strdup(key_str);
 	memcpy(macro->name,name,strlen(name));
 	return macro;
 }
@@ -37,6 +38,14 @@ key_macro *find_macro(int key)
 {
 	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
 		if (macro->key == key && macro->modes & curbp->modes)
+			return macro;
+	return NULL;
+}
+
+key_macro *find_macro_str(char *str)
+{
+	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
+		if (strcmp(macro->key_str,str) == 0)
 			return macro;
 	return NULL;
 }

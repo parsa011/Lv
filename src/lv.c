@@ -61,7 +61,12 @@ void lv_loop()
 			manage_prompt_key(c);
 			continue;
 		}
-		macro = find_macro(c);
+		if (bmtest(curbp,MDLOCK)) {
+			add_to_macro_stack(c);
+			macro = find_macro_str(macro_stack);
+		} else {
+			macro = find_macro(c);
+		}
 		if (bmtest(curbp,MDINST) && macro == NULL) {
 			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
@@ -69,9 +74,8 @@ void lv_loop()
 		} else {
 			if (macro != NULL) {
 				exec_macro(macro);
+				clear_macro_stack();
 				macro = NULL;
-			} else {
-				add_to_macro_stack(c);
 			}
 		}
 	} while (1);
