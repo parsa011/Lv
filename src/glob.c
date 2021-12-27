@@ -102,21 +102,21 @@ int refresh_lock_mode(int f,int n)
 
 void add_to_macro_stack(char c)
 {
+	char key[6];
+	cmdstr(c,key);
+	int i = 0;
+	while (*(key + i)) {
+		if (macro_stack_p >= MAX_MACRO_STACK)
+			goto no_space;
+		macro_stack[macro_stack_p++] = *(key + i++);
+	}
 	if (macro_stack_p >= MAX_MACRO_STACK - 1) {
 no_space:
 		showmsg(true,"Macro not found : %s",macro_stack);
 		clear_macro_stack();
 		return;
 	}
-	char key[6];
-	cmdstr(c,key);
-	int i = 0;
-	while (*(key + i)) {
-		if (macro_stack_p >= MAX_MACRO_STACK - 1)
-			goto no_space;
-		macro_stack[macro_stack_p++] = *(key + i++);
-	}
-	macro_stack[macro_stack_p++] = ' ';
+	macro_stack[macro_stack_p++] = '-';
 }
 
 /*
