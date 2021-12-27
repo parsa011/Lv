@@ -202,12 +202,10 @@ char **tokenize_string(char *string, const char c)
 			last_comma = tmp;
 		}
 		last_char = *tmp;
-		tmp++;
+		*tmp++;
 	}
-
 	/* add space for trailing token. */
 	count += last_comma < (string + strlen(string) - 1);
-
 	/* add space for terminating null string so caller
 	   knows where the list of returned strings ends. */
 	count++;

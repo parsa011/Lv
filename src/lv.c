@@ -5,7 +5,6 @@
  *
  *	This file is part of Lv
  */
-
 #include "types.h"
 
 int tab_size = 4;
@@ -66,7 +65,6 @@ void lv_loop()
 		if (bmtest(curbp,MDINST) && macro == NULL) {
 			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
-				//wstmode(curwp,WFEDIT);
 			}
 		} else {
 			if (macro != NULL) {

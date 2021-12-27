@@ -16,7 +16,7 @@ extern msg_bag msgbag;
 extern int number_stack;	/* this is used for store number , for macro repeat time */
 
 // prompt from message bar statuses
-#define PROMPT_MAX_LENGTH 1024
+#define PROMPT_MAX_LENGTH 512 
 extern int msgbar_cursor_col;
 extern char msgbar_prompt[PROMPT_MAX_LENGTH];
 extern int msgbar_prompt_p;

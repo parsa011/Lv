@@ -213,17 +213,21 @@ int manage_prompt_key(int c)
 		pk->func(true,1);
 		return true;
 	}
-	if (c == 127 && msgbar_prompt_p > 0) {
-		msgbar_prompt_p--;
-		msgbar_cursor_col--;
+	if (c == 127) {
+		if (msgbar_prompt_p > 0)
+			msgbar_prompt_p--;
+		if (msgbar_cursor_col > 2)
+			msgbar_cursor_col--;
 	} else {
+		if (msgbar_prompt_p >= PROMPT_MAX_LENGTH - 1) {
+			showmsg(true,"Max length of promp");
+			return false;
+		}
 		msgbar_prompt[msgbar_prompt_p++] = c;
 		msgbar_cursor_col++;
-		goto ret;
 	}
-	msgbar_prompt[msgbar_prompt_p] = '\0';
-ret:
-	find_and_set_command_keys();
+	msgbar_prompt[msgbar_prompt_p] = 0;
+	//find_and_set_command_keys();
 	return true;
 }
 
@@ -233,7 +237,8 @@ void find_and_set_command_keys()
 		generate_prompt_keys();
 		return;
 	}
-	char **args = tokenize_string(msgbar_prompt,' ');
+	char *temp = msgbar_prompt;
+	char **args = tokenize_string(temp,' ');
 	if (strcmp(args[0],"o") == 0) {
 		change_prompt_key(CTRL_KEY('i'),open_command_tab);
 	}
