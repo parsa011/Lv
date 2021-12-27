@@ -5,7 +5,6 @@
  *
  *	This file is part of Lv
  */
-
 #include "types.h"
 
 int tab_size = 4;

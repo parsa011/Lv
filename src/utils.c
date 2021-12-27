@@ -143,36 +143,28 @@ void shift_left(char *buf,int buflen,int start_index)
 void cmdstr(int c, char *seq)
 {
 	char *ptr;		/* pointer into current position in sequence */
-
 	ptr = seq;
-
 	/* apply meta sequence if needed */
 	if (c & META) {
 		*ptr++ = 'M';
 		*ptr++ = '-';
 	}
-
 	/* apply ^X sequence if needed */
 	if (c & CTLX) {
 		*ptr++ = '^';
 		*ptr++ = 'X';
 	}
-
 	/* apply SPEC sequence if needed */
 	if (c & SPEC) {
 		*ptr++ = 'F';
 		*ptr++ = 'N';
 	}
-
 	/* apply control sequence if needed */
 	if (c & CONTROL) {
 		*ptr++ = '^';
 	}
-
 	/* and output the final sequence */
-
 	*ptr++ = c & 255;	/* strip the prefixes */
-
 	*ptr = 0;		/* terminate the string */
 }
 
@@ -210,12 +202,10 @@ char **tokenize_string(char *string, const char c)
 			last_comma = tmp;
 		}
 		last_char = *tmp;
-		tmp++;
+		*tmp++;
 	}
-
 	/* add space for trailing token. */
 	count += last_comma < (string + strlen(string) - 1);
-
 	/* add space for terminating null string so caller
 	   knows where the list of returned strings ends. */
 	count++;
@@ -232,6 +222,17 @@ char **tokenize_string(char *string, const char c)
 	return result;
 }
 
+/*
+ *	repeat specified char in s by n times
+ */
+void repeat_char(char *s,char c,int times)
+{
+	memset(s,c,times);
+}
+
+/*
+ *	how many digit this number have ?
+ */
 int number_len(int n)
 {
 	if (n < 0)

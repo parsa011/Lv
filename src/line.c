@@ -182,11 +182,11 @@ void line_del_char()
 	}
 	int at = curbp->coffset - 1;
 	/* check if we are deleting a tab , if it's a tab , so we decrease cursor col by tab size */
-	if (current_line->chars[at] == '\t')
-		cursor_col -= tab_size - 1;
+	//if (current_line->chars[at] == '\t')
+	//	cursor_col -= tab_size - 1;
+	prev_char(true,1);
 	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
 	current_line->len--;
-	prev_char(true,1);
 	buffer_changed();
 }
 

@@ -1,5 +1,3 @@
-#include "types.h"
-
 /*
  *	Keyboard macros	
  *	Copyright
@@ -7,6 +5,7 @@
  *
  *	This file is part of Lv
  */
+#include "types.h"
 
 int macros_count = 0;
 key_macro *fmacro;	/* first generated key macro */
