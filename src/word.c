@@ -189,7 +189,7 @@ int goto_line(int f,int n)
 		return OUTOFBUFFER;
 	}
 	cursor_row = buffers_start_offset;
-	curbp->clindex = --n;
+	curbp->loffset = curbp->clindex = --n;
 	line *ln = get_line_by_index(n);
 	curbp->hline = curbp->cline = ln;
 	curbp->flags |= FREDRW;

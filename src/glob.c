@@ -60,7 +60,7 @@ int generate_basic_macros()
 	append_macro(init_macro(('g' | 'g'),"g-g",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
 	append_macro(init_macro(('g' | 'G'),"g-G",goto_end_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to end page"));
 	append_macro(init_macro((CTLX | 'N'),"^XN",next_window,(ALLMODES),"go to next window"));
-	append_macro(init_macro((CTLX | 'P'),"^XN",prev_window,(ALLMODES),"go to prev window"));
+	append_macro(init_macro((CTLX | 'P'),"^XP",prev_window,(ALLMODES),"go to prev window"));
 
 	append_macro(init_macro('o',"o",line_new_down,(MDLOCK),"new line down"));
 	append_macro(init_macro('O',"O",line_new_up,(MDLOCK),"new line top"));
