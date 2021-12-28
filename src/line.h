@@ -70,6 +70,7 @@ void line_append(line *,char *,int);
  *	we should connect next line prev (lnext(line)->link-prev) to given line next
  */
 void line_delete(int);
+int delete_current_line(int,int);
 
 /*
  *	alloc new , and insert it in current position of cursor
