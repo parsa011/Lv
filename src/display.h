@@ -2,6 +2,14 @@
 # define _DISPLAY_H
 
 /*
+ *	Handle redisplay
+ *	Copyright
+ *		(C) 2021 Parsa Mahmoudy sahebi
+ *
+ *	This file is part of Lv
+ */
+
+/*
  *	these definitions will specify our grid offset from top of screen
  */
 #if HAVE_WINDOWS_BAR == 1
@@ -12,14 +20,6 @@
 #define buffers_start_offset 	windowsbar_start_offset + 1
 #define statusbar_start_offset 	term.t_mrow - 1
 #define messagebar_start_offset term.t_mrow
-
-/*
- *	Handle redisplay
- *	Copyright
- *		(C) 2021 Parsa Mahmoudy sahebi
- *
- *	This file is part of Lv
- */
 
 /*
  *	init terminal and trun on raw mode

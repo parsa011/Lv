@@ -226,6 +226,10 @@ line *get_line_by_index(int index)
 void line_delete(int index)
 {
 	line *ln = get_line_by_index(index);	
+	if (ln == NULL) {
+		empty_buffer();
+		return;
+	}
 	line *lnext = lnext(ln);
 	line *lprev = lprev(ln);
 	if (index == curbp->lcount - 1) {
@@ -258,4 +262,11 @@ ret:
 	curbp->lcount--;
 	free(ln);
 	buffer_changed();
+}
+
+int delete_current_line(int f,int n) 
+{
+	line_delete(curbp->clindex);
+	move_nextline(true,1);
+	return true;
 }
