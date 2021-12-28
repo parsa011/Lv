@@ -27,8 +27,8 @@ struct buffer_t {
 	short flags;			/* flags for buffer like size flags and ...					 */
 	ushort modes;			/* modes of this buffer 									 */
 	int coffset;			/* char offset in line ( how many char passed )				 */
-	int mtop:1;				/* buffer margin top from window							 */
-	int mleft:1;			/* margin left from window									 */
+	int mtop;				/* buffer margin top from window							 */
+	int mleft;				/* margin left from window									 */
 	int dirty;				/* how much this buffer become dirty						 */
 	// there some options for tab
 	bool linenm;			/* activate line number for this buffer or no				 */
@@ -72,6 +72,7 @@ void set_buffer_name(char *);
  *	works that we need to do when buffer changed
  */
 void buffer_changed();
+void change_current_buffer(buffer *);
 
 void append_buffer(buffer *);
 line *get_last_line(buffer *);

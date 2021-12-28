@@ -65,9 +65,9 @@ int scroll(int dir, int times)
 
 bool can_scroll(int dir)
 {
-	if (dir == MOVE_DOWN && cursor_row == curbp->mtop + curbp->nrow - 1)
+	if (dir == MOVE_DOWN && cursor_row == curbp->mtop + curbp->nrow - 2)
 		return true;
-	else if (dir == MOVE_UP && cursor_row - 1 == curbp->mtop)
+	else if (dir == MOVE_UP && cursor_row == curbp->mtop)
 		return true;
 	return false;
 }

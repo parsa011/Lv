@@ -104,7 +104,7 @@ void set_window_title(char *title)
 void update()
 {
 	TTchide();
-	TTmove(0,0);
+	TTmove(1,1);
 #if HAVE_WINDOWS_BAR
 	write_windows();
 #endif
@@ -120,14 +120,10 @@ void update()
 	if (bmtest(curbp,MDCMMD))
 		TTmove(messagebar_start_offset,msgbar_cursor_col);
 	else {
-		//int row = curbp->mtop + (curbp->clindex - curbp->loffset);
 		TTmove(cursor_row,cursor_col + curbp->mleft);
 	}	
 	TTcshow();
 	TTflush();
-	char temp[100];
-	sprintf(temp,"%d -- %d",curbp->mtop,curbp->nrow);
-	set_window_title(temp);
 }
 
 /*
@@ -261,14 +257,15 @@ int update_linenumber_padding()
  */
 void write_statusbar(buffer *bf)
 {
-	TTmove(bf->mtop + bf->nrow,1);
+	TTmove(bf->mtop + bf->nrow - 1,1);
 	TTeeol();
 	TTputs(INVERT);
 	char lstatus[256];
 	char rstatus[128];
 	int llen = sprintf(lstatus,"file : %s , %d line ",bf->bname,bf->lcount);
 	int rlen = sprintf(rstatus," %s --- %d | %d - %d",
-			bmtest(bf,MDLOCK) ? "+ lock" : "! insert",bf->clindex + 1,bf->coffset + 1,current_line != NULL ? current_line->len : 0);
+			bmtest(bf,MDLOCK) ? "+ lock" : "! insert",
+			bf->clindex + 1,bf->coffset + 1,current_line != NULL ? current_line->len : 0);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
 		if (llen + rlen == term.t_mcol) {

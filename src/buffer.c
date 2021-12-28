@@ -27,6 +27,7 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
 	bf->loffset = bf->coffset = bf->dirty = bf->clindex = 0;
 	bf->flags |= FREDRW;
+	bf->mtop = bf->mleft = 1;
 	bf->linenm = false;
 	return bf;
 }
@@ -140,6 +141,18 @@ int set_command_mode(int f, int n)
 	msgbar_cursor_col = 2;
 }
 
+/*
+ *	set current buffer to given bf and update cursor position
+ */
+void change_current_buffer(buffer *bf)
+{
+	curbp = bf;
+	cursor_row = curbp->mtop + (curbp->clindex - curbp->loffset);
+	if (current_line == NULL) {
+		cursor_col = curbp->mleft;
+	} else
+		update_position();
+}
 
 int next_buffer_in_window(int,int)
 {
@@ -148,7 +161,7 @@ int next_buffer_in_window(int,int)
 		 showmsg(true,"Last buffer");
 		 return false;
 	}
-	curbp = bf;
+	change_current_buffer(bf);
 	return true;
 }
 
@@ -159,6 +172,6 @@ int prev_buffer_in_window(int,int)
 		showmsg(true,"First buffer");
 		return false;
 	}
-	curbp = bf;
+	change_current_buffer(bf);
 	return true;
 }

@@ -126,13 +126,12 @@ int window_vertinal_split(int f,int n)
 		return false;
 	}
 	// init new buffer
-	buffer *bf = init_buffer(curbp->fname,curbp->bname,0,FREDRW);
-	int row = curbp->nrow / 2;
-	curbp->nrow = curbp->nrow / 2 - 1;
-	bf->mtop = curbp->mtop + row;
-	bf->nrow = row;
-	append_buffer(bf);
+	buffer *bf = init_buffer("","",0,FREDRW);
+	curbp->nrow /= 2;
+	bf->mtop = curbp->mtop + curbp->nrow;
+	bf->nrow = curbp->nrow;
+	bf->flags |= FREDRW;
 	curbp->flags |= FREDRW;
-	//check_cursor();
+	append_buffer(bf);
 	return true;
 }
