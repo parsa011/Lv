@@ -91,17 +91,16 @@ void clear_macro_stack()
 
 }
 
-void clear_number_stack()
+void clear_prompt()
 {
 	msgbar_prompt_p = 0;
 	repeat_char(msgbar_prompt,0,PROMPT_MAX_LENGTH);
 }
 
-
 int refresh_lock_mode(int f,int n)
 {
 	clear_macro_stack();
-	clear_number_stack();
+	clear_prompt();
 }
 
 /*
@@ -163,7 +162,7 @@ void add_to_number_stack(char c)
  */
 int leave_prompt_mode(int f, int n)
 {
-	clear_number_stack();
+	clear_prompt();
 	msgbar_cursor_col = 1;
 	set_mode_for_buffer(MDLOCK);
 	write_buffer();

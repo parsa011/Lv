@@ -174,10 +174,8 @@ void line_del_char()
 			return;
 		cursor_col = line_length(prev_line) + 1;
 		curbp->coffset = prev_line->len;
-
 		line_append(prev_line,current_line->chars,current_line->len);
 		line_delete(curbp->clindex);
-
 		return;
 	}
 	int at = curbp->coffset - 1;
@@ -197,9 +195,12 @@ void line_del_next()
 
 int delete_current_char(int f,int n)
 {
-	if (next_char(true,1)) {
-		line_del_char();
+	while (n--) {
+		if (next_char(true,1)) {
+			line_del_char();
+		}
 	}
+	return true;
 }
 
 /*

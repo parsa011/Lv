@@ -81,7 +81,7 @@ int refresh_lock_mode(int,int);
 void add_to_macro_stack(int);
 
 
-void clear_number_stack();
+void clear_prompt();
 void clear_macro_stack();
 
 /*
