@@ -232,20 +232,26 @@ void line_delete(int index)
 	}
 	line *lnext = lnext(ln);
 	line *lprev = lprev(ln);
-	if (index == curbp->lcount - 1) {
+	if (index == 0) {
+		if (lnext == NULL) {
+			current_line = NULL;
+			curbp->lline = NULL;curbp->fline = curbp->hline = current_line;
+			goto ret;
+		}
+		current_line  = lnext;
+		slprev(current_line,NULL);
+		curbp->fline = curbp->hline = current_line;
+		curbp->lcount--;
+		free(ln);
+		buffer_changed();
+		return;
+	} else if (index == curbp->lcount - 1) {
 		if (lprev == NULL)
 			goto ret;
 		current_line = lprev;
 		cursor_row--;
 		slnext(current_line,NULL);
 		curbp->lline = current_line;
-		goto ret;
-	} else if (index == 0) {
-		if (lnext == NULL)
-			goto ret;
-		current_line  = lnext;
-		slprev(current_line,NULL);
-		curbp->fline = current_line;
 		goto ret;
 	}
 	slnext(lprev,lnext);		
@@ -266,7 +272,9 @@ ret:
 
 int delete_current_line(int f,int n) 
 {
+	int temp = curbp->clindex;
 	line_delete(curbp->clindex);
-	move_nextline(true,1);
+	if (temp > 0)
+		move_nextline(true,1);
 	return true;
 }
