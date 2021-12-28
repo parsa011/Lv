@@ -2,6 +2,7 @@
 *.out
 *.swp
 test/*.txt
+test/*.c
 lv
 src/.deps
 dist/

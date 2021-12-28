@@ -241,10 +241,7 @@ void line_delete(int index)
 		current_line  = lnext;
 		slprev(current_line,NULL);
 		curbp->fline = curbp->hline = current_line;
-		curbp->lcount--;
-		free(ln);
-		buffer_changed();
-		return;
+		goto ret2;
 	} else if (index == curbp->lcount - 1) {
 		if (lprev == NULL)
 			goto ret;
@@ -265,6 +262,7 @@ void line_delete(int index)
 
 ret:
 	curbp->clindex--;
+ret2:
 	curbp->lcount--;
 	free(ln);
 	buffer_changed();
