@@ -103,6 +103,9 @@ int refresh_lock_mode(int f,int n)
 	clear_number_stack();
 }
 
+/*
+ *	add given key into macro stack to find multi key macros
+ */
 void add_to_macro_stack(int c)
 {
 	char key[6];
@@ -115,6 +118,9 @@ void add_to_macro_stack(int c)
 			goto no_space;
 		macro_stack[macro_stack_p++] = *(key + i++);
 	}
+	// here we want to check if we have some macro like this or no
+	if (compare_macro_name(macro_stack,macro_stack_p) == false) 
+		goto no_space;
 	if (macro_stack_p >= MAX_MACRO_STACK - 1) {
 no_space:
 		showmsg(true,"Macro not found : %s",macro_stack);

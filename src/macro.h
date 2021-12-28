@@ -49,6 +49,8 @@ key_macro *find_macro_str(char *);
  */
 key_macro *find_macro_by_name(char *);
 
+bool compare_macro_name(char *,int);
+
 /*
  *	execute a macro , check for modes
  */

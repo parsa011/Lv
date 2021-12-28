@@ -69,3 +69,18 @@ int exec_macro(key_macro *macro)
 	}
 	return false;
 }
+
+/*
+ *	will if we have macro to start with this name or 
+ *	this needed we add key to macro stack , to check
+ *	if we have a macro to start with stack or no , if
+ *	we dont have anything like that , we will clear 
+ *	stack
+ */
+bool compare_macro_name(char *name,int len)
+{
+	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
+		if (strncmp(macro->key_str,name,len) == 0)
+			return true;
+	return false;
+}
