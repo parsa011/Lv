@@ -46,7 +46,6 @@ int generate_basic_macros()
 	append_macro(init_macro(SPEC | 'C',"FNC",next_char,ALLMODES,"go to next char"));
 	append_macro(init_macro(SPEC | 'D',"FND",prev_char,ALLMODES,"go to prev char"));
 
-
 	append_macro(init_macro('x',"x",delete_current_char,(MDLOCK),"delete char under cursor"));
 	append_macro(init_macro('G',"G",goto_line,(MDLOCK | MDVISL | MDVIEW),"goto to line"));
 	append_macro(init_macro('w',"w",forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
@@ -62,6 +61,9 @@ int generate_basic_macros()
 	append_macro(init_macro(('d' | 'd'),"d-d",delete_current_line,(MDLOCK | MDVIEW),"remove current line"));
 	append_macro(init_macro((CTLX | 'N'),"^XN",next_window,(ALLMODES),"go to next window"));
 	append_macro(init_macro((CTLX | 'P'),"^XP",prev_window,(ALLMODES),"go to prev window"));
+	append_macro(init_macro((CTRL_KEY('w') | 'v'),"^W-v",window_vertinal_split,(MDLOCK | MDVIEW),"vertical window split"));
+	append_macro(init_macro((CTRL_KEY('w') | 'l'),"^W-l",next_buffer_in_window,(MDLOCK | MDVIEW),"go to next buffer"));
+	append_macro(init_macro((CTRL_KEY('w') | 'h'),"^W-h",prev_buffer_in_window,(MDLOCK | MDVIEW),"go to prev buffer"));
 
 	append_macro(init_macro('o',"o",line_new_down,(MDLOCK),"new line down"));
 	append_macro(init_macro('O',"O",line_new_up,(MDLOCK),"new line top"));

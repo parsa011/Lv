@@ -27,8 +27,8 @@ struct buffer_t {
 	short flags;			/* flags for buffer like size flags and ...					 */
 	ushort modes;			/* modes of this buffer 									 */
 	int coffset;			/* char offset in line ( how many char passed )				 */
-	int mtop;				/* buffer margin top from window							 */
-	int mleft;				/* margin left from window									 */
+	int mtop:1;				/* buffer margin top from window							 */
+	int mleft:1;			/* margin left from window									 */
 	int dirty;				/* how much this buffer become dirty						 */
 	// there some options for tab
 	bool linenm;			/* activate line number for this buffer or no				 */
@@ -82,5 +82,8 @@ int set_lock_mode(int, int);
 int set_visual_mode(int, int);
 int set_insert_mode(int, int);
 int set_command_mode(int, int);
+
+int next_buffer_in_window(int,int);
+int prev_buffer_in_window(int,int);
 
 #endif

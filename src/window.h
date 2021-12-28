@@ -52,7 +52,7 @@ int remove_window(window *);
 /*
  *	return last buffer of given window
  */
-buffer *get_last_buffer(window *);
+buffer *get_last_buffer();
 
 /*
  *	compare two window , to check if they are equals
@@ -68,6 +68,6 @@ int next_window(int,int);
 /* go to prev window */
 int prev_window(int,int);
 
-
+int window_vertinal_split(int,int);
 
 #endif

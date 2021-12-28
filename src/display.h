@@ -62,7 +62,7 @@ int update_linenumber_padding();
  *	write status bar into screen , the place that we will put information about 
  *	current state of editor and cursor and file
  */
-void write_statusbar();
+void write_statusbar(buffer *);
 
 void write_messagebar();
 
