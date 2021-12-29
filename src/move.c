@@ -16,8 +16,6 @@ void move_cursor()
 void check_cursor()
 {
 	if (cursor_row > curbp->mtop + curbp->nrow) {
-		cursor_row = curbp->mtop + curbp->nrow;
-		curbp->clindex = cursor_row - (cursor_row - (curbp->mtop + curbp->nrow));
 		goto_line(true,curbp->clindex);
 	}
 
