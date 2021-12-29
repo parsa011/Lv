@@ -176,6 +176,10 @@ void line_del_char()
 		curbp->coffset = prev_line->len;
 		line_append(prev_line,current_line->chars,current_line->len);
 		line_delete(curbp->clindex);
+		if (current_line == curbp->hline) {
+			curbp->loffset--;
+		}
+		buffer_changed();
 		return;
 	}
 	int at = curbp->coffset - 1;
