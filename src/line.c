@@ -98,10 +98,12 @@ int line_new(int force)
  */
 int line_new_down(int f, int n)
 {
-	if (gotoeol(1,1) == EMPTYBUFFER)
-		return EMPTYBUFFER;
-	gotoeol(1,1);
-	line_new(true);
+	while (n--) {
+		if (gotoeol(1,1) == EMPTYBUFFER)
+			return EMPTYBUFFER;
+		gotoeol(1,1);
+		line_new(true);
+	}
 	return true;
 }
 
@@ -110,11 +112,13 @@ int line_new_down(int f, int n)
  */
 int line_new_up(int f, int n)
 {
-	if (gotosol(1,1) == EMPTYBUFFER)
-		return EMPTYBUFFER;
-	gotosol(1,1);
-	line_new(true);
-	move_prevline(true,1);
+	while (n--) {
+		if (gotosol(1,1) == EMPTYBUFFER)
+			return EMPTYBUFFER;
+		gotosol(1,1);
+		line_new(true);
+		move_prevline(true,1);
+	}
 	return true;
 }
 
@@ -176,9 +180,6 @@ void line_del_char()
 		curbp->coffset = prev_line->len;
 		line_append(prev_line,current_line->chars,current_line->len);
 		line_delete(curbp->clindex);
-		if (current_line == curbp->hline) {
-			curbp->loffset--;
-		}
 		buffer_changed();
 		return;
 	}
@@ -254,6 +255,8 @@ void line_delete(int index)
 		cursor_row--;
 		slnext(current_line,NULL);
 		curbp->lline = current_line;
+		//if (curbp->lline = curbp->hline)
+	//		curbp->hline = current_line;
 		goto ret;
 	}
 	slnext(lprev,lnext);		
@@ -266,6 +269,9 @@ void line_delete(int index)
 		cursor_row--;
 
 ret:
+	if (current_line == curbp->hline) {
+		curbp->loffset--;
+	}
 	curbp->clindex--;
 ret2:
 	curbp->lcount--;
