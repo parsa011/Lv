@@ -252,11 +252,10 @@ void line_delete(int index)
 		if (lprev == NULL)
 			goto ret;
 		current_line = lprev;
-		cursor_row--;
+		if (!can_scroll(MOVE_UP))
+			cursor_row--;
 		slnext(current_line,NULL);
 		curbp->lline = current_line;
-		//if (curbp->lline = curbp->hline)
-	//		curbp->hline = current_line;
 		goto ret;
 	}
 	slnext(lprev,lnext);		
@@ -264,7 +263,8 @@ void line_delete(int index)
 	current_line = lprev;
 	/* if this is header line in buffer , we will set header to prev line */
 	if (ln != curbp->hline)
-		cursor_row--;
+		if (!can_scroll(MOVE_UP))
+			cursor_row--;
 
 ret:
 	if (curbp->hline == ln) {
