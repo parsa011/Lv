@@ -263,14 +263,15 @@ void line_delete(int index)
 	slprev(lnext,lprev);
 	current_line = lprev;
 	/* if this is header line in buffer , we will set header to prev line */
-	if (ln == curbp->hline)
-		curbp->hline = lprev;
-	else
+	if (ln != curbp->hline)
 		cursor_row--;
 
 ret:
-	if (current_line == curbp->hline) {
+	if (curbp->hline == ln) {
+		curbp->hline = lprev;
 		curbp->loffset--;
+	}
+	if (current_line == curbp->hline) {
 	}
 	curbp->clindex--;
 ret2:
