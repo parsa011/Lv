@@ -21,7 +21,7 @@ void lv_loop();
 void init_editor();
 
 /*
- *	close editor 
+ *	close editor
  *	but before closing , check for edited buffer to save them or prevent
  *	of closing
  */
