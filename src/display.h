@@ -21,6 +21,8 @@
 #define statusbar_start_offset 	term.t_mrow - 1
 #define messagebar_start_offset term.t_mrow
 
+#define STATUSBAR_FILLER ' '
+
 /*
  *	init terminal and trun on raw mode
  */
