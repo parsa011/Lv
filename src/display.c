@@ -189,6 +189,7 @@ void write_buffer()
 				TTputs("\r\n");
 			}
 		}
+		write_statusbar(curbp);
 		bf = bnext(bf);
 	}
 }
