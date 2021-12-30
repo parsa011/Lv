@@ -33,11 +33,9 @@ proc_metac:
 	if (c == 128 + 27) /* CSI */
 		goto handle_CSI;
 	/* process META prefix */
-	if (c == metac)
-	{
+	if (c == metac) {
 		c = get_key();
-		if (c == '[' || c == 'O')
-		{ /* CSI P.K. */
+		if (c == '[' || c == 'O') { /* CSI P.K. */
 handle_CSI:
 			c = get_key();
 			if (c >= 'A' && c <= 'D')
@@ -47,8 +45,7 @@ handle_CSI:
 			d = get_key();
 			if (d == '~') /* ESC [ n ~   P.K. */
 				return SPEC | c | cmask;
-			switch (c)
-			{ /* ESC [ n n ~ P.K. */
+			switch (c) { /* ESC [ n n ~ P.K. */
 				case '1':
 					c = d + 32;
 					break;
@@ -64,8 +61,7 @@ handle_CSI:
 			}
 			if (d != '~') /* eat tilde P.K. */
 				get_key();
-			if (c == 'i')
-			{ /* DO key    P.K. */
+			if (c == 'i') { /* DO key    P.K. */
 				c = ctlxc;
 				goto proc_ctlxc;
 			}
@@ -74,8 +70,7 @@ handle_CSI:
 			else
 				return SPEC | c | cmask;
 		}
-		if (c == (SPEC | 'P')) // f1 key
-		{
+		if (c == (SPEC | 'P')) { // f1 key
 			cmask = META;
 			goto proc_metac;
 		}
@@ -85,11 +80,9 @@ handle_CSI:
 			c = CONTROL | (c + '@');
 		return META | c;
 	}
-	else if (c == metac)
-	{
+	else if (c == metac) {
 		c = get_key();
-		if (c == metac)
-		{
+		if (c == metac) {
 			cmask = META;
 			goto proc_metac;
 		}
@@ -102,11 +95,9 @@ handle_CSI:
 
 proc_ctlxc:
 	/* process CTLX prefix */
-	if (c == ctlxc)
-	{
+	if (c == ctlxc) {
 		c = get_key();
-		if (c == (CONTROL | '['))
-		{
+		if (c == (CONTROL | '[')) {
 			cmask = CTLX;
 			goto proc_metac;
 		}
