@@ -68,11 +68,14 @@ void append_buffer(buffer *bf)
 	if (curwp->fbuffer == NULL)
 		curwp->fbuffer = bf;
 	else {
-		buffer *lbuffer = get_last_buffer(NULL);
-		if (lbuffer == NULL)
+		//buffer *lbuffer = get_last_buffer(NULL);
+		if (curbp == NULL)
 			die("Something went wrong ;/");
-		sbnext(lbuffer,bf);
-		sbprev(bf,lbuffer);
+		buffer *nb = bnext(curbp);
+		sbnext(curbp,bf);
+		sbprev(bf,curbp);
+		if (nb != NULL) 
+			sbprev(nb,bf);
 	}
 	curwp->bcount++;
 	//curbp = bf;
