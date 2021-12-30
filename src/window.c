@@ -128,9 +128,10 @@ int window_vertinal_split(int f,int n)
 	// init new buffer
 	buffer *bf = init_buffer("","",0,FREDRW);
 	curbp->nrow = curbp->nrow / 2;
-	bf->mtop = curbp->mtop + curbp->nrow;
-	bf->nrow = curbp->nrow;
+	bf->mtop = curbp->mtop + curbp->nrow - 1;
+	bf->nrow = curbp->nrow + 1;
 	curbp->flags |= FREDRW;
+	curbp->nrow -= 1;
 	append_buffer(bf);
 	return true;
 }
