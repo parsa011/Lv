@@ -69,5 +69,6 @@ int next_window(int,int);
 int prev_window(int,int);
 
 int window_vertinal_split(int,int);
+int window_horizontal_split(int,int);
 
 #endif

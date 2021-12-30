@@ -170,7 +170,7 @@ void write_buffer()
 {
 	buffer *bf = curwp->fbuffer;
 	while (bf != NULL) {
-		TTmove(bf->mtop,1);
+		TTmove(bf->mtop,bf->mleft);
 		int count = 0;
 		int linenu = bf->loffset + 1;
 		int linenu_offst = number_len(bf->lcount);

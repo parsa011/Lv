@@ -63,6 +63,7 @@ int generate_basic_macros()
 	append_macro(init_macro((CTLX | 'P'),"^XP",prev_window,(ALLMODES),"go to prev window"));
 
 	append_macro(init_macro((CTRL_KEY('w') | 'v'),"^W-v",window_vertinal_split,(MDLOCK | MDVIEW),"vertical window split"));
+	append_macro(init_macro((CTRL_KEY('w') | 's'),"^W-s",window_horizontal_split,(MDLOCK | MDVIEW),"horizontal window split"));
 	append_macro(init_macro((CTRL_KEY('w') | 'j'),"^W-j",next_buffer_in_window,(MDLOCK | MDVIEW),"go to next buffer"));
 	append_macro(init_macro((CTRL_KEY('w') | 'k'),"^W-k",prev_buffer_in_window,(MDLOCK | MDVIEW),"go to prev buffer"));
 

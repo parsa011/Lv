@@ -135,3 +135,9 @@ int window_vertinal_split(int f,int n)
 	append_buffer(bf);
 	return true;
 }
+
+int window_horizontal_split(int f,int n)
+{
+
+	return true;
+}
