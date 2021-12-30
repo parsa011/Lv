@@ -115,7 +115,6 @@ void update()
 		// cause we draw buffer again , so dont need it anymore , until another change
 		curbp->flags &= ~FREDRW;
 	}
-	write_statusbar(curbp);
 	write_messagebar();
 	check_cursor();
 	if (bmtest(curbp,MDCMMD))
@@ -176,7 +175,7 @@ void write_buffer()
 		int linenu = bf->loffset + 1;
 		int linenu_offst = number_len(bf->lcount);
 		bool linem = bf->linenm;
-		for (line *ln = bf->hline;count < bf->nrow;count++) {
+		for (line *ln = bf->hline;count < bf->nrow - 1;count++) {
 			TTeeol();
 			if (ln != NULL) {
 				if (linem)
@@ -264,8 +263,8 @@ void write_statusbar(buffer *bf)
 	char lstatus[256];
 	char rstatus[128];
 	int llen = sprintf(lstatus,"file : %s , %d line ",bf->bname,bf->lcount);
-	int rlen = sprintf(rstatus," %s %c%c %d | %d - %d",
-			bmtest(bf,MDLOCK) ? "lock" : "insert",STATUSBAR_FILLER,STATUSBAR_FILLER,
+	int rlen = sprintf(rstatus," %s --- %d | %d - %d",
+			bmtest(bf,MDLOCK) ? "+ lock" : "! insert",
 			bf->clindex + 1,bf->coffset + 1,current_line != NULL ? current_line->len : 0);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
@@ -273,7 +272,7 @@ void write_statusbar(buffer *bf)
 			TTputs(rstatus);
 			break;
 		}
-		TTputc(STATUSBAR_FILLER);
+		TTputc('-');
 		llen++;
 	}
 	TTputs("\r\n");

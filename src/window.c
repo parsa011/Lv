@@ -130,6 +130,7 @@ int window_vertinal_split(int f,int n)
 	curbp->nrow = curbp->nrow / 2;
 	bf->mtop = curbp->mtop + curbp->nrow - 1;
 	bf->nrow = curbp->nrow + 1;
+	bf->mleft = curbp->mleft;
 	curbp->flags |= FREDRW;
 	curbp->nrow -= 1;
 	append_buffer(bf);
@@ -138,6 +139,11 @@ int window_vertinal_split(int f,int n)
 
 int window_horizontal_split(int f,int n)
 {
-
+	buffer *bf = init_buffer("","",0,FREDRW);
+	bf->mtop = curbp->mtop;
+	bf->nrow = curbp->nrow;
+	bf->mleft = curbp->mleft + (term.t_mcol / 2);
+	append_buffer(bf);
+	curbp->flags |= FREDRW;
 	return true;
 }
