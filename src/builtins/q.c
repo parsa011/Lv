@@ -10,10 +10,25 @@
 static bool quite_all = false;
 static bool quite_force = false;
 
-const char *quite_args[] = {
-	"a",
-	"!"
+const char *options[] = {
+	"a (remove all buffer and close editor)",
+	"! (force quite , ignoring chagnes"
 };
+
+int quite_command_tab(int f,int c)
+{
+	TTmove(buffers_start_offset,1);
+	command *cmd = fcommand;
+	int k = 0;
+	for (int i = 0;i < statusbar_start_offset - windowsbar_start_offset - 1;i++) {
+		TTeeol();
+		if (k <= 1) {
+			TTputs(options[k++]);
+		}
+		TTputs("\n\r");
+	}
+	return true;
+}
 
 /*
  *	recieve given args from command , and find inserted

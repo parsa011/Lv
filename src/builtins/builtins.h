@@ -23,11 +23,13 @@
  *	editor quit commands that will process many input args
  */
 int quit(int,char **);
+int quite_command_tab(int,int);
 
 /*
  *	write buffer into file command
  */
-int write_cmd(int,char **);
+int write_command(int,char **);
+int write_command_tab(int,int);
 
 /*
  *	open file command

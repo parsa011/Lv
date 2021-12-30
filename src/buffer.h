@@ -72,6 +72,7 @@ void set_buffer_name(char *);
  *	works that we need to do when buffer changed
  */
 void buffer_changed();
+void change_current_buffer(buffer *);
 
 void append_buffer(buffer *);
 line *get_last_line(buffer *);
@@ -82,5 +83,8 @@ int set_lock_mode(int, int);
 int set_visual_mode(int, int);
 int set_insert_mode(int, int);
 int set_command_mode(int, int);
+
+int next_buffer_in_window(int,int);
+int prev_buffer_in_window(int,int);
 
 #endif

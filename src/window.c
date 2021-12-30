@@ -13,6 +13,7 @@ window *init_window()
 	window *wp;
 	if (!(wp = malloc(sizeof(window))))
 		die("malloc window");
+	wp->crow = wp->ccol = 1;
 	return wp;
 }
 
@@ -91,12 +92,10 @@ int append_window(window *wp)
  *	return last buffer of given window
  *	if window is NULL we will get last buffer of curwp
  */
-buffer *get_last_buffer(window *wp)
+buffer *get_last_buffer()
 {
-	/* set to curwp if wp is null */
-	window *win = wp != NULL ? wp : curwp;
-	buffer *b = win->fbuffer;
-	for (; b != NULL;b = bnext(b));
+	buffer *b = curwp->fbuffer;
+	for (; bnext(b) != NULL;b = bnext(b));
 	return b;
 }
 
@@ -117,5 +116,21 @@ int prev_window(int f, int n)
 		return false;
 	}
 	activate_window(wprev(curwp));
+	return true;
+}
+
+int window_vertinal_split(int f,int n)
+{
+	if (curbp->nrow < 5) {
+		showmsg(true,"Cant split under 5 line buffer");
+		return false;
+	}
+	// init new buffer
+	buffer *bf = init_buffer("","",0,FREDRW);
+	curbp->nrow = curbp->nrow / 2;
+	bf->mtop = curbp->mtop + curbp->nrow;
+	bf->nrow = curbp->nrow;
+	curbp->flags |= FREDRW;
+	append_buffer(bf);
 	return true;
 }

@@ -46,7 +46,6 @@ int generate_basic_macros()
 	append_macro(init_macro(SPEC | 'C',"FNC",next_char,ALLMODES,"go to next char"));
 	append_macro(init_macro(SPEC | 'D',"FND",prev_char,ALLMODES,"go to prev char"));
 
-
 	append_macro(init_macro('x',"x",delete_current_char,(MDLOCK),"delete char under cursor"));
 	append_macro(init_macro('G',"G",goto_line,(MDLOCK | MDVISL | MDVIEW),"goto to line"));
 	append_macro(init_macro('w',"w",forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
@@ -63,6 +62,10 @@ int generate_basic_macros()
 	append_macro(init_macro((CTLX | 'N'),"^XN",next_window,(ALLMODES),"go to next window"));
 	append_macro(init_macro((CTLX | 'P'),"^XP",prev_window,(ALLMODES),"go to prev window"));
 
+	append_macro(init_macro((CTRL_KEY('w') | 'v'),"^W-v",window_vertinal_split,(MDLOCK | MDVIEW),"vertical window split"));
+	append_macro(init_macro((CTRL_KEY('w') | 'j'),"^W-j",next_buffer_in_window,(MDLOCK | MDVIEW),"go to next buffer"));
+	append_macro(init_macro((CTRL_KEY('w') | 'k'),"^W-k",prev_buffer_in_window,(MDLOCK | MDVIEW),"go to prev buffer"));
+
 	append_macro(init_macro('o',"o",line_new_down,(MDLOCK),"new line down"));
 	append_macro(init_macro('O',"O",line_new_up,(MDLOCK),"new line top"));
 
@@ -72,7 +75,7 @@ int generate_basic_macros()
 int generate_basic_commands()
 {
 	append_command(init_command("q",quit,0));
-	append_command(init_command("w",write_cmd,0));
+	append_command(init_command("w",write_command,0));
 	append_command(init_command("o",open_command,0));
 	return commands_count;
 }
@@ -237,7 +240,7 @@ int manage_prompt_key(int c)
 		msgbar_cursor_col++;
 	}
 	msgbar_prompt[msgbar_prompt_p] = 0;
-	//find_and_set_command_keys();
+	find_and_set_command_keys();
 	return true;
 }
 
@@ -247,11 +250,16 @@ void find_and_set_command_keys()
 		generate_prompt_keys();
 		return;
 	}
-	char *temp = msgbar_prompt;
+	char *temp = strdup(msgbar_prompt);
 	char **args = tokenize_string(temp,' ');
 	if (strcmp(args[0],"o") == 0) {
 		change_prompt_key(CTRL_KEY('i'),open_command_tab);
+	} else if (strcmp(args[0],"w") == 0) {
+		change_prompt_key(CTRL_KEY('i'),write_command_tab);
+	} else if (strcmp(args[0],"q") == 0) {
+		change_prompt_key(CTRL_KEY('i'),quite_command_tab);
 	}
+
 }
 
 /*

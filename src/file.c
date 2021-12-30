@@ -54,13 +54,14 @@ int save_file()
 		return false;
 	}
 	showmsg(true,"writing file ...");
-	open_file(curbp->fname,"w");
+	open_file(curbp->fname,"w+");
 	for (line *ln = curbp->fline;ln != NULL;ln = lnext(ln)) {
 		if (fputline(ln) == FALSE)
 			return false;
 	}
 	curbp->dirty = 0;
 	showmsg(true,"file wroted in %s",curbp->fname);
+	close_file();
 	return true;
 }
 
@@ -82,6 +83,8 @@ int fputline(line *ln)
 
 void close_file()
 {
-	if (fp)
+	if (fp) {
 		fclose(fp);
+		fp = NULL;
+	}
 }

@@ -15,10 +15,9 @@ void move_cursor()
 
 void check_cursor()
 {
-	if (cursor_row == windowsbar_start_offset || cursor_row <= 0)
-		cursor_row = buffers_start_offset;
-	if (cursor_row >= statusbar_start_offset)
-		cursor_row = statusbar_start_offset - 1;
+	if (cursor_row > curbp->mtop + curbp->nrow) {
+		goto_line(true,curbp->clindex);
+	}
 
 	if (cursor_col <= 0) {
 		cursor_col = 1;
@@ -64,9 +63,9 @@ int scroll(int dir, int times)
 
 bool can_scroll(int dir)
 {
-	if (dir == MOVE_DOWN && cursor_row - windowsbar_start_offset - curbp->mtop == curbp->nrow - 1) 
+	if (dir == MOVE_DOWN && cursor_row == curbp->mtop + curbp->nrow - 2)
 		return true;
-	else if (dir == MOVE_UP && cursor_row - 1 == curbp->mtop)
+	else if (dir == MOVE_UP && cursor_row == curbp->mtop)
 		return true;
 	return false;
 }

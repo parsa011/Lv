@@ -104,7 +104,7 @@ void set_window_title(char *title)
 void update()
 {
 	TTchide();
-	TTmove(0,0);
+	TTmove(1,1);
 #if HAVE_WINDOWS_BAR
 	write_windows();
 #endif
@@ -115,13 +115,13 @@ void update()
 		// cause we draw buffer again , so dont need it anymore , until another change
 		curbp->flags &= ~FREDRW;
 	}
-	write_statusbar();
 	write_messagebar();
 	check_cursor();
 	if (bmtest(curbp,MDCMMD))
 		TTmove(messagebar_start_offset,msgbar_cursor_col);
-	else
+	else {
 		TTmove(cursor_row,cursor_col + curbp->mleft);
+	}	
 	TTcshow();
 	TTflush();
 }
@@ -168,23 +168,28 @@ void write_windows()
  */
 void write_buffer()
 {
-	TTmove(buffers_start_offset,1);
-	int count = 0;
-	int linenu = curbp->loffset + 1;
-	int linenu_offst = number_len(curbp->lcount);
-	bool linem = curbp->linenm;
-	for (line *ln = curbp->hline;count < curbp->nrow;count++) {
-		TTeeol();
-		if (ln != NULL) {
-			if (linem)
-				write_linenumber(linenu++,linenu_offst);
-			write_line(ln);
-			ln = lnext(ln);
-		} else {
+	buffer *bf = curwp->fbuffer;
+	while (bf != NULL) {
+		TTmove(bf->mtop,1);
+		int count = 0;
+		int linenu = bf->loffset + 1;
+		int linenu_offst = number_len(bf->lcount);
+		bool linem = bf->linenm;
+		for (line *ln = bf->hline;count < bf->nrow;count++) {
 			TTeeol();
-			TTputs(LINE_MASK);
-			TTputs("\r\n");
+			if (ln != NULL) {
+				if (linem)
+					write_linenumber(linenu++,linenu_offst);
+				write_line(ln);
+				ln = lnext(ln);
+			} else {
+				TTeeol();
+				TTputs(LINE_MASK);
+				TTputs("\r\n");
+			}
 		}
+		write_statusbar(bf);
+		bf = bnext(bf);
 	}
 }
 
@@ -250,16 +255,17 @@ int update_linenumber_padding()
  *	other one but if sum of them is less than terminal col size ,
  *	we will put space to fill status bar
  */
-void write_statusbar()
+void write_statusbar(buffer *bf)
 {
-	TTmove(statusbar_start_offset,1);
+	TTmove(bf->mtop + bf->nrow - 1,1);
 	TTeeol();
 	TTputs(INVERT);
 	char lstatus[256];
 	char rstatus[128];
-	int llen = sprintf(lstatus,"file : %s , %d line ",curbp->bname,curbp->lcount);
+	int llen = sprintf(lstatus,"file : %s , %d line ",bf->bname,bf->lcount);
 	int rlen = sprintf(rstatus," %s --- %d | %d - %d",
-			bmtest(curbp,MDLOCK) ? "+ lock" : "! insert",curbp->clindex + 1,curbp->coffset + 1,current_line != NULL ? current_line->len : 0);
+			bmtest(bf,MDLOCK) ? "+ lock" : "! insert",
+			bf->clindex + 1,bf->coffset + 1,current_line != NULL ? current_line->len : 0);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
 		if (llen + rlen == term.t_mcol) {
