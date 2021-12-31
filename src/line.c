@@ -240,6 +240,7 @@ void line_delete(int index)
 	line *lprev = lprev(ln);
 	if (index == 0) {
 		if (lnext == NULL) {
+			cursor_col = 1;
 			current_line = NULL;
 			curbp->lline = NULL;curbp->fline = curbp->hline = current_line;
 			goto ret;
