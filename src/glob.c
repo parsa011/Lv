@@ -102,6 +102,7 @@ void clear_prompt()
 
 int refresh_lock_mode(int f,int n)
 {
+	number_stack = 0;
 	clear_macro_stack();
 	clear_prompt();
 }

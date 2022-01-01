@@ -34,6 +34,9 @@ void append_macro(key_macro *macro)
 	macros_count++;
 }
 
+/*
+ *	find a macro by its key , also it will check for modes to be equal
+ */
 key_macro *find_macro(int key)
 {
 	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
@@ -58,6 +61,10 @@ key_macro *find_macro_by_name(char *name)
 	return NULL;
 }
 
+/*
+ *	run macro , and pass args to macro func 
+ *	like number stack , then clear them
+ */
 int exec_macro(key_macro *macro)
 {
 	if (curbp->modes & macro->modes) {
@@ -71,7 +78,7 @@ int exec_macro(key_macro *macro)
 }
 
 /*
- *	will if we have macro to start with this name or 
+ *	will if we have macro that will start with this name or 
  *	this needed we add key to macro stack , to check
  *	if we have a macro to start with stack or no , if
  *	we dont have anything like that , we will clear 

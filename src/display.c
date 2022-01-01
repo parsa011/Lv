@@ -94,7 +94,7 @@ bool get_cursor_position(int *rows, int *cols)
 /*
  *	set terminal title
  */
-void set_window_title(char *title)
+void set_terminal_title(char *title)
 {
 	char buf[250];
 	int len = sprintf(buf,"\033]0;%s\007",title);
@@ -115,6 +115,7 @@ void update()
 		// cause we draw buffer again , so dont need it anymore , until another change
 		curbp->flags &= ~FREDRW;
 	}
+	write_statusbar(curbp);
 	write_messagebar();
 	check_cursor();
 	if (bmtest(curbp,MDCMMD))
@@ -263,8 +264,8 @@ void write_statusbar(buffer *bf)
 	char lstatus[256];
 	char rstatus[128];
 	int llen = sprintf(lstatus,"file : %s , %d line ",bf->bname,bf->lcount);
-	int rlen = sprintf(rstatus," %s --- %d | %d - %d",
-			bmtest(bf,MDLOCK) ? "+ lock" : "! insert",
+	int rlen = sprintf(rstatus," %s %c%c %d | %d - %d",
+			bmtest(bf,MDLOCK) ? "lock" : "insert",STATUSBAR_FILLER,STATUSBAR_FILLER,
 			bf->clindex + 1,bf->coffset + 1,current_line != NULL ? current_line->len : 0);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
@@ -272,7 +273,7 @@ void write_statusbar(buffer *bf)
 			TTputs(rstatus);
 			break;
 		}
-		TTputc('-');
+		TTputc(STATUSBAR_FILLER);
 		llen++;
 	}
 	TTputs("\r\n");

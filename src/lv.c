@@ -20,6 +20,7 @@ int close_editor(int focre, int code)
 		TTeeop();
 	TTmove(1,1);
 	close_file();
+	TTputs(DEFAULT);
 	exit(code);
 }
 
@@ -37,7 +38,7 @@ void init_editor()
 	lastwp = curwp;
 	curbp = init_buffer("",NO_NAME_BUFFER,0,0);
 	append_buffer(curbp);
-	set_window_title(TERMINAL_TITLE);
+	set_terminal_title(TERMINAL_TITLE);
 	generate_basic_macros();
 	generate_basic_commands();
 	generate_prompt_keys();

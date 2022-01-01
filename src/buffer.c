@@ -1,5 +1,5 @@
 /*
- *	Manager buffers 
+ *	Manager buffers
  *	Copyright
  *		(C) 2021 Parsa Mahmoudy sahebi
  *
@@ -14,7 +14,7 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	if (!(bf = malloc(sizeof(buffer))))
 		die("malloc buffer");
 
-	if (strlen(buffername) < NBUFN) { 
+	if (strlen(buffername) < NBUFN) {
 		lv_strncpy(bf->bname,buffername,NBUFN);
 	}
 	if (strlen(filename) < NFILEN)
@@ -68,18 +68,21 @@ void append_buffer(buffer *bf)
 	if (curwp->fbuffer == NULL)
 		curwp->fbuffer = bf;
 	else {
-		buffer *lbuffer = get_last_buffer(NULL);
-		if (lbuffer == NULL)
+		//buffer *lbuffer = get_last_buffer(NULL);
+		if (curbp == NULL)
 			die("Something went wrong ;/");
-		sbnext(lbuffer,bf);
-		sbprev(bf,lbuffer);
+		buffer *nb = bnext(curbp);
+		sbnext(curbp,bf);
+		sbprev(bf,curbp);
+		if (nb != NULL)
+			sbprev(nb,bf);
 	}
 	curwp->bcount++;
 	//curbp = bf;
 }
 
 /*
- *	return last line of given buffer 
+ *	return last line of given buffer
  *	if given buffer is NULL we will get last line of curbp
  */
 line *get_last_line(buffer *bf)
@@ -161,6 +164,7 @@ int next_buffer_in_window(int,int)
 		 showmsg(true,"Last buffer");
 		 return false;
 	}
+	curwp->cbindex++;
 	change_current_buffer(bf);
 	return true;
 }
@@ -172,6 +176,67 @@ int prev_buffer_in_window(int,int)
 		showmsg(true,"First buffer");
 		return false;
 	}
+	curwp->cbindex--;
 	change_current_buffer(bf);
 	return true;
+}
+
+/*
+ *	this routhien will remove buffer from window
+ *	also it will append its space to next or prev buffer
+ *	return alone buffer , if it was last buffer in window
+ */
+int remove_buffer()
+{
+	buffer *new_one = bprev(curbp);
+	if (new_one == NULL) {
+    	new_one = bnext(curbp);
+    	if (new_one == NULL) {
+        	free(curbp);
+        	return ALONEBUFFER;
+    	}
+	}
+	if (new_one == bnext(curbp)) {
+		new_one->mtop = curbp->mtop;
+		buffer *prev = bprev(curbp);
+		if (prev != NULL) {
+			sbnext(prev,new_one);
+			sbprev(new_one,prev);
+		} else {
+			sbprev(new_one,NULL);
+		}
+	} else {
+		// here , new one is prev buffer of current buffer , first we have to check
+		// that there is any next buffer , if it exist , we will set links
+		buffer *next = bnext(curbp);
+		if (next != NULL) {
+			sbnext(new_one,next);
+			sbprev(next,new_one);
+		} else {
+			sbnext(new_one,NULL);
+		}
+	}
+	if (curbp == curwp->fbuffer)
+		curwp->fbuffer = new_one;
+	new_one->nrow += curbp->nrow;
+	curwp->bcount--;
+	free(curbp);
+	change_current_buffer(new_one);
+	curbp->flags |= FREDRW;
+	return true;
+}
+
+/*
+ *	return buffer by index 
+ *	we have to set curwp to our intended window 
+ *	becuase it search in curwp
+ */
+buffer *get_buffer_by_index(int index) 
+{
+	int i = 0;
+	for (buffer *bf = curwp->fbuffer;bf != NULL;bf = bnext(bf),i++) {
+		if (i == index)
+			return bf;
+	}
+	return NULL;
 }
