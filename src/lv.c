@@ -20,6 +20,7 @@ int close_editor(int focre, int code)
 		TTeeop();
 	TTmove(1,1);
 	close_file();
+	TTputs(DEFAULT);
 	exit(code);
 }
 

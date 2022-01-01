@@ -2,12 +2,14 @@
 # define _BUFFER_H
 
 /*
- *	Manager buffers 
+ *	Manager buffers
  *	Copyright
  *		(C) 2021 Parsa Mahmoudy sahebi
  *
  *	This file is part of Lv
  */
+
+#define ALONEBUFFER 0x002
 
 #define NFILEN  256			/* n of bytes, file name 	*/
 #define NBUFN   32			/* n of bytes, buffer name 	*/
@@ -36,9 +38,9 @@ struct buffer_t {
 
 #define bnext(b) 	(b->link.next)		/* next buffer of given buffer 		*/
 #define bprev(b) 	(b->link.prev)		/* prev buffer of given buffer 		*/
-#define sbnext(b,n) (b->link.next = n)	/* set next buffer for given buffer */ 
+#define sbnext(b,n) (b->link.next = n)	/* set next buffer for given buffer */
 #define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
-#define bmtest(b,m)	(b->modes & m)		/* test if buffer is in given mode 	*/ 
+#define bmtest(b,m)	(b->modes & m)		/* test if buffer is in given mode 	*/
 #define usmode(b,m)	(b->modes &= ~m)	/* unset a mode from buffer modes	*/
 #define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
 
@@ -57,7 +59,7 @@ struct buffer_t {
 #define MDCMMD 	0x0020	/* typing command mode			 */
 
 /* this is usefull for macros , when they are avaiable in all modes */
-#define ALLMODES (MDLOCK | MDINST | MDVISL | MDVIEW)	
+#define ALLMODES (MDLOCK | MDINST | MDVISL | MDVIEW)
 
 //#define	MDCMOD	0x0002		/* c indentation and fence match */
 //#define	MDSPELL	0x0004		/* spell error parsing           */
@@ -86,5 +88,7 @@ int set_command_mode(int, int);
 
 int next_buffer_in_window(int,int);
 int prev_buffer_in_window(int,int);
+
+int remove_buffer();
 
 #endif

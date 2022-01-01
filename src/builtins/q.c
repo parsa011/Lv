@@ -64,8 +64,9 @@ int quit(int f, char **args)
 			showmsg(true,"buffer is dity, use 'q !' to force quite");
 			return false;
 		}
-		if (remove_window(curwp) == ALONEWINDOW)
-			close_editor(true,EXIT_SUCCESS);
+		if (remove_buffer(curbp) == ALONEBUFFER)
+    		if (remove_window(curwp) == ALONEWINDOW)
+    			close_editor(true,EXIT_SUCCESS);
 	}
 	return true;
 }
