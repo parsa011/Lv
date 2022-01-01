@@ -94,7 +94,7 @@ bool get_cursor_position(int *rows, int *cols)
 /*
  *	set terminal title
  */
-void set_window_title(char *title)
+void set_terminal_title(char *title)
 {
 	char buf[250];
 	int len = sprintf(buf,"\033]0;%s\007",title);
