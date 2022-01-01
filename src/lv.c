@@ -22,6 +22,7 @@ int close_editor(int focre, int code)
 	close_file();
 	TTputs(DEFAULT);
 	exit(code);
+	return true;
 }
 
 /*
