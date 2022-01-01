@@ -200,6 +200,8 @@ int remove_buffer()
 		if (prev != NULL) {
 			sbnext(prev,new_one);
 			sbprev(new_one,prev);
+		} else {
+			sbprev(new_one,NULL);
 		}
 	} else {
 		// here , new one is prev buffer of current buffer , first we have to check
@@ -208,8 +210,12 @@ int remove_buffer()
 		if (next != NULL) {
 			sbnext(new_one,next);
 			sbprev(next,new_one);
+		} else {
+			sbnext(new_one,NULL);
 		}
 	}
+	if (curbp == curwp->fbuffer)
+		curwp->fbuffer = new_one;
 	new_one->nrow += curbp->nrow;
 	curwp->bcount--;
 	free(curbp);
