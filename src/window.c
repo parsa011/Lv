@@ -13,6 +13,7 @@ window *init_window()
 	window *wp;
 	if (!(wp = malloc(sizeof(window))))
 		die("malloc window");
+	wp->cbindex = 0;
 	wp->crow = wp->ccol = 1;
 	return wp;
 }
@@ -74,7 +75,7 @@ bool compare_windows(window *wp1,window *wp2)
 void activate_window(window *wp)
 {
 	curwp = wp;
-	curbp = curwp->fbuffer;
+	curbp = get_buffer_by_index(curwp->cbindex);
 	curbp->flags |= FREDRW;
 }
 

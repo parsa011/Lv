@@ -164,6 +164,7 @@ int next_buffer_in_window(int,int)
 		 showmsg(true,"Last buffer");
 		 return false;
 	}
+	curwp->cbindex++;
 	change_current_buffer(bf);
 	return true;
 }
@@ -175,6 +176,7 @@ int prev_buffer_in_window(int,int)
 		showmsg(true,"First buffer");
 		return false;
 	}
+	curwp->cbindex--;
 	change_current_buffer(bf);
 	return true;
 }
@@ -222,4 +224,19 @@ int remove_buffer()
 	change_current_buffer(new_one);
 	curbp->flags |= FREDRW;
 	return true;
+}
+
+/*
+ *	return buffer by index 
+ *	we have to set curwp to our intended window 
+ *	becuase it search in curwp
+ */
+buffer *get_buffer_by_index(int index) 
+{
+	int i = 0;
+	for (buffer *bf = curwp->fbuffer;bf != NULL;bf = bnext(bf),i++) {
+		if (i == index)
+			return bf;
+	}
+	return NULL;
 }

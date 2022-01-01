@@ -91,4 +91,6 @@ int prev_buffer_in_window(int,int);
 
 int remove_buffer();
 
+buffer *get_buffer_by_index(int);
+
 #endif
