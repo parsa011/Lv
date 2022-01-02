@@ -70,15 +70,15 @@ handle_CSI:
 			else
 				return SPEC | c | cmask;
 		}
-		if (c == (SPEC | 'P')) { // f1 key
-			cmask = META;
-			goto proc_metac;
-		}
-		if (islower(c)) /* Force to upper */
-			c ^= DIFCASE;
-		if (c >= 0x00 && c <= 0x1F) /* control key */
-			c = CONTROL | (c + '@');
-		return META | c;
+		//if (c == (SPEC | 'P')) { // f1 key
+		//	cmask = META;
+		//	goto proc_metac;
+		//}
+		//if (islower(c)) /* Force to upper */
+		//	c ^= DIFCASE;
+		//if (c >= 0x00 && c <= 0x1F) /* control key */
+		//	c = CONTROL | (c + '@');
+		//return META | c;
 	}
 	else if (c == metac) {
 		c = get_key();
