@@ -15,6 +15,8 @@ const char *options[] = {
 	"! (force quite , ignoring chagnes"
 };
 
+#define OPTIONS_LENGTH (sizeof(options) / sizeof(options[0]))
+
 int quite_command_tab(int f,int c)
 {
 	TTmove(buffers_start_offset,1);
@@ -22,7 +24,7 @@ int quite_command_tab(int f,int c)
 	int k = 0;
 	for (int i = 0;i < statusbar_start_offset - windowsbar_start_offset - 1;i++) {
 		TTeeol();
-		if (k <= 1) {
+		if (k < OPTIONS_LENGTH) {
 			TTputs(options[k++]);
 		}
 		TTputs("\n\r");
