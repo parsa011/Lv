@@ -71,4 +71,5 @@ typedef struct terminal_t terminal;
 #include "file.h"
 #include "word.h"
 #include "commands.h"
+#include "prompt.h"
 #include "lv.h"

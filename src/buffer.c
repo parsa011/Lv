@@ -142,8 +142,8 @@ int set_insert_mode(int f, int n)
 
 int set_command_mode(int f, int n)
 {
+	set_prompt_mask("Command Mode : ");
 	set_mode_for_buffer(MDCMMD);
-	msgbar_cursor_col = 2;
 }
 
 /*

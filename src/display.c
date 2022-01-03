@@ -285,9 +285,8 @@ void write_messagebar()
 	TTmove(messagebar_start_offset,1);
 	TTeeol();
 	if (bmtest(curbp,MDCMMD)) {
-		TTputs(":");
+		TTputs(msgbar_prompt_mask);
 		TTputs(msgbar_prompt);
-		TTputs("  ");
 	}
 	if (msgbag.timer) {
 		if (time(NULL) - msgbag.msg_time < msgbar_msg_time) {

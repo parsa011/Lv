@@ -1,6 +1,14 @@
 #ifndef _GLOB_H
 # define _GLOB_H
 
+/*
+ *	global functions
+ *	Copyright
+ *		(C) 2021 Parsa Mahmoudy sahebi
+ *
+ *	This file is part of Lv
+ */
+
 #define TERMINAL_TITLE "LV - Parsa mahmoudy" /* default title for terminal */
 #define NO_NAME_BUFFER "[NO NAME]" 	/* default name for buffers that don't have name */
 #define LINE_MASK	   "~" /* we line is empty , we will write this */
@@ -14,12 +22,6 @@ extern buffer *curbp;		/* current buffer   */
 extern msg_bag msgbag;
 
 extern int number_stack;	/* this is used for store number , for macro repeat time */
-
-// prompt from message bar statuses
-#define PROMPT_MAX_LENGTH 512 
-extern int msgbar_cursor_col;
-extern char msgbar_prompt[PROMPT_MAX_LENGTH];
-extern int msgbar_prompt_p;
 
 #define current_line curbp->cline
 #define cursor_row curwp->crow
@@ -54,13 +56,6 @@ struct prompt_key_t {
 };
 
 void generate_prompt_keys();
-int change_prompt_key(int,int (*)(int,int));
-prompt_key *get_prompt_key(int);
-int leave_prompt_mode(int,int);
-int prompt_enter_key(int,int);
-int prompt_tab_key(int,int);
-
-void find_and_set_command_keys();
 
 /*
  *	this function will initilize and append all of basic macros
@@ -80,8 +75,6 @@ int refresh_lock_mode(int,int);
  */
 void add_to_macro_stack(int);
 
-
-void clear_prompt();
 void clear_macro_stack();
 
 /*
@@ -89,11 +82,6 @@ void clear_macro_stack();
  *	for example if it was new line , so we will add new line
  */
 int manage_insert_key(int);
-
-/*
- *	manager user inputs when we are getting prompt
- */
-int manage_prompt_key(int);
 
 /*
  * kill the program
