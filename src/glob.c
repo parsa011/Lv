@@ -150,7 +150,7 @@ int manage_insert_key(int c)
 		line_ins_char('\t');
 	else if (c == (SPEC | '3'))
 		line_del_next();
-	else 
+	else
 		line_ins_char(c);
 	return true;
 }
@@ -162,7 +162,7 @@ void add_to_number_stack(char c)
 
 /*
  *	when user cancelec insertin char in prompt mode (or command mode or ..)
- *	will change buffer mode to lock 
+ *	will change buffer mode to lock
  */
 int leave_prompt_mode(int f, int n)
 {
@@ -196,12 +196,12 @@ int prompt_enter_key(int f,int n)
 }
 
 /*
- *	default propmt tab event 
+ *	default propmt tab event
  *	it will write all command into pop up screen
  *	if user wroted something it will find by name
  *	then print them
  */
-int prompt_tab_key(int f,int n) 
+int prompt_tab_key(int f,int n)
 {
 	TTmove(buffers_start_offset,1);
 	command *cmd = fcommand;
@@ -237,6 +237,8 @@ int manage_prompt_key(int c)
 			showmsg(true,"Max length of promp");
 			return false;
 		}
+		if (c == ' ' && msgbar_prompt_p == 0)
+    		return false;
 		msgbar_prompt[msgbar_prompt_p++] = c;
 		msgbar_cursor_col++;
 	}
@@ -265,12 +267,12 @@ void find_and_set_command_keys()
 
 /*
  *	excuse me SRP :)
- *	this function will do tree task : 
+ *	this function will do tree task :
  *	if key exists it will change its function
  *	if dosnt exist , it will create new one , ane
  *	append it into our prompt key list
  */
-int change_prompt_key(int key,int (*func)(int,int)) 
+int change_prompt_key(int key,int (*func)(int,int))
 {
 	for (prompt_key *pk = fprompt_key;pk != NULL;pk = pk->link.next) {
 		if (pk->key == key) {

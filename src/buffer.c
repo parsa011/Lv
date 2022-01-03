@@ -184,6 +184,22 @@ int prev_buffer_in_window(int,int)
 }
 
 /*
+ *	becareful when use this function , it will make free all 
+ *	properties of current buffer , and curbp too , so dont 
+ *	set curbp here
+ */
+void free_buffer()
+{
+	for (line *ln = curbp->fline;ln != NULL;) {
+		free(ln->chars);
+		line *temp = ln;
+		ln = lnext(ln);
+		free(temp);
+	}
+	free(curbp);
+}
+
+/*
  *	this routhien will remove buffer from window
  *	also it will append its space to next or prev buffer
  *	return alone buffer , if it was last buffer in window
@@ -194,7 +210,7 @@ int remove_buffer()
 	if (new_one == NULL) {
     	new_one = bnext(curbp);
     	if (new_one == NULL) {
-        	free(curbp);
+        	free_buffer();
         	return ALONEBUFFER;
     	}
 	}
@@ -222,7 +238,7 @@ int remove_buffer()
 		curwp->fbuffer = new_one;
 	new_one->nrow += curbp->nrow;
 	curwp->bcount--;
-	free(curbp);
+	//free_buffer();
 	change_current_buffer(new_one);
 	curbp->flags |= FREDRW;
 	return true;

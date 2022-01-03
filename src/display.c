@@ -276,8 +276,8 @@ void write_statusbar(buffer *bf)
 		TTputc(STATUSBAR_FILLER);
 		llen++;
 	}
-	TTputs("\r\n");
 	TTputs(DEFAULT);
+	TTputs("\n\r");
 }
 
 void write_messagebar()
