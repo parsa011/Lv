@@ -75,11 +75,12 @@ void append_buffer(buffer *bf)
 		buffer *nb = bnext(curbp);
 		sbnext(curbp,bf);
 		sbprev(bf,curbp);
-		if (nb != NULL)
+		if (nb != NULL) {
 			sbprev(nb,bf);
+			sbnext(bf,nb);
+		}
 	}
 	curwp->bcount++;
-	//curbp = bf;
 }
 
 /*
