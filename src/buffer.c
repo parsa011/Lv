@@ -142,7 +142,7 @@ int set_insert_mode(int f, int n)
 
 int set_command_mode(int f, int n)
 {
-	set_prompt_mask("Command Mode : ");
+	set_prompt_mask(COMMAND_MODE_MASK);
 	set_mode_for_buffer(MDCMMD);
 }
 

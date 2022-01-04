@@ -5,6 +5,7 @@
 
 #define EDITOR_VERSION "0.0.1"
 #define EDITOR_TITLE "PMS " EDITOR_VERSION
+#define COMMAND_MODE_MASK ":"
 
 extern int tab_size;
 extern int msgbar_msg_time;

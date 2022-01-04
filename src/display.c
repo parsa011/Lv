@@ -287,6 +287,7 @@ void write_messagebar()
 	if (bmtest(curbp,MDCMMD)) {
 		TTputs(msgbar_prompt_mask);
 		TTputs(msgbar_prompt);
+		TTputs("  ");
 	}
 	if (msgbag.timer) {
 		if (time(NULL) - msgbag.msg_time < msgbar_msg_time) {
