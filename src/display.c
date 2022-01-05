@@ -94,7 +94,7 @@ bool get_cursor_position(int *rows, int *cols)
 /*
  *	set terminal title
  */
-void set_window_title(char *title)
+void set_terminal_title(char *title)
 {
 	char buf[250];
 	int len = sprintf(buf,"\033]0;%s\007",title);
@@ -275,8 +275,8 @@ void write_statusbar(buffer *bf)
 		TTputc('-');
 		llen++;
 	}
-	TTputs("\r\n");
 	TTputs(DEFAULT);
+	TTputs("\n\r");
 }
 
 void write_messagebar()
@@ -284,7 +284,7 @@ void write_messagebar()
 	TTmove(messagebar_start_offset,1);
 	TTeeol();
 	if (bmtest(curbp,MDCMMD)) {
-		TTputs(":");
+		TTputs(msgbar_prompt_mask);
 		TTputs(msgbar_prompt);
 		TTputs("  ");
 	}

@@ -184,42 +184,60 @@ int get_twin_char_index(int c)
 	return -1;
 }
 
-char **tokenize_string(char *string, const char c)
+char **tokenize_string(char *string,char *delim)
 {
-	char **result = 0;
-	size_t count = 0;
-	char *tmp = string;
-	char *last_comma = 0;
-	// convert to char array to user in strtok
-	char delim[2];
-	delim[0] = c;
-	delim[1] = 0;
-	char last_char;
-	/* count how many elements will be extracted. */
-	while (*tmp) {
-		if (c == *tmp && last_char != c) {
-			count++;
-			last_comma = tmp;
+#define BUFSIZE 5
+#define ELEMSIZE 20
+	int delim_len = strlen(delim);
+	int buf_size = BUFSIZE;
+	int elem_size = ELEMSIZE;
+	char **buf = (char **)calloc(buf_size,sizeof(char *));
+	char *elem = (char *)malloc(elem_size);
+	int elemp = 0;
+	int bufp = 0;
+	for (int i = 0; i < strlen(string);i++) {
+		if (bufp == buf_size - 1) {
+			buf_size += BUFSIZE;
+			buf = (char **)realloc(buf,buf_size * sizeof(char *));
 		}
-		last_char = *tmp;
-		*tmp++;
-	}
-	/* add space for trailing token. */
-	count += last_comma < (string + strlen(string) - 1);
-	/* add space for terminating null string so caller
-	   knows where the list of returned strings ends. */
-	count++;
-	result = malloc(sizeof(char*) * count);
-	if (result) {
-		size_t idx  = 0;
-		char* token = strtok(string, delim);
-		while (token) {
-			*(result + idx++) = strdup(token);
-			token = strtok(0, delim);
+		if (elemp == elem_size - 1) {
+			elem_size += ELEMSIZE;
+			elem = (char *)realloc(elem,elem_size);
 		}
-		*(result + idx) = 0;
+		if (string[i] == delim[0]) {
+			bool is_delim = true;
+			int j,k;
+			for (k = i,j = 0;j < delim_len;j++,k++) {
+				if (string[k] == delim[j])
+					is_delim = true;
+				else {
+					is_delim = false;
+					break;
+				}
+			}
+			if (is_delim) {
+				if (elemp == 0) {
+					goto go_next;
+				}
+append:
+				elem[elemp] = 0;
+				buf[bufp++] = strdup(elem);
+				elemp = 0;
+				elem_size = ELEMSIZE;
+go_next:
+				i += delim_len - 1;
+				continue;
+			}
+		}
+		*(elem + elemp++) = string[i];
+		if (i == strlen(string) - 1)
+			goto append;
 	}
-	return result;
+	buf[bufp] = 0;
+#undef BUFSIZE
+#undef ELEMSIZE
+	return buf;
+
 }
 
 /*

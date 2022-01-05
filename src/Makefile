@@ -107,7 +107,7 @@ am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
 	buffer.$(OBJEXT) window.$(OBJEXT) file.$(OBJEXT) \
 	macro.$(OBJEXT) word.$(OBJEXT) commands.$(OBJEXT) \
 	builtins/q.$(OBJEXT) builtins/w.$(OBJEXT) \
-	builtins/set.$(OBJEXT) builtins/o.$(OBJEXT)
+	builtins/set.$(OBJEXT) builtins/o.$(OBJEXT) prompt.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -128,9 +128,9 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/buffer.Po ./$(DEPDIR)/commands.Po \
 	./$(DEPDIR)/display.Po ./$(DEPDIR)/file.Po ./$(DEPDIR)/glob.Po \
 	./$(DEPDIR)/input.Po ./$(DEPDIR)/line.Po ./$(DEPDIR)/lv.Po \
-	./$(DEPDIR)/macro.Po ./$(DEPDIR)/move.Po ./$(DEPDIR)/tty.Po \
-	./$(DEPDIR)/utf8.Po ./$(DEPDIR)/utils.Po ./$(DEPDIR)/vt100.Po \
-	./$(DEPDIR)/window.Po ./$(DEPDIR)/word.Po \
+	./$(DEPDIR)/macro.Po ./$(DEPDIR)/move.Po ./$(DEPDIR)/prompt.Po \
+	./$(DEPDIR)/tty.Po ./$(DEPDIR)/utf8.Po ./$(DEPDIR)/utils.Po \
+	./$(DEPDIR)/vt100.Po ./$(DEPDIR)/window.Po ./$(DEPDIR)/word.Po \
 	builtins/$(DEPDIR)/o.Po builtins/$(DEPDIR)/q.Po \
 	builtins/$(DEPDIR)/set.Po builtins/$(DEPDIR)/w.Po
 am__mv = mv -f
@@ -269,12 +269,13 @@ EXTRA_DIST = TODO
 # sysconf_lvdir = $(sysconfdir)/lv
 # data_lvdir = $(datadir)/lv
 noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h buffer.h move.h \
-					vt100.h display.h window.h file.h color.h word.h commands.h builtins/builtins.h
+					vt100.h display.h window.h file.h color.h word.h commands.h builtins/builtins.h \
+					prompt.h
 
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c display.c buffer.c	 \
 					window.c file.c macro.c word.c commands.c builtins/q.c builtins/w.c builtins/set.c  \
-					builtins/o.c
+					builtins/o.c prompt.c
 
 all: all-am
 
@@ -387,6 +388,7 @@ include ./$(DEPDIR)/line.Po # am--include-marker
 include ./$(DEPDIR)/lv.Po # am--include-marker
 include ./$(DEPDIR)/macro.Po # am--include-marker
 include ./$(DEPDIR)/move.Po # am--include-marker
+include ./$(DEPDIR)/prompt.Po # am--include-marker
 include ./$(DEPDIR)/tty.Po # am--include-marker
 include ./$(DEPDIR)/utf8.Po # am--include-marker
 include ./$(DEPDIR)/utils.Po # am--include-marker
@@ -558,6 +560,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/lv.Po
 	-rm -f ./$(DEPDIR)/macro.Po
 	-rm -f ./$(DEPDIR)/move.Po
+	-rm -f ./$(DEPDIR)/prompt.Po
 	-rm -f ./$(DEPDIR)/tty.Po
 	-rm -f ./$(DEPDIR)/utf8.Po
 	-rm -f ./$(DEPDIR)/utils.Po
@@ -623,6 +626,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/lv.Po
 	-rm -f ./$(DEPDIR)/macro.Po
 	-rm -f ./$(DEPDIR)/move.Po
+	-rm -f ./$(DEPDIR)/prompt.Po
 	-rm -f ./$(DEPDIR)/tty.Po
 	-rm -f ./$(DEPDIR)/utf8.Po
 	-rm -f ./$(DEPDIR)/utils.Po

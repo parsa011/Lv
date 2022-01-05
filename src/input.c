@@ -33,8 +33,8 @@ proc_metac:
 	if (c == 128 + 27) /* CSI */
 		goto handle_CSI;
 	/* process META prefix */
-	if (c == metac) {
-		c = get_key();
+	if (c == '[') {
+		//c = get_key();
 		if (c == '[' || c == 'O') { /* CSI P.K. */
 handle_CSI:
 			c = get_key();

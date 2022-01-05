@@ -32,7 +32,7 @@ void cmdstr(int,char *);
 extern char twin_chars[];
 int get_twin_char_index(int);
 
-char **tokenize_string(char *, const char);
+char **tokenize_string(char *,char *);
 
 int number_len(int);
 
