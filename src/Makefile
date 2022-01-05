@@ -107,7 +107,8 @@ am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
 	buffer.$(OBJEXT) window.$(OBJEXT) file.$(OBJEXT) \
 	macro.$(OBJEXT) word.$(OBJEXT) commands.$(OBJEXT) \
 	builtins/q.$(OBJEXT) builtins/w.$(OBJEXT) \
-	builtins/set.$(OBJEXT) builtins/o.$(OBJEXT) prompt.$(OBJEXT)
+	builtins/set.$(OBJEXT) builtins/o.$(OBJEXT) \
+	builtins/buffer.$(OBJEXT) prompt.$(OBJEXT)
 lv_OBJECTS = $(am_lv_OBJECTS)
 lv_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -131,8 +132,9 @@ am__depfiles_remade = ./$(DEPDIR)/buffer.Po ./$(DEPDIR)/commands.Po \
 	./$(DEPDIR)/macro.Po ./$(DEPDIR)/move.Po ./$(DEPDIR)/prompt.Po \
 	./$(DEPDIR)/tty.Po ./$(DEPDIR)/utf8.Po ./$(DEPDIR)/utils.Po \
 	./$(DEPDIR)/vt100.Po ./$(DEPDIR)/window.Po ./$(DEPDIR)/word.Po \
-	builtins/$(DEPDIR)/o.Po builtins/$(DEPDIR)/q.Po \
-	builtins/$(DEPDIR)/set.Po builtins/$(DEPDIR)/w.Po
+	builtins/$(DEPDIR)/buffer.Po builtins/$(DEPDIR)/o.Po \
+	builtins/$(DEPDIR)/q.Po builtins/$(DEPDIR)/set.Po \
+	builtins/$(DEPDIR)/w.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -275,7 +277,7 @@ noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
 lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c display.c buffer.c	 \
 					window.c file.c macro.c word.c commands.c builtins/q.c builtins/w.c builtins/set.c  \
-					builtins/o.c prompt.c
+					builtins/o.c builtins/buffer.c prompt.c
 
 all: all-am
 
@@ -366,6 +368,8 @@ builtins/set.$(OBJEXT): builtins/$(am__dirstamp) \
 	builtins/$(DEPDIR)/$(am__dirstamp)
 builtins/o.$(OBJEXT): builtins/$(am__dirstamp) \
 	builtins/$(DEPDIR)/$(am__dirstamp)
+builtins/buffer.$(OBJEXT): builtins/$(am__dirstamp) \
+	builtins/$(DEPDIR)/$(am__dirstamp)
 
 lv$(EXEEXT): $(lv_OBJECTS) $(lv_DEPENDENCIES) $(EXTRA_lv_DEPENDENCIES) 
 	@rm -f lv$(EXEEXT)
@@ -395,6 +399,7 @@ include ./$(DEPDIR)/utils.Po # am--include-marker
 include ./$(DEPDIR)/vt100.Po # am--include-marker
 include ./$(DEPDIR)/window.Po # am--include-marker
 include ./$(DEPDIR)/word.Po # am--include-marker
+include builtins/$(DEPDIR)/buffer.Po # am--include-marker
 include builtins/$(DEPDIR)/o.Po # am--include-marker
 include builtins/$(DEPDIR)/q.Po # am--include-marker
 include builtins/$(DEPDIR)/set.Po # am--include-marker
@@ -567,6 +572,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/vt100.Po
 	-rm -f ./$(DEPDIR)/window.Po
 	-rm -f ./$(DEPDIR)/word.Po
+	-rm -f builtins/$(DEPDIR)/buffer.Po
 	-rm -f builtins/$(DEPDIR)/o.Po
 	-rm -f builtins/$(DEPDIR)/q.Po
 	-rm -f builtins/$(DEPDIR)/set.Po
@@ -633,6 +639,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/vt100.Po
 	-rm -f ./$(DEPDIR)/window.Po
 	-rm -f ./$(DEPDIR)/word.Po
+	-rm -f builtins/$(DEPDIR)/buffer.Po
 	-rm -f builtins/$(DEPDIR)/o.Po
 	-rm -f builtins/$(DEPDIR)/q.Po
 	-rm -f builtins/$(DEPDIR)/set.Po

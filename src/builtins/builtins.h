@@ -37,4 +37,11 @@ int write_command_tab(int,int);
 int open_command(int,char **);
 int open_command_tab(int,int);
 
+/*
+ *	this command will show all buffers from all windows
+ *	then user can open a buffer with writing it name (bname)
+ */
+int buffer_command(int,char **);
+int buffer_command_tab(int,int);
+
 #endif

@@ -128,8 +128,9 @@ void find_and_set_command_keys()
 		change_prompt_key(CTRL_KEY('i'),write_command_tab);
 	} else if (strcmp(args[0],"q") == 0) {
 		change_prompt_key(CTRL_KEY('i'),quite_command_tab);
+	} else if (strcmp(args[0],"buffer")) {
+		change_prompt_key(CTRL_KEY('i'),buffer_command_tab);
 	}
-
 }
 
 /*
