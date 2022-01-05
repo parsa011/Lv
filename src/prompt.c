@@ -83,7 +83,7 @@ int prompt_enter_key(int f,int n)
 	if (bmtest(curbp,MDCMMD)) {
 		if (msgbar_prompt_p == 0)
 			return false;
-		char **args = tokenize_string(msgbar_prompt,' ');
+		char **args = tokenize_string(msgbar_prompt," ");
 		command *cmd = find_command(args[0]);
 		if (cmd == NULL) {
 			showmsg(false,"(command not found)");
@@ -121,7 +121,7 @@ void find_and_set_command_keys()
 		return;
 	}
 	char *temp = strdup(msgbar_prompt);
-	char **args = tokenize_string(temp,' ');
+	char **args = tokenize_string(temp," ");
 	if (strcmp(args[0],"o") == 0) {
 		change_prompt_key(CTRL_KEY('i'),open_command_tab);
 	} else if (strcmp(args[0],"w") == 0) {
