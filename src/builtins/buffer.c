@@ -18,13 +18,13 @@ int buffer_command_tab(int f,int n)
 		if (wp != NULL) {
 			for (buffer *bf = wp->fbuffer; bf != NULL; bf = bnext(bf)) {
 				TTputs(bf->bname);
-				TTputs("\n\r");
+				TTputs("\r\n");
 			}
-			TTputs("===============================================");
 			wp = wnext(wp);
 		}
-		TTputs("\n\r");
 	}
+	for (int i = 0; i < term.t_mcol;i++)
+		TTputs("\u2500"); // ─ char
 	return true;
 }
 
