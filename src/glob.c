@@ -49,9 +49,9 @@ int generate_basic_macros()
 	append_macro(init_macro('G',"G",goto_line,(MDLOCK | MDVISL | MDVIEW),"goto to line"));
 	append_macro(init_macro('w',"w",forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
 	append_macro(init_macro('b',"b",backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
-	append_macro(init_macro('$',"$",gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
-	append_macro(init_macro('%',"%",find_sibling,(MDLOCK | MDVISL | MDVIEW),"find current char sibling"));
-	append_macro(init_macro('^',"^",gotosol,(MDLOCK | MDVISL | MDVIEW),"move to start of line"));
+	append_macro(init_macro(('g' | 'l'),"g-l",gotoeol,(MDLOCK | MDVISL | MDVIEW),"move to end of line"));
+	append_macro(init_macro(('g' | 'h'),"g-h",gotosol,(MDLOCK | MDVISL | MDVIEW),"move to start of line"));
+	append_macro(init_macro('m',"m",find_sibling,(MDLOCK | MDVISL | MDVIEW),"find current char sibling"));
 	append_macro(init_macro(SPEC | '6',"FN6",move_nextpage,(ALLMODES),"move to next page"));
 	append_macro(init_macro(SPEC | '5',"FN5",move_prevpage,(ALLMODES),"move to next page"));
 	// g | g dosnt mean , we have to inhance it
