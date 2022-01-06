@@ -33,4 +33,13 @@ int buffer_command_tab(int f,int n)
  */
 int buffer_command(int f, char **args)
 {
+	if (args[1] == NULL) {
+		showmsg(false,"insert buffer name");
+		return false;
+	}
+	if (set_buffer_by_name(args[1]) == false) {
+		showmsg(true,"buffer not founded");
+		return false;
+	}
+	return true;
 }

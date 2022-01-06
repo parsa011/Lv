@@ -33,6 +33,20 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	return bf;
 }
 
+int set_buffer_by_name(char *name)
+{
+	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
+		for (buffer *bf = wp->fbuffer;bf != NULL;bf = bnext(bf)) {
+			if (strcmp(name,bf->bname) == 0) {
+				activate_window(wp);
+				change_current_buffer(bf);
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 /*
  *	set buffer name and path by given string (path)
  */

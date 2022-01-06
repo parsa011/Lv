@@ -68,16 +68,40 @@ struct buffer_t {
 //#define MDMAGIC	0x0040		/* regular expressions in search */
 
 buffer *init_buffer(char *, char *, short, short);
+
+/*
+ *	set bname and fname for buffer by given path
+ */
 void set_buffer_name(char *);
+
+/*
+ *	activate buffer by given name , return false if no any buffer founded
+ */
+int set_buffer_by_name(char *);
 
 /*
  *	works that we need to do when buffer changed
  */
 void buffer_changed();
+
+/*
+ *	show a buffer and set it options and ..
+ */
 void change_current_buffer(buffer *);
 
+/*
+ *	append buffer to next of current buffer
+ */
 void append_buffer(buffer *);
+
+/*
+ *	return last line of buffer
+ */
 line *get_last_line(buffer *);
+
+/*
+ *	toggle line number option (it's global)
+ */
 int toggle_linenumber();
 
 void set_mode_for_buffer(int);
