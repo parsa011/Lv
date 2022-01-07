@@ -127,105 +127,16 @@ int ttgetc(void)
 			break;
 	} while (1);
 	return ((int) c) & 0xFF;
-//	static char buffer[32];
-//	static int pending;
-//	unicode_t c;
-//	int count, bytes = 1, expected;
-//
-//	count = pending;
-//	if (!count) {
-//		count = read(0, buffer, sizeof(buffer));
-//		if (count <= 0)
-//			return 0;
-//		pending = count;
-//	}
-//
-//	c = (unsigned char) buffer[0];
-//	if (c >= 32 && c < 128)
-//		goto done;
-//
-//	/*
-//	 * lazy. We don't bother calculating the exact
-//	 * expected length. We want at least two characters
-//	 * for the special character case (ESC+[) and for
-//	 * the normal short UTF8 sequence that starts with
-//	 * the 110xxxxx pattern.
-//	 *
-//	 * but if we have any of the other patterns, just
-//	 * try to get more characters. At worst, that will
-//	 * just result in a barely perceptible 0.1 second
-//	 * delay for some *very* unusual utf8 character
-//	 * input.
-//	 */
-//	expected = 2;
-//	if ((c & 0xe0) == 0xe0)
-//		expected = 6;
-//
-//	/* special character - try to fill buffer */
-//	if (count < expected) {
-//		int n;
-//		newterm.c_cc[VMIN] = 0;
-//		newterm.c_cc[VTIME] = 1;		/* A .1 second lag */
-//		tcsetattr(0, TCSANOW, &newterm);
-//
-//		n = read(0, buffer + count, sizeof(buffer) - count);
-//
-//		/* undo timeout */
-//		newterm.c_cc[VMIN] = 1;
-//		newterm.c_cc[VTIME] = 0;
-//		tcsetattr(0, TCSANOW, &newterm);
-//
-//		if (n > 0)
-//			pending += n;
-//	}
-//	if (pending > 1) {
-//		unsigned char second = buffer[1];
-//
-//		/* turn ESC+'[' into CSI */
-//		if (c == 27 && second == '[') {
-//			bytes = 2;
-//			c = 128 + 27;
-//			goto done;
-//		}
-//	}
-//	bytes = utf8_to_unicode(buffer, 0, pending, &c);
-//
-//	/* hackety hack! Turn no-break space into regular space */
-//	if (c == 0xa0)
-//		c = ' ';
-//done:
-//	pending -= bytes;
-//	memmove(buffer, buffer+bytes, pending);
-//	return c;
-
 }
 
-//int ttcheck(void)
-//{
-//	/* Check for typeahead or next packet */
-//	if (!have && !leave) {
-//		if (ackkbd != -1) {
-//			fcntl(mpxfd, F_SETFL, O_NDELAY);
-//			if (read(mpxfd, &pack, sizeof(struct packet) - 1024) > 0) {
-//				fcntl(mpxfd, F_SETFL, 0);
-//				lv_read(mpxfd, pack.data, pack.size);
-//				have = 1;
-//			} else
-//				fcntl(mpxfd, F_SETFL, 0);
-//		} else {
-//			/* Set terminal input to non-blocking */
-//			fcntl(fileno(termin), F_SETFL, O_NDELAY);
-//
-//			/* Try to read */
-//			if (read(fileno(termin), &havec, 1) == 1)
-//				have = 1;
-//
-//			/* Set terminal back to blocking */
-//			fcntl(fileno(termin), F_SETFL, 0);
-//		}
-//	}
-//	return have;
-//}
+/*
+ *	will check if there is any char for read
+ */
+int ttcheck(void)
+{
+	int	x;
+	return ((ioctl(0, FIONREAD, &x) == -1) ? 0 : x);
+}
 
 /* 
  * flush output and check for type ahead 

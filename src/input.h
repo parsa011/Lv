@@ -16,4 +16,6 @@ int get_key();
 
 int get_cmd();
 
+void convert_to_control_key(int *);
+
 #endif

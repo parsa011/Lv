@@ -28,24 +28,25 @@ int get_cmd()
 	int cmask = 0;
 	/* get initial character */
 	c = get_key();
-
 proc_metac:
-	if (c == 128 + 27) /* CSI */
-		goto handle_CSI;
+	//if (c == 128 + 27) /* CSI */
+	//	goto handle_CSI;
 	/* process META prefix */
-	if (c == '[') {
-		//c = get_key();
+	if (c == (CONTROL | '[')) {
+		if (!ttcheck())
+			return c;
+		c = get_key();
 		if (c == '[' || c == 'O') { /* CSI P.K. */
-handle_CSI:
+//handle_CSI:
 			c = get_key();
-			if (c >= 'A' && c <= 'D')
+			if (c >= 'A' && c <= 'D') /* arrow keys */
 				return SPEC | c | cmask;
-			if (c >= 'E' && c <= 'z' && c != 'i' && c != 'c')
+			if (c >= 'E' && c <= 'z' && c != 'i' && c != 'c') /* home and end keys ... */
 				return SPEC | c | cmask;
 			d = get_key();
-			if (d == '~') /* ESC [ n ~   P.K. */
+			if (d == '~') /* ins ,del ,page up and down*/
 				return SPEC | c | cmask;
-			switch (c) { /* ESC [ n n ~ P.K. */
+			switch (c) { /* ESC [ n n ~ P.K. (like fn keys) */
 				case '1':
 					c = d + 32;
 					break;
@@ -59,7 +60,7 @@ handle_CSI:
 					c = '?';
 					break;
 			}
-			if (d != '~') /* eat tilde P.K. */
+			if (d != '~') 	/* control or shit special keys */
 				get_key();
 			if (c == 'i') { /* DO key    P.K. */
 				c = ctlxc;
@@ -74,22 +75,16 @@ handle_CSI:
 			cmask = META;
 			goto proc_metac;
 		}
-		if (islower(c)) /* Force to upper */
-			c ^= DIFCASE;
-		if (c >= 0x00 && c <= 0x1F) /* control key */
-			c = CONTROL | (c + '@');
+		convert_to_control_key(&c);
 		return META | c;
 	}
 	else if (c == metac) {
 		c = get_key();
-		if (c == metac) {
+		if (c == (CONTROL | '[')) {
 			cmask = META;
 			goto proc_metac;
 		}
-		if (islower(c)) /* Force to upper */
-			c ^= DIFCASE;
-		if (c >= 0x00 && c <= 0x1F) /* control key */
-			c = CONTROL | (c + '@');
+		convert_to_control_key(&c);
 		return META | c;
 	}
 
@@ -101,13 +96,18 @@ proc_ctlxc:
 			cmask = CTLX;
 			goto proc_metac;
 		}
-		if (c >= 'a' && c <= 'z') /* Force to upper */
-			c -= 0x20;
-		if (c >= 0x00 && c <= 0x1F) /* control key */
-			c = CONTROL | (c + '@');
+		convert_to_control_key(&c);
 		return CTLX | c;
 	}
 
 	/* otherwise, just return it */
 	return c;
 }
+
+void convert_to_control_key(int *c)
+{
+	if (islower(*c)) /* Force to upper */
+		*c ^= DIFCASE;
+	if (*c >= 0x00 && *c <= 0x1F) /* control key */
+		*c = CONTROL | (*c + '@');
+}	

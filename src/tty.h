@@ -105,7 +105,7 @@ void ttclose(void);
  *	read the next input character
  */
 int ttgetc(void);
-//int ttcheck(void);
+int ttcheck(void);
 
 /* 
  * 	write a character to the output buffer.  If it becomes
