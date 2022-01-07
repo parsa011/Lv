@@ -35,5 +35,4 @@ void append_command(command *);
  */
 command *find_command(char *);
 
-
 #endif

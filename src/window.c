@@ -46,8 +46,6 @@ int remove_window(window *wp)
 	swnext(pwp,nwp);
 	swprev(nwp,pwp);
 	activate_window(pwp);
-	if (compare_windows(firstwp,wp)) {
-	}
 free_wp:
 	//destory_buffer(wp);
 	free(wp);
@@ -110,7 +108,7 @@ int next_window(int f, int n)
 	return true;
 }
 
-int prev_window(int f, int n) 
+int prev_window(int f, int n)
 {
 	if (wprev(curwp) == NULL) {
 		showmsg(true,"Firt window");
