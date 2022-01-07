@@ -33,6 +33,10 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	return bf;
 }
 
+/*
+ *	will search in buffers and and set founded buffer as active buffer
+ *	if no any buffer founded , will return false :)
+ */
 int set_buffer_by_name(char *name)
 {
 	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
@@ -65,6 +69,9 @@ void buffer_changed()
 	curbp->dirty++;
 }
 
+/*
+ *	actully it will toggle line number for buffer :)
+ */
 int toggle_linenumber()
 {
 	curbp->linenm = !curbp->linenm;

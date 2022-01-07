@@ -120,6 +120,10 @@ int prev_window(int f, int n)
 	return true;
 }
 
+/*
+ *	split window in vertical direction 
+ *	(it will make current buffer into two pieces)
+ */
 int window_vertinal_split(int f,int n)
 {
 	if (curbp->nrow < 5) {
