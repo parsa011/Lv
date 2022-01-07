@@ -15,7 +15,7 @@ msg_bag msgbag;		/* global msg bag	*/
 
 int number_stack = 0;
 
-int metac = SPEC | 'P';	/* current meta character 		 */
+int metac = SPEC | 'P';		/* current meta character 		 */
 int ctlxc = CONTROL | 'X';	/* current control X prefix char */
 
 char macro_stack[MAX_MACRO_STACK];
@@ -28,7 +28,7 @@ int generate_basic_macros()
 	append_macro(init_macro(ESCAPE_KEY,"^[",set_lock_mode,MDINST,"lock mode"));
 	append_macro(init_macro(ESCAPE_KEY,"^[",refresh_lock_mode,(MDLOCK | MDVIEW),"clear all stacks"));
 	append_macro(init_macro('v',"v",set_visual_mode,MDLOCK,"visual mode"));
-	append_macro(init_macro(':',":",set_command_mode,(MDLOCK | MDVIEW),"command mode"));
+	append_macro(init_macro(' '," ",set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
 	append_macro(init_macro(CTRL_KEY('n'),"^N",toggle_linenumber,(ALLMODES),"toggle line number"));
 	append_macro(init_macro(CTRL_KEY('q'),"^Q",close_editor,(ALLMODES),"close editor"));
