@@ -210,15 +210,24 @@ void write_line(line *ln)
 	char *text_bag = malloc(256);
 	int i = 0;
 	while (*temp) {
+		/* we will check if current char is space or end of line 
+		 * if it was them , so we have to write text bag into screen
+		 * also we have to check if we goes to end of line or no by
+		 * checking next char with temp + 1
+		 */
 		if (!*(temp + 1) || *temp == ' ' || *temp == '\n') {
+			/* int and #include just for text */
 			if (strcmp(text_bag,"int") == 0)
 				TTputs(RED);
+			else if (strcmp(text_bag,"#include") == 0)
+				TTputs(YELLOW); 
 			TTputs(text_bag);
 			TTputc(*temp);
 			i = 0;
 			TTputs(DEFAULT);
 		} else if (*temp == '\t') {
 			for (int j = 0;j < tab_size;j++) {
+				/* here we can show tabs if needed :)) */
 				//if (j == tab_size / 2)
 				//	*(text_bag + i++) = '.';
 				//else 
