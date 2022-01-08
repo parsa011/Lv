@@ -1,7 +1,7 @@
 #ifndef _LV_H
 # define _LV_H
 
-#define HAVE_LOG 1
+#define HAVE_LOG 0
 
 #define HAVE_WINDOWS_BAR 0
 

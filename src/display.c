@@ -39,6 +39,11 @@ int init_term()
 	TTmove(0,0);
 	/* update term global variable row and col */
 	get_screen_size(&term.t_mrow,&term.t_mcol);
+	return true;
+}
+
+int init_display()
+{
 }
 
 /*
@@ -202,18 +207,34 @@ void write_line(line *ln)
 {
 	//TTeeol();
 	char *temp = ln->chars;
+	char *text_bag = malloc(256);
+	int i = 0;
 	while (*temp) {
-		if (*temp == '\t') {
-			for (int i = 0;i < tab_size;i++) {
-				TTputc(' ');
-			}
-		} else if (iscntrl(*temp)) {
-			TTputc(*temp <= 26 ? '@' + *temp : '?');
-		} else
+		if (!*(temp + 1) || *temp == ' ' || *temp == '\n') {
+			if (strcmp(text_bag,"int") == 0)
+				TTputs(RED);
+			TTputs(text_bag);
 			TTputc(*temp);
+			i = 0;
+			TTputs(DEFAULT);
+		} else if (*temp == '\t') {
+			for (int j = 0;j < tab_size;j++) {
+				//if (j == tab_size / 2)
+				//	*(text_bag + i++) = '.';
+				//else 
+					*(text_bag + i++) = ' ';
+			}
+			TTputs(text_bag);
+			i = 0;
+		} else if (iscntrl(*temp)) {
+			*(text_bag + i++) = (*temp <= 26 ? '@' + *temp : '?');
+		} else {
+			*(text_bag + i++) = (*temp);
+		}
+		*(text_bag + i) = '\0';
 		*temp++;
 	}
-	TTputs("\r\n");
+	TTputs("\n\r");
 }
 
 /*

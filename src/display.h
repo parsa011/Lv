@@ -28,6 +28,9 @@
  */
 int init_term();
 
+/* set basic colors and ... */
+int init_display();
+
 /*	
  *	get terminal size from system.
  */

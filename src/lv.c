@@ -24,6 +24,8 @@ int close_editor(int focre, int code)
 #ifdef HAVE_LOG
 	remove_log_file();
 #endif
+	TTputs(DEFAULT);
+	TTflush();
 	exit(code);
 	return true;
 }
@@ -37,6 +39,7 @@ int close_editor(int focre, int code)
 void init_editor()
 {
 	init_term();
+	init_display();
 	curwp = init_window();
 	firstwp = curwp;
 	lastwp = curwp;
