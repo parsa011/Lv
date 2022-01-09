@@ -10,5 +10,6 @@
 #define MAGENTA "\x1b[35m"
 #define CYAN    "\x1b[36m"
 #define NORMAL  "\x1b[39m"
+#define GRAY	"\x1b[90m"
 
 #endif

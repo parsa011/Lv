@@ -1,0 +1,8 @@
+# C syntax file fo lv editor
+# Keyword should be bold
+
+KEYWORDS = ["if","else","do","while","for","return","static","inline","extern","unsigned","signed"] YELLOW BOLD
+TYPES = ["int","char","long","short","void","bool","double","float"] RED
+MULTILINE_COMMENT_START = ["/*"] GRAY
+MULTILINE_COMMNET_END = ["*/"] GRAY
+SINGLELINE_COMMENT = ["//"] GRAY
