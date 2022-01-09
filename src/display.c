@@ -217,11 +217,17 @@ void write_line(line *ln)
 		 */
 		if (!*(temp + 1) || *temp == ' ' || *temp == '\n') {
 			/* int and #include just for text */
-			if (strcmp(text_bag,"int") == 0)
+append:
+			if (strcmp(text_bag,"int") == 0 || strcmp(text_bag,"short") == 0 || strcmp(text_bag,"char") == 0 || strcmp(text_bag,"long") == 0)
 				TTputs(RED);
-			else if (strcmp(text_bag,"#include") == 0)
+			else if (strcmp(text_bag,"#include") == 0 || strcmp(text_bag,"#define") == 0 || strcmp(text_bag,"#ifdef") == 0 || strcmp(text_bag,"#endif") == 0)
 				TTputs(YELLOW); 
+			else if (strcmp(text_bag,"do") == 0 || strcmp(text_bag,"while") == 0 || strcmp(text_bag,"void") == 0 || strcmp(text_bag,"if") == 0 || strcmp(text_bag,"else") == 0 || strcmp(text_bag,"for") == 0 
+					|| strcmp(text_bag,"return") == 0)
+				TTputs(CYAN);
 			TTputs(text_bag);
+			if (*temp == '{' || *temp == '}' || *temp == '(' || *temp == ')')
+				TTputs(GREEN);
 			TTputc(*temp);
 			i = 0;
 			TTputs(DEFAULT);
@@ -238,7 +244,10 @@ void write_line(line *ln)
 		} else if (iscntrl(*temp)) {
 			*(text_bag + i++) = (*temp <= 26 ? '@' + *temp : '?');
 		} else {
-			*(text_bag + i++) = (*temp);
+			if (isalpha(*temp))
+				*(text_bag + i++) = (*temp);
+			else 
+				goto append;
 		}
 		*(text_bag + i) = '\0';
 		*temp++;
