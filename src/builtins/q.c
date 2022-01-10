@@ -10,12 +10,10 @@
 static bool quite_all = false;
 static bool quite_force = false;
 
-const char *options[] = {
+char *options[] = {
 	"a (remove all buffer and close editor)",
 	"! (force quite , ignoring chagnes"
 };
-
-#define OPTIONS_LENGTH (sizeof(options) / sizeof(options[0]))
 
 int quite_command_tab(int f,int c)
 {
@@ -24,7 +22,7 @@ int quite_command_tab(int f,int c)
 	int k = 0;
 	for (int i = 0;i < statusbar_start_offset - windowsbar_start_offset - 1;i++) {
 		TTeeol();
-		if (k < OPTIONS_LENGTH) {
+		if (k < ARRAY_LENGTH(options)) {
 			TTputs(options[k++]);
 		}
 		TTputs("\n\r");

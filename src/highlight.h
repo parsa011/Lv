@@ -59,6 +59,11 @@ void add_group_for_language(language_syntax *,syntax_group *);
 void add_key_to_syntax_group(syntax_group *,char *);
 
 /*
+ *	return equivalent sentence with given prop
+ */
+char *prop_to_str(char *);
+
+/*
  *	line is a lins of syntax file , first we will tokenize it and make a loop on it
  *	then we will find keywords and colors in line
  */

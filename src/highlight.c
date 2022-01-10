@@ -20,7 +20,7 @@ void load_syntax(char *lang_name)
 	sprintf(file_path,"./syntax/%s.lvs",lang_name);
 	FILE *fp = fopen(file_path,"r");	
 	if (!fp) 
-		die("language syntax file not founded");
+		return;
 	language_syntax *lang = malloc(sizeof(language_syntax *));
 	lang->lang = strdup(lang_name);
 	char *line = NULL;
@@ -30,6 +30,7 @@ void load_syntax(char *lang_name)
 		if (line[0] == '#')
 			continue;
 		syntax_group *grp = parse_syntax_line(line);
+		lv_log(line);
 		if (grp == NULL)
 			continue;
 		add_group_for_language(lang,grp);
@@ -73,6 +74,7 @@ syntax_group *parse_syntax_line(char *line)
 						key[keyp] = '\0';
 						add_key_to_syntax_group(grp,key);
 						keyp = 0;
+						in = false;
 					}
 				}
 				if (in) {
@@ -145,4 +147,33 @@ char **get_syntax_for_keyword(char *key)
 				return sg->props;
 	}
 	return NULL;
+}
+
+char *props_info_table[] = {
+	"RED",RED,
+	"BLUE",BLUE,
+	"YELLOW",YELLOW,
+	"CYAN",CYAN,
+	"INVERT",INVERT,
+	"DEFAULT",DEFAULT,
+	"GRAY",GRAY,
+	"NORMAL",NORMAL,
+	"GREEN",GREEN,
+	"MAGENTA",MAGENTA,
+	"BOLD",BOLD
+};
+
+/*
+ *	return the sequence for given prop to write in output 
+ *	it can be color or bold or italic or ...
+ *	TODO : enhance this function
+ */
+char *prop_to_str(char *prop)
+{
+	for (int i = 0;i < ARRAY_LENGTH(props_info_table); i += 2) {
+		if (strncmp(props_info_table[i],prop,strlen(prop) - 1) == 0) {
+			return props_info_table[i + 1];
+		}
+	}
+	return DEFAULT;
 }

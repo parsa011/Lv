@@ -64,7 +64,6 @@ void lv_loop()
 	key_macro *macro = NULL;
 	do {
 #if HAVE_LOG
-		log_all();
 #endif
 		update();
 		c = get_cmd();

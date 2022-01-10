@@ -70,8 +70,8 @@ void set_buffer_name(char *path)
 void load_syntax_for_buffer()
 {
 	if (curbp->bname == NULL)
-		return 0;
-	if (string_endwith(curbp->bname,".c")) {
+		return;
+	if (string_endwith(curbp->bname,".c") || string_endwith(curbp->bname,".h")) {
 		curbp->filetype = strdup("c");
 	}
 	load_syntax(curbp->filetype);

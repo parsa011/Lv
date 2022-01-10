@@ -221,14 +221,14 @@ append:
 			char **props = get_syntax_for_keyword(text_bag);
 			if (props) {
 				while (*props) {
-					TTputs(RED);
-					props++;
+					TTputs(prop_to_str(*props++));
 				}
 			}
 			TTputs(text_bag);
-			TTputc(*temp);
 			i = 0;
+
 			TTputs(DEFAULT);
+			TTputc(*temp);
 		} else if (*temp == '\t') {
 			for (int j = 0;j < tab_size;j++) {
 				/* here we can show tabs if needed :)) */
