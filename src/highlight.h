@@ -9,20 +9,37 @@
  *	This file is part of Lv
  */
 
+struct language_syntax_t {
+	language_syntax *next;
+	char *lang;						/* language name 						*/
+	syntax_field *syntax_groups; 	/* groups of syntaxes for this language */
+};
+
+struct syntax_group_t {
+	syntax_field *next;
+	char *group_name;		/* name of this group , will be specified in the file */
+	syntax_field *keywords;	/* keyword as string for compare  					  */
+	char *props[5];			/* properties for keyword like color and bold and ... */
+};
+
 struct syntax_field_t {
 	syntax_field *next;
-	char *keyword;		/* keyword as string for compare  					  */
-	char *prop[5];		/* properties for keyword like color and bold and ... */
-	char *file_type;	/* to specify , for what type (lang) this keyword is  */
+	char *keyword;
 };
 
 extern int syntax_count;
-extern syntax_field *syntax_db;
+extern language_syntax *syntax_db;
 
 /*
  *	search in syntax files and read syntaxes from file
  */
 void load_syntax(char *);
+
+/*
+ *	line is a lins of syntax file , first we will tokenize it and make a loop on it
+ *	then we will find keywords and colors in line
+ */
+void parse_syntax_line(char *line);
 
 /*
  *	add new syntax to filed

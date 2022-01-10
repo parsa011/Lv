@@ -24,10 +24,19 @@ void load_syntax(char *lang_name)
 	while ((read = getline(&line,&len,fp)) != -1) {
 		if (line[0] == '#')
 			continue;
-		char **args = tokenize_string(line," "); 
-		while (*args) {
-			fprintf(stderr,"%s\n\r",*args++);
-		}
+		parse_syntax_line(line);
 	}
 	die("SDF");
+}
+
+void parse_syntax_line(char *line)
+{
+	char **args = tokenize_string(line," ");
+	int index = 0;
+	while (*args) {
+		if (*args[0] == '[') {
+		}
+		index++;
+		args++;
+	}
 }
