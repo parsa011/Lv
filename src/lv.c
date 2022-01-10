@@ -21,7 +21,7 @@ int close_editor(int focre, int code)
 	TTmove(1,1);
 	close_file();
 	TTputs(DEFAULT);
-#ifdef HAVE_LOG
+#if HAVE_LOG
 	remove_log_file();
 #endif
 	TTputs(DEFAULT);
@@ -49,7 +49,7 @@ void init_editor()
 	generate_basic_macros();
 	generate_basic_commands();
 	generate_prompt_keys();
-#ifdef HAVE_LOG
+#if HAVE_LOG
 	create_log_file();
 #endif
 }
@@ -63,7 +63,9 @@ void lv_loop()
 	int c;
 	key_macro *macro = NULL;
 	do {
+#if HAVE_LOG
 		log_all();
+#endif
 		update();
 		c = get_cmd();
 		if (bmtest(curbp,MDLOCK) && ISNUMBER(c)) {

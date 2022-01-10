@@ -17,7 +17,7 @@
 
 void create_log_file();
 
-#ifdef HAVE_LOG
+#if HAVE_LOG
 void log_all();
 #endif
 
