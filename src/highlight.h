@@ -16,7 +16,7 @@ struct language_syntax_t {
 };
 
 struct syntax_group_t {
-	syntax_field *next;
+	syntax_group *next;
 	char *group_name;		/* name of this group , will be specified in the file */
 	syntax_field *keywords;	/* keyword as string for compare  					  */
 	char *props[5];			/* properties for keyword like color and bold and ... */
