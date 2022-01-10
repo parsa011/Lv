@@ -92,6 +92,6 @@ int manage_insert_key(int);
  *
  * exit();
  */
-void die(const char *);
+void die(const char *,...);
 
 #endif

@@ -237,7 +237,6 @@ go_next:
 #undef BUFSIZE
 #undef ELEMSIZE
 	return buf;
-
 }
 
 /*

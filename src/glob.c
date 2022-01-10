@@ -157,8 +157,13 @@ void add_to_number_stack(char c)
 /*
  * kill the program
  */
-void die(const char *s) {
+void die(const char *msg,...) {
+	char buf[256];
+	va_list ap;
+	va_start(ap, msg);
+	vsprintf(buf, msg, ap);
+	va_end(ap);
 	ttclose();
-	fprintf(stderr, "%s\n", s);
+	fprintf(stderr, "%s\n", buf);
 	exit(2);
 }

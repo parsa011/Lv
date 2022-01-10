@@ -47,11 +47,12 @@
 typedef struct line_t line;
 typedef struct buffer_t buffer;
 typedef struct window_t window;
-typedef struct key_macro_t key_macro;
 typedef struct command_t command;
 typedef struct msg_bag_t msg_bag;
-typedef struct prompt_key_t prompt_key;
 typedef struct terminal_t terminal;
+typedef struct key_macro_t key_macro;
+typedef struct prompt_key_t prompt_key;
+typedef struct syntax_field_t syntax_field;
 
 #include "builtins/builtins.h"
 #include "color.h"

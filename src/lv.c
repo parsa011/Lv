@@ -131,6 +131,7 @@ int main(int argc,char *argv[])
 	if (argc > 1) {
 		load_file_into_buffer(NULL,argv[1]);
 	}
+	load_syntax("c");
 	lv_loop();
 	return 0;
 }
