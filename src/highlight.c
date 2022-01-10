@@ -41,13 +41,14 @@ syntax_group *parse_syntax_line(char *line)
 {
 	char **args = tokenize_string(line," ");
 	char **p = args;
-	while (*p++);
-	if ((p - args) - 1);
+	int len = 0;
+	while (*p++)
+		len++;
+	if (len < 4)
 		return NULL;
-	int index = 0;
 	syntax_group *grp = malloc(sizeof(syntax_group *));
 	char key[128];
-	int keyp = 0;
+	int index = 0,keyp = 0;
 	while (*args) {
 		if (index == 0) {
 			grp->group_name = strdup(*args);

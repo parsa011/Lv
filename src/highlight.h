@@ -22,6 +22,9 @@ struct syntax_group_t {
 	char *props[5];			/* properties for keyword like color and bold and ... */
 };
 
+/*
+ *	we store each keyword of group in syntax file here 
+ */
 struct syntax_field_t {
 	syntax_field *next;
 	char *keyword;
