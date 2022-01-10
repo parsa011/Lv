@@ -37,6 +37,8 @@ int get_twin_char_index(int);
  */
 char **tokenize_string(char *,char *);
 
+bool string_endwith(char *,char *);
+
 /*
  *	return given number len (numbers of digits in number :D)
  */

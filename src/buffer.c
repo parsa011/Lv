@@ -53,11 +53,28 @@ int set_buffer_by_name(char *name)
 
 /*
  *	set buffer name and path by given string (path)
+ *	also we will call load_syntax_for_buffer
  */
 void set_buffer_name(char *path)
 {
 	memcpy(curbp->fname,path,strlen(path));
 	get_filename_of_path(curbp->bname,path);
+	load_syntax_for_buffer();
+}
+
+/*
+ *	if buffer name is emtpy so we will return to exit function
+ *	otherwise we will check file extension to get intended language name
+ *	them load syntax file associated with that language
+ */
+void load_syntax_for_buffer()
+{
+	if (curbp->bname == NULL)
+		return 0;
+	if (string_endwith(curbp->bname,".c")) {
+		curbp->filetype = strdup("c");
+	}
+	load_syntax(curbp->filetype);
 }
 
 /*

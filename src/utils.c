@@ -239,6 +239,23 @@ go_next:
 	return buf;
 }
 
+bool string_endwith(char *str,char *t)
+{
+	char *bs = str;
+	char *bt = t;
+	char *ptr = str;
+	while (*ptr)
+		ptr++;
+	while (*t)
+		t++;
+	for (; *ptr == *t; ptr--,t--)
+		if (t == bt || ptr == bs)
+			break;
+	if (*ptr == *t && *t == *bt && *ptr != '\0')
+		return true;
+	return false;
+}
+
 /*
  *	repeat specified char in s by n times
  */

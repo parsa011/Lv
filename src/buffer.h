@@ -34,6 +34,7 @@ struct buffer_t {
 	int dirty;				/* how much this buffer become dirty						 */
 	// there some options for tab
 	bool linenm;			/* activate line number for this buffer or no				 */
+	char *filetype;
 };
 
 #define bnext(b) 	(b->link.next)		/* next buffer of given buffer 		*/
@@ -98,6 +99,11 @@ void append_buffer(buffer *);
  *	return last line of buffer
  */
 line *get_last_line(buffer *);
+
+/*
+ *	load syntax file for buffer
+ */
+void load_syntax_for_buffer();
 
 /*
  *	toggle line number option (it's global)
