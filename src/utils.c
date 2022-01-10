@@ -191,8 +191,8 @@ char **tokenize_string(char *string,char *delim)
 	int delim_len = strlen(delim);
 	int buf_size = BUFSIZE;
 	int elem_size = ELEMSIZE;
-	char **buf = (char **)calloc(buf_size,sizeof(char *));
-	char *elem = (char *)malloc(elem_size);
+	char **buf = (char **)calloc(buf_size, sizeof(char *));
+	char *elem = (char *)malloc(sizeof(char *));
 	int elemp = 0;
 	int bufp = 0;
 	for (int i = 0; i < strlen(string);i++) {

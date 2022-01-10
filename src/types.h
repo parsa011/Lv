@@ -53,7 +53,7 @@ typedef struct terminal_t terminal;
 typedef struct key_macro_t key_macro;
 typedef struct prompt_key_t prompt_key;
 typedef struct syntax_field_t syntax_field;
-typedef struct syntax_gropu_t syntax_group;
+typedef struct syntax_group_t syntax_group;
 typedef struct language_syntax_t language_syntax;
 
 #include "builtins/builtins.h"

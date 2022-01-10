@@ -32,10 +32,19 @@ void cmdstr(int,char *);
 extern char twin_chars[];
 int get_twin_char_index(int);
 
+/*
+ *	split char by given delim
+ */
 char **tokenize_string(char *,char *);
 
+/*
+ *	return given number len (numbers of digits in number :D)
+ */
 int number_len(int);
 
+/*
+ *	fill given string with given char
+ */
 void repeat_char(char *,char,int);
 
 #endif
