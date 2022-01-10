@@ -19,7 +19,6 @@ struct syntax_group_t {
 	syntax_group *next;
 	char *group_name;		/* name of this group , will be specified in the file */
 	syntax_field *keywords;	/* keyword as string for compare  					  */
-	syntax_field *lkeyword; /* last added keyword , it's usefull in append :)	  */
 	char *props[5];			/* properties for keyword like color and bold and ... */
 };
 

@@ -89,16 +89,19 @@ void add_key_to_syntax_group(syntax_group *grp,char *key)
 	if (grp->keywords == NULL)
 		grp->keywords = sn;
 	else {
-		grp->lkeyword->next = sn;
+		sn->next = grp->keywords;
+		grp->keywords = sn;
 	}
-	grp->lkeyword = sn;
 }
 
 void add_language_syntax(language_syntax *lang)
 {
 	if (syntax_db == NULL)
 		syntax_db = lang;
-	// ADD LAST
+	else {
+		lang->next = syntax_db;
+		syntax_db = lang;
+	}
 }
 
 void add_group_for_language(language_syntax *lang,syntax_group *grp)
