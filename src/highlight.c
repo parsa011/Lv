@@ -73,6 +73,9 @@ syntax_group *parse_syntax_line(char *line)
 next:
 				str++;
 			}
+		} 
+		if (index > 2) {
+			grp->props[index - 3] = strdup(*args);
 		}
 		index++;
 		args++;
