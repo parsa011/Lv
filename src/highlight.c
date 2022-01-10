@@ -37,6 +37,14 @@ void load_syntax(char *lang_name)
 	add_language_syntax(lang);
 }
 
+language_syntax *get_language_syntax_by_name(char *s)
+{
+	for (language_syntax *ls = syntax_db; ls != NULL; ls = ls->next)
+		if (strcmp(ls->lang,s) == 0)
+			return ls;
+	return NULL;
+}
+
 syntax_group *parse_syntax_line(char *line)
 {
 	char **args = tokenize_string(line," ");
@@ -116,4 +124,25 @@ void add_group_for_language(language_syntax *lang,syntax_group *grp)
 		grp->next = lang->syntax_groups;
 		lang->syntax_groups = grp;
 	}
+}
+
+/*
+ *	NOTE : default language is current buffer filetype 
+ *	we will return syntax_groups props
+ */
+char **get_syntax_for_keyword(char *key)
+{
+	if (curbp->filetype == NULL)
+		return NULL;
+	language_syntax *ls = get_language_syntax_by_name(curbp->filetype);
+	if (ls == NULL) {
+		showmsg(true,"syntax for %s lang not founded",curbp->filetype);
+		return NULL;
+	}
+	for (syntax_group *sg = ls->syntax_groups; sg != NULL; sg = sg->next) {
+		for (syntax_field *sf = sg->keywords; sf != NULL; sf = sf->next) 
+			if (strcmp(sf->keyword,key) == 0)
+				return sg->props;
+	}
+	return NULL;
 }

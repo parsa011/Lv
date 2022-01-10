@@ -44,6 +44,11 @@ void load_syntax(char *);
 void add_language_syntax(language_syntax *);
 
 /*
+ *	will return language syntax with for given lang
+ */
+language_syntax *get_language_syntax_by_name(char *);
+
+/*
  *	append given group to end of language groups
  */
 void add_group_for_language(language_syntax *,syntax_group *);
@@ -60,8 +65,8 @@ void add_key_to_syntax_group(syntax_group *,char *);
 syntax_group *parse_syntax_line(char *line);
 
 /*
- *	add new syntax to filed
+ *	will return associated props with given syntax
  */
-void add_synatx(syntax_field);
+char **get_syntax_for_keyword(char *);
 
 #endif
