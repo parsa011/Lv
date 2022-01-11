@@ -10,6 +10,20 @@
 int syntax_count = 0;
 language_syntax *syntax_db;
 
+char *props_info_table[] = {
+	"RED",RED,
+	"BLUE",BLUE,
+	"YELLOW",YELLOW,
+	"CYAN",CYAN,
+	"INVERT",INVERT,
+	"DEFAULT",DEFAULT,
+	"GRAY",GRAY,
+	"NORMAL",NORMAL,
+	"GREEN",GREEN,
+	"MAGENTA",MAGENTA,
+	"BOLD",BOLD
+};
+
 /*
  *	with given lang name , we will search in syntax folder
  *	select associated file , read and add its values to db
@@ -148,20 +162,6 @@ char **get_syntax_for_keyword(char *key)
 	}
 	return NULL;
 }
-
-char *props_info_table[] = {
-	"RED",RED,
-	"BLUE",BLUE,
-	"YELLOW",YELLOW,
-	"CYAN",CYAN,
-	"INVERT",INVERT,
-	"DEFAULT",DEFAULT,
-	"GRAY",GRAY,
-	"NORMAL",NORMAL,
-	"GREEN",GREEN,
-	"MAGENTA",MAGENTA,
-	"BOLD",BOLD
-};
 
 /*
  *	return the sequence for given prop to write in output 

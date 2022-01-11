@@ -209,49 +209,57 @@ void write_line(line *ln)
 	char *temp = ln->chars;
 	char *text_bag = malloc(256);
 	int i = 0;
+	bool append = false;
 	while (*temp) {
 		/* we will check if current char is space or end of line 
 		 * if it was them , so we have to write text bag into screen
-		 * also we have to check if we goes to end of line or no by
+		 * also we have to check if we goes to end of file or no by
 		 * checking next char with temp + 1
 		 */
-		if (!*(temp + 1) || *temp == ' ' || *temp == '\n') {
-			/* int and #include just for text */
-append:
-			char **props = get_syntax_for_keyword(text_bag);
-			if (props) {
-				while (*props) {
-					TTputs(prop_to_str(*props++));
-				}
-			}
-			TTputs(text_bag);
-			i = 0;
-
-			TTputs(DEFAULT);
-			TTputc(*temp);
+		if (*temp == ' ' || *temp == '\n') {
+			append = true;
 		} else if (*temp == '\t') {
 			for (int j = 0;j < tab_size;j++) {
 				/* here we can show tabs if needed :)) */
 				//if (j == tab_size / 2)
 				//	*(text_bag + i++) = '.';
 				//else 
-					*(text_bag + i++) = ' ';
+				TTputc(' ');
+					//*(text_bag + i++) = ' ';
 			}
-			TTputs(text_bag);
-			i = 0;
 		} else if (iscntrl(*temp)) {
 			*(text_bag + i++) = (*temp <= 26 ? '@' + *temp : '?');
 		} else {
 			if (isalpha(*temp) || *temp == '#')
 				*(text_bag + i++) = (*temp);
-			else 
-				goto append;
+			else
+				append = true;
 		}
-		*(text_bag + i) = '\0';
+		if (!*(temp + 1) || append) {
+			echo_display(text_bag);
+			TTputs(DEFAULT);
+			if (append) {
+				TTputc(*temp);
+			}
+			append = false;
+			i = 0;
+		}
 		*temp++;
+		*(text_bag + i) = '\0';
 	}
 	TTputs("\n\r");
 }
+
+void echo_display(char *text)
+{
+	char **props = get_syntax_for_keyword(text);
+	if (props) {
+		while (*props) {
+			TTputs(prop_to_str(*props++));
+		}
+	}
+	TTputs(text);
+}	
 
 /*
  *	write line number into  screen

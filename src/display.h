@@ -22,6 +22,7 @@
 #define messagebar_start_offset term.t_mrow
 
 #define STATUSBAR_FILLER ' '
+#define WINDOWS_SEPARATOR " | "
 
 /*
  *	init terminal and trun on raw mode
@@ -40,6 +41,10 @@ void get_screen_size(int *,int *);
  *	return current position of cursor 
  */
 bool get_cursor_position(int *, int *);
+
+/*
+ *	set title for terminal window
+ */
 void set_terminal_title(char *);
 
 /*
@@ -51,7 +56,6 @@ void update();
  *	write all exist windows into screen
  */
 void write_windows();
-#define WINDOWS_SEPARATOR " | "
 
 /*
  * 	write current buffer into screen
@@ -59,8 +63,27 @@ void write_windows();
  */
 void write_buffer();
 
+/*
+ *	manage write line , meas it will check for line special chars and ...
+ */
 void write_line(line *);
+/*
+ *	this function will write a message into display, first it will check for
+ *	syntax highlight , if there was any related prop with given text , first it
+ *	will apply them then write text
+ */
+void echo_display(char *);
+
+/*
+ *	when linenumber is enabled for buffer , before writing line , we will call this
+ *	to write linenumber
+ */
 int write_linenumber(int,int);
+
+/*
+ *	used for check if buffers line count increased or not , for example when line-
+ *	number increase from 99 to 100 , we have to increase buffer padding
+ */
 int update_linenumber_padding();
 
 /*
@@ -69,6 +92,9 @@ int update_linenumber_padding();
  */
 void write_statusbar(buffer *);
 
+/*
+ *	write message bar , and show prompt (if exist) and messages
+ */
 void write_messagebar();
 
 /*
