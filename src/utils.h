@@ -27,6 +27,9 @@ int convert_string_to_key(char);
 void shift_right(char*,int,int);
 void shift_left(char*,int,int);
 
+/*
+ *	convert a key to printable char
+ */
 void cmdstr(int,char *);
 
 extern char twin_chars[];

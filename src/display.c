@@ -221,11 +221,10 @@ void write_line(line *ln)
 		} else if (*temp == '\t') {
 			for (int j = 0;j < tab_size;j++) {
 				/* here we can show tabs if needed :)) */
-				//if (j == tab_size / 2)
-				//	*(text_bag + i++) = '.';
-				//else 
+				if (j == tab_size / 2)
+					TTputc('.');
+				else 
 				TTputc(' ');
-					//*(text_bag + i++) = ' ';
 			}
 		} else if (iscntrl(*temp)) {
 			*(text_bag + i++) = (*temp <= 26 ? '@' + *temp : '?');
@@ -235,6 +234,7 @@ void write_line(line *ln)
 			else
 				append = true;
 		}
+		*(text_bag + i) = '\0';
 		if (!*(temp + 1) || append) {
 			echo_display(text_bag);
 			TTputs(DEFAULT);
@@ -245,7 +245,6 @@ void write_line(line *ln)
 			i = 0;
 		}
 		*temp++;
-		*(text_bag + i) = '\0';
 	}
 	TTputs("\n\r");
 }
@@ -308,7 +307,7 @@ void write_statusbar(buffer *bf)
 	TTputs(INVERT);
 	char lstatus[256];
 	char rstatus[128];
-	int llen = sprintf(lstatus,"file : %s , %d line ",bf->bname,bf->lcount);
+	int llen = sprintf(lstatus,"file : %s , %d line ",bf->bname[0] != 0 ? bf->bname : NO_NAME_BUFFER,bf->lcount);
 	int rlen = sprintf(rstatus," %s %c%c %d | %d - %d",
 			bmtest(bf,MDLOCK) ? "lock" : "insert",STATUSBAR_FILLER,STATUSBAR_FILLER,
 			bf->clindex + 1,bf->coffset + 1,current_line != NULL ? current_line->len : 0);
