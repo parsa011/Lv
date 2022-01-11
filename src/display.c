@@ -221,9 +221,9 @@ void write_line(line *ln)
 		} else if (*temp == '\t') {
 			for (int j = 0;j < tab_size;j++) {
 				/* here we can show tabs if needed :)) */
-				if (j == tab_size / 2)
-					TTputc('.');
-				else 
+				//if (j == tab_size / 2)
+				//	TTputc('.');
+				//else 
 				TTputc(' ');
 			}
 		} else if (iscntrl(*temp)) {
