@@ -61,7 +61,7 @@ int quit(int f, char **args)
 		close_editor(true,EXIT_SUCCESS);
 	} else {
 		if (curbp->dirty && !quite_force) {
-			showmsg(true,"buffer is dity, use 'q !' to force quite");
+			showmsg(true,"buffer is dirty, use 'q !' to force quite");
 			return false;
 		}
 		if (remove_buffer(curbp) == ALONEBUFFER)

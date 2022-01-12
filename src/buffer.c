@@ -232,11 +232,8 @@ int prev_buffer_in_window(int,int)
  */
 void free_buffer()
 {
-	for (line *ln = curbp->fline;ln != NULL;) {
+	for (line *ln = curbp->lline;ln != NULL;ln = lprev(ln)) {
 		free(ln->chars);
-		line *temp = ln;
-		ln = lnext(ln);
-		free(temp);
 	}
 	free(curbp);
 }
@@ -280,7 +277,7 @@ int remove_buffer()
 		curwp->fbuffer = new_one;
 	new_one->nrow += curbp->nrow;
 	curwp->bcount--;
-	//free_buffer();
+	free_buffer();
 	change_current_buffer(new_one);
 	curbp->flags |= FREDRW;
 	return true;

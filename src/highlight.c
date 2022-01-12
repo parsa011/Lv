@@ -21,7 +21,12 @@ char *props_info_table[] = {
 	"NORMAL",NORMAL,
 	"GREEN",GREEN,
 	"MAGENTA",MAGENTA,
-	"BOLD",BOLD
+	"BOLD",BOLD,
+	"ITALIC",ITALIC,
+	"BLINK",BLINK,
+	"UNDERLINE",UNDLINE,
+	"DIM",DIM,
+	"OVERLINE",OVLINE
 };
 
 /*
@@ -44,7 +49,6 @@ void load_syntax(char *lang_name)
 		if (line[0] == '#')
 			continue;
 		syntax_group *grp = parse_syntax_line(line);
-		lv_log(line);
 		if (grp == NULL)
 			continue;
 		add_group_for_language(lang,grp);

@@ -1,0 +1,8 @@
+# c sharp syntax file
+
+KEYWORDS = ["if","else","do","while","for","lock","using","return","finally","new","static","abstract","struct","class"] BLUE BOLD 
+KEYWORDS = ["base","as","catch","try","continue","break","delegate","enum","event","explicit","extern","fixed","goto"] BLUE BOLD 
+KEYWORDS = ["public","in","internal","namespace","null","override","private","public","protected","readonly","ref","out","sealed"] BLUE BOLD 
+KEYWORDS = ["volatile","typeof","throw","switch","case","static"] BLUE BOLD 
+KEYWORDS = ["get,"set"] BLUE OVERLINE  
+TYPES = ["int","uint","short","ushort","long","ulong","double","float","bool","char","object","var","void"] YELLOW  
