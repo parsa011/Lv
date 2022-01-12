@@ -56,19 +56,6 @@ int remove_window(window *wp)
 }
 
 /*
- *	it's very simple for check , we have to enhance it
- */
-bool compare_windows(window *wp1,window *wp2)
-{
-	if (wp1->crow == wp2->crow &&
-		wp1->ccol == wp2->ccol &&
-		wp1->flags == wp2->flags &&
-		wp1->cbindex == wp2->cbindex) 
-		return true;
-	return false;
-}
-
-/*
  *	set curwp to given wp
  *	and set its first buffer to curbp , and also set
  *	redraw flag for buffer to re-write it
