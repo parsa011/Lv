@@ -25,29 +25,32 @@ window *init_window()
  */
 int remove_window(window *wp)
 {
-	window *pwp = wprev(wp);
-	window *nwp = wnext(wp);
-	if (nwp == NULL && pwp == NULL) {
-		free(wp);
-		return ALONEWINDOW;
+	window *new_one = wprev(wp);
+	if (new_one == NULL) {
+		new_one == wnext(wp);
+		if (new_one == NULL) {
+			free(wp);
+			return ALONEBUFFER;
+		}
 	}
-	if (pwp == NULL) {
-		swprev(nwp,NULL);
-		firstwp = nwp;
-		activate_window(nwp);
-		goto free_wp;
+	if (new_one == wprev(wp)) {
+		window *next = wnext(wp);
+		if (next != NULL) {
+			swnext(new_one,next);	
+			swprev(next,new_one);
+		}
+	} else {
+		window *prev = wprev(wp);
+		if (prev != NULL) {
+			swnext(prev,new_one);
+			swprev(new_one,prev);
+		}
 	}
-	if (nwp == NULL) {
-		swnext(pwp,NULL);
-		lastwp = pwp;
-		activate_window(pwp);
-		goto free_wp;
-	}
-	swnext(pwp,nwp);
-	swprev(nwp,pwp);
-	activate_window(pwp);
-free_wp:
-	//destory_buffer(wp);
+	if (wp == lastwp) 
+		lastwp = new_one;
+	if (wp == firstwp)
+		firstwp = new_one;
+	activate_window(new_one);
 	free(wp);
 	return true;
 }
@@ -135,6 +138,6 @@ int window_vertinal_split(int f,int n)
 	bf->nrow = curbp->nrow + 1;
 	curbp->flags |= FREDRW;
 	curbp->nrow -= 1;
-	append_buffer(bf);
+	append_buffer(curwp,bf);
 	return true;
 }

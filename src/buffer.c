@@ -73,7 +73,8 @@ void load_syntax_for_buffer()
 		return;
 	if (string_endwith(curbp->bname,".c") || string_endwith(curbp->bname,".h")) {
 		curbp->filetype = strdup("c");
-	}
+	} else if (string_endwith(curbp->bname,".cs"))
+		curbp->filetype = strdup("cs");
 	load_syntax(curbp->filetype);
 }
 
@@ -99,13 +100,13 @@ int toggle_linenumber()
 /*
  *	add given buffer into active window last buffers next
  */
-void append_buffer(buffer *bf)
+void append_buffer(window *win,buffer *bf)
 {
-	if (curwp == NULL)
+	if (win == NULL)
 		die("NO any window");
 	/* if currwp buffers null , so it's first one , otherwise add to last buffers next */
-	if (curwp->fbuffer == NULL)
-		curwp->fbuffer = bf;
+	if (win->fbuffer == NULL)
+		win->fbuffer = bf;
 	else {
 		//buffer *lbuffer = get_last_buffer(NULL);
 		if (curbp == NULL)
@@ -118,7 +119,7 @@ void append_buffer(buffer *bf)
 			sbnext(bf,nb);
 		}
 	}
-	curwp->bcount++;
+	win->bcount++;
 }
 
 /*
@@ -197,6 +198,9 @@ void change_current_buffer(buffer *bf)
 		update_position();
 }
 
+/*
+ *	set next buffer in window for active window
+ */
 int next_buffer_in_window(int,int)
 {
 	buffer *bf = bnext(curbp);
