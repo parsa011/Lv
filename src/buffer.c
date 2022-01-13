@@ -8,6 +8,10 @@
 
 #include "types.h"
 
+/*
+ *	alloc and init new buffer with given name and path , also we can set
+ *	modes and flags
+ */
 buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 {
 	buffer *bf;
@@ -30,6 +34,7 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->linenm = false;
+	bf->link.next = bf->link.prev = NULL;
 	return bf;
 }
 
@@ -114,9 +119,9 @@ void append_buffer(window *win,buffer *bf)
 		buffer *nb = bnext(curbp);
 		sbnext(curbp,bf);
 		sbprev(bf,curbp);
+		sbnext(bf,nb);
 		if (nb != NULL) {
 			sbprev(nb,bf);
-			sbnext(bf,nb);
 		}
 	}
 	win->bcount++;
