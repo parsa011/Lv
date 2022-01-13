@@ -35,9 +35,10 @@ int open_command(int f, char **args)
 	else {
 		window *wp = init_window();
 		append_window(wp);
-		append_buffer(wp,init_buffer(args[1],"",0,0));
-		bf = wp->fbuffer;
-		change_current_buffer(bf);
+		bf = init_buffer(args[1],"",0,0);
+		append_buffer(wp,bf);
+		//change_current_buffer(bf);
+		activate_window(wp);
 	}
 	// TODO : check if we got '.' or not , if we got , we should load file into current buffer
 	return load_file_into_buffer(bf,args[1]);

@@ -15,6 +15,8 @@ window *init_window()
 		die("malloc window");
 	wp->cbindex = 0;
 	wp->crow = wp->ccol = 1;
+	wp->link.next = wp->link.prev = NULL;
+	wp->fbuffer = NULL;
 	return wp;
 }
 
@@ -35,15 +37,15 @@ int remove_window(window *wp)
 	}
 	if (new_one == wprev(wp)) {
 		window *next = wnext(wp);
+		swnext(new_one,next);
 		if (next != NULL) {
-			swnext(new_one,next);	
 			swprev(next,new_one);
 		}
 	} else {
 		window *prev = wprev(wp);
+		swprev(new_one,prev);
 		if (prev != NULL) {
 			swnext(prev,new_one);
-			swprev(new_one,prev);
 		}
 	}
 	if (wp == lastwp) 
@@ -74,7 +76,8 @@ int append_window(window *wp)
 {
 	swnext(lastwp,wp);
 	swprev(wp,lastwp);
-	lastwp = curwp = wp; 
+	swnext(wp,NULL);
+	lastwp = curwp = wp;
 }
 
 /*
@@ -88,6 +91,9 @@ buffer *get_last_buffer()
 	return b;
 }
 
+/*
+ *	set next window as active window
+ */
 int next_window(int f, int n) 
 {
 	if (wnext(curwp) == NULL) {

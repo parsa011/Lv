@@ -175,7 +175,7 @@ void write_windows()
 void write_buffer()
 {
 	buffer *bf = curwp->fbuffer;
-	while (bf != NULL) {
+	for (buffer *bf = curwp->fbuffer; bf != NULL; bf = bnext(bf)) {
 		TTmove(bf->mtop,1);
 		int count = 0;
 		int linenu = bf->loffset + 1;
@@ -195,7 +195,6 @@ void write_buffer()
 			}
 		}
 		write_statusbar(bf);
-		bf = bnext(bf);
 	}
 }
 

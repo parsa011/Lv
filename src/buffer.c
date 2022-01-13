@@ -34,7 +34,6 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->linenm = false;
-	bf->link.next = bf->link.prev = NULL;
 	return bf;
 }
 
@@ -110,8 +109,10 @@ void append_buffer(window *win,buffer *bf)
 	if (win == NULL)
 		die("NO any window");
 	/* if currwp buffers null , so it's first one , otherwise add to last buffers next */
-	if (win->fbuffer == NULL)
+	if (win->fbuffer == NULL) {
 		win->fbuffer = bf;
+		sbnext(bf,NULL);
+	}
 	else {
 		//buffer *lbuffer = get_last_buffer(NULL);
 		if (curbp == NULL)
@@ -261,21 +262,19 @@ int remove_buffer()
 	if (new_one == bnext(curbp)) {
 		new_one->mtop = curbp->mtop;
 		buffer *prev = bprev(curbp);
+		sbprev(new_one,NULL);
 		if (prev != NULL) {
 			sbnext(prev,new_one);
 			sbprev(new_one,prev);
-		} else {
-			sbprev(new_one,NULL);
 		}
 	} else {
 		// here , new one is prev buffer of current buffer , first we have to check
 		// that there is any next buffer , if it exist , we will set links
 		buffer *next = bnext(curbp);
+		sbnext(new_one,NULL);
 		if (next != NULL) {
 			sbnext(new_one,next);
 			sbprev(next,new_one);
-		} else {
-			sbnext(new_one,NULL);
 		}
 	}
 	if (curbp == curwp->fbuffer)
