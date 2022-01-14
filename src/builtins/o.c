@@ -35,7 +35,7 @@ int open_command(int f, char **args)
 	else {
 		window *wp = init_window();
 		append_window(wp);
-		bf = init_buffer(args[1],"",0,0);
+		bf = init_buffer(args[1],0,0);
 		append_buffer(wp,bf);
 		//change_current_buffer(bf);
 		activate_window(wp);

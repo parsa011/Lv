@@ -43,7 +43,7 @@ void init_editor()
 	curwp = init_window();
 	firstwp = curwp;
 	lastwp = curwp;
-	curbp = init_buffer("",NO_NAME_BUFFER,0,0);
+	curbp = init_buffer(NULL,0,0);
 	append_buffer(curwp,curbp);
 	set_terminal_title(TERMINAL_TITLE);
 	generate_basic_macros();

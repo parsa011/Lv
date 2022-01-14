@@ -68,7 +68,10 @@ struct buffer_t {
 //#define MDOVER	0x0020		/* overwrite mode                */
 //#define MDMAGIC	0x0040		/* regular expressions in search */
 
-buffer *init_buffer(char *, char *, short, short);
+/*
+ *	alloc and create new buffer struct and return pointer
+ */
+buffer *init_buffer(char *, short, short);
 
 /*
  *	set bname and fname for buffer by given path
