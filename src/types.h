@@ -77,4 +77,5 @@ typedef struct language_syntax_t language_syntax;
 #include "prompt.h"
 #include "lv.h"
 #include "highlight.h"
+#include "../libs/llist.h"
 #include "log.h"

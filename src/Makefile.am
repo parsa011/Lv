@@ -5,7 +5,7 @@ EXTRA_DIST = TODO
 
 noinst_HEADERS = types.h macro.h lv.h utils.h tty.h glob.h utf8.h input.h line.h buffer.h move.h \
 					vt100.h display.h window.h file.h color.h word.h commands.h builtins/builtins.h \
-					prompt.h log.h highlight.h
+					prompt.h log.h highlight.h ../libs/llist.h
 
 bin_PROGRAMS = lv debugger
 # INCLUDES = -DLVRC="\"$(sysconf_lvdir)/\"" -DJOEDATA="\"$(data_lvdir)/\""
