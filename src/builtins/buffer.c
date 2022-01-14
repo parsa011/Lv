@@ -16,11 +16,11 @@ int buffer_command_tab(int f,int n)
 	for (window *wp = firstwp;i < statusbar_start_offset - windowsbar_start_offset - 2 ;i++) {
 		TTeeol();
 		if (wp != NULL) {
-			for (buffer *bf = wp->fbuffer; bf != NULL; bf = bnext(bf)) {
+			for (buffer *bf = wp->fbuffer; bf != NULL; bf = L_LINK_NEXT(bf)) {
 				TTputs(bf->bname);
 				TTputs("\r\n");
 			}
-			wp = wnext(wp);
+			wp = L_LINK_NEXT(wp);
 		}
 	}
 	for (int i = 0; i < term.t_mcol;i++)

@@ -20,13 +20,9 @@ struct line_t {
 	int len;			/* length of current line */
 };
 
-#define lnext(lp)       ((lp)->link.next)
-#define lprev(lp)       ((lp)->link.prev)
 #define lgetc(lp, n)    ((lp)->chars[(n)] & 0xFF)
 #define lputc(lp, n, c) ((lp)->chars[(n)] = (c))
 #define llength(lp)     ((lp)->len)
-#define slnext(lp,n) 	((lp)->link.next = n)	/* set next line for given line */ 
-#define slprev(lp,p) 	((lp)->link.prev = p)	/* set prev line for given line */
 
 /*
  * 	This routine allocates a block of memory large enough to hold a struct line

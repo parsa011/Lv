@@ -56,7 +56,7 @@ int save_file()
 	}
 	showmsg(true,"writing file ...");
 	open_file(curbp->fname,"w+");
-	for (line *ln = curbp->fline;ln != NULL;ln = lnext(ln)) {
+	for (line *ln = curbp->fline;ln != NULL;ln = L_LINK_NEXT(ln)) {
 		if (fputline(ln) == FALSE)
 			return false;
 	}

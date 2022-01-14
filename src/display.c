@@ -146,7 +146,7 @@ void write_windows()
 	int len = sprintf(temp,"%s ",EDITOR_TITLE);
 	TTputs(temp);
 	/* later we have to check if we have any special color for windows section */
-	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
+	for (window *wp = firstwp;wp != NULL;wp = L_LINK_NEXT(wp)) {
 		if (wp->fbuffer == NULL) {
 			TTputs(NO_NAME_BUFFER);
 			len += strlen(NO_NAME_BUFFER);
@@ -156,7 +156,7 @@ void write_windows()
 			len += strlen(wp->fbuffer->bname);
 		}
 		/* if this is not last window , write | separator */
-		if (wnext(wp) != NULL) {
+		if (L_LINK_NEXT(wp) != NULL) {
 			TTputs(WINDOWS_SEPARATOR);
 			len += sizeof(WINDOWS_SEPARATOR);
 		}
@@ -175,7 +175,7 @@ void write_windows()
 void write_buffer()
 {
 	buffer *bf = curwp->fbuffer;
-	for (buffer *bf = curwp->fbuffer; bf != NULL; bf = bnext(bf)) {
+	for (buffer *bf = curwp->fbuffer; bf != NULL; bf = L_LINK_NEXT(bf)) {
 		TTmove(bf->mtop,1);
 		int count = 0;
 		int linenu = bf->loffset + 1;
@@ -187,7 +187,7 @@ void write_buffer()
 				if (linem)
 					write_linenumber(linenu++,linenu_offst);
 				write_line(ln);
-				ln = lnext(ln);
+				ln = L_LINK_NEXT(ln);
 			} else {
 				TTeeol();
 				TTputs(LINE_MASK);

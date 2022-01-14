@@ -45,8 +45,7 @@ int append_line(buffer *buf,line *ln)
 		buf->cline = ln;
 		buf->hline = ln;
 	} else {
-		slnext(buf->lline,ln);
-		slprev(ln,buf->lline);
+		L_LINK_INSERT(buf->lline,ln);
 	}
 	/* I think this line don't need any comment , but to be sure : increase total count of buffer lines */
 	buf->lline = ln;
@@ -77,13 +76,14 @@ int line_new(int force)
 		ln->len = strlen(ln->chars);
 		/* if next line is not null , set ln next to current_next 
 		 * and prev of current_next to ln */
-		line *current_next = lnext(current_line);
-		if (current_next != NULL) {
-			slprev(current_next,ln);	
-			slnext(ln,current_next);
-		}
-		slprev(ln,current_line);
-		slnext(current_line,ln);
+		L_LINK_INSERT(current_line,ln);
+		//line *current_next = L_LINK_NEXT(current_line);
+		//if (current_next != NULL) {
+		//	L_LINK_PREV(current_next,ln);	
+		//	L_LINK_NEXT(ln,current_next);
+		//}
+		//L_LINK_PREV(ln,current_line);
+		//L_LINK_NEXT(current_line,ln);
 		cursor_col = 1;
 		curbp->coffset = 0;
 		move_nextline(true,1);
@@ -173,7 +173,7 @@ void line_del_char()
 	if (current_line == NULL)
 		line_new(true);
 	if (curbp->coffset == 0) {
-		line *prev_line = lprev(current_line);
+		line *prev_line = L_LINK_PREV(current_line);
 		if (prev_line == NULL)
 			return;
 		cursor_col = line_length(prev_line) + 1;
@@ -216,7 +216,7 @@ line *get_line_by_index(int index)
 	if (curbp->lcount < index)
 		return NULL;
 	int i = 0;
-	for (line *ln = curbp->fline;ln != NULL;ln = lnext(ln),i++)
+	for (line *ln = curbp->fline;ln != NULL;ln = L_LINK_NEXT(ln),i++)
 		if (i == index)
 			return ln;
 	return NULL;
@@ -236,32 +236,31 @@ void line_delete(int index)
 		empty_buffer();
 		return;
 	}
-	line *lnext = lnext(ln);
-	line *lprev = lprev(ln);
+	line *L_LINK_NEXT = L_LINK_NEXT(ln);
+	line *L_LINK_PREV = L_LINK_PREV(ln);
 	if (index == 0) {
-		if (lnext == NULL) {
+		if (L_LINK_NEXT == NULL) {
 			cursor_col = 1;
 			current_line = NULL;
 			curbp->lline = NULL;curbp->fline = curbp->hline = current_line;
 			goto ret;
 		}
-		current_line  = lnext;
-		slprev(current_line,NULL);
+		current_line  = L_LINK_NEXT;
+		L_LINK_SPREV(current_line,NULL);
 		curbp->fline = curbp->hline = current_line;
 		goto ret2;
 	} else if (index == curbp->lcount - 1) {
-		if (lprev == NULL)
+		if (L_LINK_PREV == NULL)
 			goto ret;
-		current_line = lprev;
+		current_line = L_LINK_PREV;
 		if (!can_scroll(MOVE_UP))
 			cursor_row--;
-		slnext(current_line,NULL);
+		L_LINK_SNEXT(current_line,NULL);
 		curbp->lline = current_line;
 		goto ret;
 	}
-	slnext(lprev,lnext);		
-	slprev(lnext,lprev);
-	current_line = lprev;
+	L_LINK_REMOVE(ln);
+	current_line = L_LINK_PREV;
 	/* if this is header line in buffer , we will set header to prev line */
 	if (ln != curbp->hline)
 		if (!can_scroll(MOVE_UP))
@@ -269,10 +268,8 @@ void line_delete(int index)
 
 ret:
 	if (curbp->hline == ln) {
-		curbp->hline = lprev;
+		curbp->hline = L_LINK_PREV;
 		curbp->loffset--;
-	}
-	if (current_line == curbp->hline) {
 	}
 	curbp->clindex--;
 ret2:

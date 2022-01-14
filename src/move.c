@@ -47,13 +47,13 @@ int scroll(int dir, int times)
 {
 	for (;0 < times;times--) {
 		if (dir == MOVE_DOWN) {
-			if (lnext(curbp->hline) != NULL) {
-				curbp->hline = lnext(curbp->hline);
+			if (L_LINK_NEXT(curbp->hline) != NULL) {
+				curbp->hline = L_LINK_NEXT(curbp->hline);
 				curbp->loffset++;
 			}
 		} else if (dir == MOVE_UP) {
-			if (lprev(curbp->hline) != NULL) {	
-				curbp->hline = lprev(curbp->hline);
+			if (L_LINK_PREV(curbp->hline) != NULL) {	
+				curbp->hline = L_LINK_PREV(curbp->hline);
 				curbp->loffset--;
 			}
 		}
@@ -81,14 +81,14 @@ int move_nextline(int f, int n)
 	while (n--) {
 		if (current_line == NULL || curbp->lcount == 0)
 			return empty_buffer();
-		if (lnext(current_line) == NULL)
+		if (L_LINK_NEXT(current_line) == NULL)
 			return endof_buffer();
 		if (can_scroll(MOVE_DOWN)) {
 			scroll(MOVE_DOWN,1);
 		} else
 			cursor_row++;
 		curbp->clindex++;
-		current_line = lnext(current_line);
+		current_line = L_LINK_NEXT(current_line);
 		update_position();
 		move_cursor();
 	}
@@ -106,14 +106,14 @@ int move_prevline(int f, int n)
 	while (n--) {
 		if (current_line == NULL || curbp->lcount == 0)
 			return empty_buffer();
-		if (lprev(current_line) == NULL)
+		if (L_LINK_PREV(current_line) == NULL)
 			return topof_buffer();
 		if (can_scroll(MOVE_UP)) {
 			scroll(MOVE_UP,1);
 		} else 
 			cursor_row--;
 		curbp->clindex--;
-		current_line = lprev(current_line);
+		current_line = L_LINK_PREV(current_line);
 		update_position();
 		move_cursor();
 	}
@@ -135,7 +135,7 @@ int next_char(int f, int n)
 			 *	ok , at this point , we will check for next line , of its NULL , so we are at the end of buffer , just return false
 			 *	otherwise go to next line and set cursor col to 1
 			 */
-			if (lnext(current_line) == NULL)
+			if (L_LINK_NEXT(current_line) == NULL)
 				return endof_buffer();
 			cursor_col = 1;
 			curbp->coffset = 0;
@@ -161,7 +161,7 @@ int prev_char(int f, int n)
 			 * 	otherwise we will call move_cursor with move up argument
 			 * 	then set cursor col to next line (it's current line now) length
 			 */
-			if (lprev(current_line) == NULL)
+			if (L_LINK_PREV(current_line) == NULL)
 				return topof_buffer();
 			move_prevline(true,1);
 			cursor_col = line_length(current_line) + 1; 

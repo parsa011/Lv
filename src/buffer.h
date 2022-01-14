@@ -37,9 +37,6 @@ struct buffer_t {
 	char *filetype;
 };
 
-#define bnext(b) 	(b->link.next)		/* next buffer of given buffer 		*/
-#define bprev(b) 	(b->link.prev)		/* prev buffer of given buffer 		*/
-#define sbnext(b,n) (b->link.next = n)	/* set next buffer for given buffer */
 #define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
 #define bmtest(b,m)	(b->modes & m)		/* test if buffer is in given mode 	*/
 #define usmode(b,m)	(b->modes &= ~m)	/* unset a mode from buffer modes	*/

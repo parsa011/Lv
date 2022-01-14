@@ -24,10 +24,6 @@ struct window_t {
 	int ccol;				/* cursor col								*/
 };
 
-#define wnext(w) 	 (w->link.next)		/* next window of given window 		*/
-#define wprev(w) 	 (w->link.prev)		/* prev window of given window 		*/
-#define swnext(wp,n) ((wp)->link.next = n)	/* set next window for given window */ 
-#define swprev(wp,p) ((wp)->link.prev = p)	/* set prev window for given window */
 #define wusmode(b,m) (b->flags &= ~m)	/* unset a flag for window			*/
 #define wstmode(b,m) (b->flags |= m)		/* set flag for window				*/
 
@@ -52,7 +48,7 @@ int remove_window(window *);
 /*
  *	return last buffer of given window
  */
-buffer *get_last_buffer();
+buffer *get_last_buffer(window *);
 
 void activate_window(window *);
 

@@ -27,27 +27,28 @@ window *init_window()
  */
 int remove_window(window *wp)
 {
-	window *new_one = wprev(wp);
+	window *new_one = L_LINK_PREV(wp);
 	if (new_one == NULL) {
-		new_one == wnext(wp);
+		new_one == L_LINK_NEXT(wp);
 		if (new_one == NULL) {
 			free(wp);
 			return ALONEBUFFER;
 		}
 	}
-	if (new_one == wprev(wp)) {
-		window *next = wnext(wp);
-		swnext(new_one,next);
-		if (next != NULL) {
-			swprev(next,new_one);
-		}
-	} else {
-		window *prev = wprev(wp);
-		swprev(new_one,prev);
-		if (prev != NULL) {
-			swnext(prev,new_one);
-		}
-	}
+	L_LINK_REMOVE(wp);
+	//if (new_one == L_LINK_PREV(wp)) {
+	//	window *next = L_LINK_NEXT(wp);
+	//	L_LINK_SNEXT(new_one,next);
+	//	if (next != NULL) {
+	//		L_LINK_SPREV(next,new_one);
+	//	}
+	//} else {
+	//	window *prev = L_LINK_PREV(wp);
+	//	L_LINK_SPREV(new_one,prev);
+	//	if (prev != NULL) {
+	//		L_LINK_SNEXT(prev,new_one);
+	//	}
+	//}
 	if (wp == lastwp) 
 		lastwp = new_one;
 	if (wp == firstwp)
@@ -74,9 +75,9 @@ void activate_window(window *wp)
  */
 int append_window(window *wp)
 {
-	swnext(lastwp,wp);
-	swprev(wp,lastwp);
-	swnext(wp,NULL);
+	L_LINK_SNEXT(lastwp,wp);
+	L_LINK_SPREV(wp,lastwp);
+	L_LINK_SNEXT(wp,NULL);
 	lastwp = curwp = wp;
 }
 
@@ -84,10 +85,10 @@ int append_window(window *wp)
  *	return last buffer of given window
  *	if window is NULL we will get last buffer of curwp
  */
-buffer *get_last_buffer()
+buffer *get_last_buffer(window *win)
 {
-	buffer *b = curwp->fbuffer;
-	for (; bnext(b) != NULL;b = bnext(b));
+	buffer *b = win->fbuffer;
+	for (; L_LINK_NEXT(b) != NULL;b = L_LINK_NEXT(b));
 	return b;
 }
 
@@ -96,21 +97,21 @@ buffer *get_last_buffer()
  */
 int next_window(int f, int n) 
 {
-	if (wnext(curwp) == NULL) {
+	if (L_LINK_NEXT(curwp) == NULL) {
 		showmsg(true,"Last window");
 		return false;
 	}
-	activate_window(wnext(curwp));
+	activate_window(L_LINK_NEXT(curwp));
 	return true;
 }
 
 int prev_window(int f, int n)
 {
-	if (wprev(curwp) == NULL) {
+	if (L_LINK_PREV(curwp) == NULL) {
 		showmsg(true,"Firt window");
 		return false;
 	}
-	activate_window(wprev(curwp));
+	activate_window(L_LINK_PREV(curwp));
 	return true;
 }
 

@@ -43,8 +43,8 @@ buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
  */
 int set_buffer_by_name(char *name)
 {
-	for (window *wp = firstwp;wp != NULL;wp = wnext(wp)) {
-		for (buffer *bf = wp->fbuffer;bf != NULL;bf = bnext(bf)) {
+	for (window *wp = firstwp;wp != NULL;wp = L_LINK_NEXT(wp)) {
+		for (buffer *bf = wp->fbuffer;bf != NULL;bf = L_LINK_NEXT(bf)) {
 			if (strcmp(name,bf->bname) == 0) {
 				activate_window(wp);
 				change_current_buffer(bf);
@@ -102,7 +102,7 @@ int toggle_linenumber()
 }
 
 /*
- *	add given buffer into active window last buffers next
+ *	append buffer into given window
  */
 void append_buffer(window *win,buffer *bf)
 {
@@ -111,19 +111,10 @@ void append_buffer(window *win,buffer *bf)
 	/* if currwp buffers null , so it's first one , otherwise add to last buffers next */
 	if (win->fbuffer == NULL) {
 		win->fbuffer = bf;
-		sbnext(bf,NULL);
+		L_LINK_SNEXT(bf,NULL);
 	}
 	else {
-		//buffer *lbuffer = get_last_buffer(NULL);
-		if (curbp == NULL)
-			die("Something went wrong ;/");
-		buffer *nb = bnext(curbp);
-		sbnext(curbp,bf);
-		sbprev(bf,curbp);
-		sbnext(bf,nb);
-		if (nb != NULL) {
-			sbprev(nb,bf);
-		}
+		L_LINK_INSERT(get_last_buffer(win),bf);
 	}
 	win->bcount++;
 }
@@ -137,7 +128,7 @@ line *get_last_line(buffer *bf)
 	/* set to curwp if wp is null */
 	buffer *buff = bf != NULL ? bf : curbp;
 	line *l = buff->fline;
-	for (; l != NULL;l = lnext(l));
+	for (; l != NULL;l = L_LINK_NEXT(l));
 	return l;
 }
 
@@ -209,7 +200,7 @@ void change_current_buffer(buffer *bf)
  */
 int next_buffer_in_window(int,int)
 {
-	buffer *bf = bnext(curbp);
+	buffer *bf = L_LINK_NEXT(curbp);
 	if (bf == NULL) {
 		 showmsg(true,"Last buffer");
 		 return false;
@@ -221,7 +212,7 @@ int next_buffer_in_window(int,int)
 
 int prev_buffer_in_window(int,int)
 {
-	buffer *bf = bprev(curbp);
+	buffer *bf = L_LINK_PREV(curbp);
 	if (bf == NULL) {
 		showmsg(true,"First buffer");
 		return false;
@@ -238,7 +229,7 @@ int prev_buffer_in_window(int,int)
  */
 void free_buffer()
 {
-	for (line *ln = curbp->lline;ln != NULL;ln = lprev(ln)) {
+	for (line *ln = curbp->lline;ln != NULL;ln = L_LINK_PREV(ln)) {
 		free(ln->chars);
 	}
 	free(curbp);
@@ -251,32 +242,18 @@ void free_buffer()
  */
 int remove_buffer()
 {
-	buffer *new_one = bprev(curbp);
+	buffer *new_one = L_LINK_PREV(curbp);
 	if (new_one == NULL) {
-    	new_one = bnext(curbp);
+    	new_one = L_LINK_NEXT(curbp);
     	if (new_one == NULL) {
         	free_buffer();
         	return ALONEBUFFER;
     	}
 	}
-	if (new_one == bnext(curbp)) {
+	if (new_one == L_LINK_NEXT(curbp)) {
 		new_one->mtop = curbp->mtop;
-		buffer *prev = bprev(curbp);
-		sbprev(new_one,NULL);
-		if (prev != NULL) {
-			sbnext(prev,new_one);
-			sbprev(new_one,prev);
-		}
-	} else {
-		// here , new one is prev buffer of current buffer , first we have to check
-		// that there is any next buffer , if it exist , we will set links
-		buffer *next = bnext(curbp);
-		sbnext(new_one,NULL);
-		if (next != NULL) {
-			sbnext(new_one,next);
-			sbprev(next,new_one);
-		}
 	}
+	L_LINK_REMOVE(curbp);
 	if (curbp == curwp->fbuffer)
 		curwp->fbuffer = new_one;
 	new_one->nrow += curbp->nrow;
@@ -295,7 +272,7 @@ int remove_buffer()
 buffer *get_buffer_by_index(int index) 
 {
 	int i = 0;
-	for (buffer *bf = curwp->fbuffer;bf != NULL;bf = bnext(bf),i++) {
+	for (buffer *bf = curwp->fbuffer;bf != NULL;bf = L_LINK_NEXT(bf),i++) {
 		if (i == index)
 			return bf;
 	}
