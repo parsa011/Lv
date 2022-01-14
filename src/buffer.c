@@ -113,15 +113,15 @@ void append_buffer(window *win,buffer *bf)
 		sbnext(bf,NULL);
 	}
 	else {
-		//buffer *lbuffer = get_last_buffer(NULL);
-		if (curbp == NULL)
+		buffer *cb = get_buffer_by_index(win->cbindex);
+		if (cb == NULL)
 			die("Something went wrong ;/");
-		buffer *nb = bnext(curbp);
-		sbnext(curbp,bf);
-		sbprev(bf,curbp);
-		sbnext(bf,nb);
-		if (nb != NULL) {
-			sbprev(nb,bf);
+		buffer *next = bnext(cb);
+		sbnext(cb,bf);
+		sbprev(bf,cb);
+		sbnext(bf,next);
+		if (next != NULL) {
+			sbprev(next,bf);
 		}
 	}
 	win->bcount++;
@@ -206,7 +206,7 @@ void change_current_buffer(buffer *bf)
 /*
  *	set next buffer in window for active window
  */
-int next_buffer_in_window(int,int)
+int next_buffer_in_window(int f,int n)
 {
 	buffer *bf = bnext(curbp);
 	if (bf == NULL) {
@@ -218,7 +218,7 @@ int next_buffer_in_window(int,int)
 	return true;
 }
 
-int prev_buffer_in_window(int,int)
+int prev_buffer_in_window(int f,int c)
 {
 	buffer *bf = bprev(curbp);
 	if (bf == NULL) {

@@ -91,6 +91,7 @@ int prompt_enter_key(int f,int n)
 			leave_prompt_mode(true,1);
 			cmd->func(true,args);
 		}
+		free(args);
 	}
 }
 

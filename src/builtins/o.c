@@ -27,19 +27,16 @@ int open_command(int f, char **args)
 		showmsg(false,"You must enter file name");
 		return false;
 	}
-	buffer *bf = NULL;
 	if (args[2] != NULL && strcmp(args[2],".") == 0) {
-		bf = curbp;
 		curbp->flags |= FREDRW;
+		load_file_into_buffer(curbp,args[1]);
 	}
 	else {
 		window *wp = init_window();
 		append_window(wp);
-		bf = init_buffer(args[1],0,0);
-		append_buffer(wp,bf);
-		//change_current_buffer(bf);
+		append_buffer(wp,init_buffer(NULL,0,0));
 		activate_window(wp);
+		load_file_into_buffer(wp->fbuffer,args[1]);
 	}
-	// TODO : check if we got '.' or not , if we got , we should load file into current buffer
-	return load_file_into_buffer(bf,args[1]);
+	return true;
 }
