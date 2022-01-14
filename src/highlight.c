@@ -156,7 +156,7 @@ char **get_syntax_for_keyword(char *key)
 		return NULL;
 	language_syntax *ls = get_language_syntax_by_name(curbp->filetype);
 	if (ls == NULL) {
-		showmsg(true,"syntax for %s lang not founded",curbp->filetype);
+		//showmsg(true,"syntax for %s lang not founded",curbp->filetype);
 		return NULL;
 	}
 	for (syntax_group *sg = ls->syntax_groups; sg != NULL; sg = sg->next) {

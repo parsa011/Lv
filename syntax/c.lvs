@@ -2,7 +2,7 @@
 # Keyword should be bold
 
 KEYWORDS = ["if","else","do","while","for","return","static","inline","extern","unsigned","signed"] YELLOW BOLD
-TYPES = ["int","char","long","short","void","bool","double","float"] RED BOLD
+TYPES = ["int","char","long","short","void","bool","double","float"] RED BOLD 
 MACROS = ["#include","#ifndef","#define","#if","#endif","#ifdef","#ifdefine","#undef"] GRAY BOLD
 MULTILINE_COMMENT_START = ["/*"] GRAY BOLD
 MULTILINE_COMMNET_END = ["*/"] GRAY BOLD

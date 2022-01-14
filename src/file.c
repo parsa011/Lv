@@ -10,11 +10,13 @@
 
 FILE *fp;
 
+/*
+ *	global open file for work with especial file , so we can have access to that file
+ *	in other functions
+ */
 int open_file(char *filepath,char *mode)
 {
 	fp = fopen(filepath,mode);
-//	if (ferror(fp))
-//		return false;
 	return true;
 }
 
@@ -29,7 +31,6 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 	if (!fp) 
 		return file_notfound();
 	/* if given buffer is NULL using curbp instead */
-	buf = buf != NULL ? buf : curbp;
 	char *line_chars = NULL;
 	size_t linecap = 0;
 	ssize_t linelen;
@@ -37,7 +38,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 		append_line(buf,line_alloc(line_chars,linelen));
 	}
 	buf->dirty = 0;
-	free(line_chars);
+	close_file();
 	return true;
 }
 
@@ -81,6 +82,9 @@ int fputline(line *ln)
 	return true;
 }
 
+/*
+ *	close global file
+ */
 void close_file()
 {
 	if (fp) {

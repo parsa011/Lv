@@ -130,7 +130,7 @@ int main(int argc,char *argv[])
 	init_editor();
 
 	if (argc > 1) {
-		load_file_into_buffer(NULL,argv[1]);
+		load_file_into_buffer(curbp,argv[1]);
 	}
 	lv_loop();
 	return 0;
