@@ -15,7 +15,7 @@
  *	TODO : in future we need add more property like syntax highlight flags
  */
 struct line_t {
-	LINK(line) link;	/* Doubly-linked list of lines for a particular buffer */
+	L_LINK(line) link;	/* Doubly-linked list of lines for a particular buffer */
 	char *chars;		/* content of line , actually a bunch of chars :) */
 	int len;			/* length of current line */
 };

@@ -10,14 +10,11 @@
  */
 
 struct command_t {
-	LINK(command) link;
+	L_LINK(command) link;
 	char *name;		/* command name 		  */
 	int	flag;		/* execution flags 		  */
 	int (*func)(int,char **); /* function bound to name */
 };
-
-#define cnext(m) ((m)->link.next)
-#define cprev(m) ((m)->link.prev)
 
 extern int commands_count;	/* total count of commands */
 extern command *fcommand;	/* first generated command */

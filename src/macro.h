@@ -17,16 +17,13 @@ typedef int	(*MACRO_FUNC_POINTER)(int, int);	/* generally useful type */
  *	each macro should be stored in this struct
  */
 struct key_macro_t {
-	LINK(key_macro) link;
+	L_LINK(key_macro) link;
 	int key;				/* key for macro						  */
 	char *key_str;			/* key as stering 						  */
 	char name[MMACRON];		/* just a name for this macro			  */
 	ushort modes;			/* in which modes this macro is available */
 	MACRO_FUNC_POINTER func;	/* function to run when this macro called */
 };
-
-#define mnext(m) ((m)->link.next)
-#define mprev(m) ((m)->link.prev)
 
 extern int macros_count;	/* total count of macros	 */
 extern key_macro *fmacro;	/* first generated key macro */

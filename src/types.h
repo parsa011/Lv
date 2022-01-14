@@ -54,6 +54,7 @@ typedef struct syntax_group_t syntax_group;
 typedef struct language_syntax_t language_syntax;
 
 #include "builtins/builtins.h"
+#include "../libs/llist.h"
 #include "color.h"
 #include "macro.h"
 #include "tty.h"
@@ -74,5 +75,4 @@ typedef struct language_syntax_t language_syntax;
 #include "prompt.h"
 #include "lv.h"
 #include "highlight.h"
-#include "../libs/llist.h"
 #include "log.h"

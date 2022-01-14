@@ -15,7 +15,7 @@
  * 	redisplay
  */
 struct window_t {
-	LINK(window) link;		/* Doubly-linked list of windows 			*/
+	L_LINK(window) link;	/* Doubly-linked list of windows 			*/
 	buffer *fbuffer;		/* buffers in this window 					*/
 	int bcount;				/* total buffers count in this window 		*/
 	int cbindex;			/* index of current buffer (active buffer)  */	

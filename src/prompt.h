@@ -17,6 +17,15 @@ extern char msgbar_prompt_mask[PROMPT_MAX_LENGTH];
 extern int msgbar_prompt_mask_len;
 extern int msgbar_prompt_p;
 
+extern prompt_key *fprompt_key;
+extern prompt_key *lprompt_key;
+
+struct prompt_key_t {
+	L_LINK(prompt_key) link;
+	int key;
+	int (*func)(int,int); /* function to run */
+};
+
 /*
  *	set mask for prompt
  */

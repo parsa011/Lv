@@ -15,7 +15,7 @@
 #define NBUFN   32			/* n of bytes, buffer name 	*/
 
 struct buffer_t {
-	LINK(buffer) link;		/* buffers doubly-link list */
+	L_LINK(buffer) link;	/* buffers doubly-link list */
 	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
 	line *lline;			/* last line of buffer 										 */
 	line *hline;			/* header line in this view (or page) 						 */

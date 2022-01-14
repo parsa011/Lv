@@ -27,7 +27,7 @@ void append_macro(key_macro *macro)
 	if (fmacro == NULL)	{
 		fmacro = macro;
 	} else {
-		lmacro->link.next = macro;
+		L_LINK_SNEXT(lmacro,macro);
 	}
 	macro->link.prev = lmacro;
 	lmacro = macro;
@@ -39,7 +39,7 @@ void append_macro(key_macro *macro)
  */
 key_macro *find_macro(int key)
 {
-	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
+	for (key_macro *macro = fmacro; macro != NULL; macro = L_LINK_NEXT(macro))
 		if (macro->key == key && macro->modes & curbp->modes)
 			return macro;
 	return NULL;
@@ -47,7 +47,7 @@ key_macro *find_macro(int key)
 
 key_macro *find_macro_str(char *str)
 {
-	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
+	for (key_macro *macro = fmacro; macro != NULL; macro = L_LINK_NEXT(macro))
 		if (strcmp(macro->key_str,str) == 0)
 			return macro;
 	return NULL;
@@ -55,7 +55,7 @@ key_macro *find_macro_str(char *str)
 
 key_macro *find_macro_by_name(char *name)
 {
-	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
+	for (key_macro *macro = fmacro; macro != NULL; macro = L_LINK_NEXT(macro))
 		if (strcmp(macro->name,name) == 0)
 			return macro;
 	return NULL;
@@ -86,7 +86,7 @@ int exec_macro(key_macro *macro)
  */
 bool compare_macro_name(char *name,int len)
 {
-	for (key_macro *macro = fmacro; macro != NULL; macro = mnext(macro))
+	for (key_macro *macro = fmacro; macro != NULL; macro = L_LINK_NEXT(macro))
 		if (strncmp(macro->key_str,name,len) == 0)
 			return true;
 	return false;

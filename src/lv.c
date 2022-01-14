@@ -19,7 +19,6 @@ int close_editor(int focre, int code)
 	if (!system("clear"))
 		TTeeop();
 	TTmove(1,1);
-	close_file();
 	TTputs(DEFAULT);
 #if HAVE_LOG
 	remove_log_file();

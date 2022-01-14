@@ -25,7 +25,7 @@ void append_command(command *cmd)
 	if (fcommand == NULL)	{
 		fcommand = cmd;
 	} else {
-		lcommand->link.next = cmd;
+		L_LINK_SNEXT(lcommand,cmd);
 	}
 	cmd->link.prev = lcommand;
 	lcommand = cmd;
@@ -34,7 +34,7 @@ void append_command(command *cmd)
 
 command *find_command(char *name)
 {
-	for (command *cmd = fcommand; cmd != NULL; cmd = cnext(cmd))
+	for (command *cmd = fcommand; cmd != NULL; cmd = L_LINK_NEXT(cmd))
 		if (strcmp(cmd->name,name) == 0)
 			return cmd;
 	return NULL;
