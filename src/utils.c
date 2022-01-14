@@ -115,6 +115,7 @@ int get_filename_of_path(char *buf,char *path)
 		strcpy(buf, ch);
 		ch = strtok(NULL, "/");
 	}
+	return strlen(buf);
 }
 
 // do shift write for buf string , start from end and end in start_index 

@@ -39,6 +39,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 	}
 	buf->dirty = 0;
 	close_file();
+	free(line_chars);
 	return true;
 }
 
@@ -89,6 +90,5 @@ void close_file()
 {
 	if (fp) {
 		fclose(fp);
-		fp = NULL;
 	}
 }

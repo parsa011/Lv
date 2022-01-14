@@ -29,7 +29,6 @@ struct line_t {
  * 	containing "used" characters. The block is always rounded up a bit. Return
  * 	a pointer to the new block, or NULL if there isn't any memory left. Print a
  * 	message in the message line if no space.
- * 	NOTE : we don't have message bar yet :)
  */
 line *line_alloc(char *, int);
 

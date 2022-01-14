@@ -12,17 +12,16 @@
  *	alloc and init new buffer with given name and path , also we can set
  *	modes and flags
  */
-buffer *init_buffer(char *filename, char *buffername,short modes,short flags)
+buffer *init_buffer(char *filename,short modes,short flags)
 {
 	buffer *bf;
 	if (!(bf = malloc(sizeof(buffer))))
 		die("malloc buffer");
 
-	if (strlen(buffername) < NBUFN) {
-		lv_strncpy(bf->bname,buffername,NBUFN);
-	}
-	if (strlen(filename) < NFILEN)
-		lv_strncpy(bf->fname,filename,NFILEN);
+	if (filename != NULL && strlen(filename) < NFILEN)
+		set_buffer_name(filename);
+	else 
+		lv_strncpy(bf->bname,NO_NAME_BUFFER,strlen(NO_NAME_BUFFER));
 	/* when a buffer initialized , we have set lock mode for it , if we don't want to be locked ,we must specify it at modes input */
 	bf->modes |= MDLOCK;
 	bf->modes |= modes;
@@ -198,7 +197,7 @@ void change_current_buffer(buffer *bf)
 /*
  *	set next buffer in window for active window
  */
-int next_buffer_in_window(int,int)
+int next_buffer_in_window(int f,int n)
 {
 	buffer *bf = L_LINK_NEXT(curbp);
 	if (bf == NULL) {
@@ -210,7 +209,7 @@ int next_buffer_in_window(int,int)
 	return true;
 }
 
-int prev_buffer_in_window(int,int)
+int prev_buffer_in_window(int f,int c)
 {
 	buffer *bf = L_LINK_PREV(curbp);
 	if (bf == NULL) {

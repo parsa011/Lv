@@ -19,9 +19,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-/* Doubly-linked list node */
-#define LINK(type) struct { type *next; type *prev; }
-
 /* Prefix to make string constants unsigned */
 #define USTR (unsigned char *)
 
