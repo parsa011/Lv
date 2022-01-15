@@ -90,5 +90,6 @@ void close_file()
 {
 	if (fp) {
 		fclose(fp);
+		fp = NULL;
 	}
 }

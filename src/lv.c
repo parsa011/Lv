@@ -20,6 +20,7 @@ int close_editor(int focre, int code)
 		TTeeop();
 	TTmove(1,1);
 	TTputs(DEFAULT);
+	close_file();
 #if HAVE_LOG
 	remove_log_file();
 #endif
