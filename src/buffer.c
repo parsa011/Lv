@@ -100,6 +100,12 @@ int toggle_linenumber()
 	return update_linenumber_padding();
 }
 
+void toggle_highlight()
+{
+	curbp->highlight = !curbp->highlight;
+	curbp->flags |= FREDRW;
+}	
+
 /*
  *	append buffer into given window
  */
@@ -249,10 +255,29 @@ int remove_buffer()
         	return ALONEBUFFER;
     	}
 	}
-	if (new_one == L_LINK_NEXT(curbp)) {
+	if (new_one == L_LINK_NEXT(curbp))
 		new_one->mtop = curbp->mtop;
-	}
 	L_LINK_REMOVE(curbp);
+	//if (new_one == L_LINK_NEXT(curbp)) {
+	//	new_one->mtop = curbp->mtop;
+	//	buffer *prev = L_LINK_PREV(curbp);
+	//	if (prev != NULL) {
+	//		L_LINK_SNEXT(prev,new_one);
+	//		L_LINK_SPREV(new_one,prev);
+	//	} else {
+	//		L_LINK_SPREV(new_one,NULL);
+	//	}
+	//} else {
+	//	// here , new one is prev buffer of current buffer , first we have to check
+	//	// that there is any next buffer , if it exist , we will set links
+	//	buffer *next = L_LINK_NEXT(curbp);
+	//	if (next != NULL) {
+	//		L_LINK_SNEXT(new_one,next);
+	//		L_LINK_SPREV(next,new_one);
+	//	} else {
+	//		L_LINK_SNEXT(new_one,NULL);
+	//	}
+	//}
 	if (curbp == curwp->fbuffer)
 		curwp->fbuffer = new_one;
 	new_one->nrow += curbp->nrow;

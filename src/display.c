@@ -250,10 +250,12 @@ void write_line(line *ln)
 
 void echo_display(char *text)
 {
-	char **props = get_syntax_for_keyword(text);
-	if (props) {
-		while (*props) {
-			TTputs(prop_to_str(*props++));
+	if (curbp->highlight) {
+		char **props = get_syntax_for_keyword(text);
+		if (props) {
+			while (*props) {
+				TTputs(prop_to_str(*props++));
+			}
 		}
 	}
 	TTputs(text);

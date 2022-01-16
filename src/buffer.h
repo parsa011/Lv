@@ -34,6 +34,7 @@ struct buffer_t {
 	int dirty;				/* how much this buffer become dirty						 */
 	// there some options for tab
 	bool linenm;			/* activate line number for this buffer or no				 */
+	bool highlight;			/* have syntax highlight or no :)							 */
 	char *filetype;
 };
 
@@ -109,6 +110,8 @@ void load_syntax_for_buffer();
  *	toggle line number option (it's global)
  */
 int toggle_linenumber();
+
+void toggle_highligth();
 
 void set_mode_for_buffer(int);
 int set_lock_mode(int, int);
