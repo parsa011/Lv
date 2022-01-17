@@ -87,7 +87,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = lv$(EXEEXT) debugger$(EXEEXT)
+bin_PROGRAMS = lv$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -100,9 +100,6 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_debugger_OBJECTS = debugger.$(OBJEXT)
-debugger_OBJECTS = $(am_debugger_OBJECTS)
-debugger_LDADD = $(LDADD)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_lv_OBJECTS = lv.$(OBJEXT) tty.$(OBJEXT) utils.$(OBJEXT) \
 	glob.$(OBJEXT) utf8.$(OBJEXT) input.$(OBJEXT) line.$(OBJEXT) \
@@ -131,8 +128,7 @@ DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/buffer.Po ./$(DEPDIR)/commands.Po \
-	./$(DEPDIR)/debugger.Po ./$(DEPDIR)/display.Po \
-	./$(DEPDIR)/file.Po ./$(DEPDIR)/glob.Po \
+	./$(DEPDIR)/display.Po ./$(DEPDIR)/file.Po ./$(DEPDIR)/glob.Po \
 	./$(DEPDIR)/highlight.Po ./$(DEPDIR)/input.Po \
 	./$(DEPDIR)/line.Po ./$(DEPDIR)/log.Po ./$(DEPDIR)/lv.Po \
 	./$(DEPDIR)/macro.Po ./$(DEPDIR)/move.Po ./$(DEPDIR)/prompt.Po \
@@ -154,8 +150,8 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
 am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(debugger_SOURCES) $(lv_SOURCES)
-DIST_SOURCES = $(debugger_SOURCES) $(lv_SOURCES)
+SOURCES = $(lv_SOURCES)
+DIST_SOURCES = $(lv_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -285,7 +281,6 @@ lv_SOURCES = lv.c tty.c utils.c glob.c utf8.c input.c line.c move.c vt100.c disp
 					window.c file.c macro.c word.c commands.c builtins/q.c builtins/w.c builtins/set.c  \
 					builtins/o.c builtins/buffer.c prompt.c log.c highlight.c
 
-debugger_SOURCES = debugger.c
 all: all-am
 
 .SUFFIXES:
@@ -361,10 +356,6 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-
-debugger$(EXEEXT): $(debugger_OBJECTS) $(debugger_DEPENDENCIES) $(EXTRA_debugger_DEPENDENCIES) 
-	@rm -f debugger$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(debugger_OBJECTS) $(debugger_LDADD) $(LIBS)
 builtins/$(am__dirstamp):
 	@$(MKDIR_P) builtins
 	@: > builtins/$(am__dirstamp)
@@ -395,7 +386,6 @@ distclean-compile:
 
 include ./$(DEPDIR)/buffer.Po # am--include-marker
 include ./$(DEPDIR)/commands.Po # am--include-marker
-include ./$(DEPDIR)/debugger.Po # am--include-marker
 include ./$(DEPDIR)/display.Po # am--include-marker
 include ./$(DEPDIR)/file.Po # am--include-marker
 include ./$(DEPDIR)/glob.Po # am--include-marker
@@ -571,7 +561,6 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/buffer.Po
 	-rm -f ./$(DEPDIR)/commands.Po
-	-rm -f ./$(DEPDIR)/debugger.Po
 	-rm -f ./$(DEPDIR)/display.Po
 	-rm -f ./$(DEPDIR)/file.Po
 	-rm -f ./$(DEPDIR)/glob.Po
@@ -641,7 +630,6 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/buffer.Po
 	-rm -f ./$(DEPDIR)/commands.Po
-	-rm -f ./$(DEPDIR)/debugger.Po
 	-rm -f ./$(DEPDIR)/display.Po
 	-rm -f ./$(DEPDIR)/file.Po
 	-rm -f ./$(DEPDIR)/glob.Po
@@ -699,6 +687,8 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
+
+# debugger_SOURCES = debugger.c
 
 # stringify_SOURCES = stringify.c
 
