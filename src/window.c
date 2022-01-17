@@ -27,33 +27,20 @@ window *init_window()
  */
 int remove_window(window *wp)
 {
+	if (wcount == 1) {
+		free(wp);
+		return ALONEWINDOW;
+	}
 	window *new_one = L_LINK_PREV(wp);
 	if (new_one == NULL) {
 		new_one == L_LINK_NEXT(wp);
-		if (new_one == NULL) {
-			free(wp);
-			return ALONEBUFFER;
-		}
 	}
-	L_LINK_REMOVE(wp);
-	//if (new_one == L_LINK_PREV(wp)) {
-	//	window *next = L_LINK_NEXT(wp);
-	//	L_LINK_SNEXT(new_one,next);
-	//	if (next != NULL) {
-	//		L_LINK_SPREV(next,new_one);
-	//	}
-	//} else {
-	//	window *prev = L_LINK_PREV(wp);
-	//	L_LINK_SPREV(new_one,prev);
-	//	if (prev != NULL) {
-	//		L_LINK_SNEXT(prev,new_one);
-	//	}
-	//}
 	if (wp == lastwp) 
 		lastwp = new_one;
 	if (wp == firstwp)
 		firstwp = new_one;
 	activate_window(new_one);
+	L_LINK_REMOVE(wp);
 	free(wp);
 	return true;
 }
@@ -75,9 +62,13 @@ void activate_window(window *wp)
  */
 int append_window(window *wp)
 {
-	L_LINK_SNEXT(lastwp,wp);
-	L_LINK_SPREV(wp,lastwp);
-	L_LINK_SNEXT(wp,NULL);
+	if (firstwp == NULL) {
+		curwp = wp;
+		firstwp = curwp;
+		lastwp = curwp;
+	} else {
+		L_LINK_INSERT(lastwp,wp);
+	}
 	lastwp = curwp = wp;
 	wcount++;
 }
