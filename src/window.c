@@ -79,6 +79,7 @@ int append_window(window *wp)
 	L_LINK_SPREV(wp,lastwp);
 	L_LINK_SNEXT(wp,NULL);
 	lastwp = curwp = wp;
+	wcount++;
 }
 
 /*

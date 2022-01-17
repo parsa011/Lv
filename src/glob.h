@@ -18,6 +18,7 @@
 extern window *firstwp;		/* first window		*/
 extern window *lastwp;		/* last window		*/
 extern window *curwp;		/* current window   */
+extern int wcount;			/* window count 	*/
 extern buffer *curbp;		/* current buffer   */
 extern msg_bag msgbag;
 

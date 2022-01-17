@@ -10,6 +10,7 @@
 window *firstwp;	/* first window		*/
 window *lastwp;		/* last window 		*/
 window *curwp;		/* Current window   */
+int wcount;			/* window count		*/
 buffer *curbp;		/* Current buffer   */
 msg_bag msgbag;		/* global msg bag	*/
 

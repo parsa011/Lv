@@ -45,6 +45,7 @@ void init_editor()
 	lastwp = curwp;
 	curbp = init_buffer(NULL,0,0);
 	append_buffer(curwp,curbp);
+	wcount = 1;
 	set_terminal_title(TERMINAL_TITLE);
 	generate_basic_macros();
 	generate_basic_commands();
