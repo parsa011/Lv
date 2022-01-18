@@ -55,18 +55,23 @@ void parse_args(char **args)
 int quit(int f, char **args)
 {
 	parse_args(args);
-	if (quite_all) {
-		// TODO : right now we dont care about force quite in quite all mode
-		while (remove_window(curwp) != ALONEWINDOW);
-		close_editor(true,EXIT_SUCCESS);
-	} else {
-		if (curbp->dirty && !quite_force) {
-			showmsg(true,"buffer is dirty, use 'q !' to force quite");
-			return false;
-		}
-		if (remove_buffer(curbp) == ALONEBUFFER)
-    		if (remove_window(curwp) == ALONEWINDOW)
-    			close_editor(true,EXIT_SUCCESS);
+	if (curbp->dirty && !quite_force) {
+		showmsg(true,"buffer is dirty, use 'q !' to force quite");
+		return false;
 	}
+	close_editor(true,EXIT_SUCCESS);
+	//if (quite_all) {
+	//	// TODO : right now we dont care about force quite in quite all mode
+	//	while (remove_window(curwp) != ALONEWINDOW);
+	//	close_editor(true,EXIT_SUCCESS);
+	//} else {
+	//	if (curbp->dirty && !quite_force) {
+	//		showmsg(true,"buffer is dirty, use 'q !' to force quite");
+	//		return false;
+	//	}
+	//	if (remove_buffer(curbp) == ALONEBUFFER)
+    //		if (remove_window(curwp) == ALONEWINDOW)
+    //			close_editor(true,EXIT_SUCCESS);
+	//}
 	return true;
 }

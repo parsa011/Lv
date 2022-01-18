@@ -13,12 +13,11 @@
  */
 line *line_alloc(char *content,int len)
 {
-	line *ln = calloc(1,sizeof(line));
+	line *ln = (line *)calloc(1,sizeof(line));
 	/* remove extra 'new line' and 'line feed' characters of end of line */
 	while (len > 0 && ((content[len - 1] == '\n' || content[len - 1] == '\r')))
 		len--;
 	content[len] = '\0';
-
 	if (!ln)
 		die("Out out memory i think :)");
 	ln->chars = strdup(content);
@@ -77,13 +76,6 @@ int line_new(int force)
 		/* if next line is not null , set ln next to current_next 
 		 * and prev of current_next to ln */
 		L_LINK_INSERT(current_line,ln);
-		//line *current_next = L_LINK_NEXT(current_line);
-		//if (current_next != NULL) {
-		//	L_LINK_PREV(current_next,ln);	
-		//	L_LINK_NEXT(ln,current_next);
-		//}
-		//L_LINK_PREV(ln,current_line);
-		//L_LINK_NEXT(current_line,ln);
 		cursor_col = 1;
 		curbp->coffset = 0;
 		move_nextline(true,1);

@@ -43,7 +43,7 @@ window *init_window();
 /*
  *	delete a window and remove its buffers and lines and ...
  */
-int remove_window(window *);
+//int remove_window(window *);
 
 /*
  *	return last buffer of given window
@@ -52,7 +52,7 @@ buffer *get_last_buffer(window *);
 
 void activate_window(window *);
 
-int append_window(window *);
+//int append_window(window *);
 
 /* go to next window */
 int next_window(int,int);

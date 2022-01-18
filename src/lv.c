@@ -40,9 +40,11 @@ void init_editor()
 {
 	init_term();
 	init_display();
-	append_window(init_window());
+	//append_window(init_window());
+	curwp = init_window();
 	curbp = init_buffer(NULL,0,0);
-	append_buffer(curwp,curbp);
+	curwp->fbuffer = curbp;
+	//append_buffer(curwp,curbp);
 	set_terminal_title(TERMINAL_TITLE);
 	generate_basic_macros();
 	generate_basic_commands();

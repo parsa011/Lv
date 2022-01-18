@@ -23,20 +23,20 @@ int open_command_tab(int f,int n)
  */
 int open_command(int f, char **args)
 {
-	if (args[1] == NULL) {
-		showmsg(false,"You must enter file name");
-		return false;
-	}
-	if (args[2] != NULL && strcmp(args[2],".") == 0) {
-		curbp->flags |= FREDRW;
-		load_file_into_buffer(curbp,args[1]);
-	}
-	else {
-		window *wp = init_window();
-		append_window(wp);
-		append_buffer(wp,init_buffer(NULL,0,0));
-		activate_window(wp);
-		load_file_into_buffer(wp->fbuffer,args[1]);
-	}
+	//if (args[1] == NULL) {
+	//	showmsg(false,"You must enter file name");
+	//	return false;
+	//}
+	//if (args[2] != NULL && strcmp(args[2],".") == 0) {
+	//	curbp->flags |= FREDRW;
+	//	load_file_into_buffer(curbp,args[1]);
+	//}
+	//else {
+	//	window *wp = init_window();
+	//	append_window(wp);
+	//	append_buffer(wp,init_buffer(NULL,0,0));
+	//	activate_window(wp);
+	//	load_file_into_buffer(wp->fbuffer,args[1]);
+	//}
 	return true;
 }
