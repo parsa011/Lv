@@ -33,6 +33,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->linenm = false;
+	bf->link.next = bf->link.prev = 0;
 	return bf;
 }
 
