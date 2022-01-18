@@ -130,8 +130,8 @@ int remove_buffer();
 /*
  *	make buffers lines free
  */
-void free_buffer();
+void free_buffer(buffer *);
 
-buffer *get_buffer_by_index(int);
+buffer *get_buffer_by_index(window *,int);
 
 #endif

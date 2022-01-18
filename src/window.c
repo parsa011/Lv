@@ -15,7 +15,7 @@ window *init_window()
 		die("malloc window");
 	wp->cbindex = 0;
 	wp->crow = wp->ccol = 1;
-	wp->link.next = wp->link.prev = NULL;
+	wp->link.next = wp->link.prev = 0;
 	wp->fbuffer = NULL;
 	return wp;
 }
@@ -32,10 +32,10 @@ int remove_window(window *wp)
 		return ALONEWINDOW;
 	}
 	window *new_one = L_LINK_PREV(wp);
-	if (new_one == NULL) {
+	if (new_one == 0) {
 		new_one == L_LINK_NEXT(wp);
 	}
-	if (wp == lastwp) 
+	if (wp == lastwp)
 		lastwp = new_one;
 	if (wp == firstwp)
 		firstwp = new_one;
@@ -53,7 +53,7 @@ int remove_window(window *wp)
 void activate_window(window *wp)
 {
 	curwp = wp;
-	curbp = get_buffer_by_index(curwp->cbindex);
+	curbp = get_buffer_by_index(curwp,curwp->cbindex);
 	curbp->flags |= FREDRW;
 }
 

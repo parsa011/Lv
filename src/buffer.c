@@ -15,7 +15,7 @@
 buffer *init_buffer(char *filename,short modes,short flags)
 {
 	buffer *bf;
-	if (!(bf = malloc(sizeof(buffer))))
+	if (!(bf = (buffer *)malloc(sizeof(buffer))))
 		die("malloc buffer");
 
 	if (filename != NULL && strlen(filename) < NFILEN)
@@ -119,7 +119,7 @@ void append_buffer(window *win,buffer *bf)
 		L_LINK_SNEXT(bf,NULL);
 	}
 	else {
-		L_LINK_INSERT(get_last_buffer(win),bf);
+		L_LINK_INSERT(get_buffer_by_index(win,win->cbindex),bf);
 	}
 	win->bcount++;
 }
@@ -232,12 +232,12 @@ int prev_buffer_in_window(int f,int c)
  *	properties of current buffer , and curbp too , so dont 
  *	set curbp here
  */
-void free_buffer()
+void free_buffer(buffer *bf)
 {
-	for (line *ln = curbp->lline;ln != NULL;ln = L_LINK_PREV(ln)) {
+	for (line *ln = bf->lline;ln != NULL;ln = L_LINK_PREV(ln)) {
 		free(ln->chars);
 	}
-	free(curbp);
+	free(bf);
 }
 
 /*
@@ -247,42 +247,22 @@ void free_buffer()
  */
 int remove_buffer()
 {
+	if (curwp->bcount == 1) {
+		free_buffer(curbp);
+		return ALONEBUFFER;
+	}
 	buffer *new_one = L_LINK_PREV(curbp);
-	if (new_one == NULL) {
+	if (new_one == 0) {
     	new_one = L_LINK_NEXT(curbp);
-    	if (new_one == NULL) {
-        	free_buffer();
-        	return ALONEBUFFER;
-    	}
 	}
 	if (new_one == L_LINK_NEXT(curbp))
 		new_one->mtop = curbp->mtop;
 	L_LINK_REMOVE(curbp);
-	//if (new_one == L_LINK_NEXT(curbp)) {
-	//	new_one->mtop = curbp->mtop;
-	//	buffer *prev = L_LINK_PREV(curbp);
-	//	if (prev != NULL) {
-	//		L_LINK_SNEXT(prev,new_one);
-	//		L_LINK_SPREV(new_one,prev);
-	//	} else {
-	//		L_LINK_SPREV(new_one,NULL);
-	//	}
-	//} else {
-	//	// here , new one is prev buffer of current buffer , first we have to check
-	//	// that there is any next buffer , if it exist , we will set links
-	//	buffer *next = L_LINK_NEXT(curbp);
-	//	if (next != NULL) {
-	//		L_LINK_SNEXT(new_one,next);
-	//		L_LINK_SPREV(next,new_one);
-	//	} else {
-	//		L_LINK_SNEXT(new_one,NULL);
-	//	}
-	//}
 	if (curbp == curwp->fbuffer)
 		curwp->fbuffer = new_one;
 	new_one->nrow += curbp->nrow;
 	curwp->bcount--;
-	free_buffer();
+	free_buffer(curbp);
 	change_current_buffer(new_one);
 	curbp->flags |= FREDRW;
 	return true;
@@ -293,10 +273,10 @@ int remove_buffer()
  *	we have to set curwp to our intended window 
  *	becuase it search in curwp
  */
-buffer *get_buffer_by_index(int index) 
+buffer *get_buffer_by_index(window *win,int index) 
 {
 	int i = 0;
-	for (buffer *bf = curwp->fbuffer;bf != NULL;bf = L_LINK_NEXT(bf),i++) {
+	for (buffer *bf = win->fbuffer;bf != NULL;bf = L_LINK_NEXT(bf),i++) {
 		if (i == index)
 			return bf;
 	}
