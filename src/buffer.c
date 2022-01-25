@@ -124,20 +124,18 @@ void toggle_highlight()
 /*
  *	append buffer into given window
  */
-//void append_buffer(window *win,buffer *bf)
-//{
-//	if (win == NULL)
-//		die("NO any window");
-//	/* if currwp buffers null , so it's first one , otherwise add to last buffers next */
-//	if (win->fbuffer == NULL) {
-//		win->fbuffer = bf;
-//		L_LINK_SNEXT(bf,NULL);
-//	}
-//	else {
-//		L_LINK_INSERT(get_buffer_by_index(win,win->cbindex),bf);
-//	}
-//	win->bcount++;
-//}
+void append_buffer(window *win,buffer *bf)
+{
+	if (win == NULL)
+		die("NO any window");
+	if (win->fbuffer) {
+		buffer *bp = win == curwp ? curbp : get_buffer_by_index(win,win->cbindex);
+		L_LINK_INSERT(bp,bf);
+	} else {
+		win->fbuffer = bf;
+	}
+	win->bcount++;
+}
 
 /*
  *	return last line of given buffer
@@ -213,6 +211,7 @@ void change_current_buffer(buffer *bf)
 		cursor_col = curbp->mleft;
 	} else
 		update_position();
+	curbp->flags |= FREDRW;
 }
 
 /*
@@ -256,32 +255,32 @@ void free_buffer(buffer *bf)
 }
 
 /*
- *	this routhien will remove buffer from window
- *	also it will append its space to next or prev buffer
+ *	this routin will remove buffer from window (current buffer)
+ *	also it will append its space (rows for writing buffer) to next or prev buffer
  *	return alone buffer , if it was last buffer in window
  */
-//int remove_buffer()
-//{
-//	if (curwp->bcount == 1) {
-//		free_buffer(curbp);
-//		return ALONEBUFFER;
-//	}
-//	buffer *new_one = L_LINK_PREV(curbp);
-//	if (new_one == 0) {
-//    	new_one = L_LINK_NEXT(curbp);
-//	}
-//	if (new_one == L_LINK_NEXT(curbp))
-//		new_one->mtop = curbp->mtop;
-//	L_LINK_REMOVE(curbp);
-//	if (curbp == curwp->fbuffer)
-//		curwp->fbuffer = new_one;
-//	new_one->nrow += curbp->nrow;
-//	curwp->bcount--;
-//	free_buffer(curbp);
-//	change_current_buffer(new_one);
-//	curbp->flags |= FREDRW;
-//	return true;
-//}
+int remove_buffer()
+{
+	if (curwp->bcount == 1) {
+		free_buffer(curbp);
+		return ALONEBUFFER;
+	}
+	buffer *new = L_LINK_PREV(curbp);
+	curwp->cbindex--;
+	if (new == NULL) {
+		new = L_LINK_NEXT(curbp);	
+		curwp->cbindex++;
+		new->mtop = curbp->mtop;
+	}
+	if (curwp->fbuffer == curbp)
+		curwp->fbuffer = new;
+	new->nrow += curbp->nrow;
+	curwp->bcount--;
+	L_LINK_REMOVE(curbp);
+	free_buffer(curbp);
+	change_current_buffer(new);
+	return true;
+}
 
 /*
  *	return buffer by index 

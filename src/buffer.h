@@ -101,7 +101,7 @@ void change_current_buffer(buffer *);
 /*
  *	append buffer to next of current buffer
  */
-//void append_buffer(window*,buffer *);
+void append_buffer(window*,buffer *);
 
 /*
  *	return last line of buffer
@@ -132,7 +132,7 @@ int prev_buffer_in_window(int,int);
 /*
  *	this ones used to remove current buffer and active next buffer
  */
-//int remove_buffer();
+int remove_buffer();
 
 /*
  *	make buffers lines free
