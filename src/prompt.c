@@ -149,7 +149,7 @@ int change_prompt_key(int key,int (*func)(int,int))
 			return true;
 		}
 	}
-	prompt_key *pk = (prompt_key *)malloc(sizeof(prompt_key));
+	prompt_key *pk = (prompt_key *)lv_malloc(sizeof(prompt_key));
 	pk->func = func;
 	pk->key = key;
 	if (fprompt_key == NULL) {

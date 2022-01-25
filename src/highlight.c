@@ -40,7 +40,7 @@ void load_syntax(char *lang_name)
 	FILE *fp = fopen(file_path,"r");	
 	if (!fp) 
 		return;
-	language_syntax *lang = malloc(sizeof(language_syntax *));
+	language_syntax *lang = lv_malloc(sizeof(language_syntax *));
 	lang->lang = strdup(lang_name);
 	char *line = NULL;
 	size_t len;
@@ -73,7 +73,7 @@ syntax_group *parse_syntax_line(char *line)
 		len++;
 	if (len < 4)
 		return NULL;
-	syntax_group *grp = malloc(sizeof(syntax_group *));
+	syntax_group *grp = lv_malloc(sizeof(syntax_group *));
 	char key[128];
 	int index = 0,keyp = 0;
 	while (*args) {
@@ -116,7 +116,7 @@ next:
  */
 void add_key_to_syntax_group(syntax_group *grp,char *key)
 {
-	syntax_field *sn = malloc(sizeof(syntax_field));
+	syntax_field *sn = lv_malloc(sizeof(syntax_field));
 	sn->keyword = strdup(key);
 	if (grp->keywords == NULL)
 		grp->keywords = sn;

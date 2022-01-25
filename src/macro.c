@@ -13,7 +13,7 @@ key_macro *lmacro;	/* last appended key macro	 */
 
 key_macro *init_macro(int key,char *key_str,MACRO_FUNC_POINTER func, ushort modes, char *name)
 {
-	key_macro *macro = calloc(1,sizeof(key_macro));
+	key_macro *macro = lv_calloc(1,sizeof(key_macro));
 	macro->key = key;
 	macro->func = func;
 	macro->modes = modes;

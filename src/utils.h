@@ -5,6 +5,9 @@
 ssize_t lv_read(int fd, void *buf, size_t siz);
 ssize_t lv_write(int fd, void *buf, size_t siz);
 int lv_ioctl(int fd, int req, void *ptr);
+void *lv_malloc(size_t);
+void *lv_realloc(void *,size_t);
+void *lv_calloc(size_t,size_t);
 
 void lv_strncpy(char *,char *,int);
 

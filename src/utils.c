@@ -33,6 +33,30 @@ int lv_ioctl(int fd, int req, void *ptr)
 	return rt;
 }
 
+void *lv_malloc(size_t size) 
+{
+	void *p = malloc(size);
+	if (!p)
+		die("can allocate memory , size : %d\n",size);
+	return p;
+}
+
+void *lv_realloc(void *ptr,size_t size) 
+{
+	void *p = realloc(ptr,size);
+	if (!p)
+		die("can realloc , size : %d\n",size);
+	return p;
+}
+
+void *lv_calloc(size_t n,size_t size) 
+{
+	void *p = calloc(n,size);
+	if (!p)
+		die("can calloc , size : %d\n",size);
+	return p;
+}
+
 /*
  *	original strncpy does not add \0 , so 
  *	ours add :)

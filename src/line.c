@@ -13,7 +13,7 @@
  */
 line *line_alloc(char *content,int len)
 {
-	line *ln = (line *)calloc(1,sizeof(line));
+	line *ln = (line *)lv_calloc(1,sizeof(line));
 	/* remove extra 'new line' and 'line feed' characters of end of line */
 	while (len > 0 && ((content[len - 1] == '\n' || content[len - 1] == '\r')))
 		len--;

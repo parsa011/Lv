@@ -206,7 +206,7 @@ void write_line(line *ln)
 {
 	//TTeeol();
 	char *temp = ln->chars;
-	char *text_bag = malloc(256);
+	char *text_bag = lv_malloc(256);
 	int i = 0;
 	bool append = false;
 	while (*temp) {

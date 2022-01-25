@@ -13,7 +13,7 @@ command *lcommand;	/* last appended command   */
 
 command *init_command(char *name,int (*func)(int,char **),int flags)
 {
-	command *cmd= calloc(1,sizeof(command));
+	command *cmd = lv_calloc(1,sizeof(command));
 	cmd->name = name;
 	cmd->func = func;
 	cmd->flag = flags;

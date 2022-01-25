@@ -10,9 +10,7 @@
 
 window *init_window()
 {
-	window *wp;
-	if (!(wp = malloc(sizeof(window))))
-		die("malloc window");
+	window *wp = lv_malloc(sizeof(window));
 	wp->cbindex = 0;
 	wp->crow = wp->ccol = 1;
 	wp->link.next = wp->link.prev = 0;

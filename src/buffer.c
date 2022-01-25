@@ -14,9 +14,7 @@
  */
 buffer *init_buffer(char *filename,short modes,short flags)
 {
-	buffer *bf;
-	if (!(bf = (buffer *)malloc(sizeof(buffer))))
-		die("malloc buffer");
+	buffer *bf = lv_malloc(sizeof(buffer));
 
 	if (filename != NULL && strlen(filename) < NFILEN)
 		set_buffer_name(filename);
