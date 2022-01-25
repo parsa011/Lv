@@ -9,6 +9,7 @@
 
 window *firstwp;	/* first window		*/
 window *lastwp;		/* last window 		*/
+window *debug_win;	/* debug window 	*/
 window *curwp;		/* Current window   */
 int wcount;			/* window count		*/
 buffer *curbp;		/* Current buffer   */

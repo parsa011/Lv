@@ -60,6 +60,8 @@ struct buffer_t {
 /* this is usefull for macros , when they are avaiable in all modes */
 #define ALLMODES (MDLOCK | MDINST | MDVISL | MDVIEW)
 
+extern char *reserved_buffer_names[];
+
 //#define	MDCMOD	0x0002		/* c indentation and fence match */
 //#define	MDSPELL	0x0004		/* spell error parsing           */
 //#define	MDEXACT	0x0008		/* exact matching for searches   */
@@ -85,6 +87,11 @@ int set_buffer_by_name(char *);
  *	works that we need to do when buffer changed
  */
 void buffer_changed();
+
+/*
+ *	check if given string is one ob reserved names for buffers
+ */
+bool is_reserved_buffer_name(char *);
 
 /*
  *	show a buffer and set it options and ..

@@ -8,6 +8,10 @@
 
 #include "types.h"
 
+char *reserved_buffer_names[] = {
+	DEBUG_BUF_NAME
+};
+
 /*
  *	alloc and init new buffer with given name and path , also we can set
  *	modes and flags
@@ -16,10 +20,13 @@ buffer *init_buffer(char *filename,short modes,short flags)
 {
 	buffer *bf = lv_malloc(sizeof(buffer));
 
-	if (filename != NULL && strlen(filename) < NFILEN)
-		set_buffer_name(filename);
-	else 
-		lv_strncpy(bf->bname,NO_NAME_BUFFER,strlen(NO_NAME_BUFFER));
+	if (filename != NULL) {
+		if (is_reserved_buffer_name(filename))
+			lv_strncpy(bf->bname,NO_NAME_BUFFER,strlen(NO_NAME_BUFFER));
+		else 
+			set_buffer_name(filename);
+	}
+
 	/* when a buffer initialized , we have set lock mode for it , if we don't want to be locked ,we must specify it at modes input */
 	bf->modes |= MDLOCK;
 	bf->modes |= modes;
@@ -35,8 +42,17 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	return bf;
 }
 
+bool is_reserved_buffer_name(char *s)
+{
+	for (int i = 0; i < ARRAY_LENGTH(reserved_buffer_names); i++) {
+		if (strcmp(s,reserved_buffer_names[i]) == 0)
+			return true;
+	}
+	return false;
+}
+
 /*
- *	will search in buffers and and set founded buffer as active buffer
+ *	will search in buffers and set founded buffer as active buffer
  *	if no any buffer founded , will return false :)
  */
 int set_buffer_by_name(char *name)

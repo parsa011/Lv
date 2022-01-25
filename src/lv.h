@@ -9,6 +9,8 @@
 #define EDITOR_TITLE "PMS " EDITOR_VERSION
 #define COMMAND_MODE_MASK ":"
 
+#define DEBUG_BUF_NAME "**debug**"
+
 extern int tab_size;
 extern int msgbar_msg_time;
 

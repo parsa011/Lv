@@ -42,10 +42,15 @@ void init_editor()
 	init_display();
 	//append_window(init_window());
 	curwp = init_window();
-	curbp = init_buffer(NULL,0,0);
-	curwp->fbuffer = curbp;
+	curwp->fbuffer = curbp = init_buffer(NULL,0,0);
+
+	/* debug window initialization */
+	debug_win = init_window();
+	debug_win->fbuffer = init_buffer(DEBUG_BUF_NAME,MDVIEW,0);
+
 	//append_buffer(curwp,curbp);
 	set_terminal_title(TERMINAL_TITLE);
+
 	generate_basic_macros();
 	generate_basic_commands();
 	generate_prompt_keys();

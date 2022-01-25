@@ -92,11 +92,10 @@ int move_nextpage(int f, int n)
 {
 	if (n < 0)
 		return move_prevpage(f,-n);
-	while (n--) {
-		for (int i = 0;i < curbp->nrow;i++)
-			if (!move_nextline(true,1))
-				return false;
-	}
+	n = term.t_mrow + curbp->loffset;
+	if (n > curbp->lcount)
+		n = curbp->lcount;
+	goto_line(true,n);
 	return true;
 }
 
