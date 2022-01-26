@@ -68,9 +68,11 @@ int quit(int f, char **args)
 			showmsg(true,"buffer is dirty, use 'q !' to force quite");
 			return false;
 		}
-		if (remove_buffer(curbp) == ALONEBUFFER)
+		if (curwp->bcount == 1) {
     		if (remove_window(curwp) == ALONEWINDOW)
-    			close_editor(true,EXIT_SUCCESS);
+        		close_editor(true,1);
+		} else
+    		remove_buffer(curbp);
 	}
 	return true;
 }
