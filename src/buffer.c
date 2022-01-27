@@ -19,14 +19,12 @@ char *reserved_buffer_names[] = {
 buffer *init_buffer(char *filename,short modes,short flags)
 {
 	buffer *bf = lv_malloc(sizeof(buffer));
-
 	if (filename != NULL) {
 		if (is_reserved_buffer_name(filename))
 			lv_strncpy(bf->bname,NO_NAME_BUFFER,strlen(NO_NAME_BUFFER));
 		else 
 			set_buffer_name(filename);
 	}
-
 	/* when a buffer initialized , we have set lock mode for it , if we don't want to be locked ,we must specify it at modes input */
 	bf->modes |= MDLOCK;
 	bf->modes |= modes;

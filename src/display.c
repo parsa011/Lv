@@ -215,16 +215,8 @@ void write_line(line *ln)
 		 * also we have to check if we goes to end of file or no by
 		 * checking next char with temp + 1
 		 */
-		if (*temp == ' ' || *temp == '\n') {
+		if (*temp == ' ' || *temp == '\n' || *temp == '\t') {
 			append = true;
-		} else if (*temp == '\t') {
-			for (int j = 0;j < tab_size;j++) {
-    			/* here we can show tabs if needed :)) */
-				//if (j == tab_size / 2)
-				//	TTputc('.');
-				//else 
-				TTputc(' ');
-			}
 		} else if (iscntrl(*temp)) {
 			*(text_bag + i++) = (*temp <= 26 ? '@' + *temp : '?');
 		} else {
@@ -238,7 +230,16 @@ void write_line(line *ln)
 			echo_display(text_bag);
 			TTputs(DEFAULT);
 			if (append) {
-				TTputc(*temp);
+    			if (*temp == '\t') {
+                    for (int j = 0;j < tab_size;j++) {
+            			/* here we can show tabs if needed :)) */
+        				//if (j == tab_size / 2)
+        				//	TTputc('.');
+        				//else 
+        				TTputc(' ');
+                    }
+    			} else
+        			TTputc(*temp);
 			}
 			append = false;
 			i = 0;
