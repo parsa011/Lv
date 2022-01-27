@@ -72,7 +72,7 @@ void write_line(line *);
  *	syntax highlight , if there was any related prop with given text , first it
  *	will apply them then write text
  */
-void echo_display(char *);
+void print_line(char *);
 
 /*
  *	when linenumber is enabled for buffer , before writing line , we will call this

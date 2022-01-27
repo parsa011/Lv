@@ -226,8 +226,10 @@ void write_line(line *ln)
 				append = true;
 		}
 		*(text_bag + i) = '\0';
+		/* check if we need to append , or we are at end of line */
 		if (!*(temp + 1) || append) {
-			echo_display(text_bag);
+			print_line
+		(text_bag);
 			TTputs(DEFAULT);
 			if (append) {
     			if (*temp == '\t') {
@@ -250,7 +252,7 @@ void write_line(line *ln)
 	TTputs("\n\r");
 }
 
-void echo_display(char *text)
+void print_line(char *text)
 {
 	if (curbp->highlight) {
 		char **props = get_syntax_for_keyword(text);
@@ -273,9 +275,10 @@ int write_linenumber(int number,int offset)
 	char temp[number];
 	int len = sprintf(temp,"%d",number);
 	TTputs(temp);
-	while (len++ <= offset) {
+	while (len++ <= offset - 1) {
 		TTputc(' ');
 	}
+	TTputc('|');
 }
 
 /*

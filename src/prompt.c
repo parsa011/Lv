@@ -18,6 +18,13 @@ prompt_key *fprompt_key;
 prompt_key *lprompt_key;
 
 /*
+ * this is key press event for prompt mode , this will happen each time that
+ * we press any key in prompt mode , it's usefull in find mode and ...
+ * becareful to make it null after each press enter key (exiting of prompt mode)
+ */
+static int (*prompt_key_press_event)(int, int) = NULL;
+
+/*
  *	when buffer is in command mode or function mode or prompt mode
  *	this function will handle user inputs , store inputs and move
  *	cursor in message bar
@@ -46,6 +53,8 @@ int manage_prompt_key(int c)
 	}
 	msgbar_prompt[msgbar_prompt_p] = 0;
 	find_and_set_command_keys();
+	if (prompt_key_press_event)
+    	(*prompt_key_press_event)(1,true);
 	return true;
 }
 
@@ -91,6 +100,7 @@ int prompt_enter_key(int f,int n)
 			leave_prompt_mode(true,1);
 			cmd->func(true,args);
 		}
+		prompt_key_press_event = NULL;
 		free(args);
 	}
 }

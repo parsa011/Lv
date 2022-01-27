@@ -20,6 +20,8 @@ extern int msgbar_prompt_p;
 extern prompt_key *fprompt_key;
 extern prompt_key *lprompt_key;
 
+static int (*prompt_key_press_event)(int,int);
+
 struct prompt_key_t {
 	L_LINK(prompt_key) link;
 	int key;
