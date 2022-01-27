@@ -143,9 +143,7 @@ void append_buffer(window *win,buffer *bf)
  */
 line *get_last_line(buffer *bf)
 {
-	/* set to curwp if wp is null */
-	buffer *buff = bf != NULL ? bf : curbp;
-	line *l = buff->fline;
+	line *l = bf->fline;
 	for (; l != NULL;l = L_LINK_NEXT(l));
 	return l;
 }
@@ -248,10 +246,10 @@ int prev_buffer_in_window(int f,int c)
  */
 void free_buffer(buffer *bf)
 {
-	for (line *ln = bf->lline;ln != NULL;ln = L_LINK_PREV(ln)) {
-		free(ln->chars);
-	}
-	free(bf);
+	//for (line *ln = bf->fline;ln != NULL;ln = L_LINK_NEXT(ln)) {
+		//L_LINK_REMOVE(ln);
+	//}
+	//free(bf);
 }
 
 /*
@@ -268,7 +266,7 @@ int remove_buffer()
 	buffer *new = L_LINK_PREV(curbp);
 	curwp->cbindex--;
 	if (new == NULL) {
-		new = L_LINK_NEXT(curbp);	
+		new = L_LINK_NEXT(curbp);
 		curwp->cbindex++;
 		new->mtop = curbp->mtop;
 	}
@@ -277,7 +275,7 @@ int remove_buffer()
 	new->nrow += curbp->nrow;
 	curwp->bcount--;
 	L_LINK_REMOVE(curbp);
-	free_buffer(curbp);
+	//free_buffer(curbp);
 	change_current_buffer(new);
 	return true;
 }

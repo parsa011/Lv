@@ -39,7 +39,7 @@ int append_line(buffer *buf,line *ln)
 	 * in other hand , we have to append this line to next of last line
 	 * and then set last line to this new line
 	 */
-	if (buf->fline == NULL && buf->lcount == 0) {
+	if (!buf->fline) {
 		buf->fline = ln;
 		buf->cline = ln;
 		buf->hline = ln;
