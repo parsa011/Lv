@@ -35,6 +35,8 @@ char *props_info_table[] = {
  */
 void load_syntax(char *lang_name)
 {
+    if (get_language_syntax_by_name(lang_name))
+        return;
 	char file_path[128];
 	sprintf(file_path,"./syntax/%s.lvs",lang_name);
 	FILE *fp = fopen(file_path,"r");	
@@ -90,6 +92,7 @@ syntax_group *parse_syntax_line(char *line)
 					}
 					else {
 						key[keyp] = '\0';
+						lv_log("key founded : %s",key);
 						add_key_to_syntax_group(grp,key);
 						keyp = 0;
 						in = false;
@@ -103,6 +106,7 @@ next:
 			}
 		} 
 		if (index > 2) {
+    		lv_log("founded prop is : %s",*args);
 			grp->props[index - 3] = strdup(*args);
 		}
 		index++;

@@ -49,6 +49,8 @@ void init_editor()
 	debug_win = init_window();
 	debug_win->fbuffer = init_buffer(DEBUG_BUF_NAME,MDVIEW,0);
 
+    L_LINK_INSERT(curwp,debug_win);
+
 	set_terminal_title(TERMINAL_TITLE);
 
 	generate_basic_macros();

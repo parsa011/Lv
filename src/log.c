@@ -28,15 +28,12 @@ void create_log_file()
 
 void lv_log(const char *msg,...)
 {
-	if (!fp)
-		create_log_file();
 	char temp[512];
 	va_list ap;
 	va_start(ap, msg);
 	vsnprintf(temp,sizeof(temp),msg,ap);
-	fprintf(fp,"%s",temp);
+    append_line(debug_win->fbuffer, line_alloc(temp,strlen(temp)));
 	va_end(ap);
-	fflush(fp);
 }
 
 void close_log_file()

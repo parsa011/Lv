@@ -64,6 +64,8 @@ int quit(int f, char **args)
 		while (remove_window(curwp) != ALONEWINDOW);
 		close_editor(true,EXIT_SUCCESS);
 	} else {
+    	if (is_reserved_buffer_name(curbp->bname))
+        	return false;
 		if (curbp->dirty && !quite_force) {
 			showmsg(true,"buffer is dirty, use 'q !' to force quite");
 			return false;

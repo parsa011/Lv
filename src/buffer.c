@@ -21,7 +21,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	buffer *bf = lv_malloc(sizeof(buffer));
 	if (filename != NULL) {
 		if (is_reserved_buffer_name(filename))
-			lv_strncpy(bf->bname,NO_NAME_BUFFER,strlen(NO_NAME_BUFFER));
+			lv_strncpy(bf->bname,filename,strlen(filename));
 		else 
 			set_buffer_name(filename);
 	}
@@ -34,7 +34,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->loffset = bf->coffset = bf->dirty = bf->clindex = 0;
 	bf->flags |= FREDRW;
 	bf->mtop = buffers_start_offset;
-	bf->mleft = 1;
+	bf->mleft = bf->highlight = 1;
 	bf->linenm = false;
 	bf->link.next = bf->link.prev = 0;
 	return bf;
@@ -262,7 +262,6 @@ int remove_buffer()
 		return ALONEBUFFER;
 	}
 	buffer *new = L_LINK_PREV(curbp);
-	curwp->cbindex--;
 	if (new == NULL) {
 		new = L_LINK_NEXT(curbp);
 		curwp->cbindex++;
@@ -270,6 +269,7 @@ int remove_buffer()
 	}
 	if (curwp->fbuffer == curbp)
 		curwp->fbuffer = new;
+	curwp->cbindex--;
 	new->nrow += curbp->nrow;
 	curwp->bcount--;
 	L_LINK_REMOVE(curbp);
