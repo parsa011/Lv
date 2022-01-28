@@ -64,6 +64,7 @@ int quit(int f, char **args)
 		while (remove_window(curwp) != ALONEWINDOW);
 		close_editor(true,EXIT_SUCCESS);
 	} else {
+    	/* we cant close reserved buffers */
     	if (is_reserved_buffer_name(curbp->bname))
         	return false;
 		if (curbp->dirty && !quite_force) {

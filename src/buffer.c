@@ -26,15 +26,12 @@ buffer *init_buffer(char *filename,short modes,short flags)
 			set_buffer_name(filename);
 	}
 	/* when a buffer initialized , we have set lock mode for it , if we don't want to be locked ,we must specify it at modes input */
-	bf->modes |= MDLOCK;
-	bf->modes |= modes;
-	bf->flags = FFULLS;
-	bf->flags = flags;
+	bf->modes = MDLOCK | modes;
+	bf->flags = FFULLS | FREDRW | flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
 	bf->loffset = bf->coffset = bf->dirty = bf->clindex = 0;
-	bf->flags |= FREDRW;
 	bf->mtop = buffers_start_offset;
-	bf->mleft = bf->highlight = 1;
+	bf->mleft = 1;
 	bf->linenm = false;
 	bf->link.next = bf->link.prev = 0;
 	return bf;
