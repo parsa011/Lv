@@ -125,6 +125,11 @@ int toggle_linenumber(int,int);
 
 int toggle_highligth(int,int);
 
+/*
+ *	set given tab size for buffer
+ */
+int set_tab_size(int,int);
+
 void set_mode_for_buffer(int);
 int set_lock_mode(int, int);
 int set_visual_mode(int, int);

@@ -96,6 +96,9 @@ void load_syntax_for_buffer()
 	load_syntax(curbp->filetype);
 }
 
+/*
+ *	set redraw flag for buffer
+ */
 void redisplay_buffer()
 {
 	curbp->flags |= FREDRW;
@@ -113,18 +116,28 @@ void buffer_changed()
 /*
  *	actully it will toggle line number just for active buffer :)
  */
-int toggle_linenumber(int n,int f)
+int toggle_linenumber(int f,int n)
 {
 	curbp->linenm = !curbp->linenm;
-	curbp->flags |= FREDRW;
+	redisplay_buffer();
 	return update_linenumber_padding();
 }
 
-int toggle_highligth(int n,int f)
+int toggle_highligth(int f,int n)
 {
 	curbp->highlight = !curbp->highlight;
-	curbp->flags |= FREDRW;
+	redisplay_buffer();
 }	
+
+/*
+ *	set tab size for buffer
+ *  TODO : tab size value is gloabl now , we have to add a prop to buffer to hold tab size for each buffer
+ */
+int set_tab_size(int f,int n)
+{
+    tab_size = n;
+    redisplay_buffer();
+}
 
 /*
  *	append buffer into given window
@@ -217,7 +230,7 @@ void change_current_buffer(buffer *bf)
 		cursor_col = curbp->mleft;
 	} else
 		update_position();
-	curbp->flags |= FREDRW;
+	redisplay_buffer();
 }
 
 /*

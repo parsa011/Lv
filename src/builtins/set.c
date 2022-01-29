@@ -32,7 +32,8 @@ static const char *argy_options[] = {
  */
 static int (*options_db[])(int,int) = {
     toggle_linenumber,
-    toggle_highligth
+    toggle_highligth,
+    set_tab_size
 };
 
 /*
@@ -68,6 +69,15 @@ int get_option_index(char *s)
     return -1;
 }
 
+bool is_argy_option(char *s)
+{
+    for (int i = 0; i < ARRAY_LENGTH(argy_options); i++) {
+        if (strcmp(argy_options[i],s) == 0)
+            return true;
+    }
+    return false;
+}
+
 int set_command(int n, char **args)
 {
     args++; // skip command name
@@ -80,16 +90,16 @@ int set_command(int n, char **args)
         showmsg(false,"'%s' is not valid option",*args);
         return false;
     }
-    if (strcmp(*args++,"tabstop") == 0) {
-        if (**args++ != '=' && !*(args)) {
+    if (is_argy_option(*args++)) {
+        if (!*args || **args++ != '=' || !*(args)) {
             showmsg(false,"invalid set command");
             return false;
         }
-        // we have to create a function for set tab size
-        int tab = atoi(*args);
-        tab_size = tab;
-        redisplay_buffer();
-    } else
-        (*options_db[i])(1,true);
+        /* for now we just have int values */
+        int value = atoi(*args);
+        (*options_db[i])(true,value);
+    } else 
+        (*options_db[i])(true,1);
+
     return true;
 }
