@@ -84,6 +84,11 @@ void set_buffer_name(char *);
 int set_buffer_by_name(char *);
 
 /*
+ *	it just will set redraw mode for buffer
+ */
+void redisplay_buffer();
+
+/*
  *	works that we need to do when buffer changed
  */
 void buffer_changed();

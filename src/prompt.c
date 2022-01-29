@@ -131,6 +131,7 @@ int prompt_tab_key(int f,int n)
  */
 void find_and_set_command_keys()
 {
+    /* is prompt is empty , we will set default events for prompt */
 	if (msgbar_prompt_p == 0) {
 		generate_prompt_keys();
 		return;
@@ -147,6 +148,8 @@ void find_and_set_command_keys()
 		change_prompt_key(CTRL_KEY('i'),buffer_command_tab);
 	} else if (strcmp(args[0],"set") == 0)
     	change_prompt_key(CTRL_KEY('i'),set_command_tab);
+	free(temp);
+	free(args);
 }
 
 /*

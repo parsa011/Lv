@@ -12,7 +12,8 @@
  */
 static const char *options[] = {
     "nu", 			/* activate line number for current buffer 	*/
-    "syntax"		/* toggle syntax highlight for buffer 		*/
+    "syntax",		/* toggle syntax highlight for buffer 		*/
+    "tabstop"		/* set tab size for editor 					*/
 };
 
 /*
@@ -25,6 +26,9 @@ static int (*options_db[])(int,int) = {
     toggle_highligth
 };
 
+/*
+ * showing available options
+ */
 int set_command_tab(int n, int f)
 {
     TTmove(buffers_start_offset,1);
@@ -32,6 +36,7 @@ int set_command_tab(int n, int f)
 	int k = 0;
 	for (int i = 0;i < statusbar_start_offset - windowsbar_start_offset - 1;i++) {
 		TTeeol();
+
 		if (k < ARRAY_LENGTH(options)) {
 			TTputs(options[k++]);
 		}
@@ -66,6 +71,16 @@ int set_command(int n, char **args)
         showmsg(false,"'%s' is not valid option",*args);
         return false;
     }
-    (*options_db[i])(1,true);
+    if (strcmp(*args++,"tabstop") == 0) {
+        if (**args++ != '=' && !*(args)) {
+            showmsg(false,"invalid set command");
+            return false;
+        }
+        // we have to create a function for set tab size
+        int tab = atoi(*args);
+        tab_size = tab;
+        redisplay_buffer();
+    } else
+        (*options_db[i])(1,true);
     return true;
 }

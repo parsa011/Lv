@@ -261,6 +261,7 @@ go_next:
 	buf[bufp] = 0;
 #undef BUFSIZE
 #undef ELEMSIZE
+    free(elem);
 	return buf;
 }
 

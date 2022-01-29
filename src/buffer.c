@@ -96,12 +96,17 @@ void load_syntax_for_buffer()
 	load_syntax(curbp->filetype);
 }
 
+void redisplay_buffer()
+{
+	curbp->flags |= FREDRW;
+}
+
 /*
  *	works that we need to do when buffer changed
  */
 void buffer_changed()
 {
-	curbp->flags |= FREDRW;
+    redisplay_buffer();
 	curbp->dirty++;
 }
 
@@ -168,7 +173,10 @@ void set_mode_for_buffer(int mode)
 		usmode(curbp,MDVISL);
 		usmode(curbp,MDLOCK);
 		stmode(curbp,MDINST);
-	} else {
+	} else if (mode == MDCMMD) {
+		usmode(curbp,MDLOCK);
+		stmode(curbp,MDCMMD);
+    }else {
 		stmode(curbp,mode);
 	}
 }

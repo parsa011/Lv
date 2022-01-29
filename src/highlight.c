@@ -93,7 +93,6 @@ syntax_group *parse_syntax_line(char *line)
 					}
 					else {
 						key[keyp] = '\0';
-						lv_log("key founded : %s",key);
 						add_key_to_syntax_group(grp,key);
 						keyp = 0;
 						in = false;
@@ -107,7 +106,6 @@ next:
 			}
 		} 
 		if (index > 2) {
-    		lv_log("founded prop is : %s",*args);
 			grp->props[index - 3] = strdup(*args);
 		}
 		index++;
