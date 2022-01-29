@@ -116,9 +116,9 @@ void load_syntax_for_buffer();
 /*
  *	toggle line number option (it's global)
  */
-int toggle_linenumber();
+int toggle_linenumber(int,int);
 
-void toggle_highligth();
+int toggle_highligth(int,int);
 
 void set_mode_for_buffer(int);
 int set_lock_mode(int, int);

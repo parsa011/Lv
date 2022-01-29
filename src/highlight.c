@@ -35,6 +35,7 @@ char *props_info_table[] = {
  */
 void load_syntax(char *lang_name)
 {
+    /* return when language loaded before */
     if (get_language_syntax_by_name(lang_name))
         return;
 	char file_path[128];

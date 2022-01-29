@@ -44,4 +44,10 @@ int open_command_tab(int,int);
 int buffer_command(int,char **);
 int buffer_command_tab(int,int);
 
+/*
+ *	set command is used for set some option for buffer and editor
+ */
+int set_command(int,char **);
+int set_command_tab(int,int);
+
 #endif

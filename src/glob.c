@@ -79,6 +79,7 @@ int generate_basic_commands()
 	append_command(init_command("w",write_command,0));
 	append_command(init_command("o",open_command,0));
 	append_command(init_command("buffer",buffer_command,0));
+	append_command(init_command("set",set_command,0));
 	return commands_count;
 }
 

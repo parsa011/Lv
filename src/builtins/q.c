@@ -10,7 +10,7 @@
 static bool quite_all = false;
 static bool quite_force = false;
 
-char *options[] = {
+static const char *options[] = {
 	"a (remove all buffer and close editor)",
 	"! (force quite , ignoring chagnes"
 };

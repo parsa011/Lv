@@ -37,6 +37,11 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	return bf;
 }
 
+/*
+ *	check that we can use given 's' arg as buffer name or no
+ * 	if that is a reserved name for buffer like **debug** and ..
+ * 	we will return false
+ */
 bool is_reserved_buffer_name(char *s)
 {
 	for (int i = 0; i < ARRAY_LENGTH(reserved_buffer_names); i++) {
@@ -101,16 +106,16 @@ void buffer_changed()
 }
 
 /*
- *	actully it will toggle line number for buffer :)
+ *	actully it will toggle line number just for active buffer :)
  */
-int toggle_linenumber()
+int toggle_linenumber(int n,int f)
 {
 	curbp->linenm = !curbp->linenm;
 	curbp->flags |= FREDRW;
 	return update_linenumber_padding();
 }
 
-void toggle_highlight()
+int toggle_highligth(int n,int f)
 {
 	curbp->highlight = !curbp->highlight;
 	curbp->flags |= FREDRW;
