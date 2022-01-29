@@ -17,6 +17,15 @@ static const char *options[] = {
 };
 
 /*
+ *	we have some options that will take arguments like tabstop and shiftwidth and ..
+ * 	they will stored here , then we can distinguish them between those that do not
+ * 	take any argument
+ */
+static const char *argy_options[] = {
+    "tabstop"
+};
+
+/*
  *	instead of check given option name , to run associated function
  * 	we store functions here , then we can find them by their associated option name
  * 	in options array (they must be in same order :D)

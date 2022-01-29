@@ -35,7 +35,7 @@ int write_command(int f, char **args)
 		showmsg(false,"Buffer not changed");
 		return false;
 	}
-	// get file name of argumants
+	// get file name of arguments
 	if (args[1] != NULL) {
 		set_buffer_name(args[1]);
 	}

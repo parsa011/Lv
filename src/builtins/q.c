@@ -47,7 +47,7 @@ void parse_args(char **args)
 
 /*
  *	quite buffer or close editor sometimes
- *	possible argumants for quit :
+ *	possible arguments for quit :
  *	- a : close all windows
  *	- ! : dont save changed buffer , and force close
  *	NOTE : args should be separated by space in prompt :))
