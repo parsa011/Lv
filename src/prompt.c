@@ -125,6 +125,10 @@ int prompt_tab_key(int f,int n)
 	}
 }
 
+/*
+ *	it will set command key
+ *  TODO : enhance this code ;/ really dirty (;/ * 2)
+ */
 void find_and_set_command_keys()
 {
 	if (msgbar_prompt_p == 0) {
@@ -141,7 +145,8 @@ void find_and_set_command_keys()
 		change_prompt_key(CTRL_KEY('i'),quite_command_tab);
 	} else if (strcmp(args[0],"buffer") == 0) {
 		change_prompt_key(CTRL_KEY('i'),buffer_command_tab);
-	}
+	} else if (strcmp(args[0],"set") == 0)
+    	change_prompt_key(CTRL_KEY('i'),set_command_tab);
 }
 
 /*

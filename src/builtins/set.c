@@ -7,11 +7,19 @@
  */
 #include "types.h"
 
+/*
+ *	available option that we have to set command for now :)
+ */
 static const char *options[] = {
     "nu", 			/* activate line number for current buffer 	*/
     "syntax"		/* toggle syntax highlight for buffer 		*/
 };
 
+/*
+ *	instead of check given option name , to run associated function
+ * 	we store functions here , then we can find them by their associated option name
+ * 	in options array (they must be in same order :D)
+ */
 static int (*options_db[])(int,int) = {
     toggle_linenumber,
     toggle_highligth
@@ -19,9 +27,24 @@ static int (*options_db[])(int,int) = {
 
 int set_command_tab(int n, int f)
 {
-    return true;
+    TTmove(buffers_start_offset,1);
+	command *cmd = fcommand;
+	int k = 0;
+	for (int i = 0;i < statusbar_start_offset - windowsbar_start_offset - 1;i++) {
+		TTeeol();
+		if (k < ARRAY_LENGTH(options)) {
+			TTputs(options[k++]);
+		}
+		TTputs("\n\r");
+	}    
+	return true;
 }
 
+/*
+ *	will search in options array , if we found any option that equals to given s
+ *  we returns it index , otherwise return -1 that isn't valid index :) so we can find that
+ * 	given 's' is not valid option name
+ */
 int get_option_index(char *s)
 {
     for (int i = 0; i < ARRAY_LENGTH(options); i++) {
