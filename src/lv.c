@@ -88,6 +88,9 @@ void lv_loop()
 			macro = find_macro(c);
 		}
 		if (bmtest(curbp,MDINST) && macro == NULL) {
+    		/* dont insert anything when buffer is readonly :) */
+    		if (bmtest(curbp,MDVIEW))
+        		continue;
 			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
 			}

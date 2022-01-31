@@ -44,17 +44,17 @@ struct buffer_t {
 #define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
 
 /* buffer flags */
-#define FFULLS	0x0001 	/* full size buffer  */
-#define FVTBUF	0x0002	/* vertical buffer	 */
-#define FHRBUF	0x0004	/* horizontal buffer */
-#define FREDRW	0x0008	/* buffer need redraw*/
+#define FFULLS	0x0001 	/* full size buffer   */
+#define FVTBUF	0x0002	/* vertical buffer	  */
+#define FHRBUF	0x0004	/* horizontal buffer  */
+#define FREDRW	0x0008	/* buffer need redraw */
+#define	FASAVE	0x0010	/* auto-save flag     */
 
 /* mode for buffers */
 #define	MDLOCK	0x0001	/* lock mode                     */
 #define MDINST  0x0002	/* insert mode					 */
 #define MDVISL 	0x0004	/* visual mode					 */
 #define	MDVIEW	0x0008	/* read-only buffer              */
-#define	MDASAVE	0x0010	/* auto-save mode                */
 #define MDCMMD 	0x0020	/* typing command mode			 */
 
 /* this is usefull for macros , when they are avaiable in all modes */

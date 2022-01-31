@@ -1,19 +1,15 @@
 todo:
-	- save and new file
-	- get query from message bar
 	- undo and redo
-	- highlight
-
-right now we need to add more commands like save file and open and ...
-but , also we need to parse input from user , for example :
-when user input equals to : set tabsize=4 , we need to tokenize input
-and detect what option user wants to change
-or when input is : o file.txt , we have to get file name and open it 
-it new window
+    - more commands like : remove-buffer next-buffer prev-buffer and ...
 
 in progress :
+	- highlight (need to enhance it)
 
 for complete:
-	- create tty manager to enter raw mode and ...
+    - showing files when we are using 'o' command
+	- fix split window bug
 
 done:
+	- get command from message bar
+	- save and new file
+	- create tty manager to enter raw mode and ...

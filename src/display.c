@@ -228,8 +228,7 @@ void write_line(line *ln)
 		*(text_bag + i) = '\0';
 		/* check if we need to append , or we are at end of line */
 		if (!*(temp + 1) || append) {
-			print_line
-		(text_bag);
+			print_line(text_bag);
 			TTputs(DEFAULT);
 			if (append) {
     			if (*temp == '\t') {
@@ -252,6 +251,10 @@ void write_line(line *ln)
 	TTputs("\n\r");
 }
 
+/*
+ *	write line into screen , also it will search for color for given text
+ * 	if syntax is enabled
+ */
 void print_line(char *text)
 {
 	if (curbp->highlight) {

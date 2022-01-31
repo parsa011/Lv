@@ -49,6 +49,7 @@ void load_syntax(char *lang_name)
 	size_t len;
 	ssize_t read;
 	while ((read = getline(&line,&len,fp)) != -1) {
+    	/* skip comment lines **/
 		if (line[0] == '#')
 			continue;
 		syntax_group *grp = parse_syntax_line(line);
@@ -93,6 +94,7 @@ syntax_group *parse_syntax_line(char *line)
 					}
 					else {
 						key[keyp] = '\0';
+						lv_log("key : %s",key);
 						add_key_to_syntax_group(grp,key);
 						keyp = 0;
 						in = false;
@@ -106,6 +108,7 @@ next:
 			}
 		} 
 		if (index > 2) {
+    		lv_log("property : %s",*args);
 			grp->props[index - 3] = strdup(*args);
 		}
 		index++;
@@ -121,7 +124,7 @@ void add_key_to_syntax_group(syntax_group *grp,char *key)
 {
 	syntax_field *sn = lv_malloc(sizeof(syntax_field));
 	sn->keyword = strdup(key);
-	if (grp->keywords == NULL)
+	if (!grp->keywords)
 		grp->keywords = sn;
 	else {
 		sn->next = grp->keywords;

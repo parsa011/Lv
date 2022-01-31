@@ -32,7 +32,6 @@ int generate_basic_macros()
 	append_macro(init_macro('v',"v",set_visual_mode,MDLOCK,"visual mode"));
 	append_macro(init_macro(' '," ",set_command_mode,(MDLOCK | MDVIEW),"command mode"));
 
-	append_macro(init_macro(CTRL_KEY('n'),"^N",toggle_linenumber,(ALLMODES),"toggle line number"));
 	append_macro(init_macro(CTRL_KEY('q'),"^Q",close_editor,(ALLMODES),"close editor"));
 
 	//move keys
@@ -59,7 +58,7 @@ int generate_basic_macros()
 	// g | g dosnt mean , we have to inhance it
 	append_macro(init_macro(('g' | 'g'),"g-g",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
 	append_macro(init_macro(('g' | 'G'),"g-G",goto_end_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to end page"));
-	append_macro(init_macro(('d' | 'd'),"d-d",delete_current_line,(MDLOCK | MDVIEW),"remove current line"));
+	append_macro(init_macro(('d' | 'd'),"d-d",delete_current_line,(MDLOCK),"remove current line"));
 	append_macro(init_macro((CTLX | 'N'),"^XN",next_window,(ALLMODES),"go to next window"));
 	append_macro(init_macro((CTLX | 'P'),"^XP",prev_window,(ALLMODES),"go to prev window"));
 
