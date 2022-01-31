@@ -110,4 +110,9 @@ line *get_line_by_index(int);
  */ 
 void update_indent();
 
+/*
+ *	update and insert indent to line
+ */
+void insert_indent();
+
 #endif

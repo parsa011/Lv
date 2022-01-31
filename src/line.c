@@ -81,11 +81,8 @@ int line_new(int force)
 		curbp->coffset = 0;
 		move_nextline(true,1);
 		curbp->lcount++;
-		/* now we will check prev line to update indent */
-		update_indent();
-		for (int i = 0; i < line_indent; i++) {
-    		line_ins_char(' ');
-		}
+
+		insert_indent();
 	}
 	buffer_changed();
 	return true;
@@ -310,4 +307,16 @@ void update_indent()
             break;
         p++;
     }
+}
+
+/*
+ *	this function is for update indent , then adddin space by line_indent amount
+ *	TODO : we need to add tab instead of spaces when we want to indent line
+ */
+void insert_indent()
+{
+	update_indent();
+	for (int i = 0; i < line_indent; i++) {
+		line_ins_char(' ');
+	}
 }
