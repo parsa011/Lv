@@ -54,5 +54,17 @@ int do_undo(int f,int n)
         showmsg(false,"no any change");
         return false;
     }
+    apply_undo(get_current_change(curbp));
     return true;
+}
+
+void apply_undo(undo_packet *packet)
+{
+    if (packet->type == DELETE_LINE) {
+         goto_line(true,packet->lineno);
+         line_new_up(true,1);
+         // TODO : implement line append 
+         current_line->chars = packet->ln->chars;
+         current_line->len = packet->ln->len;
+    }
 }

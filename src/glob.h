@@ -26,8 +26,8 @@ extern msg_bag msgbag;
 extern int number_stack;	/* this is used for store number , for macro repeat time */
 
 #define current_line curbp->cline
-#define cursor_row curwp->crow
-#define cursor_col curwp->ccol
+#define cursor_row 	 curwp->crow
+#define cursor_col 	 curwp->ccol
 
 extern int metac;		/* current meta character */
 extern int ctlxc;		/* current control X prefix char */

@@ -68,6 +68,9 @@ int do_undo(int,int);
  */ 
 void append_undo(undo_packet *packet);
 
-int apply_undo();
+/*
+ *	apply a undo into buffer
+ */
+void apply_undo(undo_packet *packet);
 
 #endif

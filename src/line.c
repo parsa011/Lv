@@ -223,6 +223,7 @@ line *get_line_by_index(int index)
  *	and also check for last line or first line , if current line is last
  *	line of buffer , so we will set last line to prev line ,
  *	and also set next line for first line if current line is fline (first line in buffer)
+ * 	TODO : rewrite this function
  */
 void line_delete(int index)
 {
@@ -234,7 +235,7 @@ void line_delete(int index)
 	line *L_LINK_NEXT = L_LINK_NEXT(ln);
 	line *L_LINK_PREV = L_LINK_PREV(ln);
 	if (index == 0) {
-		if (L_LINK_NEXT == NULL) {
+		if (L_LINK_NEXT(current_line) == NULL) {
 			cursor_col = 1;
 			current_line = NULL;
 			curbp->lline = NULL;curbp->fline = curbp->hline = current_line;
@@ -247,7 +248,7 @@ void line_delete(int index)
 	} else if (index == curbp->lcount - 1) {
 		if (L_LINK_PREV == NULL)
 			goto ret;
-		current_line = L_LINK_PREV;
+		current_line = L_LINK_PREV(ln);
 		if (!can_scroll(MOVE_UP))
 			cursor_row--;
 		L_LINK_SNEXT(current_line,NULL);
@@ -255,7 +256,7 @@ void line_delete(int index)
 		goto ret;
 	}
 	L_LINK_REMOVE(ln);
-	current_line = L_LINK_PREV;
+	current_line = L_LINK_PREV(ln);
 	/* if this is header line in buffer , we will set header to prev line */
 	if (ln != curbp->hline)
 		if (!can_scroll(MOVE_UP))
@@ -263,7 +264,7 @@ void line_delete(int index)
 
 ret:
 	if (curbp->hline == ln) {
-		curbp->hline = L_LINK_PREV;
+		curbp->hline = L_LINK_PREV(ln);
 		curbp->loffset--;
 	}
 	curbp->clindex--;
