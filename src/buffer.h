@@ -32,10 +32,13 @@ struct buffer_t {
 	int mtop;				/* buffer margin top from window							 */
 	int mleft;				/* margin left from window									 */
 	int dirty;				/* how much this buffer become dirty						 */
-	// there some options for tab
+	undo_packet *change_db;	/* store buffer changes here to apply undo and redo 		 */ 
 	bool linenm;			/* activate line number for this buffer or no				 */
+	// there some options for buffer
 	bool highlight;			/* have syntax highlight or no :)							 */
 	char *filetype;
+	int tab_size;
+	bool auto_indent;
 };
 
 #define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
