@@ -24,6 +24,10 @@ struct line_t {
 #define lputc(lp, n, c) ((lp)->chars[(n)] = (c))
 #define llength(lp)     ((lp)->len)
 
+/* global line indent value , each time that we want to insesrt new line , we will add space 
+ * to this amount */
+extern int line_indent;
+
 /*
  * 	This routine allocates a block of memory large enough to hold a struct line
  * 	containing "used" characters. The block is always rounded up a bit. Return
@@ -52,7 +56,15 @@ void line_del_char();
  *	insert given char into current position of cursor
  */
 void line_ins_char(char);
+
+/*
+ *	delete next char of current cursor position
+ */
 void line_del_next();
+
+/*
+ *	remove currnet character under cursor
+ */
 int delete_current_char(int,int);
 
 /*
@@ -65,6 +77,11 @@ void line_append(line *,char *,int);
  *	we should connect next line prev (lnext(line)->link-prev) to given line next
  */
 void line_delete(int);
+
+/*
+ *	remove line from buffer
+ * 	TODO : add undo
+ */
 int delete_current_line(int,int);
 
 /*
@@ -72,6 +89,9 @@ int delete_current_line(int,int);
  */ 
 int line_new(int);
 
+/*
+ * these two function are used for macros o and O to open new line in up and down
+ */
 int line_new_down(int,int);
 int line_new_up(int,int);
 
@@ -80,5 +100,14 @@ int line_new_up(int,int);
  */
 void line_rep_char(char);
 
+/*
+ *	return line by its index in current buffer
+ */
 line *get_line_by_index(int);
+
+/*
+ *	update line indent value , in cant we will count prev lines space at beginning of line
+ */ 
+void update_indent();
+
 #endif

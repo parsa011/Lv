@@ -7,6 +7,8 @@
  */
 #include "types.h"
 
+int line_indent = 0;
+
 /*
  *	this routing used for allocate new line , and remove extra new line
  *	and line feed characters from end of line
@@ -68,7 +70,6 @@ int line_new(int force)
 	} else {
 		/* otherwise , we will break current line into two part , before and after the cursor , 
 		 * and move after the cursor part into next line */
-		//lv_strncpy(ln->chars,&current_line->chars[curbp->coffset],current_line->len - curbp->coffset);
 		ln->chars = strdup(&current_line->chars[curbp->coffset]);
 		current_line->chars[curbp->coffset] = '\0';
 		current_line->len = strlen(current_line->chars);
@@ -80,6 +81,11 @@ int line_new(int force)
 		curbp->coffset = 0;
 		move_nextline(true,1);
 		curbp->lcount++;
+		/* now we will check prev line to update indent */
+		update_indent();
+		for (int i = 0; i < line_indent; i++) {
+    		line_ins_char(' ');
+		}
 	}
 	buffer_changed();
 	return true;
@@ -277,4 +283,31 @@ int delete_current_line(int f,int n)
 	if (temp > 0)
 		move_nextline(true,1);
 	return true;
+}
+
+/*
+ *	with a loop on prev line , we will calculate it's spaces at  the start of line 
+ * 	at first we will reset line_indent value , then for each tab , 
+ *  we will add tab_size into line_indent , and 1 for each space .
+ *	and do break when we got first non space characater
+ */
+void update_indent()
+{
+    line *prev_line = L_LINK_PREV(curbp->cline);
+    if (!prev_line) {
+        line_indent = 0;
+        return;
+    }
+    char *p = prev_line->chars;
+    line_indent = 0;
+    while (*p) {
+        if (isspace(*p)) {
+            if (*p == ' ')
+                line_indent++;
+            else if (*p == '\t')
+                line_indent += tab_size;
+        } else
+            break;
+        p++;
+    }
 }
