@@ -53,6 +53,7 @@ typedef struct syntax_field_t syntax_field;
 typedef struct syntax_group_t syntax_group;
 typedef struct language_syntax_t language_syntax;
 typedef struct undo_packet_t undo_packet;
+typedef struct change_db_t change_db;
 
 #include "builtins/builtins.h"
 #include "../libs/llist.h"

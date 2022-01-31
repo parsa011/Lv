@@ -40,6 +40,9 @@ int generate_basic_macros()
 	append_macro(init_macro('l',"l",next_char,(MDLOCK | MDVISL | MDVIEW),"go to next char"));
 	append_macro(init_macro('h',"h",prev_char,(MDLOCK | MDVISL | MDVIEW),"go to prev char"));
 
+	// undo and pase and ....
+	append_macro(init_macro('u',"u",do_undo,(MDLOCK),"do a undo"));
+
 	// move with arrow keys
 	append_macro(init_macro(SPEC | 'B',"FNB",move_nextline,ALLMODES,"go to next line"));
 	append_macro(init_macro(SPEC | 'A',"FNA",move_prevline,ALLMODES,"go to prev line"));

@@ -269,7 +269,8 @@ ret:
 	curbp->clindex--;
 ret2:
 	curbp->lcount--;
-	free(ln);
+	// now we dont free line , because we need it for undo action and ..
+	//free(ln);
 	buffer_changed();
 }
 

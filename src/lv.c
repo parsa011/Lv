@@ -96,6 +96,8 @@ void lv_loop()
 			}
 		} else {
 			if (macro != NULL) {
+    			/* first save change , before applying it :) */
+				save_undo_by_macro(macro);
 				exec_macro(macro);
 				refresh_lock_mode(true,1);
 				macro = NULL;

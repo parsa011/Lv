@@ -22,10 +22,51 @@ struct undo_packet_t {
     int lineno;		/* line number that this action happend       */
     int offset;		/* offset from start of line for action       */
     char data[32];	/* removed data of appended data in line      */
+    int data_index;	/* like length, but starts from 0 O_o		  */
     line *ln;		/* this is usefull when we delete a full line */
 };
 
-int undo(int,int);
+/*
+ *	we use of this function as a propr for buffer , because we need to have
+ *	all changes with current active change.
+ */
+struct change_db_t {
+    undo_packet *db;			 /* store all changes here as a likned list */
+    undo_packet *current_change; /* current active change   				*/
+};
+
+/*
+ *	some usefull macro for return db and current change
+ */ 
+#define get_change_db(buf) 		(buf->change_db->db)
+#define get_current_change(buf) (buf->change_db->current_change)
+#define set_current_chagne(c)	(curbp->change_db->current_change = c)
+
+/*
+ *	possible states of a change
+ */
+enum {
+    DELETE,
+    DELETE_LINE,
+    INSERT
+};
+
+/*
+ *	alloc and return new undo_packet
+ */
+undo_packet *init_undo_packet();
+
+void save_undo_by_macro(key_macro *);
+
+/*
+ *	this function is used to do a undo move
+ */
+int do_undo(int,int);
+
+/*
+ *	append packet into db
+ */ 
+void append_undo(undo_packet *packet);
 
 int apply_undo();
 

@@ -26,6 +26,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 			set_buffer_name(filename);
 	}
 	/* when a buffer initialized , we have set lock mode for it , if we don't want to be locked ,we must specify it at modes input */
+	bf->change_db = lv_malloc(sizeof(change_db));
 	bf->modes = MDLOCK | modes;
 	bf->flags = FFULLS | FREDRW | flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
