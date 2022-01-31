@@ -57,8 +57,8 @@ int scroll(int dir, int times)
 				curbp->loffset--;
 			}
 		}
-		curbp->flags |= FREDRW;
 	}
+	redisplay_buffer();
 }
 
 bool can_scroll(int dir)

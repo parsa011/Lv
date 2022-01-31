@@ -232,55 +232,29 @@ void line_delete(int index)
 		empty_buffer();
 		return;
 	}
-	line *L_LINK_NEXT = L_LINK_NEXT(ln);
-	line *L_LINK_PREV = L_LINK_PREV(ln);
-	if (index == 0) {
-		if (L_LINK_NEXT(current_line) == NULL) {
-			cursor_col = 1;
-			current_line = NULL;
-			curbp->lline = NULL;curbp->fline = curbp->hline = current_line;
-			goto ret;
-		}
-		current_line  = L_LINK_NEXT;
-		L_LINK_SPREV(current_line,NULL);
-		curbp->fline = curbp->hline = current_line;
-		goto ret2;
-	} else if (index == curbp->lcount - 1) {
-		if (L_LINK_PREV == NULL)
-			goto ret;
-		current_line = L_LINK_PREV(ln);
-		if (!can_scroll(MOVE_UP))
-			cursor_row--;
-		L_LINK_SNEXT(current_line,NULL);
-		curbp->lline = current_line;
-		goto ret;
+	line *new_line = L_LINK_NEXT(ln);
+	if (new_line == NULL) {
+        new_line = L_LINK_PREV(ln);
+	}
+	if (ln == curbp->fline){
+        curbp->fline = curbp->hline = new_line;
+	} else {
+        if (ln == curbp->hline) {
+            scroll(MOVE_UP,1);
+    	} else {
+        	cursor_row--;
+    	}
+        curbp->clindex--;
 	}
 	L_LINK_REMOVE(ln);
-	current_line = L_LINK_PREV(ln);
-	/* if this is header line in buffer , we will set header to prev line */
-	if (ln != curbp->hline)
-		if (!can_scroll(MOVE_UP))
-			cursor_row--;
-
-ret:
-	if (curbp->hline == ln) {
-		curbp->hline = L_LINK_PREV(ln);
-		curbp->loffset--;
-	}
-	curbp->clindex--;
-ret2:
-	curbp->lcount--;
-	// now we dont free line , because we need it for undo action and ..
-	//free(ln);
-	buffer_changed();
+    curbp->cline = new_line;
+    curbp->lcount--;
+    buffer_changed();
 }
 
 int delete_current_line(int f,int n) 
 {
-	int temp = curbp->clindex;
 	line_delete(curbp->clindex);
-	if (temp > 0)
-		move_nextline(true,1);
 	return true;
 }
 
