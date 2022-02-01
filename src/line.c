@@ -227,6 +227,7 @@ line *get_line_by_index(int index)
  */
 void line_delete(int index)
 {
+
 	line *ln = get_line_by_index(index);	
 	if (ln == NULL) {
 		empty_buffer();
@@ -237,19 +238,21 @@ void line_delete(int index)
         new_line = L_LINK_PREV(ln);
 	}
 	if (ln == curbp->fline){
-        curbp->fline = curbp->hline = new_line;
+        curbp->fline = curbp->hline = curbp->cline = new_line;
 	} else {
         if (ln == curbp->hline) {
             scroll(MOVE_UP,1);
+            current_line = curbp->hline;
     	} else {
         	cursor_row--;
+            current_line = new_line;
     	}
         curbp->clindex--;
 	}
-	L_LINK_REMOVE(ln);
-    curbp->cline = new_line;
+    L_LINK_REMOVE(ln);
     curbp->lcount--;
     buffer_changed();
+    lv_log("%s ||||||| %s |||||| %s",curbp->hline->chars,curbp->cline->chars,curbp->fline->chars);
 }
 
 int delete_current_line(int f,int n) 
