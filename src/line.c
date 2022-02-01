@@ -20,8 +20,6 @@ line *line_alloc(char *content,int len)
 	while (len > 0 && ((content[len - 1] == '\n' || content[len - 1] == '\r')))
 		len--;
 	content[len] = '\0';
-	if (!ln)
-		die("Out out memory i think :)");
 	ln->chars = strdup(content);
 	ln->len = len;
 	return ln;
@@ -42,9 +40,7 @@ int append_line(buffer *buf,line *ln)
 	 * and then set last line to this new line
 	 */
 	if (!buf->fline) {
-		buf->fline = ln;
-		buf->cline = ln;
-		buf->hline = ln;
+		buf->fline = buf->cline = buf->hline = buf->lline = ln;
 	} else {
 		L_LINK_INSERT(buf->lline,ln);
 	}
