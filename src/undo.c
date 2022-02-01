@@ -28,7 +28,7 @@ void save_undo_by_macro(key_macro *m)
             return;
         packet->type = DELETE_LINE;
         packet->ln = curbp->cline;
-        packet->lineno = curbp->linenm;
+        packet->lineno = curbp->clindex + 1;
         append_undo(packet);
     } else {
         return;
@@ -43,11 +43,27 @@ void append_undo(undo_packet *packet)
 {
     if (!get_change_db(curbp))
         curbp->change_db->db = packet;
-    else
-        L_LINK_INSERT(get_current_change(curbp),packet);
+    else {
+        L_LINK_INSERT(get_last_packet(),packet);
+    }
     set_current_chagne(packet);
 }
 
+/*
+ *	return last added packet of current buffer
+ */
+undo_packet *get_last_packet()
+{
+    undo_packet *up = get_change_db(curbp);
+    for (; L_LINK_NEXT(up) != NULL; up = L_LINK_NEXT(up));
+    return up;
+}
+
+/*
+ *	this macro is used for apply a undo packet.
+ * 	first we will check that if we have any packet or no
+ * 	if we have  , so we will apply it by calling apply_undo function
+ */
 int do_undo(int f,int n)
 {
     if (!get_change_db(curbp)) {
@@ -67,4 +83,6 @@ void apply_undo(undo_packet *packet)
          current_line->chars = packet->ln->chars;
          current_line->len = packet->ln->len;
     }
+    if (get_current_change(curbp) != NULL)
+        set_current_chagne(L_LINK_PREV(get_current_change(curbp)));
 }

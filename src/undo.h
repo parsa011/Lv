@@ -38,9 +38,9 @@ struct change_db_t {
 /*
  *	some usefull macro for return db and current change
  */ 
-#define get_change_db(buf) 		(buf->change_db->db)
-#define get_current_change(buf) (buf->change_db->current_change)
-#define set_current_chagne(c)	(curbp->change_db->current_change = c)
+#define get_change_db(b) 	  ((b)->change_db->db)
+#define get_current_change(b) ((b)->change_db->current_change)
+#define set_current_chagne(c) ((curbp)->change_db->current_change = c)
 
 /*
  *	possible states of a change
@@ -62,6 +62,11 @@ void save_undo_by_macro(key_macro *);
  *	this function is used to do a undo move
  */
 int do_undo(int,int);
+
+/*
+ *	return last packet of current buffer database
+ */
+undo_packet *get_last_packet();
 
 /*
  *	append packet into db
