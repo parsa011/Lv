@@ -244,15 +244,19 @@ void line_delete(int index)
             scroll(MOVE_UP,1);
             current_line = curbp->hline;
     	} else {
-        	cursor_row--;
             current_line = new_line;
     	}
-        curbp->clindex--;
+	}
+	if (ln == curbp->lline) {
+    	if (!can_scroll(MOVE_UP))
+        	cursor_row--;
+    	curbp->lline = L_LINK_PREV(curbp->lline);
+    	current_line = curbp->lline;
+    	curbp->clindex--;
 	}
     L_LINK_REMOVE(ln);
     curbp->lcount--;
     buffer_changed();
-    lv_log("%s ||||||| %s |||||| %s",curbp->hline->chars,curbp->cline->chars,curbp->fline->chars);
 }
 
 int delete_current_line(int f,int n) 
