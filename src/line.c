@@ -81,7 +81,8 @@ int line_new(int force)
 		curbp->coffset = 0;
 		move_nextline(true,1);
 		curbp->lcount++;
-
+        if (L_LINK_NEXT(current_line) == NULL)
+            curbp->lline = ln;
 		insert_indent();
 	}
 	buffer_changed();
@@ -240,19 +241,19 @@ void line_delete(int index)
 	if (ln == curbp->fline){
         curbp->fline = curbp->hline = curbp->cline = new_line;
 	} else {
+    	if (ln == curbp->lline) {
+        	if (!can_scroll(MOVE_UP))
+            	cursor_row--;
+        	curbp->lline = L_LINK_PREV(curbp->lline);
+        	current_line = curbp->lline;
+        	curbp->clindex--;
+    	}
         if (ln == curbp->hline) {
             scroll(MOVE_UP,1);
             current_line = curbp->hline;
     	} else {
             current_line = new_line;
     	}
-	}
-	if (ln == curbp->lline) {
-    	if (!can_scroll(MOVE_UP))
-        	cursor_row--;
-    	curbp->lline = L_LINK_PREV(curbp->lline);
-    	current_line = curbp->lline;
-    	curbp->clindex--;
 	}
     L_LINK_REMOVE(ln);
     curbp->lcount--;
