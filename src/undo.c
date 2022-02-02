@@ -12,7 +12,9 @@
  */
 undo_packet *init_undo_packet()
 {
-    return lv_malloc(sizeof(undo_packet));
+    undo_packet *packet = lv_malloc(sizeof(undo_packet));
+    packet->link.next = packet->link.prev = 0;
+    return packet;
 }
 
 /*
@@ -21,12 +23,10 @@ undo_packet *init_undo_packet()
 void save_undo_by_macro(key_macro *m)
 {
     undo_packet *buffer_db = get_change_db(curbp);
-    undo_packet *packet = buffer_db ? buffer_db : init_undo_packet();
     if (strcmp(m->key_str,"x") == 0) {
 
     } else if (strcmp(m->key_str,"d-d") == 0) {
-        if (!curbp->cline)
-            return;
+        undo_packet *packet = init_undo_packet();
         packet->type = DELETE_LINE;
         packet->ln = curbp->cline;
         packet->lineno = curbp->clindex + 1;
@@ -67,7 +67,7 @@ undo_packet *get_last_packet()
  */
 int do_undo(int f,int n)
 {
-    if (!get_change_db(curbp)) {
+    if (!get_current_change(curbp)) {
         showmsg(false,"no any change");
         return false;
     }
