@@ -15,14 +15,15 @@ undo_packet *init_undo_packet()
     return lv_malloc(sizeof(undo_packet));
 }
 
+/*
+ *	it will store changes if given macro will modify buffer.
+ */
 void save_undo_by_macro(key_macro *m)
 {
-    int type;
-    char data;
     undo_packet *buffer_db = get_change_db(curbp);
     undo_packet *packet = buffer_db ? buffer_db : init_undo_packet();
     if (strcmp(m->key_str,"x") == 0) {
-        type = DELETE;
+
     } else if (strcmp(m->key_str,"d-d") == 0) {
         if (!curbp->cline)
             return;
@@ -74,6 +75,10 @@ int do_undo(int f,int n)
     return true;
 }
 
+/*
+ *	actully this code is like to run a undo packet :)
+ *	it will apply content of given buffer to buffer
+ */
 void apply_undo(undo_packet *packet)
 {
     if (packet->type == DELETE_LINE) {
