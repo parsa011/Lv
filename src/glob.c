@@ -49,7 +49,7 @@ int generate_basic_macros()
 	append_macro(init_macro(SPEC | 'C',"FNC",next_char,ALLMODES,"go to next char"));
 	append_macro(init_macro(SPEC | 'D',"FND",prev_char,ALLMODES,"go to prev char"));
 
-	append_macro(init_macro('x',"x",delete_current_char,(MDLOCK),"delete char under cursor"));
+	append_macro(init_macro('d',"d",delete_current_char,(MDLOCK),"delete char under cursor"));
 	append_macro(init_macro('G',"G",goto_line,(MDLOCK | MDVISL | MDVIEW),"goto to line"));
 	append_macro(init_macro('w',"w",forwword,(MDLOCK | MDVISL | MDVIEW),"move to next word"));
 	append_macro(init_macro('b',"b",backword,(MDLOCK | MDVISL | MDVIEW),"move to back word"));
@@ -61,7 +61,7 @@ int generate_basic_macros()
 	// g | g dosnt mean , we have to inhance it
 	append_macro(init_macro(('g' | 'g'),"g-g",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
 	append_macro(init_macro(('g' | 'G'),"g-G",goto_end_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to end page"));
-	append_macro(init_macro(('d' | 'd'),"d-d",delete_current_line,(MDLOCK),"remove current line"));
+	append_macro(init_macro(('x' | 'd'),"x-d",delete_current_line,(MDLOCK),"remove current line"));
 	append_macro(init_macro((CTLX | 'N'),"^XN",next_window,(ALLMODES),"go to next window"));
 	append_macro(init_macro((CTLX | 'P'),"^XP",prev_window,(ALLMODES),"go to prev window"));
 

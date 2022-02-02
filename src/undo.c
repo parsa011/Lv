@@ -23,9 +23,9 @@ undo_packet *init_undo_packet()
 void save_undo_by_macro(key_macro *m)
 {
     undo_packet *buffer_db = get_change_db(curbp);
-    if (strcmp(m->key_str,"x") == 0) {
+    if (strcmp(m->key_str,"d") == 0) {
 
-    } else if (strcmp(m->key_str,"d-d") == 0) {
+    } else if (strcmp(m->key_str,"x-d") == 0) {
         undo_packet *packet = init_undo_packet();
         packet->type = DELETE_LINE;
         packet->ln = curbp->cline;
