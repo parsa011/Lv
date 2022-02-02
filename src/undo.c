@@ -23,10 +23,14 @@ undo_packet *init_undo_packet()
 void save_undo_by_macro(key_macro *m)
 {
     undo_packet *buffer_db = get_change_db(curbp);
+    undo_packet *packet = init_undo_packet();
     if (strcmp(m->key_str,"d") == 0) {
-
+        packet->type = DELETE;
+        packet->data[0] = lgetc(current_line,curbp->coffset);
+        packet->offset = curbp->coffset;
+        packet->lineno = curbp->clindex + 1;
+        append_undo(packet);
     } else if (strcmp(m->key_str,"x-d") == 0) {
-        undo_packet *packet = init_undo_packet();
         packet->type = DELETE_LINE;
         packet->ln = curbp->cline;
         packet->lineno = curbp->clindex + 1;
@@ -87,6 +91,12 @@ void apply_undo(undo_packet *packet)
          // TODO : implement line append 
          current_line->chars = packet->ln->chars;
          current_line->len = packet->ln->len;
+    } else if (packet->type == DELETE) {
+         goto_line(true,packet->lineno);
+         curbp->coffset = packet->offset;
+         cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
+         line_ins_char(packet->data[0]);
+         prev_char(true,1);
     }
     if (get_current_change(curbp) != NULL)
         set_current_chagne(L_LINK_PREV(get_current_change(curbp)));
