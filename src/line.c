@@ -238,6 +238,10 @@ void line_delete(int index)
 	}
 	if (ln == curbp->fline){
         curbp->fline = curbp->hline = curbp->cline = new_line;
+        if (new_line == NULL) {
+            curbp->coffset = 0;
+            cursor_col = curbp->mleft;
+        }
 	} else {
     	if (ln == curbp->lline) {
         	if (!can_scroll(MOVE_UP))
