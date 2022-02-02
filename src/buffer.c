@@ -33,7 +33,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->loffset = bf->coffset = bf->dirty = bf->clindex = 0;
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
-	bf->linenm = false;
+	bf->highligth = bf->linenm = false;
 	bf->link.next = bf->link.prev = 0;
 	return bf;
 }
@@ -126,7 +126,7 @@ int toggle_linenumber(int f,int n)
 
 int toggle_highligth(int f,int n)
 {
-	curbp->highlight = !curbp->highlight;
+	curbp->highligth = !curbp->highligth;
 	redisplay_buffer();
 }	
 
@@ -272,6 +272,9 @@ void free_buffer(buffer *bf)
 		//L_LINK_REMOVE(ln);
 	//}
 	//free(bf);
+	undo_packet *pack = get_change_db(bf);
+	for (; pack != NULL; pack = L_LINK_NEXT(pack))
+    	free(pack);
 }
 
 /*

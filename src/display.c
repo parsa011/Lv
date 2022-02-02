@@ -257,7 +257,7 @@ void write_line(line *ln)
  */
 void print_line(char *text)
 {
-	if (curbp->highlight) {
+	if (curbp->highligth) {
 		char **props = get_syntax_for_keyword(text);
 		if (props) {
 			while (*props) {

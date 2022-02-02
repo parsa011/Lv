@@ -35,7 +35,7 @@ struct buffer_t {
 	change_db *change_db;	/* store buffer changes here to apply undo and redo 		 */ 
 	bool linenm;			/* activate line number for this buffer or no				 */
 	// there some options for buffer
-	bool highlight;			/* have syntax highlight or no :)							 */
+	bool highligth;			/* have syntax highlight or no :)							 */
 	char *filetype;
 	int tab_size;
 	bool auto_indent;
