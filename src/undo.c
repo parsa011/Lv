@@ -49,8 +49,20 @@ void append_undo(undo_packet *packet)
     if (!get_change_db(curbp))
         curbp->change_db->db = packet;
     else {
+        /* if we have needed change db , we should delete first one */
+        if (curbp->change_db_size < curbp->change_db->count) {
+            undo_packet *pack = get_change_db(curbp);
+            curbp->change_db->db = L_LINK_NEXT(get_change_db(curbp));
+            L_LINK_SPREV(get_change_db(curbp),0);
+            free(pack);
+            curbp->change_db->count--;
+        }
+        int count = 0;
+        for (undo_packet *p = get_change_db(curbp); L_LINK_NEXT(p) != 0; p = L_LINK_NEXT(p),count++);
+        lv_log("change pack count is : %d",count);
         L_LINK_INSERT(get_last_packet(),packet);
     }
+    curbp->change_db->count++;
     set_current_chagne(packet);
 }
 

@@ -39,6 +39,7 @@ struct buffer_t {
 	char *filetype;
 	int tab_size;
 	bool auto_indent;
+	int change_db_size;		/* specify how much change packet is allowed to save 		 */
 };
 
 #define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
