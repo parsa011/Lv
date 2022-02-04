@@ -57,9 +57,6 @@ void append_undo(undo_packet *packet)
             free(pack);
             curbp->change_db->count--;
         }
-        int count = 0;
-        for (undo_packet *p = get_change_db(curbp); L_LINK_NEXT(p) != 0; p = L_LINK_NEXT(p),count++);
-        lv_log("change pack count is : %d",count);
         L_LINK_INSERT(get_last_packet(),packet);
     }
     curbp->change_db->count++;
