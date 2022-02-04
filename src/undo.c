@@ -41,8 +41,21 @@ void save_undo_by_macro(key_macro *m)
 }
 
 /*
+ *	new change packet by key , save new typing characters
+ *	as change packet
+ */
+void save_undo_by_key(int c)
+{
+    undo_packet *packet = init_undo_packet();
+    packet->type = INSERT;
+    packet->lineno = curbp->clindex + 1;
+    packet->offset = curbp->coffset;
+    packet->data[0] = c;
+    append_undo(packet);
+}
+
+/*
  *	add given packet into current buffer change_db.
- *  TODO : limit them to specific number (LIFO)
  */
 void append_undo(undo_packet *packet)
 {
@@ -106,6 +119,11 @@ void apply_undo(undo_packet *packet)
          cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
          line_ins_char(packet->data[0]);
          prev_char(true,1);
+    } else {
+         goto_line(true,packet->lineno);
+         curbp->coffset = packet->offset;
+         cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
+         line_del_char();
     }
     if (get_current_change(curbp) != NULL)
         set_current_chagne(L_LINK_PREV(get_current_change(curbp)));

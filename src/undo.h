@@ -57,7 +57,15 @@ enum {
  */
 undo_packet *init_undo_packet();
 
+/*
+ *	add new undo pack by given macro
+ */
 void save_undo_by_macro(key_macro *);
+
+/*
+ *	store key into new undo packet
+ */
+void save_undo_by_key(int);
 
 /*
  *	this function is used to do a undo move

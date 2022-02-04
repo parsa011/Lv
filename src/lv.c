@@ -93,6 +93,7 @@ void lv_loop()
         		continue;
 			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
+				save_undo_by_key(c);
 			}
 		} else {
 			if (macro != NULL) {
