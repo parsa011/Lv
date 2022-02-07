@@ -33,7 +33,6 @@ line *line_alloc(char *content,int len)
  */
 int append_line(buffer *buf,line *ln)
 {
-	buf = buf == NULL ? curbp : buf;
 	/*
 	 * if buffer don't have any line , so this is first line
 	 * in other hand , we have to append this line to next of last line
@@ -57,7 +56,7 @@ int append_line(buffer *buf,line *ln)
 int line_new(int force)
 {
 	/* TODO : in future we have to show user a message : this macro is available in insert mode and .... */
-	if (!(curbp->modes & (MDINST)) && force != true)
+	if (!(curbp->modes & (MDINST)) && !force)
 		return false;
 	line *ln = line_alloc("",0);
 	if (current_line == NULL) {

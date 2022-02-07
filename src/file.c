@@ -37,7 +37,7 @@ int load_file_into_buffer(buffer *buf,char *filepath)
 	while ((linelen = getline(&line_chars, &linecap, fp)) != EOF) { 
 		append_line(buf,line_alloc(line_chars,linelen));
 	}
-	buf->dirty = 0;
+	curbp->change_db->count = 0;
 	close_file();
 	free(line_chars);
 	return true;
@@ -61,7 +61,7 @@ int save_file()
 		if (fputline(ln) == FALSE)
 			return false;
 	}
-	curbp->dirty = 0;
+	curbp->change_db->count = 0;
 	showmsg(true,"file wroted in %s",curbp->fname);
 	close_file();
 	return true;

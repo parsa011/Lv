@@ -31,7 +31,6 @@ struct buffer_t {
 	int coffset;			/* char offset in line ( how many char passed )				 */
 	int mtop;				/* buffer margin top from window							 */
 	int mleft;				/* margin left from window									 */
-	int dirty;				/* how much this buffer become dirty						 */
 	change_db *change_db;	/* store buffer changes here to apply undo and redo 		 */ 
 	bool linenm;			/* activate line number for this buffer or no				 */
 	// there some options for buffer
@@ -46,6 +45,7 @@ struct buffer_t {
 #define bmtest(b,m)	(b->modes & m)		/* test if buffer is in given mode 	*/
 #define usmode(b,m)	(b->modes &= ~m)	/* unset a mode from buffer modes	*/
 #define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
+#define buffer_change_count(b) (b->change_db->count)
 
 /* buffer flags */
 #define FFULLS	0x0001 	/* full size buffer   */

@@ -30,7 +30,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->modes = MDLOCK | modes;
 	bf->flags = FFULLS | FREDRW | flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
-	bf->loffset = bf->coffset = bf->dirty = bf->clindex = 0;
+	bf->loffset = bf->coffset = bf->clindex = 0;
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->highligth = bf->linenm = false;
@@ -112,7 +112,7 @@ void redisplay_buffer()
 void buffer_changed()
 {
     redisplay_buffer();
-	curbp->dirty++;
+    curbp->change_db->count++;
 }
 
 /*

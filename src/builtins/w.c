@@ -31,7 +31,7 @@ int write_command_tab(int f, int n)
  */
 int write_command(int f, char **args)
 {
-	if (curbp->dirty == 0) {
+	if (buffer_change_count(curbp) == 0) {
 		showmsg(false,"Buffer not changed");
 		return false;
 	}

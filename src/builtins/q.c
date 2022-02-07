@@ -55,7 +55,7 @@ void parse_args(char **args)
 int quit(int f, char **args)
 {
 	parse_args(args);
-	if (curbp->dirty && !quite_force) {
+	if (buffer_change_count(curbp) && !quite_force) {
 		showmsg(true,"buffer is dirty, use 'q !' to force quite");
 		return false;
 	}
@@ -67,7 +67,7 @@ int quit(int f, char **args)
     	/* we cant close reserved buffers */
     	if (is_reserved_buffer_name(curbp->bname))
         	return false;
-		if (curbp->dirty && !quite_force) {
+		if (buffer_change_count(curbp) && !quite_force) {
 			showmsg(true,"buffer is dirty, use 'q !' to force quite");
 			return false;
 		}
