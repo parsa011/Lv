@@ -70,8 +70,6 @@ void lv_loop()
 	int c;
 	key_macro *macro = NULL;
 	do {
-#if HAVE_LOG
-#endif
 		update();
 		c = get_cmd();
 		if (bmtest(curbp,MDLOCK) && ISNUMBER(c)) {

@@ -59,8 +59,8 @@ int generate_basic_macros()
 	append_macro(init_macro(SPEC | '6',"FN6",move_nextpage,(ALLMODES),"move to next page"));
 	append_macro(init_macro(SPEC | '5',"FN5",move_prevpage,(ALLMODES),"move to next page"));
 	// g | g dosnt mean , we have to inhance it
-	append_macro(init_macro(('g' | 'g'),"g-g",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
-	append_macro(init_macro(('g' | 'G'),"g-G",goto_end_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to end page"));
+	append_macro(init_macro(('g' | 'k'),"g-k",goto_start_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to beginnig page"));
+	append_macro(init_macro(('g' | 'j'),"g-j",goto_end_of_buffer,(MDLOCK | MDVISL | MDVIEW),"move to end page"));
 	append_macro(init_macro(('x' | 'd'),"x-d",delete_current_line,(MDLOCK),"remove current line"));
 	append_macro(init_macro((CTLX | 'N'),"^XN",next_window,(ALLMODES),"go to next window"));
 	append_macro(init_macro((CTLX | 'P'),"^XP",prev_window,(ALLMODES),"go to prev window"));
