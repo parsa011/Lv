@@ -162,7 +162,8 @@ void add_to_number_stack(char c)
 /*
  * kill the program
  */
-void die(const char *msg,...) {
+void die(const char *msg,...) 
+{
 	char buf[256];
 	va_list ap;
 	va_start(ap, msg);

@@ -109,7 +109,10 @@ void apply_undo(undo_packet *packet)
 {
     if (packet->type == DELETE_LINE) {
          goto_line(true,packet->lineno);
-         line_new_up(true,1);
+         if (packet->lineno > curbp->lcount)
+             line_new_down(true,1);
+         else
+             line_new_up(true,1);
          current_line->chars = packet->ln->chars;
          current_line->len = packet->ln->len;
     } else if (packet->type == DELETE) {
