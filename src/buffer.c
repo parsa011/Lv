@@ -34,7 +34,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->highligth = bf->linenm = false;
-	bf->link.next = bf->link.prev = 0;
+	bf->change_db->db = bf->change_db->current_change = bf->link.next = bf->link.prev = 0;
 	bf->change_db_size = 10;
 	return bf;
 }
@@ -269,13 +269,6 @@ int prev_buffer_in_window(int f,int c)
  */
 void free_buffer(buffer *bf)
 {
-	//for (line *ln = bf->fline;ln != NULL;ln = L_LINK_NEXT(ln)) {
-		//L_LINK_REMOVE(ln);
-	//}
-	//free(bf);
-	undo_packet *pack = get_change_db(bf);
-	for (; pack != NULL; pack = L_LINK_NEXT(pack))
-    	free(pack);
 }
 
 /*
