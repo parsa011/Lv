@@ -27,14 +27,16 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	}
 	/* when a buffer initialized , we have set lock mode for it , if we don't want to be locked ,we must specify it at modes input */
 	bf->change_db = lv_malloc(sizeof(change_db));
+    bf->change_db->db = bf->change_db->current_change = NULL;
 	bf->modes = MDLOCK | modes;
 	bf->flags = FFULLS | FREDRW | flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
 	bf->loffset = bf->coffset = bf->clindex = 0;
+	bf->cline = bf->lline = bf->hline = bf->fline = NULL;
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->highligth = bf->linenm = false;
-	bf->change_db->db = bf->change_db->current_change = bf->link.next = bf->link.prev = 0;
+    bf->link.next = bf->link.prev = 0;
 	bf->change_db_size = 10;
 	return bf;
 }
