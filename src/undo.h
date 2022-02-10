@@ -83,6 +83,11 @@ undo_packet *get_last_packet();
 void append_undo(undo_packet *packet);
 
 /*
+ *	remove first undo pack of current buffer
+ */
+void remove_first_undo_pack();
+ 
+/*
  *	apply a undo into buffer
  */
 void apply_undo(undo_packet *packet);

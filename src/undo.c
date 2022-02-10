@@ -64,16 +64,23 @@ void append_undo(undo_packet *packet)
     else {
         /* if we have needed change db , we should delete first one */
         if (curbp->change_db_size < curbp->change_db->count) {
-            undo_packet *pack = get_change_db(curbp);
-            curbp->change_db->db = L_LINK_NEXT(get_change_db(curbp));
-            L_LINK_SPREV(get_change_db(curbp),0);
-            free(pack);
-            curbp->change_db->count--;
+            remove_first_undo_pack();
         }
         L_LINK_INSERT(get_last_packet(),packet);
     }
     curbp->change_db->count++;
-    set_current_chagne(packet);
+}
+
+/*
+ *	be sure that there is any packet before us it
+ */
+void remove_first_undo_pack()
+{
+    undo_packet *pack = get_change_db(curbp);
+    curbp->change_db->db = L_LINK_NEXT(get_change_db(curbp));
+    L_LINK_SPREV(get_change_db(curbp),0);
+    free(pack);
+    curbp->change_db->count--;
 }
 
 /*
