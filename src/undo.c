@@ -68,6 +68,8 @@ void append_undo(undo_packet *packet)
         }
         L_LINK_INSERT(get_last_packet(),packet);
     }
+    if (!curbp->change_db->used_times)
+        set_current_chagne(packet);
     curbp->change_db->count++;
 }
 
