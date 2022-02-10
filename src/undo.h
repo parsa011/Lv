@@ -34,6 +34,7 @@ struct change_db_t {
     undo_packet *db;			 /* store all changes here as a likned list */
     undo_packet *current_change; /* current active change   				*/
     int count;
+    int used_times;				 /* for track how many time we used of packs*/
 };
 
 /*

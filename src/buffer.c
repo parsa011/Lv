@@ -38,6 +38,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->highligth = bf->linenm = false;
     bf->link.next = bf->link.prev = 0;
 	bf->change_db_size = 10;
+	bf->change_db->used_times = 0;
 	return bf;
 }
 
