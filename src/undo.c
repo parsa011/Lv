@@ -68,9 +68,9 @@ void append_undo(undo_packet *packet)
         }
         L_LINK_INSERT(get_last_packet(),packet);
     }
-    if (!curbp->change_db->used_times)
         set_current_chagne(packet);
     curbp->change_db->count++;
+    lv_log("now we have %d packet and used time is %d , also current change line number is %d",curbp->change_db->count,curbp->change_db->used_times,get_current_change(curbp)->lineno);
 }
 
 /*
@@ -106,6 +106,7 @@ int do_undo(int f,int n)
         showmsg(false,"no any change");
         return false;
     }
+    curbp->change_db->used_times++;
     apply_undo(get_current_change(curbp));
     return true;
 }
@@ -125,8 +126,7 @@ void apply_undo(undo_packet *packet)
              line_new_up(true,1);
          if (current_line == NULL)
              return;
-         current_line->chars = packet->ln->chars;
-         current_line->len = packet->ln->len;
+         line_append(current_line,packet->ln->chars,packet->ln->len);
     } else if (packet->type == DELETE) {
          goto_line(true,packet->lineno);
          curbp->coffset = packet->offset;
