@@ -27,6 +27,7 @@ extern int *term_col, *term_row;
 struct tui_info {
     int width;
     int height;
+    char *title;
 };
 
 /*
