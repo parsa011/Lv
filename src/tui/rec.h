@@ -5,6 +5,9 @@
 
 struct rectangle {
     struct tui_info *info;
+    char **texts;
+    int text_count;
+    int buf_size;
 };
 
 struct rectangle *init_rec(int, int, char *);

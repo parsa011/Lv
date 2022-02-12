@@ -10,6 +10,11 @@ struct rectangle *init_rec(int width, int height,char *title)
     struct rectangle *rec = malloc(sizeof(struct rectangle));
     rec->info = init_info_struct();
     assert(rec);
+
+    rec->buf_size = 10;
+    rec->text_count = 0;
+    rec->texts = calloc(10,sizeof(char *));
+
     rec->info->width = width;
     rec->info->height = height;
     rec->info->title = title;
@@ -36,7 +41,7 @@ void draw_rec(struct rectangle *rec)
 		// fill the width
 		for (b = 0; b < width; b++ ) {
 			if ((a == 0) || (a == height - 1) || (b == width - 1) || (b == 0)) {  // put all * printing condition in one place
-				// also, conditions, (a == height-1) and (b == width-1) to be used
+				// also, conditions, (a == height -1) and (b == width-1) to be used
 			    if (b == (width - title_len) / 2 && title_len != 0 && a == 0) {
     			    (Write_string)(rec->info->title);
     			    b += title_len - 1;
