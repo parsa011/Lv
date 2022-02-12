@@ -27,3 +27,10 @@ void inti_tui(
     term_col = col;
     term_row = row;
 }
+
+struct tui_info *init_info_struct()
+{
+    struct tui_info *info = malloc(sizeof(struct tui_info));
+    assert(info);
+    return info;
+}

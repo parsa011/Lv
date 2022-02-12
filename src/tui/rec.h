@@ -7,6 +7,8 @@ struct rectangle {
     struct tui_info *info;
 };
 
+struct rectangle *init_rec(int, int);
+
 /*
  * print given rec into screen
  */

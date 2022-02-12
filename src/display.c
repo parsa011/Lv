@@ -106,6 +106,12 @@ void set_terminal_title(char *title)
 	TTputs(buf);
 }
 
+void write_box()
+{
+    struct rectangle *rec = init_rec(10,10);
+    draw_rec(rec);
+}
+
 void update()
 {
 	TTchide();
@@ -120,6 +126,7 @@ void update()
 		// cause we draw buffer again , so dont need it anymore , until another change
 		curbp->flags &= ~FREDRW;
 	}
+	write_box();
 	write_statusbar(curbp);
 	write_messagebar();
 	check_cursor();

@@ -75,10 +75,10 @@ builtins/w.o: builtins/w.c /usr/include/stdc-predef.h types.h basics.h \
  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h builtins/builtins.h \
- tui/rec.h tui/tui.h tui/rec.h ../libs/llist.h color.h macro.h tty.h \
- utils.h glob.h utf8.h keys.h input.h window.h line.h buffer.h move.h \
- vt100.h display.h file.h word.h commands.h prompt.h undo.h highlight.h \
- log.h lv.h
+ tui/rec.h tui/tui.h tui/rec.h /usr/include/assert.h ../libs/llist.h \
+ color.h macro.h tty.h utils.h glob.h utf8.h keys.h input.h window.h \
+ line.h buffer.h move.h vt100.h display.h file.h word.h commands.h \
+ prompt.h undo.h highlight.h log.h lv.h
 /usr/include/stdc-predef.h:
 types.h:
 basics.h:
@@ -172,6 +172,7 @@ builtins/builtins.h:
 tui/rec.h:
 tui/tui.h:
 tui/rec.h:
+/usr/include/assert.h:
 ../libs/llist.h:
 color.h:
 macro.h:

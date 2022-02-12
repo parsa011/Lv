@@ -2,6 +2,8 @@
 #define _TUI_H
 
 #include "rec.h"
+#include <assert.h>
+#include <stdlib.h>
 
 /*
  *	these function pointer are used to move cursor (next , prev) col and row .
@@ -25,8 +27,6 @@ extern int *term_col, *term_row;
 struct tui_info {
     int width;
     int height;
-    int margin_top;
-    int margin_left;
 };
 
 /*
@@ -38,6 +38,8 @@ void inti_tui(
     void (*wchar)(char), void (*wstring)(char *),
     int *col,int *row
 );
+
+struct tui_info *init_info_struct();
 
 #endif // src/tui/tui_h_INCLUDED
 

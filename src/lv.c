@@ -53,6 +53,8 @@ void init_editor()
 
 	set_terminal_title(TERMINAL_TITLE);
 
+	inti_tui(term.t_mfw,term.t_mbw,term.t_mnl,term.t_mpl,term.t_move,term.t_putc,term.t_puts,&term.t_mcol,&term.t_mrow);
+
 	generate_basic_macros();
 	generate_basic_commands();
 	generate_prompt_keys();
