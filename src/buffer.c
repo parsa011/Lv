@@ -186,10 +186,12 @@ void set_mode_for_buffer(int mode)
 	} else if (mode == MDVISL) {
 		usmode(curbp,MDLOCK);
 		usmode(curbp,MDINST);
+		usmode(curbp,MDCMMD);
 		stmode(curbp,MDVISL);
 	} else if (mode == MDINST) {
 		usmode(curbp,MDVISL);
 		usmode(curbp,MDLOCK);
+		usmode(curbp,MDCMMD);
 		stmode(curbp,MDINST);
 	} else if (mode == MDCMMD) {
 		usmode(curbp,MDLOCK);

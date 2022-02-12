@@ -124,8 +124,6 @@ void apply_undo(undo_packet *packet)
              line_new_down(true,1);
          else
              line_new_up(true,1);
-         if (current_line == NULL)
-             return;
          line_append(current_line,packet->ln->chars,packet->ln->len);
     } else if (packet->type == DELETE) {
          goto_line(true,packet->lineno);
