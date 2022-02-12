@@ -75,10 +75,11 @@ builtins/buffer.o: builtins/buffer.c /usr/include/stdc-predef.h types.h \
  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h builtins/builtins.h \
- tui/rec.h ../libs/llist.h color.h macro.h tty.h utils.h glob.h utf8.h \
- keys.h input.h window.h line.h buffer.h move.h vt100.h display.h file.h \
- word.h commands.h prompt.h undo.h highlight.h log.h lv.h \
- /usr/include/dirent.h /usr/include/x86_64-linux-gnu/bits/dirent.h \
+ tui/rec.h tui/tui.h tui/rec.h ../libs/llist.h color.h macro.h tty.h \
+ utils.h glob.h utf8.h keys.h input.h window.h line.h buffer.h move.h \
+ vt100.h display.h file.h word.h commands.h prompt.h undo.h highlight.h \
+ log.h lv.h /usr/include/dirent.h \
+ /usr/include/x86_64-linux-gnu/bits/dirent.h \
  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
  /usr/include/linux/limits.h \
@@ -175,6 +176,8 @@ basics.h:
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 builtins/builtins.h:
+tui/rec.h:
+tui/tui.h:
 tui/rec.h:
 ../libs/llist.h:
 color.h:

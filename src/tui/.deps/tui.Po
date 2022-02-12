@@ -1,0 +1,4 @@
+tui/tui.o: tui/tui.c /usr/include/stdc-predef.h tui/tui.h tui/rec.h
+/usr/include/stdc-predef.h:
+tui/tui.h:
+tui/rec.h:

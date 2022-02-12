@@ -1,2 +1,4 @@
-tui/rec.o: tui/rec.c /usr/include/stdc-predef.h
+tui/rec.o: tui/rec.c /usr/include/stdc-predef.h tui/tui.h tui/rec.h
 /usr/include/stdc-predef.h:
+tui/tui.h:
+tui/rec.h:
