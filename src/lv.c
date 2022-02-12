@@ -61,6 +61,28 @@ void init_editor()
 #endif
 }
 
+void draw_rec()
+{
+	int width = 20, height = 20, b = 0, a = 0;  // initalize local variables
+	term.t_move(term.t_mrow - height - 5,term.t_mcol - width - 5);
+	// height index (row index)
+    int hi = 0;
+	for (a = 0; a != height; a++) {
+    	term.t_move(term.t_mrow - height - 2 + hi++,term.t_mcol - width - 2);
+		// fill the width
+		for (b = 0; b != width; b++ ) {
+			if ((a == 0) || (a == height-1) || (b == width-1) || (b == 0)){  // put all * printing condition in one place
+				//also, conditions, (a == height-1) and (b == width-1) to be used
+				TTputc('*');
+			}
+			else   // if not to print *, print space
+				TTputc(' ');
+		}
+		term.t_mnl();
+	}
+	term.t_move(cursor_row,cursor_col);
+}
+
 /*
  *	main loop of editor
  *	get key and run it if was command , or insert it into buffer
@@ -70,6 +92,7 @@ void lv_loop()
 	int c;
 	key_macro *macro = NULL;
 	do {
+    	draw_rec();
 		update();
 		c = get_cmd();
 		if (bmtest(curbp,MDLOCK) && ISNUMBER(c)) {
