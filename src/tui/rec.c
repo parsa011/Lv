@@ -27,9 +27,20 @@ void draw_rec(struct rectangle *rec)
     	(Move_cursor)(*term_row - height - 2 + hi++,*term_col - width - 2);
 		// fill the width
 		for (b = 0; b != width; b++ ) {
-			if ((a == 0) || (a == height - 1) || (b == width - 1) || (b == 0)){  // put all * printing condition in one place
+			if ((a == 0) || (a == height - 1) || (b == width - 1) || (b == 0)) {  // put all * printing condition in one place
 				//also, conditions, (a == height-1) and (b == width-1) to be used
-			    (Write_string)("*");
+			    if (a == 0 && b == 0) {
+                    (Write_string)("\u256d");
+			    } else if (a == 0 && b == width - 1) {
+                    (Write_string)("\u256e");
+			    } else if (a > 0 && a < height - 1) {
+                    (Write_string)("\u2502");
+    			} else if (a == height - 1 && b == 0) {
+                    (Write_string)("\u2570");
+        	    } else if (a == height - 1 && b == width - 1) { 
+            	    (Write_string)("\u256f");
+            	} else
+    			    (Write_string)("\u2500");
 			}
 			else   // if not to print *, print space
     			(Write_string)(" ");
