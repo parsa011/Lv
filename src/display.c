@@ -109,6 +109,12 @@ void set_terminal_title(char *title)
 void write_box()
 {
     struct rectangle *rec = init_rec(10, 10,"avaiable commands");
+    append_string_to_rec(rec,"hellow");
+    append_string_to_rec(rec,"asdfasdfasdfasasdfasdellow");
+    append_string_to_rec(rec,"helloasdfasfdw");
+    append_string_to_rec(rec,"hellowasdfh");
+    append_string_to_rec(rec,"");
+    append_string_to_rec(rec,"hasdfsdellow");
     draw_rec(rec);
 }
 

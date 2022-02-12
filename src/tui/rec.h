@@ -17,4 +17,6 @@ struct rectangle *init_rec(int, int, char *);
  */
 void draw_rec(struct rectangle *);
 
+void append_string_to_rec(struct rectangle *, char *);
+
 #endif

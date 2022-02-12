@@ -1,5 +1,6 @@
 #include "tui.h"
 #include "rec.h"
+#include "types.h"
 #include <string.h>
 
 /*
@@ -36,6 +37,7 @@ void draw_rec(struct rectangle *rec)
 	}
 	// height index (row index)
     int hi = 0;
+    int text_index = 0;
 	for (a = 0; a != height; a++) {
     	(Move_cursor)(*term_row - height - 2 + hi++,*term_col - width - 2);
 		// fill the width
@@ -53,16 +55,42 @@ void draw_rec(struct rectangle *rec)
                     (Write_string)("\u256e");
 			    } else if (a > 0 && a < height - 1) {
                     (Write_string)("\u2502");
+                        lv_log("text count : %d",rec->text_count);
+                    if (rec->text_count > text_index && b !=  width - 1) {
+                        (Write_string)(*(rec->texts + text_index));
+                        b += strlen(*(rec->texts + text_index++));
+                        continue;
+                    }
     			} else if (a == height - 1 && b == 0) {
                     (Write_string)("\u2570");
         	    } else if (a == height - 1 && b == width - 1) { 
             	    (Write_string)("\u256f");
-            	} else
+            	} else {
     			    (Write_string)("\u2500");
+            	}
 			}
 			else   // if not to print *, print space
     			(Write_string)(" ");
 		}
 		(Move_nrow)();
 	}
+}
+
+void append_string_to_rec(struct rectangle *rec,char *txt)
+{
+    if (rec->text_count == rec->buf_size) {
+        // need to realloc
+        rec->buf_size += rec->buf_size;
+        rec->texts = realloc(rec->texts, rec->buf_size * sizeof(char *));
+    }
+    char **p = rec->texts;
+    while (*p)
+        p++;
+    *p = txt;
+    *(p + 1) = 0;
+    rec->text_count++;
+    if (strlen(txt) > rec->info->width) 
+        rec->info->width = strlen(txt) + 2;
+    if (rec->info->height < rec->text_count)
+        rec->info->height = rec->text_count + 2;
 }
