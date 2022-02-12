@@ -56,6 +56,7 @@ typedef struct undo_packet_t undo_packet;
 typedef struct change_db_t change_db;
 
 #include "builtins/builtins.h"
+#include "tui/rec.h"
 #include "../libs/llist.h"
 #include "color.h"
 #include "macro.h"
