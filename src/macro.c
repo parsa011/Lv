@@ -67,18 +67,19 @@ key_macro *find_macro_by_name(char *name)
  */
 int exec_macro(key_macro *macro)
 {
+    bool res = false;
 	if (curbp->modes & macro->modes) {
 		if (number_stack == 0)
 			number_stack = 1;
 		macro->func(1,number_stack);
-		number_stack = 0;
-		return true;
+		res = true;
 	}
-	return false;
+	refresh_lock_mode(true,1);
+	return res;
 }
 
 /*
- *	will if we have macro that will start with this name or 
+ *	will check if we have macro that will start with this name or 
  *	this needed we add key to macro stack , to check
  *	if we have a macro to start with stack or no , if
  *	we dont have anything like that , we will clear 

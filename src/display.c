@@ -27,6 +27,9 @@
 |----------------------------------------------------|
 */
 
+static struct rectangle *info_box;
+static bool show_info_box = false;
+
 /*
  *	initialize terminal and trun it into raw mode
  *	and other basic configurations for terminal :)
@@ -38,12 +41,13 @@ int init_term()
 		TTbeep();
 	TTmove(0,0);
 	/* update term global variable row and col */
-	get_screen_size(&term.t_mrow,&term.t_mcol);
+	get_screen_size(&term.t_mrow, &term.t_mcol);
 	return true;
 }
 
 int init_display()
 {
+	info_box = init_rec(1, 1, "info box");
 }
 
 /*
@@ -106,18 +110,6 @@ void set_terminal_title(char *title)
 	TTputs(buf);
 }
 
-void write_box()
-{
-    struct rectangle *rec = init_rec(10, 10,"avaiable commands");
-    append_string_to_rec(rec,"hellow");
-    append_string_to_rec(rec,"asdfasdfasdfasasdfasdellow");
-    append_string_to_rec(rec,"helloasdfasfdw");
-    append_string_to_rec(rec,"hellowasdfh");
-    append_string_to_rec(rec,"");
-    append_string_to_rec(rec,"hasdfsdellow");
-    draw_rec(rec);
-}
-
 void update()
 {
 	TTchide();
@@ -132,7 +124,8 @@ void update()
 		// cause we draw buffer again , so dont need it anymore , until another change
 		curbp->flags &= ~FREDRW;
 	}
-	write_box();
+	if (show_info_box)
+		draw_rec(info_box);
 	write_statusbar(curbp);
 	write_messagebar();
 	check_cursor();
@@ -380,4 +373,30 @@ void showmsg(bool timer, char *msg,...)
 	va_start(ap, msg);
 	vsnprintf(msgbag.message, MESSAGE_MAX_LENGTH, msg, ap);
 	va_end(ap);
+}
+
+void clear_info_box()
+{
+    assert(info_box);
+	info_box->info->width = info_box->info->height = 1;
+	info_box->buf_size = 10;
+	info_box->text_count = 0;
+	memset(info_box->texts, 0, 10);
+}
+
+void print_info_box()
+{
+	show_info_box = true;
+	draw_rec(info_box);
+}
+
+void close_info_box()
+{
+	show_info_box = false;
+	clear_info_box();
+}
+
+void append_text_to_info_box(char *txt)
+{
+	append_string_to_rec(info_box,txt);
 }

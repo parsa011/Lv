@@ -24,6 +24,9 @@
 #define STATUSBAR_FILLER ' '
 #define WINDOWS_SEPARATOR " | "
 
+static struct rectangle *info_box;
+static bool show_info_box;
+
 /*
  *	init terminal and trun on raw mode
  */
@@ -101,5 +104,11 @@ void write_messagebar();
  *	show a message in messagebar
  */
 void showmsg(bool,char *,...);
+
+void clear_info_box();
+void toggle_info_box();
+void print_info_box();
+void close_info_box();
+void append_text_to_info_box(char *);
 
 #endif

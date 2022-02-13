@@ -55,8 +55,7 @@ void draw_rec(struct rectangle *rec)
                     (Write_string)("\u256e");
 			    } else if (a > 0 && a < height - 1) {
                     (Write_string)("\u2502");
-                        lv_log("text count : %d",rec->text_count);
-                    if (rec->text_count > text_index && b !=  width - 1) {
+                    if (*(rec->texts + text_index) && b !=  width - 1) {
                         (Write_string)(*(rec->texts + text_index));
                         b += strlen(*(rec->texts + text_index++));
                         continue;

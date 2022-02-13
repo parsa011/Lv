@@ -13,7 +13,6 @@ void log_all()
 {
 	close_log_file();
 	create_log_file();
-	lv_log("cursor position is : %d / %d",cursor_row,cursor_col);
 }
 #endif
 

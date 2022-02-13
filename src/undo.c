@@ -70,7 +70,6 @@ void append_undo(undo_packet *packet)
     }
         set_current_chagne(packet);
     curbp->change_db->count++;
-    lv_log("now we have %d packet and used time is %d , also current change line number is %d",curbp->change_db->count,curbp->change_db->used_times,get_current_change(curbp)->lineno);
 }
 
 /*
