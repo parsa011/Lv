@@ -47,7 +47,7 @@ int init_term()
 
 int init_display()
 {
-	info_box = init_rec(1, 1, "info box");
+	info_box = init_rec(5, 5, "info box");
 }
 
 /*
@@ -378,16 +378,17 @@ void showmsg(bool timer, char *msg,...)
 void clear_info_box()
 {
     assert(info_box);
-	info_box->info->width = info_box->info->height = 1;
+	info_box->info->width = info_box->info->height = 5;
 	info_box->buf_size = 10;
 	info_box->text_count = 0;
+	//free(info_box->texts);
+	//info_box->texts = calloc(10, sizeof(char *));
 	memset(info_box->texts, 0, 10);
 }
 
 void print_info_box()
 {
 	show_info_box = true;
-	draw_rec(info_box);
 }
 
 void close_info_box()

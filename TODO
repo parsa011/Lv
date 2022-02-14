@@ -1,14 +1,15 @@
 todo:
-	- Add item for each tui component , like messages and ...
 	- undo and redo
     - more commands like : remove-buffer next-buffer prev-buffer and ...
 
 in progress :
-	- highlight (need to enhance it)
+	- Add item for each tui component , like messages and ...
+    - remove info_box when we don't need it any more
 
 for complete:
     - showing files when we are using 'o' command
 	- fix split window bug
+	- highlight (need to enhance it)
 
 done:
 	- get command from message bar

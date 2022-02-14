@@ -67,15 +67,13 @@ key_macro *find_macro_by_name(char *name)
  */
 int exec_macro(key_macro *macro)
 {
-    bool res = false;
 	if (curbp->modes & macro->modes) {
 		if (number_stack == 0)
 			number_stack = 1;
 		macro->func(1,number_stack);
-		res = true;
+		return true;
 	}
-	refresh_lock_mode(true,1);
-	return res;
+	return false;
 }
 
 /*

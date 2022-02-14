@@ -140,7 +140,6 @@ no_space:
 		showmsg(true,"Macro not found : %s",macro_stack);
 		close_info_box();
 		clear_macro_stack();
-		return;
 	}
 }
 
