@@ -287,7 +287,7 @@ int write_linenumber(int number,int offset)
 	while (len++ <= offset - 1) {
 		TTputc(' ');
 	}
-	TTputc('|');
+	TTputs("\u2502");
 }
 
 /*
