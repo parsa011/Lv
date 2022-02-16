@@ -6,6 +6,7 @@
  *	This file is part of Lv
  */
 #include "types.h"
+#include <signal.h>
 
 int tab_size = 4;
 int msgbar_msg_time = 4;
@@ -63,6 +64,22 @@ void init_editor()
 #if HAVE_LOG
 	create_log_file();
 #endif
+    handle_signals();
+}
+
+void terminal_size_changed()
+{
+    get_screen_size(&term.t_mrow, &term.t_mcol);
+	curbp->nrow = statusbar_start_offset - buffers_start_offset - 1;
+    redisplay_buffer();
+}
+
+/*
+ *	handle signals , like window size change and ..
+ */
+void handle_signals()
+{
+    signal(SIGWINCH, terminal_size_changed);
 }
 
 /*

@@ -32,6 +32,10 @@ void init_editor();
  */
 int close_editor(int,int);
 
+void handle_signals();
+
+void terminal_size_changed();
+
 int empty_buffer();
 int endof_buffer();
 int topof_buffer();
