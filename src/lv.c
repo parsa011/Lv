@@ -100,17 +100,20 @@ void lv_loop()
 	do {
 		update();
 		c = get_cmd();
+		// if given key is number and buffer is in lock mode , we will add given number to number stack
 		if (bmtest(curbp,MDLOCK) && ISNUMBER(c)) {
 			add_to_number_stack(c);
 			continue;
-		} else if (bmtest(curbp,MDCMMD)) {
+		} else if (bmtest(curbp,MDCMMD)) { // if key we are in command mode , pass key to prompt key manager
 			manage_prompt_key(c);
 			continue;
 		}
+		// otherwise , first add key to stack , they find macro by stack
 		if (bmtest(curbp,MDLOCK)) {
 			add_to_macro_stack(c);
 			macro = find_macro_str(macro_stack);
 		} else {
+    		// here we will find other modes macros , for example insert mode macros and ...
 			macro = find_macro(c);
 		}
 		if (bmtest(curbp,MDINST) && macro == NULL) {
