@@ -96,7 +96,6 @@ void clear_macro_stack()
 {
 	repeat_char(macro_stack,0,MAX_MACRO_STACK);
 	macro_stack_p = 0;
-
 }
 
 int refresh_lock_mode(int f,int n)
@@ -151,17 +150,21 @@ no_space:
  */
 int manage_insert_key(int c)
 {
-	/* enter */
-	if (c == ENTER_KEY)
-		line_new(false);
-	else if (c == 127)
-		line_del_char();
-	else if (c == TAB_KEY) /* tab */
-		line_ins_char('\t');
-	else if (c == (SPEC | '3'))
-		line_del_next();
-	else
-		line_ins_char(c);
+	switch (c) {
+		case ENTER_KEY :
+			line_new(false);
+			break;
+		case 127 :
+			line_del_char();
+			break;
+		case TAB_KEY :
+			line_ins_char('\t');
+			break;
+		case (SPEC | '3') :
+			line_del_next();
+		default :
+			line_ins_char(c);
+	}
 	return true;
 }
 
