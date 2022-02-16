@@ -107,6 +107,7 @@ void load_syntax_for_buffer()
 void redisplay_buffer()
 {
 	curbp->flags |= FREDRW;
+	update();
 }
 
 /*
