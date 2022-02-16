@@ -67,10 +67,17 @@ void init_editor()
     handle_signals();
 }
 
+/*
+ *	update all buffers row count
+ */
 void terminal_size_changed()
 {
     get_screen_size(&term.t_mrow, &term.t_mcol);
-	curbp->nrow = statusbar_start_offset - buffers_start_offset - 1;
+    for (window *win = firstwp; win != NULL; win = L_LINK_NEXT(win)) {
+        for (buffer *bf = win->fbuffer; bf != NULL; bf = L_LINK_NEXT(bf)) {
+        	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
+        }
+    }
     redisplay_buffer();
 }
 
