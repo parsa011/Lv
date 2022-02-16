@@ -136,6 +136,21 @@ void lv_loop()
 	} while (1);
 }
 
+/*
+ *	search in command and find commands that their key
+ *  is like macro_stack
+ */
+void print_avaiable_commands_to_info_box()
+{
+    /* show them in info_box if there was any macro like that */
+	for (key_macro *macro = fmacro; macro != NULL; macro = L_LINK_NEXT(macro)) {
+		if (strncmp(macro->key_str, macro_stack, macro_stack_p) == 0) {
+			append_text_to_info_box(macro->key_str);
+		}
+	}
+	print_info_box();
+}
+
 int topof_buffer()
 {
 	showmsg(true,"top of buffer");

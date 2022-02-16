@@ -11,6 +11,7 @@ in progress :
     - remove info_box when we don't need it any more
 
 for complete:
+    - enhance info box
 	- undo and redo
 	- fix split window bug
 	- highlight (need to enhance it)

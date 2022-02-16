@@ -25,6 +25,8 @@ void lv_loop();
  */
 void init_editor();
 
+void print_avaiable_commands_to_info_box();
+
 /*
  *	close editor
  *	but before closing , check for edited buffer to save them or prevent

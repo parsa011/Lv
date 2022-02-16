@@ -123,18 +123,7 @@ void add_to_macro_stack(int c)
 		macro_stack[macro_stack_p++] = *(key + i++);
 	}
 	// here we want to check if we have some macro like this or no
-	if (compare_macro_name(macro_stack,macro_stack_p) == false) {
-		goto no_space;
-	} else {
-    	/* show them in info_box if there was any macro like that */
-		for (key_macro *macro = fmacro; macro != NULL; macro = L_LINK_NEXT(macro)) {
-			if (strncmp(macro->key_str, macro_stack, macro_stack_p) == 0) {
-				append_text_to_info_box(macro->key_str);
-			}
-		}
-		print_info_box();
-	}
-	if (macro_stack_p >= MAX_MACRO_STACK - 1) {
+	if (compare_macro_name(macro_stack,macro_stack_p) == false || macro_stack_p >= MAX_MACRO_STACK - 1) {
 no_space:
 		showmsg(true,"Macro not found : %s",macro_stack);
 		close_info_box();

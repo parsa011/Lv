@@ -375,29 +375,44 @@ void showmsg(bool timer, char *msg,...)
 	va_end(ap);
 }
 
+/*
+ *	clear info box texts and reset it size
+ */
 void clear_info_box()
 {
     assert(info_box);
 	info_box->info->width = info_box->info->height = 5;
 	info_box->buf_size = 10;
 	info_box->text_count = 0;
-	//free(info_box->texts);
-	//info_box->texts = calloc(10, sizeof(char *));
 	memset(info_box->texts, 0, 10);
 }
 
+/*
+ *	set show_info_box true for print info_box in each 'update' function call.
+ *	and also read-time show
+ */ 
 void print_info_box()
 {
 	show_info_box = true;
+	redisplay_buffer();
 }
 
+/*
+ * hide info box and rewrite buffer into screen for erase infobox
+ */
 void close_info_box()
 {
 	show_info_box = false;
 	clear_info_box();
+	redisplay_buffer();
 }
 
+/*
+ *	append given char into info_box.
+ *	we juse append text to text , will not display it
+ */
 void append_text_to_info_box(char *txt)
 {
 	append_string_to_rec(info_box,txt);
+	lv_log("text count is %d",info_box->text_count);
 }
