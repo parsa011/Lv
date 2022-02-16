@@ -171,8 +171,6 @@ void line_del_char()
 		curbp->coffset = prev_line->len;
 		line_append(prev_line,current_line->chars,current_line->len);
 		line_delete(curbp->clindex);
-		move_prevline(true,1);
-		gotoeol(true,1);
 		buffer_changed();
 		return;
 	}
