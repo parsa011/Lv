@@ -416,3 +416,13 @@ void append_text_to_info_box(char *txt)
 	append_string_to_rec(info_box,txt);
 	lv_log("text count is %d",info_box->text_count);
 }
+
+void set_block_cursor()
+{
+	TTputs("\x1b[\x32 q");
+}
+
+void set_bar_cursor()
+{
+	TTputs("\x1b[\x36 q");
+}

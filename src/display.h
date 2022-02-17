@@ -111,4 +111,7 @@ void print_info_box();
 void close_info_box();
 void append_text_to_info_box(char *);
 
+void set_block_cursor();
+void set_bar_cursor();
+
 #endif

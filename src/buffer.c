@@ -205,6 +205,7 @@ void set_mode_for_buffer(int mode)
 /* macro compatible change mode functions */
 int set_lock_mode(int f, int n)
 {
+	set_block_cursor();
 	set_mode_for_buffer(MDLOCK);
 	return true;
 }
@@ -217,6 +218,7 @@ int set_visual_mode(int f, int n)
 
 int set_insert_mode(int f, int n)
 {
+	set_bar_cursor();
 	set_mode_for_buffer(MDINST);
 	return true;
 }
