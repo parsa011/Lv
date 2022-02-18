@@ -59,7 +59,7 @@ struct buffer_t {
 #define MDINST  0x0002	/* insert mode					 */
 #define MDVISL 	0x0004	/* visual mode					 */
 #define	MDVIEW	0x0008	/* read-only buffer              */
-#define MDCMMD 	0x0020	/* typing command mode			 */
+#define MDCMMD 	0x0010	/* typing command mode			 */
 
 /* this is usefull for macros , when they are avaiable in all modes */
 #define ALLMODES (MDLOCK | MDINST | MDVISL | MDVIEW)
