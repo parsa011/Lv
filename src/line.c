@@ -13,14 +13,14 @@ int line_indent = 0;
  *	this routing used for allocate new line , and remove extra new line
  *	and line feed characters from end of line
  */
-line *line_alloc(char *content,int len)
+line *line_alloc(char *content, int len)
 {
-	line *ln = (line *)lv_calloc(1,sizeof(line));
+	line *ln = (line *)lv_calloc(1, sizeof(line));
 	/* remove extra 'new line' and 'line feed' characters of end of line */
 	while (len > 0 && ((content[len - 1] == '\n' || content[len - 1] == '\r')))
 		len--;
-	content[len] = '\0';
 	ln->chars = strdup(content);
+	ln->chars[len] = 0;
 	ln->len = len;
 	return ln;
 }
