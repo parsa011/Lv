@@ -62,7 +62,6 @@ void init_editor()
 	generate_basic_commands();
 	generate_prompt_keys();
 #if HAVE_LOG
-	create_log_file();
 #endif
     handle_signals();
 }
