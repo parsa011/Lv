@@ -22,9 +22,6 @@ int close_editor(int focre, int code)
 	TTmove(1,1);
 	TTputs(DEFAULT);
 	close_file();
-#if HAVE_LOG
-	remove_log_file();
-#endif
 	TTputs(DEFAULT);
 	TTflush();
 	exit(code);
@@ -61,8 +58,7 @@ void init_editor()
 	generate_basic_macros();
 	generate_basic_commands();
 	generate_prompt_keys();
-#if HAVE_LOG
-#endif
+
     handle_signals();
 }
 

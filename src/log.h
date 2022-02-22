@@ -13,18 +13,6 @@
  *	This file is part of Lv
  */
 
-#define LOG_FILE_NAME "lvlog.txt"
-
-void create_log_file();
-
-#if HAVE_LOG
-void log_all();
-#endif
-
 void lv_log(const char *,...);
-
-void close_log_file();
-
-void remove_log_file();
 
 #endif
