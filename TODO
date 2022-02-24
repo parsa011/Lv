@@ -1,22 +1,22 @@
 todo:
     - parse cli args
     - writing help (for readme and -h switch for cli)
-    - suport open folder
+    - support for open folder (file explorer)
     - enhance popup window (or create one)
     - more commands like : remove-buffer next-buffer prev-buffer and ...
     - showing files when we are using 'o' command
 
 in progress :
-	- Add item for each tui component , like messages and ...
+    - Add item for each tui component , like messages and ...
     - remove info_box when we don't need it any more
 
 for complete:
     - enhance info box
-	- undo and redo
-	- fix split window bug
-	- highlight (need to enhance it)
+    - undo and redo
+    - fix split window bug
+    - highlight (need to enhance it)
 
 done:
-	- get command from message bar
-	- save and new file
-	- create tty manager to enter raw mode and ...
+    - get command from message bar
+    - save and new file
+    - create tty manager to enter raw mode and ...
