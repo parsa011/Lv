@@ -106,7 +106,6 @@ void lv_loop()
 		// otherwise , first add key to stack , they find macro by stack
 		if (bmtest(curbp,MDLOCK)) {
 			add_to_macro_stack(c);
-            print_avaiable_commands_to_info_box();
 			macro = find_macro_str(macro_stack);
 		} else {
     		// here we will find other modes macros , for example insert mode macros and ...
