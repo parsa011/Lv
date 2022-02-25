@@ -144,7 +144,7 @@ void line_ins_char(char c)
 /*
  *	append string into end of give line
  */
-void line_append(line *ln,char *s,int len)
+void line_append(line *ln, char *s, int len)
 {
 	ln->chars = realloc(ln->chars,ln->len + len + 1);
 	memcpy(&ln->chars[ln->len],s,len);
@@ -165,12 +165,13 @@ void line_del_char()
 		line_new(true);
 	if (curbp->coffset == 0) {
 		line *prev_line = L_LINK_PREV(current_line);
+		// return if prev line is empty
 		if (prev_line == NULL)
 			return;
-		cursor_col = line_length(prev_line) + 1;
-		curbp->coffset = prev_line->len;
-		line_append(prev_line,current_line->chars,current_line->len);
-		line_delete(curbp->clindex);
+		move_prevline(true, 1);
+		gotoeol(true, 1);
+		line_append(current_line, prev_line->chars, prev_line->len);
+		line_delete(curbp->clindex + 1);
 		buffer_changed();
 		return;
 	}
@@ -184,15 +185,15 @@ void line_del_char()
 
 void line_del_next()
 {
-	if (next_char(true,1)) {
+	if (next_char(true, 1)) {
 		line_del_char();
 	}
 }
 
-int delete_current_char(int f,int n)
+int delete_current_char(int f, int n)
 {
 	while (n--) {
-		if (next_char(true,1)) {
+		if (next_char(true, 1)) {
 			line_del_char();
 		}
 	}

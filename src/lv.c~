@@ -160,11 +160,7 @@ int endof_buffer()
 
 int empty_buffer()
 {
-
-
-
-
-showmsg(true,"buffer is empty");
+	showmsg(true,"buffer is empty");
 	return EMPTYBUFFER;
 }
 
