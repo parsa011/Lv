@@ -168,10 +168,8 @@ void line_del_char()
 		// return if prev line is empty
 		if (prev_line == NULL)
 			return;
-		move_prevline(true, 1);
-		gotoeol(true, 1);
-		line_append(current_line, prev_line->chars, prev_line->len);
-		line_delete(curbp->clindex + 1);
+		line_append(prev_line, current_line->chars, current_line->len);
+		line_delete(curbp->clindex);
 		buffer_changed();
 		return;
 	}
@@ -187,15 +185,22 @@ void line_del_next()
 {
 	if (next_char(true, 1)) {
 		line_del_char();
+		die("SDF");
 	}
 }
 
 int delete_current_char(int f, int n)
-{
+{	
+	bool go_back = false;
 	while (n--) {
 		if (next_char(true, 1)) {
+			if (curbp->coffset == 0)
+				go_back = true;
 			line_del_char();
+			move_prevline(true ,1);
+			gotoeol(true, 1);
 		}
+		go_back = false;
 	}
 	return true;
 }
