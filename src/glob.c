@@ -144,13 +144,13 @@ int manage_insert_key(int c)
 			line_new(false);
 			break;
 		case 127 :
-			line_del_char();
+			delete_next_char();
 			break;
 		case TAB_KEY :
 			line_ins_char('\t');
 			break;
 		case (SPEC | '3') :
-			line_del_next();
+			delete_next_char();
 		default :
 			line_ins_char(c);
 	}

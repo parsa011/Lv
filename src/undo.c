@@ -134,7 +134,7 @@ void apply_undo(undo_packet *packet)
          goto_line(true,packet->lineno);
          curbp->coffset = packet->offset;
          cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
-         line_del_char();
+		 delete_next_char();
     }
     if (get_current_change(curbp) != NULL)
         set_current_chagne(L_LINK_PREV(get_current_change(curbp)));

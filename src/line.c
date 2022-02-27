@@ -181,11 +181,13 @@ void line_del_char()
 	buffer_changed();
 }
 
-void line_del_next()
+void delete_next_char()
 {
-	if (next_char(true, 1)) {
-		line_del_char();
-		die("SDF");
+	bool go_back = curbp->coffset == 0;
+	line_del_char();
+	if (go_back) {
+		move_prevline(true ,1);
+		gotoeol(true, 1);
 	}
 }
 
@@ -197,8 +199,10 @@ int delete_current_char(int f, int n)
 			if (curbp->coffset == 0)
 				go_back = true;
 			line_del_char();
-			move_prevline(true ,1);
-			gotoeol(true, 1);
+			if (go_back) {
+				move_prevline(true ,1);
+				gotoeol(true, 1);
+			}
 		}
 		go_back = false;
 	}

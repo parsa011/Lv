@@ -50,7 +50,7 @@ int line_length(line *);
 /*
  *	delete char in current position of cursor
  */
-void line_del_char();
+void delete_next_char();
 
 /*
  *	insert given char into current position of cursor
