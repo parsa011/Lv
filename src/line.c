@@ -183,11 +183,11 @@ void line_del_char()
 
 void delete_next_char()
 {
-	bool go_back = curbp->coffset == 0;
+    int move_prev = current_line != curbp->lline;
 	line_del_char();
-	if (go_back) {
+	if (move_prev) {
 		move_prevline(true ,1);
-		gotoeol(true, 1);
+    	gotoeol(true, 1);
 	}
 }
 
