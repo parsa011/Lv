@@ -183,10 +183,12 @@ void line_del_char()
 
 void delete_next_char()
 {
-    int move_prev = current_line != curbp->lline;
+    int move_prev = current_line == curbp->lline || curbp->coffset == 0;
+	int is_header = curbp->hline == current_line;
 	line_del_char();
 	if (move_prev) {
-		move_prevline(true ,1);
+		if (!is_header)
+			move_prevline(true ,1);
     	gotoeol(true, 1);
 	}
 }
