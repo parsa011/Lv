@@ -185,9 +185,10 @@ void delete_next_char()
 {
     int move_prev = current_line == curbp->lline || curbp->coffset == 0;
 	int is_header = curbp->hline == current_line;
+	bool is_lastline = curbp->lline = current_line;
 	line_del_char();
 	if (move_prev) {
-		if (!is_header)
+		if (!is_header && !is_lastline)
 			move_prevline(true ,1);
     	gotoeol(true, 1);
 	}
