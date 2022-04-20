@@ -39,7 +39,7 @@ int append_line(buffer *buf,line *ln)
 	 * and then set last line to this new line
 	 */
 	if (!buf->fline) {
-		buf->fline = buf->cline = buf->hline = buf->lline = ln;
+		buf->fline = buf->cline =  buf->lline = ln;
 	} else {
 		L_LINK_INSERT(buf->lline,ln);
 	}
@@ -184,11 +184,10 @@ void line_del_char()
 void delete_next_char()
 {
     int move_prev = current_line == curbp->lline || curbp->coffset == 0;
-	int is_header = curbp->hline == current_line;
 	bool is_lastline = curbp->lline = current_line;
 	line_del_char();
 	if (move_prev) {
-		if (!is_header && !is_lastline)
+		if (check_header(curbp) && !is_lastline)
 			move_prevline(true ,1);
     	gotoeol(true, 1);
 	}
@@ -247,7 +246,7 @@ void line_delete(int index)
         new_line = L_LINK_PREV(ln);
 	}
 	if (ln == curbp->fline){
-        curbp->fline = curbp->hline = curbp->cline = new_line;
+        curbp->fline = curbp->cline = new_line;
         if (new_line == NULL) {
             curbp->coffset = 0;
             cursor_col = curbp->mleft;
@@ -260,9 +259,10 @@ void line_delete(int index)
         	current_line = curbp->lline;
         	curbp->clindex--;
     	}
-        if (ln == curbp->hline) {
+        if (ln == get_header_line()) {
             scroll(MOVE_UP,1);
-            current_line = curbp->hline;
+			set_header_line(curbp->clindex);
+            //current_line = curbp->hline;
     	} else {
             current_line = new_line;
     	}

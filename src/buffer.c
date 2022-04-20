@@ -32,7 +32,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->flags = FFULLS | FREDRW | flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
 	bf->loffset = bf->coffset = bf->clindex = 0;
-	bf->cline = bf->lline = bf->hline = bf->fline = NULL;
+	bf->cline = bf->lline = bf->fline = NULL;
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->highligth = bf->linenm = false;

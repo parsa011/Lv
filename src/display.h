@@ -67,6 +67,11 @@ void write_windows();
 void write_buffer();
 
 /*
+ * write given buffer lines to output, starts from header line , size of terminal row
+ */
+void write_buffer_lines(buffer *);
+
+/*
  *	manage write line , meas it will check for line special chars and ...
  */
 void write_line(line *);

@@ -176,31 +176,36 @@ void write_windows()
 }
 
 /*
- * 	cursor position should be 1,0 to write buffer into screen
+ * 	TODO : write good comment here
  */
 void write_buffer()
 {
 	buffer *bf = curwp->fbuffer;
 	for (buffer *bf = curwp->fbuffer; bf != NULL; bf = L_LINK_NEXT(bf)) {
 		TTmove(bf->mtop,1);
-		int count = 0;
-		int linenu = bf->loffset + 1;
-		int linenu_offst = number_len(bf->lcount);
-		bool linem = bf->linenm;
-		for (line *ln = bf->hline;count < bf->nrow;count++) {
-			TTeeol();
-			if (ln != NULL) {
-				if (linem)
-					write_linenumber(linenu++,linenu_offst);
-				write_line(ln);
-				ln = L_LINK_NEXT(ln);
-			} else {
-				TTeeol();
-				TTputs(LINE_MASK);
-				TTputs("\r\n");
-			}
-		}
+		write_buffer_lines(bf);
 		write_statusbar(bf);
+	}
+}
+
+void write_buffer_lines(buffer *bf)
+{
+	int count = 0;
+	int linenu = bf->loffset + 1;
+	int linenu_offst = number_len(bf->lcount);
+	bool linem = bf->linenm;
+	for (line *ln = get_header_line(); count < bf->nrow; count++) {
+		TTeeol();
+		if (ln != NULL) {
+			if (linem)
+				write_linenumber(linenu++, linenu_offst);
+			write_line(ln);
+			ln = L_LINK_NEXT(ln);
+		} else {
+			TTeeol();
+			TTputs(LINE_MASK);
+			TTputs("\r\n");
+		}
 	}
 }
 
@@ -282,7 +287,7 @@ void print_line(char *text)
 int write_linenumber(int number,int offset)
 {
 	char temp[number];
-	int len = sprintf(temp,"%d",number);
+	int len = sprintf(temp, "%d", number);
 	TTputs(temp);
 	while (len++ <= offset - 1) {
 		TTputc(' ');
@@ -322,10 +327,10 @@ void write_statusbar(buffer *bf)
 	TTputs(INVERT);
 	char lstatus[256];
 	char rstatus[128];
-	int llen = sprintf(lstatus,"file : %s , %d line ",bf->bname[0] != 0 ? bf->bname : NO_NAME_BUFFER,bf->lcount);
-	int rlen = sprintf(rstatus," %s %c%c %d | %d - %d",
-			bmtest(bf,MDLOCK) ? "lock" : "insert",STATUSBAR_FILLER,STATUSBAR_FILLER,
-			bf->clindex + 1,bf->coffset + 1,current_line != NULL ? current_line->len : 0);
+	int llen = sprintf(lstatus, "file : %s , %d line ", bf->bname[0] != 0 ? bf->bname : NO_NAME_BUFFER, bf->lcount);
+	int rlen = sprintf(rstatus, " %s %c%c %d | %d - %d",
+			bmtest(bf, MDLOCK) ? "lock" : "insert", STATUSBAR_FILLER, STATUSBAR_FILLER,
+			bf->clindex + 1, bf->coffset + 1, current_line != NULL ? current_line->len : 0);
 	TTputs(lstatus);
 	while (llen < term.t_mcol) {
 		if (llen + rlen == term.t_mcol) {
@@ -341,7 +346,7 @@ void write_statusbar(buffer *bf)
 
 void write_messagebar()
 {
-	TTmove(messagebar_start_offset,1);
+	TTmove(messagebar_start_offset, 1);
 	TTeeol();
 	if (bmtest(curbp,MDCMMD)) {
 		TTputs(msgbar_prompt_mask);
@@ -364,7 +369,7 @@ void write_messagebar()
  */
 void showmsg(bool timer, char *msg,...)
 {
-	TTmove(messagebar_start_offset,1);
+	TTmove(messagebar_start_offset, 1);
 	msgbag.timer = timer;
 	if (timer) {	
 		msgbag.msg_time = time(NULL);
@@ -413,8 +418,7 @@ void close_info_box()
  */
 void append_text_to_info_box(char *txt)
 {
-	append_string_to_rec(info_box,txt);
-	lv_log("text count is %d",info_box->text_count);
+	append_string_to_rec(info_box, txt);
 }
 
 void set_block_cursor()

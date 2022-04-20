@@ -18,7 +18,6 @@ struct buffer_t {
 	L_LINK(buffer) link;	/* buffers doubly-link list */
 	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
 	line *lline;			/* last line of buffer 										 */
-	line *hline;			/* header line in this view (or page) 						 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
 	int clindex;			/* current line index 										 */
 	int lcount;				/* total count of buffer lines 								 */
@@ -46,6 +45,10 @@ struct buffer_t {
 #define usmode(b,m)	(b->modes &= ~m)	/* unset a mode from buffer modes	*/
 #define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
 #define buffer_change_count(b) (b->change_db->count)
+
+#define get_header_line() (get_line_by_index(curbp->loffset)) /* return header line */
+#define set_header_line(n) (curbp->loffset = n)	/* change header line by set loffset to given index */
+#define check_header(b) (b->loffset == curbp->clindex) /* is current line of given buffer header line or no */
 
 /* buffer flags */
 #define FFULLS	0x0001 	/* full size buffer   */

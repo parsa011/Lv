@@ -46,19 +46,19 @@ void update_position()
 int scroll(int dir, int times)
 {
 	for (;0 < times;times--) {
+		line *header_line = get_header_line();
 		if (dir == MOVE_DOWN) {
-			if (L_LINK_NEXT(curbp->hline) != NULL) {
-				curbp->hline = L_LINK_NEXT(curbp->hline);
-				curbp->loffset++;
+			if (L_LINK_NEXT(header_line) != NULL) {
+				set_header_line(++curbp->loffset);
 			}
 		} else if (dir == MOVE_UP) {
-			if (L_LINK_PREV(curbp->hline) != NULL) {	
-				curbp->hline = L_LINK_PREV(curbp->hline);
-				curbp->loffset--;
+			if (L_LINK_PREV(header_line) != NULL) {	
+				set_header_line(--curbp->loffset);
 			}
 		}
 	}
 	redisplay_buffer();
+	return 1; 
 }
 
 bool can_scroll(int dir)
@@ -79,12 +79,12 @@ bool can_scroll(int dir)
 int move_nextline(int f, int n)
 {
 	while (n--) {
-		if (current_line == NULL || curbp->lcount == 0)
+		if (curbp->lcount == 0)
 			return empty_buffer();
 		if (L_LINK_NEXT(current_line) == NULL)
 			return endof_buffer();
 		if (can_scroll(MOVE_DOWN)) {
-			scroll(MOVE_DOWN,1);
+			scroll(MOVE_DOWN, 1);
 		} else
 			cursor_row++;
 		curbp->clindex++;
@@ -173,7 +173,7 @@ int prev_char(int f, int n)
 
 bool jump_tab(int dir)
 {
-	if (lgetc(current_line,curbp->coffset) == '\t') {
+	if (lgetc(current_line, curbp->coffset) == '\t') {
 		if (dir == MOVE_RIGHT) {
 			cursor_col += tab_size;
 		} else if (dir == MOVE_LEFT) {

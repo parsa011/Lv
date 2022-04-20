@@ -11,7 +11,7 @@ in progress :
     - remove info_box when we don't need it any more
 
 for complete:
-	- remove line and append it to prev line when deleting first char (char offset 0)
+    - remove line and append it to prev line when deleting first char (char offset 0)
     - enhance info box
     - undo and redo
     - fix split window bug

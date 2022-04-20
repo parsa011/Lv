@@ -8,7 +8,7 @@
 
 #include "types.h"
 
-void lv_log(const char *msg,...)
+void lv_log(const char *msg, ...)
 {
 	char temp[512];
 	va_list ap;

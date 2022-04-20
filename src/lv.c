@@ -95,6 +95,7 @@ void lv_loop()
 	do {
 		update();
 		c = get_cmd();
+		lv_log("header offset %d", curbp->loffset);
 		// if given key is number and buffer is in lock mode , we will add given number to number stack
 		if (bmtest(curbp,MDLOCK) && ISNUMBER(c)) {
 			add_to_number_stack(c);
