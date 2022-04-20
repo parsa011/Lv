@@ -14,10 +14,15 @@
 #define NFILEN  256			/* n of bytes, file name 	*/
 #define NBUFN   32			/* n of bytes, buffer name 	*/
 
+enum {
+	HLINE,	/* header line  */
+	LLINE,	/* last line 	*/
+	CLINE	/* current line */
+};
+
 struct buffer_t {
 	L_LINK(buffer) link;	/* buffers doubly-link list */
 	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
-	line *lline;			/* last line of buffer 										 */
 	line *cline;			/* current line in buffer (where the cursor is) 			 */
 	int clindex;			/* current line index 										 */
 	int lcount;				/* total count of buffer lines 								 */
@@ -49,6 +54,8 @@ struct buffer_t {
 #define get_header_line() (get_line_by_index(curbp->loffset)) /* return header line */
 #define set_header_line(n) (curbp->loffset = n)	/* change header line by set loffset to given index */
 #define check_header(b) (b->loffset == curbp->clindex) /* is current line of given buffer header line or no */
+
+#define get_last_line() (get_line_by_index(curbp->lcount - 1))
 
 /* buffer flags */
 #define FFULLS	0x0001 	/* full size buffer   */
@@ -114,11 +121,6 @@ void change_current_buffer(buffer *);
  *	append buffer to next of current buffer
  */
 void append_buffer(window*,buffer *);
-
-/*
- *	return last line of buffer
- */
-line *get_last_line(buffer *);
 
 /*
  *	load syntax file for buffer

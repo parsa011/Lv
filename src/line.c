@@ -39,12 +39,11 @@ int append_line(buffer *buf,line *ln)
 	 * and then set last line to this new line
 	 */
 	if (!buf->fline) {
-		buf->fline = buf->cline =  buf->lline = ln;
+		buf->fline = buf->cline = ln;
 	} else {
-		L_LINK_INSERT(buf->lline,ln);
+		L_LINK_INSERT(get_last_line(), ln);
 	}
 	/* I think this line don't need any comment , but to be sure : increase total count of buffer lines */
-	buf->lline = ln;
 	buf->lcount++;
 	buffer_changed();
 }
@@ -76,8 +75,6 @@ int line_new(int force)
 		curbp->coffset = 0;
 		move_nextline(true,1);
 		curbp->lcount++;
-        if (L_LINK_NEXT(current_line) == NULL)
-            curbp->lline = ln;
 		insert_indent();
 	}
 	buffer_changed();
@@ -183,8 +180,8 @@ void line_del_char()
 
 void delete_next_char()
 {
-    int move_prev = current_line == curbp->lline || curbp->coffset == 0;
-	bool is_lastline = curbp->lline = current_line;
+	bool is_lastline = get_last_line() == current_line;
+    int move_prev = is_lastline || curbp->coffset == 0;
 	line_del_char();
 	if (move_prev) {
 		if (check_header(curbp) && !is_lastline)
@@ -252,12 +249,10 @@ void line_delete(int index)
             cursor_col = curbp->mleft;
         }
 	} else {
-    	if (ln == curbp->lline) {
+    	if (ln == get_last_line()) {
         	if (!can_scroll(MOVE_UP))
             	cursor_row--;
-        	curbp->lline = L_LINK_PREV(curbp->lline);
-        	current_line = curbp->lline;
-        	curbp->clindex--;
+        	current_line = get_line_by_index(--curbp->clindex);
     	}
         if (ln == get_header_line()) {
             scroll(MOVE_UP,1);

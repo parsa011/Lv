@@ -32,7 +32,7 @@ buffer *init_buffer(char *filename,short modes,short flags)
 	bf->flags = FFULLS | FREDRW | flags;
 	bf->nrow = statusbar_start_offset - buffers_start_offset - 1;
 	bf->loffset = bf->coffset = bf->clindex = 0;
-	bf->cline = bf->lline = bf->fline = NULL;
+	bf->cline = bf->fline = NULL;
 	bf->mtop = buffers_start_offset;
 	bf->mleft = 1;
 	bf->highligth = bf->linenm = false;
@@ -159,17 +159,6 @@ void append_buffer(window *win,buffer *bf)
 		win->fbuffer = bf;
 	}
 	win->bcount++;
-}
-
-/*
- *	return last line of given buffer
- *	if given buffer is NULL we will get last line of curbp
- */
-line *get_last_line(buffer *bf)
-{
-	line *l = bf->fline;
-	for (; l != NULL;l = L_LINK_NEXT(l));
-	return l;
 }
 
 /*
