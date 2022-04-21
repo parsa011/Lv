@@ -216,7 +216,7 @@ line *get_line_by_index(int index)
 	if (curbp->lcount < index)
 		return NULL;
 	int i = 0;
-	for (line *ln = curbp->fline;ln != NULL;ln = L_LINK_NEXT(ln),i++)
+	for (line *ln = curbp->fline; ln != NULL; ln = L_LINK_NEXT(ln), i++)
 		if (i == index)
 			return ln;
 	return NULL;

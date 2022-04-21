@@ -130,14 +130,14 @@ void load_syntax_for_buffer();
 /*
  *	toggle line number option (it's global)
  */
-int toggle_linenumber(int,int);
+int toggle_linenumber(int, int);
 
-int toggle_highligth(int,int);
+int toggle_highligth(int, int);
 
 /*
  *	set given tab size for buffer
  */
-int set_tab_size(int,int);
+int set_tab_size(int, int);
 
 void set_mode_for_buffer(int);
 int set_lock_mode(int, int);
@@ -145,8 +145,8 @@ int set_visual_mode(int, int);
 int set_insert_mode(int, int);
 int set_command_mode(int, int);
 
-int next_buffer_in_window(int,int);
-int prev_buffer_in_window(int,int);
+int next_buffer_in_window(int, int);
+int prev_buffer_in_window(int, int);
 
 /*
  *	this ones used to remove current buffer and active next buffer
@@ -158,6 +158,6 @@ int remove_buffer();
  */
 void free_buffer(buffer *);
 
-buffer *get_buffer_by_index(window *,int);
+buffer *get_buffer_by_index(window *, int);
 
 #endif

@@ -235,7 +235,7 @@ void change_current_buffer(buffer *bf)
 /*
  *	set next buffer in window for active window
  */
-int next_buffer_in_window(int f,int n)
+int next_buffer_in_window(int f, int n)
 {
 	buffer *bf = L_LINK_NEXT(curbp);
 	if (bf == NULL) {
@@ -247,7 +247,7 @@ int next_buffer_in_window(int f,int n)
 	return true;
 }
 
-int prev_buffer_in_window(int f,int c)
+int prev_buffer_in_window(int f, int c)
 {
 	buffer *bf = L_LINK_PREV(curbp);
 	if (bf == NULL) {
@@ -301,7 +301,7 @@ int remove_buffer()
  *	we have to set curwp to our intended window 
  *	becuase it search in curwp
  */
-buffer *get_buffer_by_index(window *win,int index) 
+buffer *get_buffer_by_index(window *win, int index) 
 {
 	int i = 0;
 	for (buffer *bf = win->fbuffer;bf != NULL;bf = L_LINK_NEXT(bf),i++) {
