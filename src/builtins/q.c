@@ -5,7 +5,7 @@
  *
  *	This file is part of Lv
  */
-#include "types.h"
+#include "../types.h"
 
 static bool quite_all = false;
 static bool quite_force = false;

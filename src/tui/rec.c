@@ -1,6 +1,6 @@
 #include "tui.h"
 #include "rec.h"
-#include "types.h"
+#include "../types.h"
 #include <string.h>
 
 /*

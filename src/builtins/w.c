@@ -5,7 +5,7 @@
  *
  *	This file is part of Lv
  */
-#include "types.h"
+#include "../types.h"
 
 int write_command_tab(int f, int n)
 {

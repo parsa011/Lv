@@ -5,7 +5,7 @@
  *
  *	This file is part of Lv
  */
-#include "types.h"
+#include "../types.h"
 
 /*
  *	available option that we have to set command for now :)
