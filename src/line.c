@@ -1,5 +1,5 @@
 /*
- * 	Manager lines
+ * 	lines manager
  *	Copyright
  *		(C) 2021 Parsa Mahmoudy sahebi
  *

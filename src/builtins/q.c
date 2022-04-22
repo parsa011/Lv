@@ -10,7 +10,7 @@
 static bool quite_all = false;
 static bool quite_force = false;
 
-static const char *options[] = {
+static char *options[] = {
 	"a (remove all buffer and close editor)",
 	"! (force quite , ignoring chagnes"
 };
@@ -61,12 +61,15 @@ int quit(int f, char **args)
 	}
 	if (quite_all) {
 		// TODO : right now we dont care about force quite in quite all mode
-		while (remove_window(curwp) != ALONEWINDOW);
+		while (remove_window(curwp) != ALONEWINDOW)
+			;
 		close_editor(true,EXIT_SUCCESS);
 	} else {
     	/* we cant close reserved buffers */
-    	if (is_reserved_buffer_name(curbp->bname))
+    	if (is_reserved_buffer_name(curbp->bname)) {
+			showmsg(true, "Can't close reserved buffer");
         	return false;
+		}
 		if (buffer_change_count(curbp) && !quite_force) {
 			showmsg(true,"buffer is dirty, use 'q !' to force quite");
 			return false;
