@@ -269,7 +269,9 @@ void line_delete(int index)
 
 int delete_current_line(int f,int n) 
 {
-	line_delete(curbp->clindex);
+	while (n--) {
+		line_delete(curbp->clindex);
+	}
 	return true;
 }
 
