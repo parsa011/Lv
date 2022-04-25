@@ -43,7 +43,7 @@ bool parse_args(char **args)
 		else if (strcmp(*args, "a") == 0)
 			quite_all = true;
 		else {
-			showmsg(true, "Invalid argument <'%s'>", args);
+			showmsg(true, "Invalid argument <'%s'>", *args);
 			return false;
 		}
 		*args++;

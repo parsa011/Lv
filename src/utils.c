@@ -290,7 +290,6 @@ char **tokenize_string_byalpha(char *string)
 			elem = (char *) realloc(elem, elem_size);
 		}
 		if (!isalpha(string[i])) {
-append:
 			if (in_word) {
 				elem[elemp] = 0;
 				buf[bufp++] = strdup(elem);
@@ -303,14 +302,16 @@ append:
 				buf[bufp++] = strdup(elem);
 			}
 
-			i++;
 			elemp = 0;
 			elem_size = ELEMSIZE;
 			continue;
 		}
 		*(elem + elemp++) = string[i];
-		if (i == str_len - 1)
-			goto append;
+		if (i == str_len - 1) {
+			elem[elemp] = 0;
+			buf[bufp++] = strdup(elem);
+			in_word = false;
+		}
 	}
 	buf[bufp] = 0;
 #undef BUFSIZE
