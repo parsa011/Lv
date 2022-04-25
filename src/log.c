@@ -13,7 +13,7 @@ void lv_log(const char *msg, ...)
 	char temp[512];
 	va_list ap;
 	va_start(ap, msg);
-	vsnprintf(temp,sizeof(temp),msg,ap);
-    append_line(debug_win->fbuffer, line_alloc(temp,strlen(temp)));
+	vsnprintf(temp, sizeof(temp), msg, ap);
+    append_line(debug_win->fbuffer, line_alloc(temp, strlen(temp)));
 	va_end(ap);
 }

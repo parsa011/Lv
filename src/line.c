@@ -31,7 +31,7 @@ line *line_alloc(char *content, int len)
  *	buffer line pointer into ln
  *	otherwise we will add it into last of buffer
  */
-int append_line(buffer *buf,line *ln)
+int append_line(buffer *buf, line *ln)
 {
 	/*
 	 * if buffer don't have any line , so this is first line
@@ -57,10 +57,10 @@ int line_new(int force)
 	/* TODO : in future we have to show user a message : this macro is available in insert mode and .... */
 	if (!(curbp->modes & (MDINST)) && !force)
 		return false;
-	line *ln = line_alloc("",0);
+	line *ln = line_alloc("", 0);
 	if (current_line == NULL) {
 		/* if buffer is null , so we have to append line to buffer , it's gonna be first line */
-		append_line(curbp,line_alloc("",0));
+		append_line(curbp,line_alloc("", 0));
 	} else {
 		/* otherwise , we will break current line into two part , before and after the cursor , 
 		 * and move after the cursor part into next line */
@@ -70,10 +70,10 @@ int line_new(int force)
 		ln->len = strlen(ln->chars);
 		/* if next line is not null , set ln next to current_next 
 		 * and prev of current_next to ln */
-		L_LINK_INSERT(current_line,ln);
+		L_LINK_INSERT(current_line, ln);
 		cursor_col = 1;
 		curbp->coffset = 0;
-		move_nextline(true,1);
+		move_nextline(true, 1);
 		curbp->lcount++;
 		insert_indent();
 	}
@@ -87,9 +87,9 @@ int line_new(int force)
 int line_new_down(int f, int n)
 {
 	while (n--) {
-		if (gotoeol(1,1) == EMPTYBUFFER)
+		if (gotoeol(1, 1) == EMPTYBUFFER)
 			return EMPTYBUFFER;
-		gotoeol(1,1);
+		gotoeol(1, 1);
 		line_new(true);
 	}
 	return true;
@@ -103,9 +103,9 @@ int line_new_up(int f, int n)
 	while (n--) {
 		if (gotosol(1,1) == EMPTYBUFFER)
 			return EMPTYBUFFER;
-		gotosol(1,1);
+		gotosol(1, 1);
 		line_new(true);
-		move_prevline(true,1);
+		move_prevline(true, 1);
 	}
 	return true;
 }
@@ -115,7 +115,7 @@ int line_new_up(int f, int n)
  */
 int line_length(line *ln)
 {
-	int tabs_count = count_tabs(ln->chars,ln->len);
+	int tabs_count = count_tabs(ln->chars, ln->len);
 	int res = strlen(ln->chars) + tabs_count * tab_size - tabs_count;
 	return res;
 }
@@ -130,10 +130,10 @@ void line_ins_char(char c)
 	if (current_line == NULL)
 		line_new(true);
 	current_line->len++;
-	current_line->chars  = realloc(current_line->chars,current_line->len + 1);
-	shift_right(current_line->chars,current_line->len,curbp->coffset);
-	lputc(current_line,curbp->coffset,c);
-	lputc(current_line,current_line->len,'\0');
+	current_line->chars  = realloc(current_line->chars, current_line->len + 1);
+	shift_right(current_line->chars, current_line->len, curbp->coffset);
+	lputc(current_line, curbp->coffset, c);
+	lputc(current_line, current_line->len, '\0');
 	next_char(true,1);
 	buffer_changed();
 }
@@ -144,7 +144,7 @@ void line_ins_char(char c)
 void line_append(line *ln, char *s, int len)
 {
 	ln->chars = realloc(ln->chars,ln->len + len + 1);
-	memcpy(&ln->chars[ln->len],s,len);
+	memcpy(&ln->chars[ln->len], s, len);
 	ln->len += len;
 	ln->chars[ln->len] = '\0';
 	buffer_changed();
@@ -185,7 +185,7 @@ void delete_next_char()
 	line_del_char();
 	if (move_prev) {
 		if (check_header(curbp) && !is_lastline)
-			move_prevline(true ,1);
+			move_prevline(true, 1);
     	gotoeol(true, 1);
 	}
 }
@@ -199,7 +199,7 @@ int delete_current_char(int f, int n)
 				go_back = true;
 			line_del_char();
 			if (go_back) {
-				move_prevline(true ,1);
+				move_prevline(true, 1);
 				gotoeol(true, 1);
 			}
 		}
@@ -267,7 +267,7 @@ void line_delete(int index)
     buffer_changed();
 }
 
-int delete_current_line(int f,int n) 
+int delete_current_line(int f, int n) 
 {
 	while (n--) {
 		line_delete(curbp->clindex);
@@ -276,7 +276,7 @@ int delete_current_line(int f,int n)
 }
 
 /*
- *	with a loop on prev line , we will calculate it's spaces at  the start of line 
+ *	with a loop on prev line , we will calculate it's spaces at the start of line 
  * 	at first we will reset line_indent value , then for each tab , 
  *  we will add tab_size into line_indent , and 1 for each space .
  *	and do break when we got first non space characater

@@ -92,13 +92,13 @@ int prompt_enter_key(int f,int n)
 	if (bmtest(curbp,MDCMMD)) {
 		if (msgbar_prompt_p == 0)
 			return false;
-		char **args = tokenize_string(msgbar_prompt," ");
+		char **args = tokenize_string_byalpha(msgbar_prompt);
 		command *cmd = find_command(args[0]);
 		if (cmd == NULL) {
-			showmsg(false,"(command not found)");
+			showmsg(false, "(command not found)");
 		} else {
-			leave_prompt_mode(true,1);
-			cmd->func(true,args);
+			leave_prompt_mode(true, 1);
+			cmd->func(true, args);
 		}
 		prompt_key_press_event = NULL;
 		free(args);

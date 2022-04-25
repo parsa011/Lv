@@ -41,17 +41,17 @@ void *lv_malloc(size_t size)
 	return p;
 }
 
-void *lv_realloc(void *ptr,size_t size) 
+void *lv_realloc(void *ptr, size_t size) 
 {
-	void *p = realloc(ptr,size);
+	void *p = realloc(ptr, size);
 	if (!p)
 		die("can realloc , size : %d\n",size);
 	return p;
 }
 
-void *lv_calloc(size_t n,size_t size) 
+void *lv_calloc(size_t n, size_t size) 
 {
-	void *p = calloc(n,size);
+	void *p = calloc(n, size);
 	if (!p)
 		die("can calloc , size : %d\n",size);
 	return p;
@@ -68,7 +68,7 @@ void lv_strncpy(char *dst, char *src, int len)
 		dst[len] = '\0';
 }
 
-int count_tabs(char *string,int len)
+int count_tabs(char *string, int len)
 {
 	int count = 0;
 	for (int i = 0;i < len;i++)
@@ -130,7 +130,7 @@ void strreverse(char *str)
 	}
 }
 
-int get_filename_of_path(char *buf,char *path)
+int get_filename_of_path(char *buf, char *path)
 {
 	char *p = path;
 	char *ch;
@@ -143,7 +143,7 @@ int get_filename_of_path(char *buf,char *path)
 }
 
 // do shift write for buf string , start from end and end in start_index 
-void shift_right(char *buf,int buflen,int start_index)
+void shift_right(char *buf, int buflen, int start_index)
 {
 	for (int i = buflen - 1;i > start_index;i--) {
 		buf[i] = buf[i - 1];
@@ -151,7 +151,7 @@ void shift_right(char *buf,int buflen,int start_index)
 	}
 }
 
-void shift_left(char *buf,int buflen,int start_index)
+void shift_left(char *buf, int buflen, int start_index)
 {
 	for (;start_index < buflen - 1;start_index++) {
 		buf[start_index] = buf[start_index + 1];
@@ -209,30 +209,31 @@ int get_twin_char_index(int c)
 	return -1;
 }
 
-char **tokenize_string(char *string,char *delim)
+char **tokenize_string(char *string, char *delim)
 {
 #define BUFSIZE 5
 #define ELEMSIZE 20
 	int delim_len = strlen(delim);
 	int buf_size = BUFSIZE;
-	int elem_size = ELEMSIZE;
 	char **buf = (char **)calloc(buf_size, sizeof(char *));
+	int bufp = 0;
+	int elem_size = ELEMSIZE;
 	char *elem = (char *)malloc(sizeof(char *));
 	int elemp = 0;
-	int bufp = 0;
-	for (int i = 0; i < strlen(string);i++) {
+	int str_len = strlen(string);
+	for (int i = 0; i < str_len; i++) {
 		if (bufp == buf_size - 1) {
 			buf_size += BUFSIZE;
-			buf = (char **)realloc(buf,buf_size * sizeof(char *));
+			buf = (char **) realloc(buf, buf_size * sizeof(char *));
 		}
 		if (elemp == elem_size - 1) {
 			elem_size += ELEMSIZE;
-			elem = (char *)realloc(elem,elem_size);
+			elem = (char *) realloc(elem, elem_size);
 		}
 		if (string[i] == delim[0]) {
 			bool is_delim = true;
-			int j,k;
-			for (k = i,j = 0;j < delim_len;j++,k++) {
+			int j, k;
+			for (k = i, j = 0; j < delim_len; j++, k++) {
 				if (string[k] == delim[j])
 					is_delim = true;
 				else {
@@ -255,7 +256,7 @@ go_next:
 			}
 		}
 		*(elem + elemp++) = string[i];
-		if (i == strlen(string) - 1)
+		if (i == str_len - 1)
 			goto append;
 	}
 	buf[bufp] = 0;
@@ -265,7 +266,56 @@ go_next:
 	return buf;
 }
 
-bool string_endwith(char *str,char *t)
+char **tokenize_string_byalpha(char *string)
+{
+#define BUFSIZE 5
+#define ELEMSIZE 20
+	int buf_size = BUFSIZE;
+	char **buf = (char **) calloc(buf_size, sizeof(char *));
+	int bufp = 0;
+	int elem_size = ELEMSIZE;
+	char *elem = (char *) malloc(sizeof(char *));
+	int elemp = 0;
+	int str_len = strlen(string);
+	bool in_word = false;
+	for (int i = 0; i < str_len; i++) {
+		if (isalpha(string[i]))
+			in_word = true;
+		if (bufp == buf_size - 1) {
+			buf_size += BUFSIZE;
+			buf = (char **) realloc(buf, buf_size * sizeof(char *));
+		}
+		if (elemp == elem_size - 1) {
+			elem_size += ELEMSIZE;
+			elem = (char *) realloc(elem, elem_size);
+		}
+		if (!isalpha(string[i])) {
+append:
+			if (in_word) {
+				elem[elemp] = 0;
+				buf[bufp++] = strdup(elem);
+			}
+			
+			elem[0] = string[i++];
+			elem[1] = 0;
+			buf[bufp++] = strdup(elem);
+
+			elemp = 0;
+			elem_size = ELEMSIZE;
+			continue;
+		}
+		*(elem + elemp++) = string[i];
+		if (i == str_len - 1)
+			goto append;
+	}
+	buf[bufp] = 0;
+#undef BUFSIZE
+#undef ELEMSIZE
+	free(elem);
+	return buf;
+}
+
+bool string_endwith(char *str, char *t)
 {
 	char *bs = str;
 	char *bt = t;
@@ -287,7 +337,7 @@ bool string_endwith(char *str,char *t)
  */
 void repeat_char(char *s,char c,int times)
 {
-	memset(s,c,times);
+	memset(s, c, times);
 }
 
 /*

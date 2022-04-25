@@ -207,7 +207,7 @@ int set_visual_mode(int f, int n)
 
 int set_insert_mode(int f, int n)
 {
-	set_bar_cursor();
+	//set_bar_cursor();
 	set_mode_for_buffer(MDINST);
 	return true;
 }

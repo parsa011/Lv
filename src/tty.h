@@ -111,7 +111,7 @@ int ttcheck(void);
  * 	write a character to the output buffer.  If it becomes
  * 	full, call ttflsh()
  */
-#define OBUFSIZE 128 
+#define OBUFSIZE 512
 extern int obufp; 			/* output buffer index */
 extern unsigned char obuf[OBUFSIZE]; /* output buffer */
 

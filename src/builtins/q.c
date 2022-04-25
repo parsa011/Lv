@@ -55,10 +55,6 @@ void parse_args(char **args)
 int quit(int f, char **args)
 {
 	parse_args(args);
-	if (buffer_change_count(curbp) && !quite_force) {
-		showmsg(true,"buffer is dirty, use 'q !' to force quite");
-		return false;
-	}
 	if (quite_all) {
 		// TODO : right now we dont care about force quite in quite all mode
 		while (remove_window(curwp) != ALONEWINDOW)
@@ -71,7 +67,7 @@ int quit(int f, char **args)
         	return false;
 		}
 		if (buffer_change_count(curbp) && !quite_force) {
-			showmsg(true,"buffer is dirty, use 'q !' to force quite");
+			showmsg(true,"buffer is dirty, use 'q!' to force quite");
 			return false;
 		}
 		if (curwp->bcount == 1) {

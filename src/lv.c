@@ -40,14 +40,14 @@ void init_editor()
 	init_display();
 	
 	append_window(init_window());
-	append_buffer(curwp,init_buffer(NULL,0,0));
+	append_buffer(curwp, init_buffer(NULL, 0, 0));
 	curbp = curwp->fbuffer;
 
 	/* debug window initialization */
 	debug_win = init_window();
-	debug_win->fbuffer = init_buffer(DEBUG_BUF_NAME,MDVIEW,0);
+	debug_win->fbuffer = init_buffer(DEBUG_BUF_NAME, MDVIEW, 0);
 
-    L_LINK_INSERT(curwp,debug_win);
+    L_LINK_INSERT(curwp, debug_win);
 
 	set_terminal_title(TERMINAL_TITLE);
 
@@ -96,15 +96,15 @@ void lv_loop()
 		update();
 		c = get_cmd();
 		// if given key is number and buffer is in lock mode , we will add given number to number stack
-		if (bmtest(curbp,MDLOCK) && ISNUMBER(c)) {
+		if (bmtest(curbp, MDLOCK) && ISNUMBER(c)) {
 			add_to_number_stack(c);
 			continue;
-		} else if (bmtest(curbp,MDCMMD)) { // if key we are in command mode , pass key to prompt key manager
+		} else if (bmtest(curbp, MDCMMD)) { // if key we are in command mode , pass key to prompt key manager
 			manage_prompt_key(c);
 			continue;
 		}
 		// otherwise , first add key to stack , they find macro by stack
-		if (bmtest(curbp,MDLOCK)) {
+		if (bmtest(curbp, MDLOCK)) {
 			add_to_macro_stack(c);
 			macro = find_macro_str(macro_stack);
 		} else {
@@ -113,7 +113,7 @@ void lv_loop()
 		}
 		if (bmtest(curbp,MDINST) && macro == NULL) {
     		/* dont insert anything when buffer is readonly :) */
-    		if (bmtest(curbp,MDVIEW))
+    		if (bmtest(curbp, MDVIEW))
         		continue;
 			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
@@ -124,7 +124,7 @@ void lv_loop()
     			/* first save change , before applying it :) */
 				//save_undo_by_macro(macro);
 				exec_macro(macro);
-				refresh_lock_mode(true,1);
+				refresh_lock_mode(true, 1);
 				macro = NULL;
 			}
 		}
@@ -182,7 +182,7 @@ int main(int argc,char *argv[])
 	init_editor();
 
 	if (argc > 1) {
-		load_file_into_buffer(curbp,argv[1]);
+		load_file_into_buffer(curbp, argv[1]);
 	}
 	// this is for enabling mouse
 	//TTputs("\033[?1000h");
