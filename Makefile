@@ -11,6 +11,10 @@ DEPS     = $(OBJECTS:.o=.d)
 BINARY   = $(BINDIR)/$(TARGET)
 	#-include $(DEPS)
 
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local/bin
+endif
+
 all: buildsolution
 
 buildsolution: dir $(BINARY)
@@ -26,6 +30,10 @@ $(BINARY): $(OBJECTS)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	echo " - Compiling \033[35m$<\033[0m"
 	@$(CC) $(CFLAGS) -c -MMD -MP -o $@ $<
+
+.PHONY 	: install
+install:
+	install -m 557 $(BINDIR)/$(TARGET) $(PREFIX)
 
 clean:
 	echo "clean runing..."

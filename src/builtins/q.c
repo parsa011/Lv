@@ -15,12 +15,12 @@ static char *options[] = {
 	"! (force quite , ignoring chagnes"
 };
 
-int quite_command_tab(int f,int c)
+int quite_command_tab(int f, int c)
 {
-	TTmove(buffers_start_offset,1);
+	TTmove(buffers_start_offset, 1);
 	command *cmd = fcommand;
 	int k = 0;
-	for (int i = 0;i < statusbar_start_offset - windowsbar_start_offset - 1;i++) {
+	for (int i = 0; i < statusbar_start_offset - windowsbar_start_offset - 1; i++) {
 		TTeeol();
 		if (k < ARRAY_LENGTH(options)) {
 			TTputs(options[k++]);
@@ -34,15 +34,21 @@ int quite_command_tab(int f,int c)
  *	recieve given args from command , and find inserted
  *	args with a loop :))
  */
-void parse_args(char **args)
+bool parse_args(char **args)
 {
+	args++;	// skip command name
 	while (*args) {
-		if (strcmp(*args,"!") == 0)
+		if (strcmp(*args, "!") == 0)
 			quite_force = true;
-		else if (strcmp(*args,"a") == 0)
+		else if (strcmp(*args, "a") == 0)
 			quite_all = true;
+		else {
+			showmsg(true, "Invalid argument <'%s'>", args);
+			return false;
+		}
 		*args++;
 	}
+	return true;
 }
 
 /*
@@ -54,12 +60,13 @@ void parse_args(char **args)
  */
 int quit(int f, char **args)
 {
-	parse_args(args);
+	if (!parse_args(args))
+		return false;
 	if (quite_all) {
 		// TODO : right now we dont care about force quite in quite all mode
 		while (remove_window(curwp) != ALONEWINDOW)
 			;
-		close_editor(true,EXIT_SUCCESS);
+		close_editor(true, EXIT_SUCCESS);
 	} else {
     	/* we cant close reserved buffers */
     	if (is_reserved_buffer_name(curbp->bname)) {
@@ -72,7 +79,7 @@ int quit(int f, char **args)
 		}
 		if (curwp->bcount == 1) {
     		if (remove_window(curwp) == ALONEWINDOW)
-        		close_editor(true,1);
+        		close_editor(true, 1);
 		} else
     		remove_buffer(curbp);
 	}

@@ -294,12 +294,16 @@ append:
 			if (in_word) {
 				elem[elemp] = 0;
 				buf[bufp++] = strdup(elem);
+				in_word = false;
 			}
-			
-			elem[0] = string[i++];
-			elem[1] = 0;
-			buf[bufp++] = strdup(elem);
 
+			if (!isspace(string[i])) {
+				elem[0] = string[i];
+				elem[1] = 0;
+				buf[bufp++] = strdup(elem);
+			}
+
+			i++;
 			elemp = 0;
 			elem_size = ELEMSIZE;
 			continue;
