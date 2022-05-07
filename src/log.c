@@ -14,6 +14,9 @@ void lv_log(const char *msg, ...)
 	va_list ap;
 	va_start(ap, msg);
 	vsnprintf(temp, sizeof(temp), msg, ap);
+	buffer *old_buffer = curbp;
+	curbp = debug_win->fbuffer;
     append_line(debug_win->fbuffer, line_alloc(temp, strlen(temp)));
+    curbp = old_buffer;
 	va_end(ap);
 }

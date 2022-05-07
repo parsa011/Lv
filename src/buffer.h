@@ -56,6 +56,7 @@ struct buffer_t {
 #define check_header(b) (b->loffset == curbp->clindex) /* is current line of given buffer header line or no */
 
 #define get_last_line() (get_line_by_index(curbp->lcount - 1))
+#define get_last_line_buffer(get_line_by_index)
 
 /* buffer flags */
 #define FFULLS	0x0001 	/* full size buffer   */

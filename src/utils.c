@@ -310,7 +310,6 @@ char **tokenize_string_byalpha(char *string)
 		if (i == str_len - 1) {
 			elem[elemp] = 0;
 			buf[bufp++] = strdup(elem);
-			in_word = false;
 		}
 	}
 	buf[bufp] = 0;

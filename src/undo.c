@@ -26,7 +26,7 @@ void save_undo_by_macro(key_macro *m)
     undo_packet *packet = init_undo_packet();
     if (strcmp(m->key_str,"d") == 0) {
         packet->type = DELETE;
-        packet->data[0] = lgetc(current_line,curbp->coffset);
+        packet->data[0] = lgetc(current_line, curbp->coffset);
         packet->offset = curbp->coffset;
         packet->lineno = curbp->clindex + 1;
         append_undo(packet);
@@ -66,7 +66,7 @@ void append_undo(undo_packet *packet)
         if (curbp->change_db_size < curbp->change_db->count) {
             remove_first_undo_pack();
         }
-        L_LINK_INSERT(get_last_packet(),packet);
+        L_LINK_INSERT(get_last_packet(), packet);
     }
         set_current_chagne(packet);
     curbp->change_db->count++;
@@ -79,7 +79,7 @@ void remove_first_undo_pack()
 {
     undo_packet *pack = get_change_db(curbp);
     curbp->change_db->db = L_LINK_NEXT(get_change_db(curbp));
-    L_LINK_SPREV(get_change_db(curbp),0);
+    L_LINK_SPREV(get_change_db(curbp), 0);
     free(pack);
     curbp->change_db->count--;
 }
@@ -90,7 +90,8 @@ void remove_first_undo_pack()
 undo_packet *get_last_packet()
 {
     undo_packet *up = get_change_db(curbp);
-    for (; L_LINK_NEXT(up) != NULL; up = L_LINK_NEXT(up));
+    for (; L_LINK_NEXT(up) != NULL; up = L_LINK_NEXT(up))
+        ;
     return up;
 }
 
@@ -99,7 +100,7 @@ undo_packet *get_last_packet()
  * 	first we will check that if we have any packet or no
  * 	if we have  , so we will apply it by calling apply_undo function
  */
-int do_undo(int f,int n)
+int do_undo(int f, int n)
 {
     if (!get_current_change(curbp)) {
         showmsg(false,"no any change");
@@ -117,23 +118,23 @@ int do_undo(int f,int n)
 void apply_undo(undo_packet *packet)
 {
     if (packet->type == DELETE_LINE) {
-         goto_line(true,packet->lineno);
+         goto_line(true, packet->lineno);
          // if line was last line of buffer , so we have to insert new line down :))
          if (packet->lineno > curbp->lcount)
-             line_new_down(true,1);
+             line_new_down(true, 1);
          else
-             line_new_up(true,1);
-         line_append(current_line,packet->ln->chars,packet->ln->len);
+             line_new_up(true, 1);
+         line_append(current_line, packet->ln->chars, packet->ln->len);
     } else if (packet->type == DELETE) {
-         goto_line(true,packet->lineno);
+         goto_line(true, packet->lineno);
          curbp->coffset = packet->offset;
-         cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
+         cursor_col = convert_coffset_to_cursorcol(current_line->chars, curbp->coffset);
          line_ins_char(packet->data[0]);
-         prev_char(true,1);
+         prev_char(true, 1);
     } else {
-         goto_line(true,packet->lineno);
+         goto_line(true, packet->lineno);
          curbp->coffset = packet->offset;
-         cursor_col = convert_coffset_to_cursorcol(current_line->chars,curbp->coffset);
+         cursor_col = convert_coffset_to_cursorcol(current_line->chars, curbp->coffset);
 		 delete_next_char();
     }
     if (get_current_change(curbp) != NULL)

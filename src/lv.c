@@ -117,12 +117,12 @@ void lv_loop()
         		continue;
 			if (c != (c & SPEC) || c != (c & META)) {
 				manage_insert_key(c);
-				//save_undo_by_key(c);
+				save_undo_by_key(c);
 			}
 		} else {
 			if (macro != NULL) {
     			/* first save change , before applying it :) */
-				//save_undo_by_macro(macro);
+				save_undo_by_macro(macro);
 				exec_macro(macro);
 				refresh_lock_mode(true, 1);
 				macro = NULL;
