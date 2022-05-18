@@ -220,10 +220,15 @@ void write_line(line *ln)
 	char *text_bag = lv_malloc(256);
 	int i = 0;
 	bool append = false;
-	while (*temp) {
+	/* this is for control count of chars that we want to write into the screen , to dont let line be more than terminal
+	   col size 
+	 */
+	int wroted_chars = 0;
+	while (*temp && wroted_chars < term.t_mcol) {
+		wroted_chars++;
 		/* we will check if current char is space or end of line 
-		 * if it was them , so we have to write text bag into screen
-		 * also we have to check if we goes to end of file or no by
+		 * if it was one of them , so we have to write text bag into screen
+		 * also we have to check if we will reach end of file or no, by
 		 * checking next char with temp + 1
 		 */
 		if (*temp == ' ' || *temp == '\n' || *temp == '\t') {
