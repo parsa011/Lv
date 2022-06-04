@@ -172,38 +172,34 @@ void line_del_char()
 	}
 	int at = curbp->coffset - 1;
 	/* check if we are deleting a tab , if it's a tab , so we decrease cursor col by tab size */
-	prev_char(true,1);
+	prev_char(true, 1);
 	memmove(&current_line->chars[at], &current_line->chars[at + 1], current_line->len - at);
 	current_line->len--;
 	buffer_changed();
 }
 
+void delete_prev_char()
+{
+	bool go_prev_line = cursor_col == 1;
+	line_del_char();
+	if (go_prev_line) {
+		move_prevline(true, 1);
+		gotoeol(true, 1);
+	}
+}
+
 void delete_next_char()
 {
-	bool is_lastline = get_last_line() == current_line;
-    int move_prev = is_lastline || curbp->coffset == 0;
+	next_char(true, 1);
 	line_del_char();
-	if (move_prev) {
-		if (check_header(curbp) && !is_lastline)
-			move_prevline(true, 1);
-    	gotoeol(true, 1);
-	}
 }
 
 int delete_current_char(int f, int n)
 {	
-	bool go_back = false;
 	while (n--) {
 		if (next_char(true, 1)) {
-			if (curbp->coffset == 0)
-				go_back = true;
 			line_del_char();
-			if (go_back) {
-				move_prevline(true, 1);
-				gotoeol(true, 1);
-			}
 		}
-		go_back = false;
 	}
 	return true;
 }

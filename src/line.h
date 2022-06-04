@@ -48,6 +48,11 @@ int append_line(buffer *,line *);
 int line_length(line *);
 
 /*
+ *	Remove Previous chars
+ */
+void delete_prev_char();
+
+/*
  *	delete char in current position of cursor
  */
 void delete_next_char();
