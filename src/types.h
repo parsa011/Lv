@@ -1,5 +1,6 @@
 #include "basic.h"
 
+typedef struct line_t line;
 typedef struct window_t window;
 typedef struct buffer_t buffer;
 
@@ -10,6 +11,8 @@ typedef struct {
 	uint8_t x;
 	uint8_t y;
 } cursor_position;
+
+#define CURSOR_POS(x, y) ((cursor_position) {x, y})
 
 /*
  * these types are useful when we are working with some functions that thier taks is to
@@ -22,6 +25,7 @@ typedef enum {
 } append_type;
 
 #include "../libs/llist.h"
-#include "basic.h"
+#include "tty.h"
+#include "line.h"
 #include "buffer.h"
 #include "window.h"

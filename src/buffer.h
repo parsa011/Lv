@@ -4,12 +4,12 @@
 /*
  *	possible modes for a buffer, modes are like VIM modes
  */
-typedef enum buffer_mode {
+typedef enum {
 	MODE_LOCK = 1,
 	MODE_INSERT = 2,
 	MODE_VISUAL = 4,
 	MODE_SEARCH = 8
-};
+} buffer_mode;
 
 #define BUFFER_NAME_MAX_LENGTH 256
 
