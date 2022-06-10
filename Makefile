@@ -1,6 +1,6 @@
 CC       = gcc
 CFLAGS   = -g -I.
-SRCDIR   = src src/tui src/builtins libs
+SRCDIR   = src libs
 OBJDIR   = obj
 BINDIR   = bin
 TARGET	 = lv
@@ -9,7 +9,7 @@ SOURCES  = $(shell find $(SRCDIR) -type f -name '*.c') # main.c say_hello.c
 OBJECTS  = $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.c=.o)) # main.o say_hello.o
 DEPS     = $(OBJECTS:.o=.d)
 BINARY   = $(BINDIR)/$(TARGET)
-	#-include $(DEPS)
+#-include $(DEPS)
 
 ifeq ($(PREFIX),)
     PREFIX := /usr/local/bin
