@@ -28,9 +28,15 @@ int main(int argc, char *argv[])
 		c = read_char_from_terminal();
 		if (c == 'h')
 			hide_cursor();
-		if (c == 's')
+		else if (c == 's')
 			show_cursor();
-		printf("%c\n", c);
+		else if (c == 'w') {
+			cursor_position pos;
+			get_cursor_pos(&pos);
+			print_pos(pos);
+		} else
+			printf("%c", c);
+		putchar('\n');
 	} while (c != 'q');
 	exit(0);
 	return 0;

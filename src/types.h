@@ -9,11 +9,12 @@ typedef struct buffer_t buffer;
  * can be used as field in structs or anywhere else to hold cursor position info
  */
 typedef struct {
-	int x;
-	int y;
+	uint8_t row;
+	uint8_t col;
 } cursor_position;
 
 #define CURSOR_POS(x, y) ((cursor_position) {x, y})
+#define print_pos(pos) (printf("%hhd:%hhd", pos.row, pos.col))
 
 /*
  * these types are useful when we are working with some functions that thier taks is to

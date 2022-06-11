@@ -3,7 +3,7 @@
 
 #include <termios.h>
 
-public struct termios old;
+private struct termios old;
 
 public void terminal_raw_mode();
 
@@ -14,6 +14,8 @@ public void mouse_enable();
 public void mouse_disable();
 
 public void move_cursor(cursor_position cursor_pos);
+
+public int get_cursor_pos(cursor_position *pos);
 
 public void clear_screen();
 

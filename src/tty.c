@@ -33,7 +33,7 @@ public void mouse_disable()
 
 public void move_cursor(cursor_position cursor_pos)
 {
-	printf("\033[%d;%dH", cursor_pos.y, cursor_pos.x);
+	printf("\033[%d;%dH", cursor_pos.row, cursor_pos.col);
 }
 
 
@@ -42,7 +42,7 @@ public void move_cursor(cursor_position cursor_pos)
  * and return it. On error -1 is returned, on success the position of the
  * cursor is stored at *rows and *cols and 0 is returned. 
  */
-int get_cursor_pos(cursor_position *cursor_pos) {
+public int get_cursor_pos(cursor_position *cursor_pos) {
     char buf[32];
     unsigned int i = 0;
 
@@ -62,7 +62,7 @@ int get_cursor_pos(cursor_position *cursor_pos) {
     /* Parse it. */
     if (buf[0] != ESC || buf[1] != '[')
 		return -1;
-    if (sscanf(buf + 2, "%d;%d", &cursor_pos->x, &cursor_pos->y) != 2)
+    if (sscanf(buf + 2, "%hhd;%hhd", &cursor_pos->row, &cursor_pos->col) != 2)
 		return -1;
     return 0;
 }
