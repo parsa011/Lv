@@ -1,8 +1,8 @@
 #include "types.h"
 
-private char put_back_key = -1;
+private int put_back_key = -1;
 
-private void putback(char c)
+private void putback(int c)
 {
 	put_back_key = c;
 }
@@ -20,4 +20,10 @@ int read_char_from_terminal(void)
 	if (read_return == -1 && errno == EIO)
 		exit(0);
 	return buf[0];
+}
+
+int get_key()
+{
+	int c = read_char_from_terminal();
+	return c;
 }

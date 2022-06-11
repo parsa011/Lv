@@ -9,8 +9,8 @@ typedef struct buffer_t buffer;
  * can be used as field in structs or anywhere else to hold cursor position info
  */
 typedef struct {
-	uint8_t x;
-	uint8_t y;
+	int x;
+	int y;
 } cursor_position;
 
 #define CURSOR_POS(x, y) ((cursor_position) {x, y})
@@ -27,6 +27,7 @@ typedef enum {
 
 #include "../libs/llist.h"
 #include "glob.h"
+#include "display.h"
 #include "tty.h"
 #include "key.h"
 #include "line.h"

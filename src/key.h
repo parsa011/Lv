@@ -6,7 +6,14 @@
  */
 #define CTRL_KEY(k) ((k) & 0x1f)
 
+/*
+ *	Checks if given key is a control key or not
+ */
 #define IS_CTRL_KEY(k) (k == CTRL_KEY(k))
+
+enum keys {
+	ESC = 27,
+};
 
 /*
  *	Read char by 1 from global_editor.tty_in input and return it

@@ -13,19 +13,23 @@ void at_exit()
 
 void init_editor()
 {
+	clear_screen();
+	terminal_raw_mode();
 	global_editor.tty_in = STDIN_FILENO;
+	update_screen_size();
 	atexit(at_exit);
 }
 
 int main(int argc, char *argv[])
 {
 	init_editor();
-	terminal_raw_mode();
 	int c;
 	do {
 		c = read_char_from_terminal();
-		if (IS_CTRL_KEY(c))
-			printf("constrol key\n");
+		if (c == 'h')
+			hide_cursor();
+		if (c == 's')
+			show_cursor();
 		printf("%c\n", c);
 	} while (c != 'q');
 	exit(0);
