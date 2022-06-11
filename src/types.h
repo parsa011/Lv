@@ -1,6 +1,7 @@
 #include "basic.h"
 
 typedef struct line_t line;
+typedef struct editor_t editor;
 typedef struct window_t window;
 typedef struct buffer_t buffer;
 
@@ -25,7 +26,9 @@ typedef enum {
 } append_type;
 
 #include "../libs/llist.h"
+#include "glob.h"
 #include "tty.h"
+#include "key.h"
 #include "line.h"
 #include "buffer.h"
 #include "window.h"

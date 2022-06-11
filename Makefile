@@ -5,8 +5,9 @@ OBJDIR   = obj
 BINDIR   = bin
 TARGET	 = lv
 
-SOURCES  = $(shell find $(SRCDIR) -type f -name '*.c') # main.c say_hello.c
-OBJECTS  = $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.c=.o)) # main.o say_hello.o
+SOURCES  = $(shell find $(SRCDIR) -type f -name '*.c')
+INCLUDES = $(shell find $(SRCDIR) -type f -name '*.h')
+OBJECTS  = $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.c=.o))
 DEPS     = $(OBJECTS:.o=.d)
 BINARY   = $(BINDIR)/$(TARGET)
 #-include $(DEPS)
