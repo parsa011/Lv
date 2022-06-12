@@ -4,6 +4,12 @@
 
 private struct termios old;
 
+
+/* output buffer, index and size */
+
+private unsigned char obuf[OBUFSIZE];
+private int obufp = 0;
+
 public void terminal_raw_mode()
 {
 	tcgetattr(STDOUT_FILENO, &old);
@@ -21,41 +27,75 @@ public void terminal_cooked_mode()
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &old);
 }
 
+/* 
+ * write string to output buffer
+ */
+void ttyputs(char *s, bool flush_now)
+{
+	while (*s) {
+		ttyputc(*s++);
+	}
+	if (flush_now)
+		ttyflush();
+}
+
+void ttyputc(char c)
+{
+	if (obufp == OBUFSIZE)
+		ttyflush();
+	obuf[obufp++] = c;
+}
+
+/* 
+ * flush output and check for type ahead 
+ */
+int ttyflush()
+{
+	if (obufp) {
+		// TODO : DIE HERE
+		if (write(global_editor.tty_in, obuf, obufp) == 0)
+			printf("SOMETHING WENT WRONG WHEN WRITING INTO TERMOUT\n");
+		obufp = 0;
+	}
+	return true;
+}
+
 public int ttycheck()
 {
 	int x;
 	return ((ioctl(0, FIONREAD, &x) == -1) ? 0 : x);
 }
 
-public void mouse_enable()
+public void tty_mouse_enable()
 {
-	printf("\033[?1000h");
-	printf("\033[?1006h");
+	ttyputs("\033[?1006h\033[?1000h", true);
 }
 
-public void mouse_disable()
+public void tty_mouse_disable()
 {
-	printf("\033[?1006l");
-	printf("\033[?1000l");
+	ttyputs("\033[?1006l\033[?1000l", true);
 }
 
-public void move_cursor(cursor_position cursor_pos)
+public void tty_move_cursor(cursor_position cursor_pos)
 {
-	printf("\033[%d;%dH", cursor_pos.row, cursor_pos.col);
+	char buf[32];
+	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", cursor_pos.row, cursor_pos.col);
+	ttyputs(buf, true);
 }
-
 
 /*
  * Use the ESC [6n escape sequence to query the horizontal cursor position
  * and return it. On error -1 is returned, on success the position of the
  * cursor is stored at *rows and *cols and 0 is returned. 
  */
-public int get_cursor_pos(cursor_position *cursor_pos) {
+public int tty_get_cursor_pos(cursor_position *cursor_pos)
+{
     char buf[32];
     unsigned int i = 0;
 
     /* Report cursor location */
-    if (write(global_editor.tty_in, "\x1b[6n", 4) != 4) return -1;
+    if (write(global_editor.tty_in, "\x1b[6n", 4) != 4)
+		return -1;
 
     /* Read the response: ESC [ rows ; cols R */
     while (i < sizeof(buf) -1) {
@@ -75,27 +115,57 @@ public int get_cursor_pos(cursor_position *cursor_pos) {
     return 0;
 }
 
-public void clear_screen(void)
+public void tty_clear_screen()
 {
-	write(global_editor.tty_in, "\033[H\033[2J", 8);
+	ttyputs("\033[H\033[2J", true);
 }
 
-public void hide_cursor()
+public void tty_hide_cursor()
 {
-	write(global_editor.tty_in, "\033[?25l", 7);
+	ttyputs("\033[?25l", true);
 }
 
-public void show_cursor()
+public void tty_show_cursor()
 {
-	write(global_editor.tty_in, "\033[?25h", 7);
+	ttyputs("\033[?25h", true);
 }
 
-public void store_cursor()
+public void tty_store_cursor()
 {
-	write(global_editor.tty_in, "\0337", 3);
+	ttyputs("\0337", true);
 }
 
-public void restore_cursor()
+public void tty_restore_cursor()
 {
-	write(global_editor.tty_in, "\0338", 3);
+	ttyputs("\0338", true);
+}
+
+public void tty_erase_end_of_line()
+{
+	ttyputs("\x1b[2K", true);
+}
+
+public void tty_erase_of_age()
+{
+	ttyputs("\x1b[2J", true);
+}
+
+public void tty_cursor_next_line()
+{
+	ttyputs("\x1b[B", true);
+}
+
+public void tty_cursor_prev_line()
+{
+	ttyputs("\x1b[A", true);
+}
+
+public void tty_cursor_next_char()
+{
+	ttyputs("\x1b[C", true);
+}
+
+public void tty_cursor_prev_char()
+{
+	ttyputs("\x1b[D", true);
 }
