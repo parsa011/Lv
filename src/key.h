@@ -11,8 +11,27 @@
  */
 #define IS_CTRL_KEY(k) (k == CTRL_KEY(k))
 
+#define CONTROL 0x10000
+#define META 	0x20000
+#define CTLX    0x40000	/* ^X flag, or'ed in            */
+#define	SPEC	0x80000	/* special key (function keys)  */
+
 enum keys {
 	ESC = 27,
+	ARROW_UP = SPEC | 'A',
+	ARROW_RIGHT = SPEC | 'C',
+	ARROW_DOWN = SPEC | 'B',
+	ARROW_LEFT = SPEC | 'D',
+	HOME_KEY = SPEC | '1',
+	INS_KEY = SPEC | '2',
+	DEL_KEY = SPEC | '3',
+	END_KEY = SPEC | '4',
+	PGUP_KEY = SPEC | '5',
+	PGDOWN_KEY = SPEC | '6',
+	F1_KEY = SPEC | 'P',
+	F2_KEY = SPEC | 'Q',
+	F3_KEY = SPEC | 'R',
+	F4_KEY = SPEC | 'S'
 };
 
 /*
@@ -21,5 +40,20 @@ enum keys {
  *	-1 we will return it
  */
 int read_char_from_terminal();
+
+/*
+ *	read char from terminal and convert it to a key
+ */
+int get_key();
+
+/*
+ *	return human readable string for given key
+ */
+void get_key_str(int key, char *buffer);
+#define print_key(key) do { \
+		char key_str[16]; \
+		get_key_str(key, key_str); \
+		printf("%s\n", key_str); \
+	} while (false);
 
 #endif

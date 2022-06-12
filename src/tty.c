@@ -1,6 +1,8 @@
 #include "types.h"
 
-struct termios old;
+#include <sys/ioctl.h>
+
+private struct termios old;
 
 public void terminal_raw_mode()
 {
@@ -17,6 +19,12 @@ public void terminal_raw_mode()
 public void terminal_cooked_mode()
 {
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &old);
+}
+
+public int ttycheck()
+{
+	int x;
+	return ((ioctl(0, FIONREAD, &x) == -1) ? 0 : x);
 }
 
 public void mouse_enable()

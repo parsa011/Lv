@@ -9,6 +9,12 @@ public void terminal_raw_mode();
 
 public void terminal_cooked_mode();
 
+/*
+ *	checks if there is any other char to read from terminal or no
+ *	(any pending char)
+ */
+public int ttycheck();
+
 public void mouse_enable();
 
 public void mouse_disable();

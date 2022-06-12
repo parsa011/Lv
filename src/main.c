@@ -25,18 +25,8 @@ int main(int argc, char *argv[])
 	init_editor();
 	int c;
 	do {
-		c = read_char_from_terminal();
-		if (c == 'h')
-			hide_cursor();
-		else if (c == 's')
-			show_cursor();
-		else if (c == 'w') {
-			cursor_position pos;
-			get_cursor_pos(&pos);
-			print_pos(pos);
-		} else
-			printf("%c", c);
-		putchar('\n');
+		c = get_key();
+		//print_key(c);
 	} while (c != 'q');
 	exit(0);
 	return 0;
