@@ -31,8 +31,10 @@ struct buffer_t {
 	uint64_t current_line_index;
 	uint64_t line_offset;
 	uint8_t char_offset;
-	char file_name[BUFFER_NAME_MAX_LENGTH];
-	char file_path[BUFFER_NAME_MAX_LENGTH];
+	char *file_name;
+	char *file_path;
+	//char file_name[BUFFER_NAME_MAX_LENGTH];
+	//char file_path[BUFFER_NAME_MAX_LENGTH];
 	uint8_t mode;
 
 	/* Options for buffer */
@@ -46,6 +48,29 @@ struct buffer_t {
  *	Initialize basic informations for buffer, and open file into buffer if file_name
  *	isn't nullb
  */
-void buffer_init(buffer *buf, char *file_name);
+public void buffer_init(buffer *buf, char *file_name);
+
+/*
+ *	Mostly used to initialize buffer, it will set buffer options that are related to filename
+ *  for example path, basename, file_type and ...
+ */
+public void buffer_set_file(buffer *buf, char *path);
+
+/*
+ *	it's similar to set_file, but it will load file into buffer, not just set name for buffer
+ *	any other even that could happened after opening file in buffer , should be called here
+ */
+public void buffer_open_file(buffer *buf, char *path);
+
+/*
+ *	load lines of file into buffer and update options of buffer that are related to
+ *	lines , like lines_count and ...
+ */
+public void buffer_load_file(buffer *buf, char *path);
+
+/*
+ *	Append given line to end of buffer lines
+ */
+public void buffer_line_append(buffer *buf, line *new_line);
 
 #endif

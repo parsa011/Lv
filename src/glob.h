@@ -17,4 +17,7 @@ struct editor_t {
  */
 public editor global_editor;
 
+public window current_window;
+public buffer *current_buffer;
+
 #endif

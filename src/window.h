@@ -35,7 +35,7 @@
  */
 struct window_t {
 	L_LINK(window) link;
-	buffer *first_buffer;
+	buffer first_buffer;
 	uint8_t buffer_count;
 	uint8_t current_buffer_index;
 	cursor_position cursor_pos;

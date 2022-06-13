@@ -30,7 +30,7 @@ public void terminal_cooked_mode()
 /* 
  * write string to output buffer
  */
-void ttyputs(char *s, bool flush_now)
+public void ttyputs(char *s, bool flush_now)
 {
 	while (*s) {
 		ttyputc(*s++);
@@ -39,7 +39,7 @@ void ttyputs(char *s, bool flush_now)
 		ttyflush();
 }
 
-void ttyputc(char c)
+public void ttyputc(char c)
 {
 	if (obufp == OBUFSIZE)
 		ttyflush();
@@ -49,7 +49,7 @@ void ttyputc(char c)
 /* 
  * flush output and check for type ahead 
  */
-int ttyflush()
+private int ttyflush()
 {
 	if (obufp) {
 		// TODO : DIE HERE

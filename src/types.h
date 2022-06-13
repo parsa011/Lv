@@ -1,4 +1,5 @@
 #include "basic.h"
+#include <assert.h>
 
 typedef struct line_t line;
 typedef struct editor_t editor;
@@ -27,6 +28,7 @@ typedef enum {
 } append_type;
 
 #include "../libs/llist.h"
+#include "util.h"
 #include "glob.h"
 #include "display.h"
 #include "tty.h"
