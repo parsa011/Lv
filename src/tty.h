@@ -18,13 +18,13 @@ private unsigned char obuf[OBUFSIZE]; /* output buffer */
  *	sometimes we need to write output immediatly , so we will pass
  *	'true' for flush_now to autocall for ttyflush()
  */
-private void ttyputs(char *string, bool flush_now);
+public void ttyputs(char *string, bool flush_now);
 
 /*
  *	add given given into out put array
  *	call ttyflush() when we reached to OBUFSIZE size
  */
-private void ttyputc(char ch);
+public void ttyputc(char ch);
 
 /*
  *	Print output to terminal by calling write()

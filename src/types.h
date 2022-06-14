@@ -14,8 +14,20 @@ typedef struct {
 	uint8_t col;
 } cursor_position;
 
+#define pos_copy(from, to) { \
+	to.row = from.row; \
+	to.col = from.col; \
+}
 #define CURSOR_POS(x, y) ((cursor_position) {x, y})
 #define print_pos(pos) (printf("%hhd:%hhd", pos.row, pos.col))
+
+/*
+ *	struct to hold rgb colors
+ */
+typedef struct {
+	int red, green, blue;
+} color;
+#define color_new(red, green, blue) {(color) {red, green, blue});
 
 /*
  * these types are useful when we are working with some functions that thier taks is to

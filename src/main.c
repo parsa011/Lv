@@ -21,6 +21,15 @@ void init_editor()
 	atexit(at_exit);
 }
 
+void lv_loop()
+{
+	int c;
+	do {
+		update_screen();
+		c = get_key();
+	} while (c != 'q');
+}
+
 int main(int argc, char *argv[])
 {
 	init_editor();
@@ -30,14 +39,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	buffer_open_file(current_buffer, argv[1]);
-	line *ln = current_buffer->first_line;
-	while (ln) {
-		printf("%s", ln->chars);
-		ln = L_LINK_NEXT(ln);
-	}
-	do {
-		c = get_key();
-	} while (c != 'q');
+	lv_loop();
 	exit(0);
 	return 0;
 }
