@@ -26,12 +26,14 @@ public void update_text()
 	for (int i = 0; i < text_region_size - 1; i++) {
 		tty_erase_end_of_line();
 		if (ln) {
-			printf("%s\n", ln->chars);
+			ttyputs(ln->chars, false);
+			ttyputs("\n", false);
 			ln = L_LINK_NEXT(ln);
 		} else {
-			printf("~ \n\r");
+			ttyputs("~ \n\r", false);
 		}
 	}
+	ttyflush();
 	tty_show_cursor();
 }
 
@@ -52,7 +54,7 @@ public void update_command_bar()
 	tty_erase_end_of_line();
 
 	printf("Line Count : %ld ------- Line Offset : %ld ------ Current Line Index : %ld ----- Cursor Pos : ", current_buffer->line_count,
-		   current_buffer->line_offset, current_line_index());
+		   current_buffer->line_offset, buffer_line_index());
 	print_pos(current_window.cursor_pos);
 	putchar('\r');
 	tty_show_cursor();
