@@ -55,3 +55,14 @@ public void buffer_line_append(buffer *buf, line *ln)
 	}
 	buf->line_count++;
 }
+
+public line *buffer_get_line_by_index(buffer *buf, uint64_t index)
+{
+	int lines_passed = 0;
+	line *ln = buf->first_line;
+	for (; ln; ln = L_LINK_NEXT(ln)) {
+		if (lines_passed++ == index)
+			return ln;
+	}
+	return NULL;
+}

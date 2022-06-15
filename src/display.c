@@ -21,8 +21,9 @@ public void update_text()
 	 *	place cursor to the actuall place for texts section
 	 */
 	tty_move_cursor(CURSOR_POS(1 + global_editor.show_tabs, 1));
-	line *ln = current_buffer->first_line;
+	line *ln = buffer_get_line_by_index(current_buffer, current_buffer->line_offset);
 	for (int i = 0; i < text_region_size - 1; i++) {
+		tty_erase_end_of_line();
 		if (ln) {
 			printf("%s\n", ln->chars);
 			ln = L_LINK_NEXT(ln);

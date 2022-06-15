@@ -73,4 +73,9 @@ public void buffer_load_file(buffer *buf, char *path);
  */
 public void buffer_line_append(buffer *buf, line *new_line);
 
+/*
+ *	return line of give buffer with given index
+ */
+public line *buffer_get_line_by_index(buffer *buf, uint64_t index);
+
 #endif

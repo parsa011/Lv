@@ -15,11 +15,12 @@ void init_editor()
 {
 	tty_clear_screen();
 	terminal_raw_mode();
-	reset_pos(current_window.cursor_pos);
-	current_window.cursor_pos.row += global_editor.show_tabs;
-	tty_move_cursor(current_window.cursor_pos);
-	setbuf(stdout, NULL);
 	global_editor.tty_in = STDIN_FILENO;
+
+	reset_pos(current_window.cursor_pos);
+	tty_move_cursor(current_window.cursor_pos);
+
+	setbuf(stdout, NULL);
 	update_screen_size();
 	current_buffer = &current_window.first_buffer;
 	atexit(at_exit);
@@ -32,15 +33,9 @@ void lv_loop()
 		update_screen();
 		c = get_key();
 		if (c == 'j') {
-			if (cursor_row >= global_editor.term_row - 1)
-				continue;
-			tty_cursor_next_line();
-			cursor_row++;
+			next_line();			
 		} else if (c == 'k') {
-			if (cursor_row <= 1 + global_editor.show_tabs)
-				continue;
-			tty_cursor_prev_line();
-			cursor_row--;
+			prev_line();
 		}
 	} while (c != 'q');
 }
@@ -51,7 +46,6 @@ int main(int argc, char *argv[])
 	global_editor.show_tabs = true;
 
 	init_editor();
-	int c;
 	buffer_open_file(current_buffer, argv[1]);
 	lv_loop();
 	exit(0);

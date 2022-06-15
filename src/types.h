@@ -20,7 +20,7 @@ typedef struct {
 }
 #define CURSOR_POS(x, y) ((cursor_position) {x, y})
 #define print_pos(pos) (printf("%hhd:%hhd", pos.row, pos.col))
-#define reset_pos(pos) {pos.row = pos.col = 1;}
+#define reset_pos(pos) {pos.row = 1 + global_editor.show_tabs;pos.col = 1;}
 
 /*
  *	struct to hold rgb colors
@@ -45,6 +45,7 @@ typedef enum {
 #include "glob.h"
 #include "display.h"
 #include "tty.h"
+#include "move.h"
 #include "key.h"
 #include "line.h"
 #include "buffer.h"
