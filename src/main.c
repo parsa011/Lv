@@ -15,6 +15,7 @@ void init_editor()
 {
 	tty_clear_screen();
 	terminal_raw_mode();
+	setbuf(stdout, NULL);
 	global_editor.tty_in = STDIN_FILENO;
 	update_screen_size();
 	current_buffer = &current_window.first_buffer;
@@ -34,10 +35,7 @@ int main(int argc, char *argv[])
 {
 	init_editor();
 	int c;
-	if (argc < 2) {
-		usage(argv[0]);
-		return 0;
-	}
+	//global_editor.show_tabs = true;
 	buffer_open_file(current_buffer, argv[1]);
 	lv_loop();
 	exit(0);

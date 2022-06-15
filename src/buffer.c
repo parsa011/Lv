@@ -19,6 +19,8 @@ public void buffer_open_file(buffer *buf, char *file_name)
 
 public void buffer_set_file(buffer *buf, char *path)
 {
+	if (path == NULL)
+		path == "[ NO NAME]";
 	buf->file_path = path;
 	buf->file_name = get_filename_of_path(path);
 }

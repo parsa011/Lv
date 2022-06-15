@@ -49,7 +49,7 @@ public void ttyputc(char c)
 /* 
  * flush output and check for type ahead 
  */
-private int ttyflush()
+public int ttyflush()
 {
 	if (obufp) {
 		// TODO : DIE HERE

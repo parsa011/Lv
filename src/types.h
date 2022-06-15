@@ -27,7 +27,7 @@ typedef struct {
 typedef struct {
 	int red, green, blue;
 } color;
-#define color_new(red, green, blue) {(color) {red, green, blue});
+#define color_new(red, green, blue) ((color) {red, green, blue})
 
 /*
  * these types are useful when we are working with some functions that thier taks is to

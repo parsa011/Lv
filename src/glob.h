@@ -10,6 +10,7 @@
 struct editor_t {
 	int term_row, term_col;
 	int tty_in;
+	bool show_tabs;
 };
 
 /*

@@ -29,7 +29,7 @@ public void ttyputc(char ch);
 /*
  *	Print output to terminal by calling write()
  */
-private int ttyflush();
+public int ttyflush();
 
 public void terminal_raw_mode();
 
