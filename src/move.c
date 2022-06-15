@@ -3,13 +3,24 @@
 public bool next_line()
 {
 	if (cursor_row >= global_editor.term_row - 1) {
+		/*
+		 *	prevent of extra scroll down, if term_row + line_offset and other stuff 
+		 *	is more than line_count , that means we dont have any other line , so dont
+		 *	scroll buddy :)
+		 */
+		if (current_buffer->line_offset + global_editor.term_row - 1 - global_editor.show_tabs
+			 >
+			current_buffer->line_count)
+			return false;
 		if (current_buffer->line_count - 1 > current_buffer->line_offset) {
 			current_buffer->line_offset++;
 			return true;
 		}
 		return false;
 	}
-
+	/* no any line, dont move cursorr */
+	if (current_buffer->line_count <= current_buffer->line_offset)
+		return false;
 	tty_cursor_next_line();
 	cursor_row++;
 	return true;

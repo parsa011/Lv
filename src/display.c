@@ -8,6 +8,7 @@ public void update_screen()
 	pos_copy(current_window.cursor_pos, cur_pos);
 	update_tabbar();
 	update_text();
+	update_command_bar();
 	tty_move_cursor(cur_pos);
 }
 
@@ -44,20 +45,22 @@ public void update_tabbar()
 	reset_color();
 }
 
+public void update_command_bar()
+{
+	tty_hide_cursor();
+	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1));
+
+	printf("Line Count : %ld ------- Line Offset : %ld ------ ", current_buffer->line_count,
+		current_buffer->line_offset);
+	print_pos(current_window.cursor_pos);
+	
+	tty_show_cursor();
+}
+
 public void paint_line(char *color)
 {
 	change_color(color);
 
-}
-
-public void write_tildes()
-{
-	tty_move_cursor(CURSOR_POS(1, 1));
-	for (int i = 0; i < global_editor.term_row; i++) {
-		printf("~");
-		if (i != global_editor.term_row - 1)
-			putchar('\n');
-	}
 }
 
 void update_screen_size()

@@ -24,11 +24,14 @@ public void update_text();
 public void update_tabbar();
 
 /*
+ *	update command bar and show information and read commands 
+ */
+public void update_command_bar();
+
+/*
  *	set given color for all of the current line , that set cursor to it's prev position
  */
 public void paint_line(char *color);
-
-public void write_tildes();
 
 /*
  *	take terminal window size then update 'global_editor' info
