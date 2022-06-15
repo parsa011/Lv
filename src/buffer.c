@@ -40,6 +40,7 @@ public void buffer_load_file(buffer *buf, char *path)
 		ln = line_init(line_chars, line_length);
 		buffer_line_append(buf, ln);
 	}
+	fclose(fp);
 }
 
 public void buffer_line_append(buffer *buf, line *ln)

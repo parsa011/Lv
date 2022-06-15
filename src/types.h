@@ -20,6 +20,7 @@ typedef struct {
 }
 #define CURSOR_POS(x, y) ((cursor_position) {x, y})
 #define print_pos(pos) (printf("%hhd:%hhd", pos.row, pos.col))
+#define reset_pos(pos) {pos.row = pos.col = 1;}
 
 /*
  *	struct to hold rgb colors
