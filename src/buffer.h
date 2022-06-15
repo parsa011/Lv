@@ -28,7 +28,6 @@ struct buffer_t {
 	L_LINK(buffer) link;
 	line *first_line;
 	uint64_t line_count;
-	uint64_t current_line_index;
 	uint64_t line_offset;
 	uint8_t char_offset;
 	char *file_name;
