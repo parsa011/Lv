@@ -23,5 +23,5 @@ public buffer *current_buffer;
 
 #define cursor_row (current_window.cursor_pos.row)
 #define cursor_col (current_window.cursor_pos.col)
-public uint64_t current_line_index(); 
+
 #endif

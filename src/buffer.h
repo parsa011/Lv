@@ -32,8 +32,6 @@ struct buffer_t {
 	uint8_t char_offset;
 	char *file_name;
 	char *file_path;
-	//char file_name[BUFFER_NAME_MAX_LENGTH];
-	//char file_path[BUFFER_NAME_MAX_LENGTH];
 	uint8_t mode;
 
 	/* Options for buffer */
@@ -76,5 +74,10 @@ public void buffer_line_append(buffer *buf, line *new_line);
  *	return line of give buffer with given index
  */
 public line *buffer_get_line_by_index(buffer *buf, uint64_t index);
+
+/*
+ *	return index of current line in current buffer
+ */
+public uint64_t buffer_line_index();
 
 #endif

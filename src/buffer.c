@@ -40,6 +40,7 @@ public void buffer_load_file(buffer *buf, char *path)
 		ln = line_init(line_chars, line_length);
 		buffer_line_append(buf, ln);
 	}
+	free(line_chars);
 	fclose(fp);
 }
 
@@ -65,4 +66,9 @@ public line *buffer_get_line_by_index(buffer *buf, uint64_t index)
 			return ln;
 	}
 	return NULL;
+}
+
+public uint64_t buffer_line_index()
+{
+	return cursor_row + current_buffer->line_offset - global_editor.show_tabs - 1;
 }
