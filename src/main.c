@@ -36,6 +36,10 @@ void lv_loop()
 			next_line();			
 		} else if (c == 'k') {
 			prev_line();
+		} else if (c == 'l') {
+			next_char();
+		} else if (c == 'h') {
+			prev_char();
 		}
 	} while (c != 'q');
 }

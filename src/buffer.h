@@ -71,6 +71,13 @@ public void buffer_load_file(buffer *buf, char *path);
 public void buffer_line_append(buffer *buf, line *new_line);
 
 /*
+ *	append line after dest line
+ *	buf it first line of given buffer is null, it will set it to first line
+ *	of first line and 'dest' will be unused in this function
+ */
+public void buffer_line_append_after(buffer *buf, line *dest, line *ln);
+
+/*
  *	return line of give buffer with given index
  */
 public line *buffer_get_line_by_index(buffer *buf, uint64_t index);

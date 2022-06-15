@@ -53,8 +53,9 @@ public void update_command_bar()
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1));
 	tty_erase_end_of_line();
 
-	printf("Line Count : %ld ------- Line Offset : %ld ------ Current Line Index : %ld ----- Cursor Pos : ", current_buffer->line_count,
-		   current_buffer->line_offset, buffer_line_index());
+	printf("Line Count : %ld -- Line Offset : %ld -- Current Line Index : %ld -- Char Offset : %d -- Cursor Pos : ",
+		   current_buffer->line_count,
+		   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset);
 	print_pos(current_window.cursor_pos);
 	putchar('\r');
 	tty_show_cursor();

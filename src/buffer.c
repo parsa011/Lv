@@ -35,10 +35,22 @@ public void buffer_load_file(buffer *buf, char *path)
 	size_t linecap = 0;
 	ssize_t line_length;
 
-	line *ln;
+	line *ln, *last_line;
+	/* Init First line by hand, to set last_line
+	 * we did it because of speed, we always save last line because in large
+	 * files , we need to get last line in every loop and its lose of speed
+	 * assume what gonna happen when file have more than 50,000 lines :)
+	 */
+	if ((line_length = getline(&line_chars, &linecap, fp)) != EOF) {
+		ln = line_init(line_chars, line_length);
+		buf->first_line = ln;
+		last_line = ln;
+	}
+	/* read other lines and add them to buffer */  
 	while ((line_length = getline(&line_chars, &linecap, fp)) != EOF) {
 		ln = line_init(line_chars, line_length);
-		buffer_line_append(buf, ln);
+		buffer_line_append_after(buf, last_line, ln);
+		last_line = ln;
 	}
 	free(line_chars);
 	fclose(fp);
@@ -46,13 +58,18 @@ public void buffer_load_file(buffer *buf, char *path)
 
 public void buffer_line_append(buffer *buf, line *ln)
 {
+	line *last_line = buf->first_line;
+	for (; L_LINK_NEXT(last_line); last_line = L_LINK_NEXT(last_line))
+		;
+	buffer_line_append_after(buf, last_line, ln);	
+}
+
+public void buffer_line_append_after(buffer *buf, line *dest, line *new)
+{
 	if (!buf->first_line) {
-		buf->first_line = ln;
+		buf->first_line = new;
 	} else {
-		line *last_line = buf->first_line;
-		for (; L_LINK_NEXT(last_line); last_line = L_LINK_NEXT(last_line))
-			;
-		L_LINK_INSERT(last_line, ln);
+		L_LINK_INSERT(dest, new);
 	}
 	buf->line_count++;
 }

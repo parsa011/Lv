@@ -10,7 +10,7 @@ public bool next_line()
 		 */
 		if (current_buffer->line_offset + global_editor.term_row - 1 - global_editor.show_tabs
 			 >
-			current_buffer->line_count)
+			current_buffer->line_count - 1)
 			return false;
 		if (current_buffer->line_count - 1 > current_buffer->line_offset) {
 			current_buffer->line_offset++;
@@ -36,7 +36,7 @@ public bool prev_line()
 		if (current_buffer->line_offset > 0) {
 			current_buffer->line_offset--;
 			return true;
-		}			
+		}
 		return false;
 	}
 	tty_cursor_prev_line();
@@ -46,4 +46,21 @@ public bool prev_line()
 
 public bool next_char()
 {
+	line *ln = buffer_get_line_by_index(current_buffer, buffer_line_index());
+	if (current_buffer->char_offset + 1 < ln->len) {
+		current_buffer->char_offset++;
+		cursor_col++;
+		return true;
+	}
+	return false;
+}
+
+public bool prev_char()
+{
+	if (current_buffer->char_offset > 0) {
+		current_buffer->char_offset--;
+		cursor_col--;
+		return true;
+	}
+	return false;
 }
