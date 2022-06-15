@@ -49,11 +49,12 @@ public void update_command_bar()
 {
 	tty_hide_cursor();
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1));
+	tty_erase_end_of_line();
 
-	printf("Line Count : %ld ------- Line Offset : %ld ------ ", current_buffer->line_count,
-		current_buffer->line_offset);
+	printf("Line Count : %ld ------- Line Offset : %ld ------ Current Line Index : %ld ----- Cursor Pos : ", current_buffer->line_count,
+		   current_buffer->line_offset, current_line_index());
 	print_pos(current_window.cursor_pos);
-	
+	putchar('\r');
 	tty_show_cursor();
 }
 
