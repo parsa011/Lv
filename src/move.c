@@ -15,7 +15,7 @@ public int offset_to_col(char *chars, int offset)
 public void control_offset()
 {
 	line *current_line = buffer_current_line();
-	if (current_line->len < current_buffer->char_offset)
+	if (current_line->len <= current_buffer->char_offset)
 		current_buffer->char_offset = current_line->len - 1;
 	cursor_col = offset_to_col(buffer_current_line()->chars, current_buffer->char_offset);
 }
