@@ -1,5 +1,25 @@
 #include "types.h"
 
+public int offset_to_col(char *chars, int offset)
+{
+	int col = 1;
+	for (int i = 0; i < offset; i++) {
+		if (chars[i] == '\t')
+			col += global_editor.tab_size;
+		else
+			col++;
+	}
+	return col;
+}
+
+public void control_offset()
+{
+	line *current_line = buffer_current_line();
+	if (current_line->len < current_buffer->char_offset)
+		current_buffer->char_offset = current_line->len - 1;
+	cursor_col = offset_to_col(buffer_current_line()->chars, current_buffer->char_offset);
+}
+
 public bool next_line()
 {
 	if (cursor_row >= global_editor.term_row - 1) {
@@ -15,6 +35,8 @@ public bool next_line()
 		if (current_buffer->line_count - 1 > current_buffer->line_offset) {
 			current_buffer->is_modified = true;
 			current_buffer->line_offset++;
+			goto ret;
+
 			return true;
 		}
 		return false;
@@ -24,6 +46,8 @@ public bool next_line()
 		return false;
 	tty_cursor_next_line();
 	cursor_row++;
+ret :
+	control_offset();
 	return true;
 }
 
@@ -37,12 +61,15 @@ public bool prev_line()
 		if (current_buffer->line_offset > 0) {
 			current_buffer->is_modified = true;
 			current_buffer->line_offset--;
+			goto ret;
 			return true;
 		}
 		return false;
 	}
 	tty_cursor_prev_line();
 	cursor_row--;
+ret :
+	control_offset();
 	return true;
 }
 
@@ -52,7 +79,7 @@ public bool next_char()
 	if (current_buffer->char_offset + 1 < ln->len) {
 		char current_char = *(ln->chars + current_buffer->char_offset);
 		if (current_char == '\t')
-			cursor_col += 8;
+			cursor_col += global_editor.tab_size;
 		else
 			cursor_col++;
 		current_buffer->char_offset++;
@@ -68,7 +95,7 @@ public bool prev_char()
 		current_buffer->char_offset--;
 		char current_char = *(ln->chars + current_buffer->char_offset);
 		if (current_char == '\t')
-			cursor_col -= 8;
+			cursor_col -= global_editor.tab_size;
 		else
 			cursor_col--;
 		return true;

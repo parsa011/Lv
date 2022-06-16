@@ -1,6 +1,10 @@
 #ifndef _MOVE_H
 # define _MOVE_H
 
+public int offset_to_col(char *chars, int offset);
+
+public void control_offset();
+
 /*
  *	go to next line if line is avaiable
  */

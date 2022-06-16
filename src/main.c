@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
 {
 	/* handy configs for now */
 	global_editor.show_tabs = true;
+	global_editor.tab_size = 8;
 
 	init_editor();
 	buffer_open_file(current_buffer, argv[1]);
