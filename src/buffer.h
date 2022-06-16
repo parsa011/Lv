@@ -88,4 +88,16 @@ public line *buffer_get_line_by_index(buffer *buf, uint64_t index);
  */
 public uint64_t buffer_line_index();
 
+/*
+ *	return pointer to current line of given buffer
+ *
+ *	it can be slow too, but we cant do anything else, because we use of linked list
+ *	we have to go throw the list to get our destination
+ *	Or we can save current line of buffer in buffer struct but it's hard to track
+ *	it every time that we change line (line remove , move and ...), s easiest way it
+ *	this but a little bit time wasting in large file, NP :))) we dont have very large files
+ *	and today computers are fast enough to handle it :O
+ */
+public line *buffer_current_line();
+
 #endif

@@ -48,10 +48,14 @@ public bool prev_line()
 
 public bool next_char()
 {
-	line *ln = buffer_get_line_by_index(current_buffer, buffer_line_index());
+	line *ln = buffer_current_line();
 	if (current_buffer->char_offset + 1 < ln->len) {
+		char current_char = *(ln->chars + current_buffer->char_offset);
+		if (current_char == '\t')
+			cursor_col += 8;
+		else
+			cursor_col++;
 		current_buffer->char_offset++;
-		cursor_col++;
 		return true;
 	}
 	return false;
@@ -59,9 +63,14 @@ public bool next_char()
 
 public bool prev_char()
 {
+	line *ln = buffer_current_line();
 	if (current_buffer->char_offset > 0) {
 		current_buffer->char_offset--;
-		cursor_col--;
+		char current_char = *(ln->chars + current_buffer->char_offset);
+		if (current_char == '\t')
+			cursor_col -= 8;
+		else
+			cursor_col--;
 		return true;
 	}
 	return false;
