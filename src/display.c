@@ -15,6 +15,8 @@ public void update_screen()
 
 public void update_text()
 {
+	if (!current_buffer->is_modified)
+		return;
 	tty_hide_cursor();
 	/* calculate that how much row we have for text lines */
 	int text_region_size = global_editor.term_row - global_editor.show_tabs;
@@ -33,6 +35,7 @@ public void update_text()
 			ttyputs("~ \n\r", false);
 		}
 	}
+	current_buffer->is_modified = false;
 	ttyflush();
 	tty_show_cursor();
 }

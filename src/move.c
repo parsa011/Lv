@@ -10,9 +10,10 @@ public bool next_line()
 		 */
 		if (current_buffer->line_offset + global_editor.term_row - 1 - global_editor.show_tabs
 			 >
-			current_buffer->line_count - 1)
+			current_buffer->line_count)
 			return false;
 		if (current_buffer->line_count - 1 > current_buffer->line_offset) {
+			current_buffer->is_modified = true;
 			current_buffer->line_offset++;
 			return true;
 		}
@@ -34,6 +35,7 @@ public bool prev_line()
 		 * we will decrease it so we can get prev line to show
 		 */
 		if (current_buffer->line_offset > 0) {
+			current_buffer->is_modified = true;
 			current_buffer->line_offset--;
 			return true;
 		}

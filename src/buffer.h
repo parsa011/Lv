@@ -35,6 +35,7 @@ struct buffer_t {
 	uint8_t mode;
 
 	/* Options for buffer */
+	bool is_modified;
 	bool line_number;
 	bool auto_indent;
 	bool auto_pair;
