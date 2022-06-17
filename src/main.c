@@ -30,10 +30,12 @@ void lv_loop()
 {
 	int c;
 	do {
-		update_screen();
+		//update_screen();
 		c = get_key();
-		if (c == 'j') {
-			next_line();			
+		//print_key(c);
+		printf("%d \t %d\n", CTRL_KEY('j'), c);
+		if (c == CTRL_KEY('j')) {
+			next_line();
 		} else if (c == 'k') {
 			prev_line();
 		} else if (c == 'l') {

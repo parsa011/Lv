@@ -1,8 +1,21 @@
 #ifndef _MOVE_H
 # define _MOVE_H
 
+/*
+ *	calculate that what is cursor column in given line, until that offset
+ *	col consist of tab_size for tabs and 1 for other chars
+ *	example (tab_size is 4) : 
+ *		chars = "ab\t as"
+ *		offset  = 3;
+ *	output should be :
+ *		8
+ */
 public int offset_to_col(char *chars, int offset);
 
+/*
+ *	When we move to another line , it will control cursur column to be in right place
+ *	because lines have different sizes and structures
+ */
 public void control_offset();
 
 /*

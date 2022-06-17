@@ -4,7 +4,7 @@
 /*
  * Convert a key to a control key
  */
-#define CTRL_KEY(k) ((k) & 0x1f)
+#define CTRL_KEY(k) ((k) & CONTROL)
 
 /*
  *	Checks if given key is a control key or not
@@ -13,7 +13,6 @@
 
 #define CONTROL 0x10000
 #define META 	0x20000
-#define CTLX    0x40000	/* ^X flag, or'ed in            */
 #define	SPEC	0x80000	/* special key (function keys)  */
 
 enum keys {
