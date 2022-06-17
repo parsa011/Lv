@@ -48,6 +48,10 @@ void lv_loop()
 			next_char();
 		} else if (c == CTRL_KEY('b')) {
 			prev_char();
+		} else if (c == META_KEY('f')) {
+			next_word();
+		} else if (c == META_KEY('b')) {
+			prev_word();
 		}
 	} while (c != 'q');
 }
