@@ -9,6 +9,7 @@ struct line_t {
 	char *chars;
 	int len;
 };
+#define line_put_char(lp, c, n) ((lp)->chars[(n)] = (c))
 
 /*
  *	set chars and len for give line
@@ -16,5 +17,10 @@ struct line_t {
  *	We will do it 
  */
 public line *line_init(char *chars, int len);
+
+/*
+ *	append given char into given offset of current line
+ */
+public void line_insert_char(int c, int offset); 
 
 #endif

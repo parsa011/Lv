@@ -73,6 +73,11 @@ public void buffer_load_file(buffer *buf, char *path);
 public void buffer_line_append(buffer *buf, line *new_line);
 
 /*
+ *	just set modified true for current buffer to redisplay
+ */
+public void buffer_modified();
+
+/*
  *	append line after dest line
  *	buf it first line of given buffer is null, it will set it to first line
  *	of first line and 'dest' will be unused in this function

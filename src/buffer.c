@@ -15,7 +15,7 @@ public void buffer_open_file(buffer *buf, char *file_name)
 	} else {
 		// TODO : get y/n to create file or no
 	}
-	buf->is_modified = true;
+	buffer_modified();
 }
 
 public void buffer_set_file(buffer *buf, char *path)
@@ -55,6 +55,11 @@ public void buffer_load_file(buffer *buf, char *path)
 	}
 	free(line_chars);
 	fclose(fp);
+}
+
+public void buffer_modified()
+{
+	current_buffer->is_modified = true;
 }
 
 public void buffer_line_append(buffer *buf, line *ln)

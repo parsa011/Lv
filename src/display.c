@@ -63,6 +63,7 @@ public void update_command_bar()
 	if (buffer_current_line()) {
 		char *c = buffer_current_line()->chars + current_buffer->char_offset;
 		printf(" --- Current char : %c", *c == '\t' ? 'T' : *c);
+		printf(" --- Line Length : %d", buffer_current_line()->len );
 	}
 	putchar('\r');
 	tty_show_cursor();
