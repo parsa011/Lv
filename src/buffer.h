@@ -2,163 +2,102 @@
 # define _BUFFER_H
 
 /*
- *	Manager buffers
- *	Copyright
- *		(C) 2021 Parsa Mahmoudy sahebi
+ *	possible modes for a buffer, modes are like VIM modes
+ */
+typedef enum {
+	MODE_LOCK = 1,
+	MODE_INSERT = 2,
+	MODE_VISUAL = 4,
+	MODE_SEARCH = 8
+} buffer_mode;
+
+#define BUFFER_NAME_MAX_LENGTH 256
+
+/*
+ *	buffer contains our file to edit and informations about that
+ *  buffer have their optinos like tab size , line number enables and ...
+ *  that means we can have line number on in one buffer and off in another one
  *
- *	This file is part of Lv
+ *  Args :
+ *		line_offset : this is header lines index (line that is in top of screen), or we can say
+ *					  it hold that how many lines we passed from first line
+ *		char_offset : how far we are from beginning of line
+ *		auto_pari : auto close for twin characters , like '(' or '{' and ...
  */
-
-#define ALONEBUFFER 0x002
-
-#define NFILEN  256			/* n of bytes, file name 	*/
-#define NBUFN   32			/* n of bytes, buffer name 	*/
-
-enum {
-	HLINE,	/* header line  */
-	LLINE,	/* last line 	*/
-	CLINE	/* current line */
-};
-
 struct buffer_t {
-	L_LINK(buffer) link;	/* buffers doubly-link list */
-	line *fline;			/* first line of buffer , to get doubly-linked list of lines */
-	line *cline;			/* current line in buffer (where the cursor is) 			 */
-	int clindex;			/* current line index 										 */
-	int lcount;				/* total count of buffer lines 								 */
-	int loffset;			/* passed lines (how much we scrolled down)					 */
-	int nrow;				/* n number of row avaiable in this buffer					 */
-	char fname[NFILEN];		/* file name (full path of name)							 */
-	char bname[NBUFN];		/* buffer name (just for show , contains just file name)	 */
-	short flags;			/* flags for buffer like size flags and ...					 */
-	ushort modes;			/* modes of this buffer 									 */
-	int coffset;			/* char offset in line ( how many char passed )				 */
-	int mtop;				/* buffer margin top from window							 */
-	int mleft;				/* margin left from window									 */
-	change_db *change_db;	/* store buffer changes here to apply undo and redo 		 */ 
-	bool linenm;			/* activate line number for this buffer or no				 */
-	// there some options for buffer
-	bool highligth;			/* have syntax highlight or no :)							 */
-	char *filetype;
-	int tab_size;
+	L_LINK(buffer) link;
+	line *first_line;
+	uint64_t line_count;
+	uint64_t line_offset;
+	uint8_t char_offset;
+	char *file_name;
+	char *file_path;
+	uint8_t mode;
+
+	/* Options for buffer */
+	bool is_modified;
+	bool line_number;
 	bool auto_indent;
-	int change_db_size;		/* specify how much change packet is allowed to save 		 */
+	bool auto_pair;
+	bool syntax_highlight;
 };
 
-#define sbprev(b,p) (b->link.prev = p)	/* set prev buffer for given buffer */
-#define bmtest(b,m)	(b->modes & m)		/* test if buffer is in given mode 	*/
-#define usmode(b,m)	(b->modes &= ~m)	/* unset a mode from buffer modes	*/
-#define stmode(b,m)	(b->modes |= m)		/* set mode for buffer 				*/
-#define buffer_change_count(b) (b->change_db->count)
-
-#define get_header_line() (get_line_by_index(curbp->loffset)) /* return header line */
-#define set_header_line(n) (curbp->loffset = n)	/* change header line by set loffset to given index */
-#define check_header(b) (b->loffset == curbp->clindex) /* is current line of given buffer header line or no */
-
-#define get_last_line() (get_line_by_index(curbp->lcount - 1))
-#define get_last_line_buffer(get_line_by_index)
-
-/* buffer flags */
-#define FFULLS	0x0001 	/* full size buffer   */
-#define FVTBUF	0x0002	/* vertical buffer	  */
-#define FHRBUF	0x0004	/* horizontal buffer  */
-#define FREDRW	0x0008	/* buffer need redraw */
-#define	FASAVE	0x0010	/* auto-save flag     */
-
-/* mode for buffers */
-#define	MDLOCK	0x0001	/* lock mode                     */
-#define MDINST  0x0002	/* insert mode					 */
-#define MDVISL 	0x0004	/* visual mode					 */
-#define	MDVIEW	0x0008	/* read-only buffer              */
-#define MDCMMD 	0x0010	/* typing command mode			 */
-
-/* this is usefull for macros , when they are avaiable in all modes */
-#define ALLMODES (MDLOCK | MDINST | MDVISL | MDVIEW)
-
-extern char *reserved_buffer_names[];
-
-//#define	MDCMOD	0x0002		/* c indentation and fence match */
-//#define	MDSPELL	0x0004		/* spell error parsing           */
-//#define	MDEXACT	0x0008		/* exact matching for searches   */
-//#define MDOVER	0x0020		/* overwrite mode                */
-//#define MDMAGIC	0x0040		/* regular expressions in search */
+/*
+ *	Initialize basic informations for buffer, and open file into buffer if file_name
+ *	isn't nullb
+ */
+public void buffer_init(buffer *buf, char *file_name);
 
 /*
- *	alloc and create new buffer struct and return pointer
+ *	Mostly used to initialize buffer, it will set buffer options that are related to filename
+ *  for example path, basename, file_type and ...
  */
-buffer *init_buffer(char *, short, short);
+public void buffer_set_file(buffer *buf, char *path);
 
 /*
- *	set bname and fname for buffer by given path
+ *	it's similar to set_file, but it will load file into buffer, not just set name for buffer
+ *	any other even that could happened after opening file in buffer , should be called here
  */
-void set_buffer_name(char *);
+public void buffer_open_file(buffer *buf, char *path);
 
 /*
- *	activate buffer by given name , return false if no any buffer founded
+ *	load lines of file into buffer and update options of buffer that are related to
+ *	lines , like lines_count and ...
  */
-int set_buffer_by_name(char *);
+public void buffer_load_file(buffer *buf, char *path);
 
 /*
- *	it just will set redraw mode for buffer
+ *	Append given line to end of buffer lines
  */
-void redisplay_buffer();
+public void buffer_line_append(buffer *buf, line *new_line);
 
 /*
- *	works that we need to do when buffer changed
+ *	append line after dest line
+ *	buf it first line of given buffer is null, it will set it to first line
+ *	of first line and 'dest' will be unused in this function
  */
-void buffer_changed();
+public void buffer_line_append_after(buffer *buf, line *dest, line *ln);
 
 /*
- *	check if given string is one ob reserved names for buffers
+ *	return line of give buffer with given index
  */
-bool is_reserved_buffer_name(char *);
+public line *buffer_get_line_by_index(buffer *buf, uint64_t index);
 
 /*
- *	show a buffer and set it options and ..
+ *	return index of current line in current buffer
  */
-void change_current_buffer(buffer *);
+public uint64_t buffer_line_index();
 
 /*
- *	append buffer to next of current buffer
+ *	return pointer to current line of given buffer
+ *
+ *	it can be slow too, but we cant do anything else, because we use of linked list
+ *	we have to go throw the list to get our destination
+ *	Or we can save current line of buffer in buffer struct but it's hard to track
+ *	it every time that we change line (line remove , move and ...), s easiest way it
+ *	this but a little bit time wasting in large file, NP :))) we dont have very large files
+ *	and today computers are fast enough to handle it :O
  */
-void append_buffer(window*,buffer *);
-
-/*
- *	load syntax file for buffer
- */
-void load_syntax_for_buffer();
-
-/*
- *	toggle line number option (it's global)
- */
-int toggle_linenumber(int, int);
-
-int toggle_highligth(int, int);
-
-/*
- *	set given tab size for buffer
- */
-int set_tab_size(int, int);
-
-void set_mode_for_buffer(int);
-int set_lock_mode(int, int);
-int set_visual_mode(int, int);
-int set_insert_mode(int, int);
-int set_command_mode(int, int);
-
-int next_buffer_in_window(int, int);
-int prev_buffer_in_window(int, int);
-
-/*
- *	this ones used to remove current buffer and active next buffer
- */
-int remove_buffer();
-
-/*
- *	make buffers lines free
- */
-void free_buffer(buffer *);
-
-buffer *get_buffer_by_index(window *, int);
+public line *buffer_current_line();
 
 #endif

@@ -1,82 +1,52 @@
-/*
- *	Global header file to Lv
- *	Copyright
- *		(C) 2021 Parsa Mahmoudy sahebi
- *
- *	This file is part of Lv
- */
-#include "basics.h"
-
-/* Common header files */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <math.h>
-
-/* Prefix to make string constants unsigned */
-#define USTR (unsigned char *)
-
-#ifndef EOF
-#define EOF -1
-#endif
-#define NO_MORE_DATA EOF
-
-#if defined(__TURBOC__)
-#define MSDOS 1 /* MS/PC DOS 3.1-4.0 with Turbo C 2.0 */
-#else
-#define	MSDOS 0
-#endif
-
-#if defined(BSD) || defined(sun) || defined(ultrix) || (defined(vax) && defined(unix)) || defined(ultrix) || defined(__osf__)
-#ifndef BSD
-#define BSD 1 /* Berkeley UNIX */
-#endif
-#else
-#define	BSD 0
-#endif
+#include "basic.h"
+#include <assert.h>
 
 typedef struct line_t line;
-typedef struct buffer_t buffer;
+typedef struct editor_t editor;
 typedef struct window_t window;
-typedef struct command_t command;
-typedef struct msg_bag_t msg_bag;
-typedef struct terminal_t terminal;
-typedef struct key_macro_t key_macro;
-typedef struct prompt_key_t prompt_key;
-typedef struct syntax_field_t syntax_field;
-typedef struct syntax_group_t syntax_group;
-typedef struct language_syntax_t language_syntax;
-typedef struct undo_packet_t undo_packet;
-typedef struct change_db_t change_db;
+typedef struct buffer_t buffer;
 
-#include "builtins/builtins.h"
-#include "tui/rec.h"
+/*
+ * can be used as field in structs or anywhere else to hold cursor position info
+ */
+typedef struct {
+	uint8_t row;
+	uint8_t col;
+} cursor_position;
+
+#define pos_copy(from, to) { \
+	to.row = from.row; \
+	to.col = from.col; \
+}
+#define CURSOR_POS(x, y) ((cursor_position) {x, y})
+#define print_pos(pos) (printf("%hhd:%hhd", pos.row, pos.col))
+#define reset_pos(pos) {pos.row = 1 + global_editor.show_tabs;pos.col = 1;}
+
+/*
+ *	struct to hold rgb colors
+ */
+typedef struct {
+	int red, green, blue;
+} color;
+#define color_new(red, green, blue) ((color) {red, green, blue})
+
+/*
+ * these types are useful when we are working with some functions that thier taks is to
+ * add new element to a list. these can sepcify where we want to add that element in list  
+ */
+typedef enum {
+	APPEND_FIRST,
+	APPEND_MIDDLE,
+	APPEND_END
+} append_type;
+
 #include "../libs/llist.h"
-#include "color.h"
-#include "macro.h"
-#include "tty.h"
-#include "utils.h"
+#include "util.h"
 #include "glob.h"
-#include "utf8.h"
-#include "keys.h"
-#include "input.h"
-#include "window.h"
+#include "display.h"
+#include "tty.h"
+#include "move.h"
+#include "key.h"
 #include "line.h"
 #include "buffer.h"
-#include "move.h"
-#include "vt100.h"
-#include "display.h"
-#include "file.h"
-#include "word.h"
-#include "commands.h"
-#include "prompt.h"
-#include "undo.h"
-#include "highlight.h"
-#include "log.h"
-#include "lv.h"
+#include "window.h"

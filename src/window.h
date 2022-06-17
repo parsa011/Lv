@@ -1,71 +1,62 @@
 #ifndef _WINDOW_H
-# define _WINDOW_H
+# define  _WINDOW_H
 
 /*
- *	Manager windows	(and linux hahah)
- *	Copyright
- *		(C) 2021 Parsa Mahmoudy sahebi
+ *	window (also we can call it tab but i like 'window' more) is main structure to
+ *	hold informatino in a window, like buffers, cursor position and ...
  *
- *	This file is part of Lv
- */
-
-/*
- *	there is a window structure allocated for every active display window
- *	the flag field contains some bits that are set by commands to guide
- * 	redisplay
+ *  +----------------------------------------------------------------------------+
+ *  |  window (1) | window (2)                                                   |
+ *  |----------------------------------------------------------------------------|
+ *  | Texts are here                       | Second buffer                       |
+ *  | More text                            | Splited Window                      |
+ *  |                                      |                                     |
+ *  |                                      |                                     |
+ *  |                                      |                                     |
+ *  |                                      |                                     |
+ *  |                                      |                                     |
+ *  |                                      |                                     |
+ *  |--------------------------------------|                                     |
+ *  |1 This buffer Have Line number ON     |                                     |
+ *  |2 some code around here               |                                     |
+ *  |3                                     |                                     |
+ *  |4 line number 3 is empty line         |                                     |
+ *  |                                      |                                     |
+ *  |                                      |                                     |
+ *  |----------------------------------------------------------------------------|
+ *  | main.c | 1231 Line | 24 KB           | common.h | 248 Line | 4 KB          |
+ *  +----------------------------------------------------------------------------+
+ *	
+ *  Args : 
+ *		link : Double-linked list to have all windows
+ *      first_buffer : it's obvious what it is , points to first buffer to access to its link
+ *		current_buffer_index : index of buffer that we focused on in this window
+ *		cursor_ps : holds cursor position of window ;/
  */
 struct window_t {
-	L_LINK(window) link;	/* Doubly-linked list of windows 			*/
-	buffer *fbuffer;		/* buffers in this window 					*/
-	int bcount;				/* total buffers count in this window 		*/
-	int cbindex;			/* index of current buffer (active buffer)  */	
-	char flags;				/* flags that holds state of window 		*/
-	int crow;				/* cursor row in this window				*/
-	int ccol;				/* cursor col								*/
+	L_LINK(window) link;
+	buffer first_buffer;
+	uint8_t buffer_count;
+	uint8_t current_buffer_index;
+	cursor_position cursor_pos;
 };
 
-#define wusmode(b,m) (b->flags &= ~m)	/* unset a flag for window			*/
-#define wstmode(b,m) (b->flags |= m)		/* set flag for window				*/
-
-/* window modes */
-#define WFFORCE 0x01	/* window needs to be forced reframe  */
-#define WFMOVE  0x02	/* movement from line to line   */
-#define WFEDIT  0x04	/* editing within a line        */
-#define WFHARD  0x08	/* better to a full display     */
-
-#define ALONEWINDOW 0x02 /* needed in remove window and .. */
+/*
+ * give a pointer of a window and initialize it's fileds, we will not use of
+ * malloc to register new window then return it pointer, we used of stack
+ * so we don't need to be worry about freeing stuff anymore.
+ */
+void window_init(window *win);
 
 /*
- *	create ana alloc new window and return that pointer
+ * return pointer of last buffer in given window
  */
-window *init_window();
+buffer *window_get_last_buffer(window *win);
 
 /*
- *	delete a window and remove its buffers and lines and ...
+ * append given buffer to given window with specified type
+ * it can be in middle, beginning or end
  */
-int remove_window(window *);
-
-/*
- *	return last buffer of given window
- */
-buffer *get_last_buffer(window *);
-
-/*
- *	set given window as curwp , also set curwp to it's active buffer
- */
-void activate_window(window *);
-
-/*
- *	addend given window into windows list
- */
-int append_window(window *);
-
-/* go to next window */
-int next_window(int, int);
-
-/* go to prev window */
-int prev_window(int, int);
-
-int window_vertinal_split(int, int);
+void window_append_buffer(window *win, buffer *buf, append_type type);
 
 #endif

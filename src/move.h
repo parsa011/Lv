@@ -2,79 +2,40 @@
 # define _MOVE_H
 
 /*
- *	Manager cursor and position of screen	
- *	Copyright
- *		(C) 2021 Parsa Mahmoudy sahebi
- *
- *	This file is part of Lv
+ *	calculate that what is cursor column in given line, until that offset
+ *	col consist of tab_size for tabs and 1 for other chars
+ *	example (tab_size is 4) : 
+ *		chars = "ab\t as"
+ *		offset  = 3;
+ *	output should be :
+ *		8
  */
-
-/* move directions */
-#define MOVE_LEFT 	1
-#define MOVE_RIGHT 	2
-#define MOVE_UP 	3
-#define MOVE_DOWN 	4
-
-/* states of move */
-#define OUTOFBUFFER 	0x001
-#define TOPOFBUFFER		0x002
-#define ENDOFBUFFER		0x003
-#define EMPTYBUFFER		0x004
+public int offset_to_col(char *chars, int offset);
 
 /*
- *  Manager cursor and position of screen	
- *	Copyright
- *		(C) 2021 Parsa Mahmoudy sahebi
- *
- *	This file is part of Lv
+ *	When we move to another line , it will control cursur column to be in right place
+ *	because lines have different sizes and structures
  */
+public void control_offset();
 
 /*
- * 	it will move curosr in the given direction
- * 	and update buffer current line
- * 	and buffer cursor row and col
+ *	go to next line if line is avaiable
  */
-void move_cursor();
+public bool next_line();
 
 /*
- * after move between lines , it will convert cursor col to offset and offset ro cursor col
+ *	go to prev line
  */
-void update_position();
+public bool prev_line();
 
 /*
- *	check and control cursor to not be in unexpected regions like windowsbar and ...
+ *	Move cursor to next char in current line
  */
-void check_cursor();
+public bool next_char();
 
 /*
- *	scroll page , into given direction , to specified times
+ *	Move cursor to prev char
  */
-int scroll(int, int);
-
-/*
- *	check if we we can scroll the page or no
- *	if cursor row - 1 goes to windowsbar section so we can sroll top
- *	else if cursor + 1 goes to statusbar section so we can scroll down :)
- */
-bool can_scroll(int);
-
-/*
- *	set next line to current line and increase cursor row
- */
-int move_nextline(int, int);
-
-int move_prevline(int, int);
-
-/*
- * 	move cursor by 1 char to next
- */
-int next_char(int, int);
-
-int prev_char(int, int);
-
-/*
- *	move cursor if current char in line is tab 
- */
-bool jump_tab(int);
+public bool prev_char();
 
 #endif
