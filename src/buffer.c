@@ -3,7 +3,7 @@
 public void buffer_init(buffer *buf, char *file_name)
 {
 	buf->link.next = buf->link.prev = NULL;
-	buf->first_line = NULL;
+	buf->first_line = buf->current_line = NULL;
 	buffer_set_file(buf, file_name);
 }
 
@@ -44,7 +44,7 @@ public void buffer_load_file(buffer *buf, char *path)
 	 */
 	if ((line_length = getline(&line_chars, &linecap, fp)) != EOF) {
 		ln = line_init(line_chars, line_length);
-		buf->first_line = ln;
+		buf->first_line = buf->current_line = ln;
 		last_line = ln;
 	}
 	/* read other lines and add them to buffer */  
@@ -94,5 +94,5 @@ public uint64_t buffer_line_index()
 
 public line *buffer_current_line()
 {
-	return buffer_get_line_by_index(current_buffer, buffer_line_index());
+	return current_buffer->current_line;
 }

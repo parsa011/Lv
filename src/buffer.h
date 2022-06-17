@@ -27,6 +27,7 @@ typedef enum {
 struct buffer_t {
 	L_LINK(buffer) link;
 	line *first_line;
+	line *current_line;
 	uint64_t line_count;
 	uint64_t line_offset;
 	uint8_t char_offset;

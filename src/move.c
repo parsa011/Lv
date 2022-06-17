@@ -47,6 +47,7 @@ public bool next_line()
 	tty_cursor_next_line();
 	cursor_row++;
 ret :
+	current_buffer->current_line = L_LINK_NEXT(current_buffer->current_line);
 	control_offset();
 	return true;
 }
@@ -69,6 +70,7 @@ public bool prev_line()
 	tty_cursor_prev_line();
 	cursor_row--;
 ret :
+	current_buffer->current_line = L_LINK_PREV(current_buffer->current_line);
 	control_offset();
 	return true;
 }
@@ -133,4 +135,9 @@ public bool page_up()
 		prev_line();
 	}
 	return true;
+}
+
+public bool next_work()
+{
+	
 }

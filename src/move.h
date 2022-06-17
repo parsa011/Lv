@@ -58,4 +58,14 @@ public bool page_down();
  */
 public bool page_up();
 
+/*
+ *	go to next work
+ */
+public bool next_word();
+
+/*
+ *	move to prev work();
+ */
+public bool prev_word();
+
 #endif
