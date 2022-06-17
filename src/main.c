@@ -36,6 +36,10 @@ void lv_loop()
 			next_line();
 		} else if (c == CTRL_KEY('l')) {
 			go_line_end();
+		} else if (c == CTRL_KEY('v')) {
+			page_down();
+		} else if (c == META_KEY('v')) {
+			page_up();
 		} else if (c == CTRL_KEY('h')) {
 			go_line_beginning();
 		} else if (c == CTRL_KEY('p')) {

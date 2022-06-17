@@ -48,4 +48,14 @@ public bool go_line_end();
  */
 public bool go_line_beginning();
 
+/*
+ *	scroll page down
+ */
+public bool page_down();
+
+/*
+ *	scroll up on page
+ */
+public bool page_up();
+
 #endif

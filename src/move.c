@@ -118,3 +118,19 @@ public bool go_line_beginning()
 	control_offset();
 	return true;
 }
+
+public bool page_down()
+{
+	for (int i = 0; i < global_editor.term_row; i++) {
+		next_line();
+	}
+	return true;
+}
+
+public bool page_up()
+{
+	for (int i = 0; i < global_editor.term_row; i++) {
+		prev_line();
+	}
+	return true;
+}

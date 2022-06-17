@@ -7,6 +7,11 @@
 #define CTRL_KEY(k) ((k) | CONTROL)
 
 /*
+ *	Convert given key to meta key
+ */
+#define META_KEY(k) ((k) | META)
+
+/*
  *	Checks if given key is a control key or not
  */
 #define IS_CTRL_KEY(k) (k == CTRL_KEY(k))
