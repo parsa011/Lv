@@ -16,7 +16,7 @@ ifeq ($(PREFIX),)
     PREFIX := /usr/local/bin
 endif
 
-all: buildsolution
+all: buildsolution $(INCLUDES)
 
 buildsolution: dir $(BINARY)
 

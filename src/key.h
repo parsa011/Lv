@@ -4,7 +4,7 @@
 /*
  * Convert a key to a control key
  */
-#define CTRL_KEY(k) ((k) & CONTROL)
+#define CTRL_KEY(k) ((k) | CONTROL)
 
 /*
  *	Checks if given key is a control key or not

@@ -102,3 +102,19 @@ public bool prev_char()
 	}
 	return false;
 }
+
+public bool go_line_end()
+{
+	line *ln = buffer_current_line();
+	current_buffer->char_offset = ln->len - 1;
+	control_offset();
+	return true;
+}
+
+public bool go_line_beginning()
+{
+	line *ln = buffer_current_line();
+	current_buffer->char_offset = 0;
+	control_offset();
+	return true;
+}

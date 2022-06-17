@@ -38,4 +38,14 @@ public bool next_char();
  */
 public bool prev_char();
 
+/*
+ *	Go to end of currnet line
+ */
+public bool go_line_end();
+
+/*
+ *	Go to start of current line
+ */
+public bool go_line_beginning();
+
 #endif
