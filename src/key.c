@@ -31,7 +31,7 @@ int get_key()
 		c = read_char_from_terminal(); \
 		if (c == ESC) \
 			masks |= META; \
-		else if (iscntrl(c)) { \
+		else if (iscntrl(c) && c != ('m' & 0x1f)) { \
 			c = (c + 96);	\
 			masks |= CONTROL; \
 		} \

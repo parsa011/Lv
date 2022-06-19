@@ -21,6 +21,11 @@ public line *line_init(char *chars, int len);
 /*
  *	append given char into given offset of current line
  */
-public void line_insert_char(int c, int offset); 
+public void line_insert_char(int c, int offset);
+
+/*
+ *	Insert new line after current line
+ */
+public void line_insert_new();
 
 #endif
