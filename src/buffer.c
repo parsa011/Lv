@@ -65,15 +65,16 @@ public void buffer_modified()
 public void buffer_line_append(buffer *buf, line *ln)
 {
 	line *last_line = buf->first_line;
-	for (; L_LINK_NEXT(last_line); last_line = L_LINK_NEXT(last_line))
-		;
+	if (last_line)
+		for (; L_LINK_NEXT(last_line); last_line = L_LINK_NEXT(last_line))
+			;
 	buffer_line_append_after(buf, last_line, ln);	
 }
 
 public void buffer_line_append_after(buffer *buf, line *dest, line *new)
 {
-	if (!buf->first_line) {
-		buf->first_line = new;
+	if (!buf->first_line || !dest) {
+		buf->first_line = buf->current_line = new;
 	} else {
 		L_LINK_INSERT(dest, new);
 	}

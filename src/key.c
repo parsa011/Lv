@@ -19,7 +19,6 @@ int read_char_from_terminal(void)
 	read_return = read(global_editor.tty_in, buf, 1);
 	if (read_return == -1 && errno == EIO)
 		exit(0);
-	
 	return buf[0];
 }
 
@@ -31,7 +30,7 @@ int get_key()
 		c = read_char_from_terminal(); \
 		if (c == ESC) \
 			masks |= META; \
-		else if (iscntrl(c) && c != ('m' & 0x1f)) { \
+		else if (iscntrl(c) && c != ('m' & 0x1f) && c != 127) { \
 			c = (c + 96);	\
 			masks |= CONTROL; \
 		} \

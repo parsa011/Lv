@@ -23,6 +23,7 @@ void init_editor()
 	setbuf(stdout, NULL);
 	update_screen_size();
 	current_buffer = &current_window.first_buffer;
+	buffer_line_append(current_buffer, line_init("", 0));
 	atexit(at_exit);
 }
 
@@ -55,9 +56,16 @@ void lv_loop()
 		} else if (!IS_CTRL_KEY(c) && c != ESC) {
 			if (c == 13)
 				line_insert_new();
+			else if (c == 127)
+				line_delete_char();
 			else
 				line_insert_char(c, current_buffer->char_offset);
+		} else if (c == CTRL_KEY('x')) {
+			c = get_key();
+			if (c == CTRL_KEY('s')) {
+			}
 		}
+
 	} while (c != 'q');
 }
 

@@ -15,6 +15,9 @@ public int offset_to_col(char *chars, int offset)
 public void control_offset()
 {
 	line *current_line = buffer_current_line();
+	/* but it should't be NULL */
+	if (!current_line)
+		return;
 	if (current_line->len <= current_buffer->char_offset)
 		current_buffer->char_offset = current_line->len - 1;
 	cursor_col = offset_to_col(buffer_current_line()->chars, current_buffer->char_offset);
@@ -28,7 +31,7 @@ public bool next_line()
 		 *	is more than line_count , that means we dont have any other line , so dont
 		 *	scroll buddy :)
 		 */
-		if (current_buffer->line_offset + global_editor.term_row - 1 - global_editor.show_tabs
+		if (current_buffer->line_offset + global_editor.term_row - global_editor.show_tabs
 			 >
 			current_buffer->line_count)
 			return false;
