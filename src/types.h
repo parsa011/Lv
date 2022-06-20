@@ -43,6 +43,7 @@ typedef enum {
 #include "../libs/llist.h"
 #include "util.h"
 #include "glob.h"
+#include "prompt.h"
 #include "display.h"
 #include "tty.h"
 #include "move.h"

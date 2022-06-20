@@ -81,6 +81,7 @@ public bool buffer_save(buffer *buf)
 
 	close(fd);
     free(texts);
+	buf->is_modified = false;
     return true;
 		
 writeerr:

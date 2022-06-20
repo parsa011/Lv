@@ -20,6 +20,10 @@
 #define META 	0x20000
 #define	SPEC	0x80000	/* special key (function keys)  */
 
+#define ESCAPE_KEY (CTRL_KEY('['))
+#define ENTER_KEY (CTRL_KEY('M'))
+#define TAB_KEY (CTRL_KEY('i'))
+
 enum keys {
 	ESC = 27,
 	ARROW_UP = SPEC | 'A',

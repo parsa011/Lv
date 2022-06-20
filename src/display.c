@@ -1,4 +1,5 @@
 #include "types.h"
+#include <time.h>
 
 #include <sys/ioctl.h>
 
@@ -72,15 +73,27 @@ public void update_command_bar()
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1));
 	tty_erase_end_of_line();
 
-	printf("Line Count : %ld -- Line Offset : %ld -- Current Line Index : %ld -- Char Offset : %d -- Cursor Pos : ",
-		   current_buffer->line_count,
-		   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset);
-	print_pos(current_window.cursor_pos);
-	if (buffer_current_line()) {
-		char *c = buffer_current_line()->chars + current_buffer->char_offset;
-		printf(" --- Current char : %c", *c == '\t' ? 'T' : *c);
-		printf(" --- Line Length : %d", buffer_current_line()->len );
+	if (user_message_len && (time(NULL) - user_message_time < 4)) {
+		printf("%s", user_message);
+	} else {
+		if (current_buffer->is_modified) {
+			printf("*");
+		} else
+			printf("-");
+		printf(" %s", current_buffer->file_name);
+		printf("\t %ld Line", current_buffer->line_count);
+		/* printf("Line Count : %ld -- Line Offset : %ld -- " */
+		/* 	   "Current Line Index : %ld -- Char Offset : %d -- Cursor Pos : ", */
+		/* 	   current_buffer->line_count, */
+		/* 	   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset); */
+		/* print_pos(current_window.cursor_pos); */
+		/* if (buffer_current_line()) { */
+		/* 	char *c = buffer_current_line()->chars + current_buffer->char_offset; */
+		/* 	printf(" --- Current char : %c", *c == '\t' ? 'T' : *c); */
+		/* 	printf(" --- Line Length : %d", buffer_current_line()->len ); */
+		/* } */
 	}
+	
 	putchar('\r');
 	tty_show_cursor();
 }
@@ -88,7 +101,6 @@ public void update_command_bar()
 public void paint_line(char *color)
 {
 	change_color(color);
-
 }
 
 void update_screen_size()

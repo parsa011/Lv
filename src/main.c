@@ -59,15 +59,19 @@ void lv_loop()
 				line_delete_char();
 			else
 				line_insert_char(c, current_buffer->char_offset);
+			
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
 			if (c == CTRL_KEY('s')) {
-				buffer_save(current_buffer);
+				if (buffer_save(current_buffer))
+					show_message("file saved");
 			} else if(c == CTRL_KEY('c'))
 				exit(0);
 		} else if (c == CTRL_KEY('d')) {
 			if (next_char())
 				line_delete_char();
+		} else if (c == TAB_KEY) {
+			line_insert_char('\t', current_buffer->char_offset);
 		}
 
 	} while (true);
@@ -77,7 +81,7 @@ int main(int argc, char *argv[])
 {
 	/* handy configs for now */
 	global_editor.show_tabs = false;
-	global_editor.tab_size = 8;
+	global_editor.tab_size = 4;
 
 	init_editor();
 	buffer_open_file(current_buffer, argv[1]);
