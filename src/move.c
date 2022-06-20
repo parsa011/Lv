@@ -30,7 +30,7 @@ public bool next_line()
 	 *  is more than line_count that means we dont have any other line , so dont
 	 *	scroll or move cursor buddy :)
 	 */
-	if (buffer_line_index() > current_buffer->line_count - 1)
+	if (buffer_line_index() >= current_buffer->line_count - 1)
 		return false;
 	if (cursor_row == global_editor.term_row - 1) {
 		current_buffer->line_offset++;

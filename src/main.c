@@ -42,11 +42,11 @@ void lv_loop()
 			page_up();
 		} else if (c == CTRL_KEY('h')) {
 			go_line_beginning();
-		} else if (c == CTRL_KEY('p') || c == ARROW_LEFT) {
+		} else if (c == CTRL_KEY('p') || c == ARROW_DOWN) {
 			prev_line();
 		} else if (c == CTRL_KEY('f') || c == ARROW_RIGHT) {
 			next_char();
-		} else if (c == CTRL_KEY('b') || c == ARROW_UP) {
+		} else if (c == CTRL_KEY('b') || c == ARROW_LEFT) {
 			prev_char();
 		} else if (c == META_KEY('f') || c == CTRL_KEY(ARROW_RIGHT)) {
 			next_word();

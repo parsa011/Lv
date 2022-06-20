@@ -17,7 +17,6 @@ public line *line_init(char *chars, int len)
 
 public void line_insert_char(int c, int offset)
 {
-	
 	line *ln = buffer_current_line();
 	if (!ln) {
 		line_insert_new();
@@ -44,11 +43,11 @@ public void line_insert_string(line *ln, char *string, int len)
 
 public void line_insert_new()
 {
-	int offset = current_buffer->char_offset;
 	line *current = buffer_current_line();
-	if (current == NULL) {
+	if (!current) {
 		buffer_line_append(current_buffer, line_init("", 0));
 	} else {
+		int offset = current_buffer->char_offset;
 		line *new = line_init(current->chars + offset, current->len - offset);
 		line_put_char(current, '\0', offset);
 		current->len = offset + 1;
