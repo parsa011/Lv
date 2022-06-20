@@ -65,8 +65,17 @@ void lv_loop()
 			if (c == CTRL_KEY('s')) {
 				if (buffer_save(current_buffer))
 					show_message("file saved");
-			} else if(c == CTRL_KEY('c'))
-				exit(0);
+			} else if(c == CTRL_KEY('c')) {
+				if (current_buffer->is_modified) {
+					show_message("Buffer Modified, Really Wanna Exit ? y/n");
+					c = get_key();
+					if (c == 'y')
+						exit(0);
+					else
+						clear_message();
+				} else
+					exit(0);
+			}
 		} else if (c == CTRL_KEY('d')) {
 			if (next_char())
 				line_delete_char();

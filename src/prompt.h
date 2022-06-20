@@ -12,4 +12,9 @@ public time_t user_message_time;
  */
 public void show_message(char *message, ...);
 
+/*
+ *	hide and clear message from command-bar and show buffer informations again
+ */
+public void clear_message();
+
 #endif

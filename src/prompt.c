@@ -15,3 +15,8 @@ public void show_message(char *message, ...)
 	va_end(ap);
 	update_command_bar();
 }
+
+public void clear_message()
+{
+	user_message[(user_message_len = 0)] = 0;
+}
