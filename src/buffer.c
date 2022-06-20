@@ -46,6 +46,7 @@ public void buffer_load_file(buffer *buf, char *path)
 		ln = line_init(line_chars, line_length);
 		buf->first_line = buf->current_line = ln;
 		last_line = ln;
+		buf->line_count++;
 	}
 	/* read other lines and add them to buffer */  
 	while ((line_length = getline(&line_chars, &linecap, fp)) != EOF) {
