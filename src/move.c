@@ -33,13 +33,9 @@ public bool next_line()
 	if (buffer_line_index() > current_buffer->line_count - 1)
 		return false;
 	if (cursor_row == global_editor.term_row - 1) {
-		
-		if (current_buffer->line_count > current_buffer->line_offset) {
-			current_buffer->line_offset++;
-			buffer_modified();
-			goto ret;
-		}
-		return false;
+		current_buffer->line_offset++;
+		buffer_modified();
+		goto ret;
 	}
 	tty_cursor_next_line();
 	cursor_row++;
