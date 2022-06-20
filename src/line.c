@@ -23,10 +23,10 @@ public void line_insert_char(int c, int offset)
 		ln = buffer_current_line();
 	}
 	ln->len++;
-	if(c == CTRL_KEY('I'))
-		exit(0);
+
 	ln->chars = realloc(ln->chars, ln->len);
-	memmove(ln->chars + offset + 1, ln->chars + offset, ln->len - offset - 1);
+	if (ln->len > 1)
+		memmove(ln->chars + offset + 1, ln->chars + offset, ln->len - offset - 1);
 	line_put_char(ln, c, offset);
 	line_put_char(ln, 0, ln->len - 1);
 	

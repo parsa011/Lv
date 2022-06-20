@@ -13,4 +13,5 @@ public void show_message(char *message, ...)
 	va_start(ap, message);
 	user_message_len = vsnprintf(user_message, USER_MSG_LEN, message, ap);
 	va_end(ap);
+	update_command_bar();
 }

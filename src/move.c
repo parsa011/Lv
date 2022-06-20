@@ -55,8 +55,8 @@ public bool prev_line()
 		if (current_buffer->line_offset > 0) {
 			current_buffer->is_modified = true;
 			current_buffer->line_offset--;
+			buffer_text_update();
 			goto ret;
-			return true;
 		}
 		return false;
 	}

@@ -16,7 +16,7 @@ public void buffer_open_file(buffer *buf, char *file_name)
 	} else {
 		// TODO : get y/n to create file or no
 	}
-	buffer_modified();
+	buffer_text_update();
 }
 
 public void buffer_set_file(buffer *buf, char *path)
@@ -100,10 +100,10 @@ public char *buffer_lines_to_string(buffer *buf, int *len)
     /* Compute count of bytes */
 	line *ln = buf->first_line;
     for (j = 0; j < buf->line_count; j++) {
-        totlen += ln->len + 1; /* +1 is for "\n" at end of every row */
+        totlen += ln->len; /* +1 is for "\n" at end of every row */
 		ln = L_LINK_NEXT(ln);
 	}
-    p = string = malloc((*len = totlen) + 1);
+    p = string = malloc((*len = totlen));
 	ln = buf->first_line;
     for (j = 0; j < buf->line_count; j++) {
         memcpy(p, ln->chars, ln->len);
@@ -113,11 +113,6 @@ public char *buffer_lines_to_string(buffer *buf, int *len)
     }
     *p = '\0';
     return string;
-}
-
-public void buffer_modified()
-{
-	current_buffer->is_modified = true;
 }
 
 public void buffer_line_append(buffer *buf, line *ln)
@@ -159,4 +154,15 @@ public uint64_t buffer_line_index()
 public line *buffer_current_line()
 {
 	return current_buffer->current_line;
+}
+
+public void buffer_modified()
+{
+	current_buffer->is_modified = true;
+	buffer_text_update();
+}
+
+public void buffer_text_update()
+{
+	current_buffer->need_text_update = true;
 }

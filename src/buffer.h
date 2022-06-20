@@ -23,6 +23,8 @@ typedef enum {
  *					  it hold that how many lines we passed from first line
  *		char_offset : how far we are from beginning of line
  *		auto_pari : auto close for twin characters , like '(' or '{' and ...
+ *		need_text_update : this is different from is_modified, because we everytime that we
+ *						refresh the screen, we will turn this off, but we need to have is_modified
  */
 struct buffer_t {
 	L_LINK(buffer) link;
@@ -37,6 +39,7 @@ struct buffer_t {
 
 	/* Options for buffer */
 	bool is_modified;
+	bool need_text_update;
 	bool line_number;
 	bool auto_indent;
 	bool auto_pair;
@@ -83,7 +86,7 @@ public char *buffer_lines_to_string(buffer *buf, int *len);
 public void buffer_line_append(buffer *buf, line *new_line);
 
 /*
- *	just set modified true for current buffer to redisplay
+ *	this means text of current buffer modified
  */
 public void buffer_modified();
 
@@ -106,14 +109,13 @@ public uint64_t buffer_line_index();
 
 /*
  *	return pointer to current line of given buffer
- *
- *	it can be slow too, but we cant do anything else, because we use of linked list
- *	we have to go throw the list to get our destination
- *	Or we can save current line of buffer in buffer struct but it's hard to track
- *	it every time that we change line (line remove , move and ...), s easiest way it
- *	this but a little bit time wasting in large file, NP :))) we dont have very large files
- *	and today computers are fast enough to handle it :O
  */
 public line *buffer_current_line();
+
+/*
+ *	call this function everywhere that we need to update text section of current buffer
+ *	it's better to separate this from is_modified
+ */
+public void buffer_text_update();
 
 #endif

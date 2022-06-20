@@ -16,7 +16,7 @@ public void update_screen()
 
 public void update_text()
 {
-	if (!current_buffer->is_modified)
+	if (!current_buffer->need_text_update)
 		return;
 	tty_hide_cursor();
 	/* calculate that how much row we have for text lines */
@@ -32,7 +32,7 @@ public void update_text()
 		if (ln)
 			ln = L_LINK_NEXT(ln);
 	}
-	current_buffer->is_modified = false;
+	current_buffer->need_text_update = false;
 	ttyflush();
 	tty_show_cursor();
 }
@@ -87,11 +87,11 @@ public void update_command_bar()
 		/* 	   current_buffer->line_count, */
 		/* 	   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset); */
 		/* print_pos(current_window.cursor_pos); */
-		/* if (buffer_current_line()) { */
-		/* 	char *c = buffer_current_line()->chars + current_buffer->char_offset; */
-		/* 	printf(" --- Current char : %c", *c == '\t' ? 'T' : *c); */
-		/* 	printf(" --- Line Length : %d", buffer_current_line()->len ); */
-		/* } */
+		if (buffer_current_line()) {
+			char *c = buffer_current_line()->chars + current_buffer->char_offset;
+			printf(" --- Current char : %c", *c == '\t' ? 'T' : *c);
+			printf(" --- Line Length : %d", buffer_current_line()->len );
+		}
 	}
 	
 	putchar('\r');
