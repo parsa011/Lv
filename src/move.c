@@ -80,8 +80,10 @@ public bool next_char()
 		current_buffer->char_offset++;
 		return true;
 	} else {
-		next_line();
-		return go_line_beginning();
+		if (next_line()) {
+			go_line_beginning();
+			return true;
+		}
 	}
 	return false;
 }
@@ -98,8 +100,10 @@ public bool prev_char()
 			cursor_col--;
 		return true;
 	} else {
-		prev_line();
-		return go_line_end();
+		if (prev_line()) {
+			go_line_end();
+			return true;
+		}
 	}		
 	return false;
 }
