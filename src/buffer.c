@@ -1,4 +1,5 @@
 #include "types.h"
+#include <fcntl.h>
 
 public void buffer_init(buffer *buf, char *file_name)
 {
@@ -56,6 +57,61 @@ public void buffer_load_file(buffer *buf, char *path)
 	}
 	free(line_chars);
 	fclose(fp);
+}
+
+// TODO : show messages in command bar
+public bool buffer_save(buffer *buf)
+{
+	// TODO : get file name to save
+	if (!buf->file_path)
+		return false;
+	
+	int len = 0;
+	char *texts = buffer_lines_to_string(buf, &len);
+	int fd = open(buf->file_path, O_RDWR | O_CREAT, 0644);
+    if (fd == -1)
+		goto writeerr;
+
+    /* Use truncate + a single write(2) call in order to make saving
+     * a bit safer, under the limits of what we can do in a small editor. */
+    if (ftruncate(fd, len) == -1)
+		goto writeerr;
+    if (write(fd, texts, len) != len)
+		goto writeerr;
+
+	close(fd);
+    free(texts);
+    return true;
+		
+writeerr:
+    free(buf);
+    if (fd != -1)
+		close(fd);
+    return false;
+}
+
+public char *buffer_lines_to_string(buffer *buf, int *len)
+{
+    char *string = NULL, *p;
+    int totlen = 0;
+    int j;
+
+    /* Compute count of bytes */
+	line *ln = buf->first_line;
+    for (j = 0; j < buf->line_count; j++) {
+        totlen += ln->len + 1; /* +1 is for "\n" at end of every row */
+		ln = L_LINK_NEXT(ln);
+	}
+    p = string = malloc((*len = totlen) + 1);
+	ln = buf->first_line;
+    for (j = 0; j < buf->line_count; j++) {
+        memcpy(p, ln->chars, ln->len);
+        p += ln->len - 1;
+        *p++ = '\n';
+		ln = L_LINK_NEXT(ln);
+    }
+    *p = '\0';
+    return string;
 }
 
 public void buffer_modified()

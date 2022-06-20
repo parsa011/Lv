@@ -68,6 +68,16 @@ public void buffer_open_file(buffer *buf, char *path);
 public void buffer_load_file(buffer *buf, char *path);
 
 /*
+ *	write out strings of buffer to its file
+ */
+public bool buffer_save(buffer *buf);
+
+/*
+ *	Concat all of given buffer lines into one heap-allocated string
+ */
+public char *buffer_lines_to_string(buffer *buf, int *len);
+
+/*
  *	Append given line to end of buffer lines
  */
 public void buffer_line_append(buffer *buf, line *new_line);

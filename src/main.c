@@ -62,7 +62,7 @@ void lv_loop()
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
 			if (c == CTRL_KEY('s')) {
-				// TODO : Save file
+				buffer_save(current_buffer);
 			} else if(c == CTRL_KEY('c'))
 				exit(0);
 		} else if (c == CTRL_KEY('d')) {
