@@ -34,7 +34,7 @@ public void line_insert_string(line *ln, char *string, int len)
 	ln->chars = realloc(ln->chars, ln->len + len - 1);
 	memcpy(ln->chars + ln->len - 1, string, len);
 	ln->len += len - 1;
-	line_put_char(ln, '\0', ln->len);
+	line_put_char(ln, '\0', ln->len - 1);
 }
 
 public void line_insert_new()
@@ -61,10 +61,10 @@ public void line_delete_char()
 		line_remove(current);
 		goto ret;
 	}
+	prev_char();
 	memcpy(current->chars + offset - 1, current->chars + offset, current->len - offset);
 	current->len--;
 	line_put_char(current, '\0', current->len);
-	prev_char();
 ret :
 	buffer_modified();
 }

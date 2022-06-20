@@ -63,10 +63,12 @@ void lv_loop()
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
 			if (c == CTRL_KEY('s')) {
-			}
-		}
+				// TODO : Save file
+			} else if(c == CTRL_KEY('c'))
+				exit(0);
+		} 
 
-	} while (c != 'q');
+	} while (true);
 }
 
 int main(int argc, char *argv[])

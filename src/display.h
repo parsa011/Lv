@@ -16,6 +16,11 @@ public void update_screen();
 public void update_text();
 
 /*
+ *	Write given line into output by converting tabs to space and syntax highlighting
+ */
+public void write_line(line *ln);
+
+/*
  *	print tab bar if that's enabled
  *  +--------------------------------------------------------------+
  *	| LV [ main.c ] | [ display.c ]                                |

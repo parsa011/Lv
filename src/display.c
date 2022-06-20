@@ -27,17 +27,33 @@ public void update_text()
 	line *ln = buffer_get_line_by_index(current_buffer, current_buffer->line_offset);
 	for (int i = 0; i < text_region_size - 1; i++) {
 		tty_erase_end_of_line();
-		if (ln) {
-			ttyputs(ln->chars, false);
-			ttyputs("\n", false);
+		write_line(ln);
+		if (ln)
 			ln = L_LINK_NEXT(ln);
-		} else {
-			ttyputs("~ \n\r", false);
-		}
 	}
 	current_buffer->is_modified = false;
 	ttyflush();
 	tty_show_cursor();
+}
+
+public void write_line(line *ln)
+{
+	if (ln) {
+		char *ptr = ln->chars;
+		while (*ptr) {
+			if (*ptr == '\t') {
+				for (int i = 0; i < global_editor.tab_size; i++) {
+					ttyputc(' ');
+				}
+			} else {
+				ttyputc(*ptr);
+			}
+			ptr++;
+		}
+		ttyputs("\n", true);
+	} else {
+		ttyputs("~ \n\r", false);
+	}
 }
 
 public void update_tabbar()

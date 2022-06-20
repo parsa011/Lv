@@ -39,13 +39,11 @@ public bool next_line()
 			current_buffer->is_modified = true;
 			current_buffer->line_offset++;
 			goto ret;
-
-			return true;
 		}
 		return false;
 	}
-	/* no any line, dont move cursorr */
-	if (current_buffer->line_count <= current_buffer->line_offset)
+	/* no any line, dont move cursor */
+	if (current_buffer->line_count < buffer_line_index() + 1)
 		return false;
 	tty_cursor_next_line();
 	cursor_row++;
