@@ -25,26 +25,22 @@ public void control_offset()
 
 public bool next_line()
 {
-	if (cursor_row >= global_editor.term_row - 1) {
-		/*
-		 *	prevent of extra scroll down, if term_row + line_offset and other stuff 
-		 *	is more than line_count , that means we dont have any other line , so dont
-		 *	scroll buddy :)
-		 */
-		if (current_buffer->line_offset + global_editor.term_row - global_editor.show_tabs
-			 >
-			current_buffer->line_count)
-			return false;
-		if (current_buffer->line_count - 1 > current_buffer->line_offset) {
-			current_buffer->is_modified = true;
+	/*
+	 *	prevent of extra scroll down or line move, if current line index	
+	 *  is more than line_count that means we dont have any other line , so dont
+	 *	scroll or move cursor buddy :)
+	 */
+	if (buffer_line_index() > current_buffer->line_count - 1)
+		return false;
+	if (cursor_row == global_editor.term_row - 1) {
+		
+		if (current_buffer->line_count > current_buffer->line_offset) {
 			current_buffer->line_offset++;
+			buffer_modified();
 			goto ret;
 		}
 		return false;
 	}
-	/* no any line, dont move cursor */
-	if (current_buffer->line_count < buffer_line_index() + 1)
-		return false;
 	tty_cursor_next_line();
 	cursor_row++;
 ret :
@@ -79,7 +75,7 @@ ret :
 public bool next_char()
 {
 	line *ln = buffer_current_line();
-	if (current_buffer->char_offset + 1 < ln->len) {
+	if (current_buffer->char_offset < ln->len - 1) {
 		char current_char = *(ln->chars + current_buffer->char_offset);
 		if (current_char == '\t')
 			cursor_col += global_editor.tab_size;
@@ -88,7 +84,8 @@ public bool next_char()
 		current_buffer->char_offset++;
 		return true;
 	} else {
-		return next_line();
+		next_line();
+		return go_line_beginning();
 	}
 	return false;
 }
@@ -105,7 +102,8 @@ public bool prev_char()
 			cursor_col--;
 		return true;
 	} else {
-		return prev_line();
+		prev_line();
+		return go_line_end();
 	}		
 	return false;
 }

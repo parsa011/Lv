@@ -17,7 +17,12 @@ public line *line_init(char *chars, int len)
 
 public void line_insert_char(int c, int offset)
 {
+	
 	line *ln = buffer_current_line();
+	if (!ln) {
+		line_insert_new();
+		ln = buffer_current_line();
+	}
 	ln->len++;
 
 	ln->chars = realloc(ln->chars, ln->len);
@@ -41,12 +46,16 @@ public void line_insert_new()
 {
 	int offset = current_buffer->char_offset;
 	line *current = buffer_current_line();
-	line *new = line_init(current->chars + offset, current->len - offset);
-	line_put_char(current, '\0', offset);
-	current->len = offset + 1;
-	buffer_line_append_after(current_buffer, current, new);
-	next_line();
-	go_line_beginning();
+	if (current == NULL) {
+		buffer_line_append(current_buffer, line_init("", 0));
+	} else {
+		line *new = line_init(current->chars + offset, current->len - offset);
+		line_put_char(current, '\0', offset);
+		current->len = offset + 1;
+		buffer_line_append_after(current_buffer, current, new);
+		next_line();
+		go_line_beginning();
+	}
 	buffer_modified();
 }
 

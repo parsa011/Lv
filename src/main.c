@@ -23,7 +23,6 @@ void init_editor()
 	setbuf(stdout, NULL);
 	update_screen_size();
 	current_buffer = &current_window.first_buffer;
-	buffer_line_append(current_buffer, line_init("", 0));
 	atexit(at_exit);
 }
 
@@ -33,7 +32,7 @@ void lv_loop()
 	do {
 		update_screen();
 		c = get_key();
-		if (c == CTRL_KEY('n')) {
+		if (c == CTRL_KEY('n') || c == ARROW_DOWN) {
 			next_line();
 		} else if (c == CTRL_KEY('l')) {
 			go_line_end();
@@ -43,15 +42,15 @@ void lv_loop()
 			page_up();
 		} else if (c == CTRL_KEY('h')) {
 			go_line_beginning();
-		} else if (c == CTRL_KEY('p')) {
+		} else if (c == CTRL_KEY('p') || c == ARROW_LEFT) {
 			prev_line();
-		} else if (c == CTRL_KEY('f')) {
+		} else if (c == CTRL_KEY('f') || c == ARROW_RIGHT) {
 			next_char();
-		} else if (c == CTRL_KEY('b')) {
+		} else if (c == CTRL_KEY('b') || c == ARROW_UP) {
 			prev_char();
-		} else if (c == META_KEY('f')) {
+		} else if (c == META_KEY('f') || c == CTRL_KEY(ARROW_RIGHT)) {
 			next_word();
-		} else if (c == META_KEY('b')) {
+		} else if (c == META_KEY('b') || c == CTRL_KEY(ARROW_LEFT)) {
 			prev_word();
 		} else if (!IS_CTRL_KEY(c) && c != ESC) {
 			if (c == 13)
@@ -66,7 +65,10 @@ void lv_loop()
 				// TODO : Save file
 			} else if(c == CTRL_KEY('c'))
 				exit(0);
-		} 
+		} else if (c == CTRL_KEY('d')) {
+			if (next_char())
+				line_delete_char();
+		}
 
 	} while (true);
 }
@@ -74,7 +76,7 @@ void lv_loop()
 int main(int argc, char *argv[])
 {
 	/* handy configs for now */
-	global_editor.show_tabs = true;
+	global_editor.show_tabs = false;
 	global_editor.tab_size = 8;
 
 	init_editor();
