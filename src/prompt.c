@@ -23,14 +23,16 @@ public char *prompt_string(char *message, ...)
 	show_message(message);
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
 	int c = get_key();
-	char user_answer[USER_MSG_LEN];
+	static char user_answer[USER_MSG_LEN];
 	char *ptr = user_answer;
+	*ptr = 0;
 	while (c != 13) {
 		*ptr++ = c;
 		printf("%c", c);
 		tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
 		c = get_key();
 	}
+	*ptr = 0;
 	return user_answer;
 }
 
