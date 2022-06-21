@@ -24,11 +24,11 @@ public void line_insert_char(int c, int offset)
 	}
 	ln->len++;
 
-	ln->chars = realloc(ln->chars, ln->len);
+	ln->chars = realloc(ln->chars, ln->len + 1);
 	if (ln->len > 1)
 		memmove(ln->chars + offset + 1, ln->chars + offset, ln->len - offset - 1);
 	line_put_char(ln, c, offset);
-	line_put_char(ln, 0, ln->len - 1);
+	line_put_char(ln, 0, ln->len);
 	
 	next_char();
 	buffer_modified();
@@ -66,8 +66,10 @@ public void line_delete_char()
 	if (offset == 0 ) {
 		if (buffer_line_index() == 0)
 			return;
+		int prev_len = current->link.prev->len;
 		line_insert_string(current->link.prev, current->chars, current->len);
 		line_remove(current);
+		go_to_col(prev_len - 1);
 		goto ret;
 	}
 	prev_char();
@@ -81,7 +83,6 @@ ret :
 public void line_remove(line *ln)
 {
 	prev_line();
-	go_line_end();
 	L_LINK_REMOVE(ln);
 	line_free(ln);
 	current_buffer->line_count--;

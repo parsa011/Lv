@@ -13,6 +13,7 @@ void at_exit()
 
 void init_editor()
 {
+	getcwd(cwd, PATH_MAX);
 	tty_clear_screen();
 	terminal_raw_mode();
 	global_editor.tty_in = STDIN_FILENO;
@@ -34,13 +35,13 @@ void lv_loop()
 		c = get_key();
 		if (c == CTRL_KEY('n') || c == ARROW_DOWN) {
 			next_line();
-		} else if (c == CTRL_KEY('l')) {
+		} else if (c == CTRL_KEY('e')) {
 			go_line_end();
 		} else if (c == CTRL_KEY('v')) {
 			page_down();
 		} else if (c == META_KEY('v')) {
 			page_up();
-		} else if (c == CTRL_KEY('h')) {
+		} else if (c == CTRL_KEY('a')) {
 			go_line_beginning();
 		} else if (c == CTRL_KEY('p') || c == ARROW_DOWN) {
 			prev_line();
@@ -63,17 +64,21 @@ void lv_loop()
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
 			if (c == CTRL_KEY('s')) {
-				if (current_buffer->is_modified)
+				if (current_buffer->is_modified) {
 					if (buffer_save(current_buffer))
 						show_message("File Saved : %s", current_buffer->file_path);
+				} else {
+					show_message("(No changes need to be saved)");
+				}
 			} else if(c == CTRL_KEY('c')) {
 				if (current_buffer->is_modified) {
-					bool res = prompt_bool("Buffer Modified, Really Wann Exit ? y/n");
+					bool res = prompt_bool("Buffer Modified, Really Wann Exit ?");
 					if (res)
 						exit(0);
 					else
 						clear_message();
 				} else
+
 					exit(0);
 			}
 		} else if (c == CTRL_KEY('d')) {

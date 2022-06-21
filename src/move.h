@@ -68,4 +68,9 @@ public bool next_word();
  */
 public bool prev_word();
 
+/*
+ *	Go To specifit col in current line
+ */
+public void go_to_col(int col);
+
 #endif

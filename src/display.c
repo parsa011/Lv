@@ -87,11 +87,11 @@ public void update_command_bar()
 		/* 	   current_buffer->line_count, */
 		/* 	   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset); */
 		/* print_pos(current_window.cursor_pos); */
-		if (buffer_current_line()) {
-			char *c = buffer_current_line()->chars + current_buffer->char_offset;
-			printf(" --- Current char : %c", *c == '\t' ? 'T' : *c);
-			printf(" --- Line Length : %d", buffer_current_line()->len );
-		}
+		/* if (buffer_current_line()) { */
+		/* 	char *c = buffer_current_line()->chars + current_buffer->char_offset; */
+		/* 	printf(" --- Current char : %c", *c == '\t' ? 'T' : *c); */
+		/* 	printf(" --- Line Length : %d", buffer_current_line()->len ); */
+		/* } */
 	}
 	
 	putchar('\r');

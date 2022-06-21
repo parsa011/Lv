@@ -40,6 +40,7 @@ public bool prompt_bool(char *message, ...)
 {
 	show_message(message);
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
+	printf("(y/n) ");
 	return get_key() == 'y';
 }
 

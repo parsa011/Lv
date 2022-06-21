@@ -24,5 +24,7 @@ public buffer *current_buffer;
 
 #define cursor_row (current_window.cursor_pos.row)
 #define cursor_col (current_window.cursor_pos.col)
+#define PATH_MAX 512
+public char cwd[PATH_MAX];
 
 #endif

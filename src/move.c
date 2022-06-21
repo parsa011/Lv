@@ -71,7 +71,7 @@ ret :
 public bool next_char()
 {
 	line *ln = buffer_current_line();
-	if (current_buffer->char_offset < ln->len - 1) {
+	if (current_buffer->char_offset <= ln->len - 1) {
 		char current_char = *(ln->chars + current_buffer->char_offset);
 		if (current_char == '\t')
 			cursor_col += global_editor.tab_size;
@@ -79,12 +79,13 @@ public bool next_char()
 			cursor_col++;
 		current_buffer->char_offset++;
 		return true;
-	} else {
-		if (next_line()) {
-			go_line_beginning();
-			return true;
-		}
 	}
+	/* else { */
+	/* 	if (next_line()) { */
+	/* 		go_line_beginning(); */
+	/* 		return true; */
+	/* 	} */
+	/* } */
 	return false;
 }
 
@@ -99,12 +100,13 @@ public bool prev_char()
 		else
 			cursor_col--;
 		return true;
-	} else {
-		if (prev_line()) {
-			go_line_end();
-			return true;
-		}
-	}		
+	}
+	/* else { */
+	/* 	if (prev_line()) { */
+	/* 		go_line_end(); */
+	/* 		return true; */
+	/* 	} */
+	/* }		 */
 	return false;
 }
 
@@ -153,7 +155,7 @@ private int in_word()
 	return false;
 }
 
-bool next_word()
+public bool next_word()
 {
 	while (in_word() == true) {
 		if (next_char() != true)
@@ -167,7 +169,7 @@ bool next_word()
 	return true;
 }
 
-bool prev_word()
+public bool prev_word()
 {
 	// escape of chars
 	while (in_word() == true) {
@@ -180,4 +182,10 @@ bool prev_word()
 			return false;
 	}
 	return true;
+}
+
+public void go_to_col(int col)
+{
+	current_buffer->char_offset = col;
+	control_offset();
 }
