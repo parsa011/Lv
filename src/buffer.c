@@ -21,8 +21,10 @@ public void buffer_open_file(buffer *buf, char *file_name)
 
 public void buffer_set_file(buffer *buf, char *path)
 {
-	if (path == NULL)
-		path == "[ NO NAME]";
+	if (path == NULL) {
+		buf->file_name = "[ NO NAME]";
+		return;
+	}
 	buf->file_path = path;
 	buf->file_name = get_filename_of_path(path);
 }
@@ -63,8 +65,9 @@ public void buffer_load_file(buffer *buf, char *path)
 public bool buffer_save(buffer *buf)
 {
 	// TODO : get file name to save
-	if (!buf->file_path)
-		return false;
+	if (!buf->file_path) {
+		buffer_set_file(current_buffer, prompt_string("Enter File Name For Buffer :"));
+	}
 	
 	int len = 0;
 	char *texts = buffer_lines_to_string(buf, &len);

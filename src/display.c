@@ -73,7 +73,7 @@ public void update_command_bar()
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1));
 	tty_erase_end_of_line();
 
-	if (user_message_len && (time(NULL) - user_message_time < 4)) {
+	if (user_message_len && (time(NULL) - user_message_time < USER_MESSAGE_TIME)) {
 		printf("%s", user_message);
 	} else {
 		if (current_buffer->is_modified) {

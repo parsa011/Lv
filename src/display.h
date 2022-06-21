@@ -1,6 +1,11 @@
 #ifndef _DISPLAY_H
 # define _DISPLAY_H
 
+/* 
+ *	time to second that we want to show messages to user
+ */
+#define USER_MESSAGE_TIME 2
+
 #define TABBAR_BG (create_bg_color(color_new(44, 44, 44)))
 #define TABBAR_FG (create_fg_color(color_new(123, 123, 123)))
 

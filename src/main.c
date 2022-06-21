@@ -63,13 +63,13 @@ void lv_loop()
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
 			if (c == CTRL_KEY('s')) {
-				if (buffer_save(current_buffer))
-					show_message("file saved");
+				if (current_buffer->is_modified)
+					if (buffer_save(current_buffer))
+						show_message("File Saved : %s", current_buffer->file_path);
 			} else if(c == CTRL_KEY('c')) {
 				if (current_buffer->is_modified) {
-					show_message("Buffer Modified, Really Wanna Exit ? y/n");
-					c = get_key();
-					if (c == 'y')
+					bool res = prompt_bool("Buffer Modified, Really Wann Exit ? y/n");
+					if (res)
 						exit(0);
 					else
 						clear_message();
