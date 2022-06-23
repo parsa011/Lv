@@ -19,7 +19,7 @@ public void control_offset()
 	if (!current_line)
 		return;
 	if (current_line->len <= current_buffer->char_offset)
-		current_buffer->char_offset = current_line->len - 1;
+		current_buffer->char_offset = current_line->len > 0 ? current_line->len - 1 : 0;
 	cursor_col = offset_to_col(buffer_current_line()->chars, current_buffer->char_offset);
 }
 
@@ -34,7 +34,7 @@ public bool next_line()
 		return false;
 	if (cursor_row == global_editor.term_row - 1) {
 		current_buffer->line_offset++;
-		buffer_modified();
+		buffer_text_update();
 		goto ret;
 	}
 	tty_cursor_next_line();
@@ -53,7 +53,7 @@ public bool prev_line()
 		 * we will decrease it so we can get prev line to show
 		 */
 		if (current_buffer->line_offset > 0) {
-			current_buffer->is_modified = true;
+			buffer_text_update();
 			current_buffer->line_offset--;
 			buffer_text_update();
 			goto ret;
@@ -112,8 +112,7 @@ public bool prev_char()
 
 public bool go_line_end()
 {
-	line *ln = buffer_current_line();
-	current_buffer->char_offset = ln->len - 1;
+	current_buffer->char_offset = buffer_current_line()->len;
 	control_offset();
 	return true;
 }

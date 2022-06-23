@@ -10,6 +10,7 @@ public line *line_init(char *chars, int len)
 	char *ptr = ln->chars + len - 1;
     while (*ptr && *ptr == '\n') {
 		*ptr-- = 0;
+		len--;
 	}
 	ln->len = len;
 	return ln;
@@ -23,23 +24,20 @@ public void line_insert_char(int c, int offset)
 		ln = buffer_current_line();
 	}
 	ln->len++;
-
 	ln->chars = realloc(ln->chars, ln->len + 1);
-	if (ln->len > 1)
-		memmove(ln->chars + offset + 1, ln->chars + offset, ln->len - offset - 1);
+	memmove(ln->chars + offset + 1, ln->chars + offset, ln->len - offset + 1);
 	line_put_char(ln, c, offset);
 	line_put_char(ln, 0, ln->len);
-	
 	next_char();
 	buffer_modified();
 }
 
 public void line_insert_string(line *ln, char *string, int len)
 {
-	ln->chars = realloc(ln->chars, ln->len + len - 1);
-	memcpy(ln->chars + ln->len - 1, string, len);
-	ln->len += len - 1;
-	line_put_char(ln, '\0', ln->len - 1);
+	ln->chars = realloc(ln->chars, ln->len + len + 1);
+	memcpy(ln->chars + ln->len, string, len);
+	ln->len += len;
+	line_put_char(ln, 0, ln->len);
 }
 
 public void line_insert_new()
@@ -72,11 +70,11 @@ public void line_delete_char()
 		go_to_col(prev_len - 1);
 		goto ret;
 	}
-	prev_char();
 	memcpy(current->chars + offset - 1, current->chars + offset, current->len - offset);
 	current->len--;
 	line_put_char(current, '\0', current->len);
 ret :
+	prev_char();
 	buffer_modified();
 }
 

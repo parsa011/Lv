@@ -40,7 +40,7 @@ public void buffer_load_file(buffer *buf, char *path)
 	ssize_t line_length;
 
 	line *ln, *last_line;
-	/* Init First line by hand, to set last_line
+	/* Init First line handy, to set last_line
 	 * we did it because of speed, we always save last line because in large
 	 * files , we need to get last line in every loop and its lose of speed
 	 * assume what gonna happen when file have more than 50,000 lines :)
@@ -66,31 +66,43 @@ public bool buffer_save(buffer *buf)
 {
 	// TODO : get file name to save
 	if (!buf->file_path) {
-		buffer_set_file(current_buffer, prompt_string("Enter File Name For Buffer :"));
+		buffer_set_file(current_buffer,  prompt_string("Enter File Name For Buffer :"));
 	}
 	
-	int len = 0;
-	char *texts = buffer_lines_to_string(buf, &len);
-	int fd = open(buf->file_path, O_RDWR | O_CREAT, 0644);
-    if (fd == -1)
-		goto writeerr;
+	/* int len = 0; */
+	/* char *texts = buffer_lines_to_string(buf, &len); */
+	/* int fd = open(buf->file_path, O_RDWR | O_CREAT, 0644); */
+    /* if (fd == -1) */
+		/* goto writeerr; */
 
     /* Use truncate + a single write(2) call in order to make saving
      * a bit safer, under the limits of what we can do in a small editor. */
-    if (ftruncate(fd, len) == -1)
-		goto writeerr;
-    if (write(fd, texts, len) != len)
-		goto writeerr;
+    /* if (ftruncate(fd, len) == -1) */
+		/* goto writeerr; */
+    /* if (write(fd, texts, len) != len) */
+		/* goto writeerr; */
 
-	close(fd);
-    free(texts);
-	buf->is_modified = false;
-    return true;
-		
+	/* close(fd); */
+	/* free(texts); */
+	/* current_buffer->is_modified = false; */
+    /* return true; */
+
+	FILE *fp = fopen(buf->file_path, "w");
+	if (!fp) {
+		goto writeerr;
+	}
+	line *ln = buf->first_line;
+	for (int i = 0; i < buf->line_count; i++) {
+		fprintf(fp, "%s\n", ln->chars);
+		ln = L_LINK_NEXT(ln);
+	}
+	fclose(fp);
+	current_buffer->is_modified = false;
+	return true;
+
 writeerr:
-    free(buf);
-    if (fd != -1)
-		close(fd);
+    if (fp)
+		fclose(fp);
     return false;
 }
 
@@ -106,15 +118,15 @@ public char *buffer_lines_to_string(buffer *buf, int *len)
         totlen += ln->len; /* +1 is for "\n" at end of every row */
 		ln = L_LINK_NEXT(ln);
 	}
-    p = string = malloc((*len = totlen));
+    p = string = malloc((*len = totlen) + 1);
 	ln = buf->first_line;
     for (j = 0; j < buf->line_count; j++) {
         memcpy(p, ln->chars, ln->len);
-        p += ln->len - 1;
+        p += ln->len;
         *p++ = '\n';
 		ln = L_LINK_NEXT(ln);
     }
-    *p = '\0';
+    *p = 0;
     return string;
 }
 
