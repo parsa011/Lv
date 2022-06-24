@@ -15,6 +15,23 @@ public bool file_exists(char *path)
 	return access(path, F_OK) == 0;
 }
 
+// do shift write for buf string , start from end and end in start_index 
+void shift_right(char *buf, int buflen, int start_index)
+{
+	for (int i = buflen - 1; i > start_index; i--) {
+		buf[i] = buf[i - 1];
+		buf[i - 1] = ' ';
+	}
+}
+
+void shift_left(char *buf, int buflen, int start_index)
+{
+	for (; start_index < buflen - 1; start_index++) {
+		buf[start_index] = buf[start_index + 1];
+		buf[start_index + 1] = ' ';
+	}
+}
+
 public char *create_rgb_color(color fg, color bg)
 {
 	static char output[100];

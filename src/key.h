@@ -26,6 +26,7 @@
 
 enum keys {
 	ESC = 27,
+	BACKSPACE_KEY = 127,
 	ARROW_UP = SPEC | 'A',
 	ARROW_RIGHT = SPEC | 'C',
 	ARROW_DOWN = SPEC | 'B',

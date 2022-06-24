@@ -64,29 +64,12 @@ public void buffer_load_file(buffer *buf, char *path)
 // TODO : show messages in command bar
 public bool buffer_save(buffer *buf)
 {
-	// TODO : get file name to save
 	if (!buf->file_path) {
-		buffer_set_file(current_buffer,  prompt_string("Enter File Name For Buffer :"));
+		char *buffer_file = prompt_string("Enter File Name For Buffer :");
+		if (buffer_file)
+			buffer_set_file(current_buffer,  buffer_file);
 	}
 	
-	/* int len = 0; */
-	/* char *texts = buffer_lines_to_string(buf, &len); */
-	/* int fd = open(buf->file_path, O_RDWR | O_CREAT, 0644); */
-    /* if (fd == -1) */
-		/* goto writeerr; */
-
-    /* Use truncate + a single write(2) call in order to make saving
-     * a bit safer, under the limits of what we can do in a small editor. */
-    /* if (ftruncate(fd, len) == -1) */
-		/* goto writeerr; */
-    /* if (write(fd, texts, len) != len) */
-		/* goto writeerr; */
-
-	/* close(fd); */
-	/* free(texts); */
-	/* current_buffer->is_modified = false; */
-    /* return true; */
-
 	FILE *fp = fopen(buf->file_path, "w");
 	if (!fp) {
 		goto writeerr;

@@ -1,6 +1,8 @@
 #ifndef _GLOB_H
 # define _GLOB_h
 
+#define DEBUG true
+
 /*
  *	Global Informations and options will be stored in this struct
  *	We will have just one instnace of it and no more.

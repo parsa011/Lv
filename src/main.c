@@ -56,7 +56,7 @@ void lv_loop()
 		} else if (!IS_CTRL_KEY(c) && c != ESC) {
 			if (c == 13)
 				line_insert_new();
-			else if (c == 127)
+			else if (c == BACKSPACE_KEY)
 				line_delete_char();
 			else
 				line_insert_char(c, current_buffer->char_offset);

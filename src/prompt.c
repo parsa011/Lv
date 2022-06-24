@@ -26,10 +26,26 @@ public char *prompt_string(char *message, ...)
 	static char user_answer[USER_MSG_LEN];
 	char *ptr = user_answer;
 	*ptr = 0;
+	bool write_space = false;
 	while (c != 13) {
-		*ptr++ = c;
-		printf("%c", c);
+		if (c == BACKSPACE_KEY) {
+			if (ptr == user_answer)
+				continue;
+			write_space = true;
+			*(--ptr) = 0;
+			prompt_char_offset -= 2;
+		} else if (c == ESC) {
+			*user_answer = 0;
+			return NULL;
+		} else {
+			*ptr++ = c;
+			printf("%c", c);
+		}
 		tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
+		if (write_space) {
+			putchar(' ');
+			write_space = false;
+		}
 		c = get_key();
 	}
 	*ptr = 0;

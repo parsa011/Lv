@@ -76,26 +76,26 @@ public void update_command_bar()
 	if (user_message_len && (time(NULL) - user_message_time < USER_MESSAGE_TIME)) {
 		printf("%s", user_message);
 	} else {
+#if DEBUG == false
 		if (current_buffer->is_modified) {
 			printf("*");
 		} else
 			printf("-");
-		/* printf(" %s", current_buffer->file_name); */
-		/* printf("\t %ld Line", current_buffer->line_count); */
-		/* printf("Line Count : %ld -- Line Offset : %ld -- " */
-		/* 	   "Current Line Index : %ld -- Char Offset : %d -- Cursor Pos : ", */
-		/* 	   current_buffer->line_count, */
-		/* 	   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset); */
+		printf(" %s", current_buffer->file_name);
+		printf("\t %ld Line", current_buffer->line_count);
+#else
+		printf("Line Count : %ld -- Line Offset : %ld -- "
+			   "Current Line Index : %ld -- Char Offset : %d -- Cursor Pos : ",
+			   current_buffer->line_count,
+			   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset);
 		print_pos(current_window.cursor_pos);
 		if (buffer_current_line()) {
 			char *c = buffer_current_line()->chars + current_buffer->char_offset;
 			printf(" --- Current char : %c", *c == '\t' ? 'T' : *c);
 			printf(" --- Line Length : %d", buffer_current_line()->len );
-			printf(" --- Line Size : %ld", strlen(buffer_current_line()->chars));
-			printf(" --- Char offset : %d", current_buffer->char_offset);
 		}
+#endif
 	}
-	
 	putchar('\r');
 	tty_show_cursor();
 }

@@ -13,6 +13,12 @@ public char *get_filename_of_path(char *path);
 public bool file_exists(char *path);
 
 /*
+ *	just shit right ;// 
+ */
+public void shift_right(char *buf, int buflen, int start_index);
+public void shift_left(char *buf, int buflen, int start_index);
+
+/*
  *	Create and return pointer to rgb color sequence for terminal
  *	fg and bg should be like :
  *		"(r);(g);(b)" 8 bit code of colors

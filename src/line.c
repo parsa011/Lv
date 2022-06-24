@@ -25,7 +25,7 @@ public void line_insert_char(int c, int offset)
 	}
 	ln->len++;
 	ln->chars = realloc(ln->chars, ln->len + 1);
-	memmove(ln->chars + offset + 1, ln->chars + offset, ln->len - offset + 1);
+	shift_right(ln->chars, ln->len, offset);
 	line_put_char(ln, c, offset);
 	line_put_char(ln, 0, ln->len);
 	next_char();
@@ -35,7 +35,7 @@ public void line_insert_char(int c, int offset)
 public void line_insert_string(line *ln, char *string, int len)
 {
 	ln->chars = realloc(ln->chars, ln->len + len + 1);
-	memcpy(ln->chars + ln->len, string, len);
+	memcpy(ln->chars + ln->len - 1, string, len);
 	ln->len += len;
 	line_put_char(ln, 0, ln->len);
 }
@@ -48,7 +48,7 @@ public void line_insert_new()
 	} else {
 		int offset = current_buffer->char_offset;
 		line *new = line_init(current->chars + offset, current->len - offset);
-		line_put_char(current, '\0', offset);
+		line_put_char(current, 0, offset);
 		current->len = offset + 1;
 		buffer_line_append_after(current_buffer, current, new);
 		next_line();
@@ -67,12 +67,12 @@ public void line_delete_char()
 		int prev_len = current->link.prev->len;
 		line_insert_string(current->link.prev, current->chars, current->len);
 		line_remove(current);
-		go_to_col(prev_len - 1);
+		go_to_col(prev_len);
 		goto ret;
 	}
-	memcpy(current->chars + offset - 1, current->chars + offset, current->len - offset);
+	shift_left(current->chars, current->len, offset - 1);
 	current->len--;
-	line_put_char(current, '\0', current->len);
+	line_put_char(current, 0, current->len);
 ret :
 	prev_char();
 	buffer_modified();

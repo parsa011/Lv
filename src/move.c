@@ -18,7 +18,7 @@ public void control_offset()
 	/* but it should't be NULL */
 	if (!current_line)
 		return;
-	if (current_line->len <= current_buffer->char_offset)
+	if (current_line->len < current_buffer->char_offset)
 		current_buffer->char_offset = current_line->len > 0 ? current_line->len - 1 : 0;
 	cursor_col = offset_to_col(buffer_current_line()->chars, current_buffer->char_offset);
 }
