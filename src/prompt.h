@@ -24,9 +24,11 @@ public void show_message(char *message, ...);
 public void clear_message();
 
 /*
- *	get a string of user with given mask 
+ *	get a string of user with given mask , if 'answer_prefix' is not null, it gonna 
+ *	to be appended into user answer, for example we can use it when we want to get a 
+ *	path from user
  */
-public char *prompt_string(char *message, ...);
+public char *prompt_string(char *answer_prefix, char *message, ...);
 
 /*
  *	Get Boolean value from user, for example it can be used for y/n questions

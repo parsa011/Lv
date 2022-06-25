@@ -79,13 +79,12 @@ public bool next_char()
 			cursor_col++;
 		current_buffer->char_offset++;
 		return true;
+	} else {
+		if (next_line()) {
+			go_line_beginning();
+			return true;
+		}
 	}
-	/* else { */
-	/* 	if (next_line()) { */
-	/* 		go_line_beginning(); */
-	/* 		return true; */
-	/* 	} */
-	/* } */
 	return false;
 }
 
@@ -100,13 +99,12 @@ public bool prev_char()
 		else
 			cursor_col--;
 		return true;
+	} else {
+		if (prev_line()) {
+			go_line_end();
+			return true;
+		}
 	}
-	/* else { */
-	/* 	if (prev_line()) { */
-	/* 		go_line_end(); */
-	/* 		return true; */
-	/* 	} */
-	/* }		 */
 	return false;
 }
 

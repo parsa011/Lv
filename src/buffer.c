@@ -1,5 +1,6 @@
 #include "types.h"
 #include <fcntl.h>
+#include <errno.h>
 
 public void buffer_init(buffer *buf, char *file_name)
 {
@@ -65,12 +66,14 @@ public void buffer_load_file(buffer *buf, char *path)
 public bool buffer_save(buffer *buf)
 {
 	if (!buf->file_path) {
-		char *buffer_file = prompt_string("Enter File Name For Buffer :");
+		char *buffer_file = prompt_string(cwd, "Enter File Name For Buffer :");
 		if (buffer_file)
 			buffer_set_file(current_buffer,  buffer_file);
+		else
+			return false;
 	}
 	
-	FILE *fp = fopen(buf->file_path, "w");
+	FILE *fp = fopen(buf->file_path, "w+");
 	if (!fp) {
 		goto writeerr;
 	}
@@ -84,6 +87,7 @@ public bool buffer_save(buffer *buf)
 	return true;
 
 writeerr:
+	show_message("%s", strerror(errno));
     if (fp)
 		fclose(fp);
     return false;

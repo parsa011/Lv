@@ -35,7 +35,8 @@ public void line_insert_char(int c, int offset)
 public void line_insert_string(line *ln, char *string, int len)
 {
 	ln->chars = realloc(ln->chars, ln->len + len + 1);
-	memcpy(ln->chars + ln->len - 1, string, len);
+	strcat(ln->chars, string);
+
 	ln->len += len;
 	line_put_char(ln, 0, ln->len);
 }
@@ -49,7 +50,7 @@ public void line_insert_new()
 		int offset = current_buffer->char_offset;
 		line *new = line_init(current->chars + offset, current->len - offset);
 		line_put_char(current, 0, offset);
-		current->len = offset + 1;
+		current->len = offset;
 		buffer_line_append_after(current_buffer, current, new);
 		next_line();
 		go_line_beginning();
@@ -70,11 +71,13 @@ public void line_delete_char()
 		go_to_col(prev_len);
 		goto ret;
 	}
+	/*	This should be here, because if last char was \t this should control our offset
+	 */
+	prev_char();
 	shift_left(current->chars, current->len, offset - 1);
 	current->len--;
 	line_put_char(current, 0, current->len);
 ret :
-	prev_char();
 	buffer_modified();
 }
 

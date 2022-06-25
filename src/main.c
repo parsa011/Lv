@@ -78,8 +78,9 @@ void lv_loop()
 					else
 						clear_message();
 				} else
-
 					exit(0);
+			} else if (c == CTRL_KEY('f')) {
+				char *file = prompt_string(cwd, "Find File :");
 			}
 		} else if (c == CTRL_KEY('d')) {
 			if (next_char())
