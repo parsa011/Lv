@@ -1,7 +1,6 @@
 #include "lv.h"
 
 void usage(char *program_name)
-
 {
 	printf("%s : %s [file_name]\n", program_name, program_name);
 }
@@ -99,7 +98,7 @@ void lv_loop()
 int main(int argc, char *argv[])
 {
 	/* handy configs for now */
-	global_editor.show_tabs = false;
+	global_editor.show_tabs = true;
 	global_editor.tab_size = 4;
 
 	init_editor();

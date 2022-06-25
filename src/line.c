@@ -96,7 +96,13 @@ public void line_delete_after(int offset)
 
 public void line_remove(line *ln)
 {
-	prev_line();
+	if (ln == current_buffer->first_line) {
+		next_line();
+		go_line_beginning();
+		line_delete_char();
+		return;
+	} else
+		prev_line();
 	L_LINK_REMOVE(ln);
 	line_free(ln);
 	current_buffer->line_count--;
