@@ -1,6 +1,7 @@
 #include "lv.h"
 
 void usage(char *program_name)
+
 {
 	printf("%s : %s [file_name]\n", program_name, program_name);
 }
@@ -81,13 +82,16 @@ void lv_loop()
 					exit(0);
 			} else if (c == CTRL_KEY('f')) {
 				char *file = prompt_string(cwd, "Find File :");
+				window_open_new(file);
+				buffer_init(current_buffer, file);
 			}
 		} else if (c == CTRL_KEY('d')) {
 			if (next_char())
 				line_delete_char();
 		} else if (c == TAB_KEY) {
 			line_insert_char('\t', current_buffer->char_offset);
-		}
+		} else if (c == CTRL_KEY('k'))
+			line_delete_after(current_buffer->char_offset);
 
 	} while (true);
 }

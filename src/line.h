@@ -39,6 +39,12 @@ public void line_insert_new();
 public void line_delete_char();
 
 /*
+ *	delete all characters after given ofsset in current line
+ *	or we can say terminate string in current offset :) used in CTRL_K for example
+ */
+public void line_delete_after(int offset);
+
+/*
  *	completely remove line from buffer and make it free 
  */
 public void line_remove(line *ln);

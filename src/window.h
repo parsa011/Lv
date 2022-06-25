@@ -49,6 +49,11 @@ struct window_t {
 void window_init(window *win);
 
 /*
+ *	append given window to window list
+ */
+void window_append(window *win);
+
+/*
  * return pointer of last buffer in given window
  */
 buffer *window_get_last_buffer(window *win);
@@ -57,6 +62,11 @@ buffer *window_get_last_buffer(window *win);
  * append given buffer to given window with specified type
  * it can be in middle, beginning or end
  */
-void window_append_buffer(window *win, buffer *buf, append_type type);
+void window_append_buffer(window *win, buffer *buf);
+
+/*
+ *	create and initialize new window, then set it as current window 
+ */
+void window_open_new();
 
 #endif

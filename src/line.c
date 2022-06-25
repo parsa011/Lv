@@ -81,6 +81,19 @@ ret :
 	buffer_modified();
 }
 
+public void line_delete_after(int offset)
+{
+	line *ln = buffer_current_line();
+	if (offset == 0 && ln->len == 0)
+		line_remove(ln);
+	else {
+		ln->chars = realloc(ln->chars, offset + 1);
+		ln->len = offset;
+		line_put_char(ln, 0, ln->len);
+	}
+	buffer_modified();
+}
+
 public void line_remove(line *ln)
 {
 	prev_line();
