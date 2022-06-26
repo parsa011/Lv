@@ -53,14 +53,6 @@ void lv_loop()
 			next_word();
 		} else if (c == META_KEY('b') || c == CTRL_KEY(ARROW_LEFT)) {
 			prev_word();
-		} else if (!IS_CTRL_KEY(c) && c != ESC) {
-			if (c == 13)
-				line_insert_new();
-			else if (c == BACKSPACE_KEY)
-				line_delete_char();
-			else
-				line_insert_char(c, current_buffer->char_offset);
-			
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
 			if (c == CTRL_KEY('s')) {
@@ -91,16 +83,24 @@ void lv_loop()
 			line_insert_char('\t', current_buffer->char_offset);
 		} else if (c == CTRL_KEY('k')) {
 			line_delete_after(current_buffer->char_offset);
-		} else if (c == CTRL_KEY('g')) {
+		} else if (c == META_KEY('g')) {
 			c = get_key();
-			if (c == CTRL_KEY('g')) {
+			if (c == META_KEY('g')) {
 				int line_nu;
 				if (prompt_number(&line_nu, "GoTo Line :" )) {
 					go_to_line(line_nu);
 				} else
 					exit(0);
 			}
-		}
+		} else if (!IS_CTRL_KEY(c) && c != ESC) {
+			if (c == 13)
+				line_insert_new();
+			else if (c == BACKSPACE_KEY)
+				line_delete_char();
+			else
+				line_insert_char(c, current_buffer->char_offset);
+			
+		 }
 
 	} while (true);
 }
