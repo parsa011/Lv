@@ -73,4 +73,9 @@ public bool prev_word();
  */
 public void go_to_col(int col);
 
+/*
+ *	Go to Specified line with given index in current buffer 
+ */
+public bool go_to_line(uint64_t line_nu);
+
 #endif

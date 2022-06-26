@@ -89,8 +89,18 @@ void lv_loop()
 				line_delete_char();
 		} else if (c == TAB_KEY) {
 			line_insert_char('\t', current_buffer->char_offset);
-		} else if (c == CTRL_KEY('k'))
+		} else if (c == CTRL_KEY('k')) {
 			line_delete_after(current_buffer->char_offset);
+		} else if (c == CTRL_KEY('g')) {
+			c = get_key();
+			if (c == CTRL_KEY('g')) {
+				int line_nu;
+				if (prompt_number(&line_nu, "GoTo Line :" )) {
+					go_to_line(line_nu);
+				} else
+					exit(0);
+			}
+		}
 
 	} while (true);
 }

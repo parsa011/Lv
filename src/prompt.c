@@ -61,6 +61,17 @@ public bool prompt_bool(char *message, ...)
 	return get_key() == 'y';
 }
 
+public bool prompt_number(int *res, char *message, ...)
+{
+	char *str = prompt_string(NULL, message);
+	if (!is_all_number(str)) {
+		show_message("Enter Valid Number");
+		return false;
+	}
+	*res = atoi(str);
+	return true;
+}
+
 public void clear_message()
 {
 	user_message[(user_message_len = 0)] = 0;

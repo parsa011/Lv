@@ -186,3 +186,14 @@ public void go_to_col(int col)
 	current_buffer->char_offset = col;
 	control_offset();
 }
+
+public bool go_to_line(uint64_t line_nu)
+{
+	if (line_nu > current_buffer->line_count - 1)
+		return false;
+	line *ln = buffer_get_line_by_index(current_buffer, line_nu);
+	current_buffer->current_line = ln;
+	current_buffer->line_offset = line_nu;
+	buffer_text_update();
+	return true;
+}

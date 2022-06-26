@@ -45,4 +45,9 @@ public void unset_bold();
 public void set_underline();
 public void unset_underline();
 
+/*
+ *	check if given string characters are all number characters
+ */
+public bool is_all_number(char *str);
+
 #endif

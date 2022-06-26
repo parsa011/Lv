@@ -35,4 +35,12 @@ public char *prompt_string(char *answer_prefix, char *message, ...);
  */
 public bool prompt_bool(char *message, ...);
 
+/*
+ *	return number value from prompt
+ *	it returs bool because maybe user enterd invalid number,
+ *	so we cant return -1 as return value, we return false, and we will
+ *	store that number in given 'res' variable
+ */
+public bool prompt_number(int *res, char *message, ...);
+
 #endif

@@ -83,3 +83,13 @@ public void unset_underline()
 {
 	printf("\033[24m");
 }
+
+public bool is_all_number(char *str)
+{
+	char *ptr = str;
+	while (*ptr) {
+		if (!isdigit(*ptr++))
+			return false;
+	}
+	return true;
+}
