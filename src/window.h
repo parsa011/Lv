@@ -35,11 +35,17 @@
  */
 struct window_t {
 	L_LINK(window) link;
-	buffer first_buffer;
+	buffer *first_buffer;
 	uint8_t buffer_count;
 	uint8_t current_buffer_index;
 	cursor_position cursor_pos;
 };
+
+/*
+ *	allocate and return pointer of new window, it will not set anything for window,
+ *	for configuring window we need to call 'window_init()'
+ */
+window *window_alloc();
 
 /*
  * give a pointer of a window and initialize it's fileds, we will not use of

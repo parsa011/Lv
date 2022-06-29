@@ -47,6 +47,11 @@ struct buffer_t {
 };
 
 /*
+ *	Just alloc new buffer and return pointer
+ */
+public buffer *buffer_alloc();
+
+/*
  *	Initialize basic informations for buffer, and open file into buffer if file_name
  *	isn't nullb
  */

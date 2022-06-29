@@ -6,7 +6,7 @@
 public void update_screen()
 {
 	cursor_position cur_pos;
-	pos_copy(current_window.cursor_pos, cur_pos);
+	pos_copy(current_window->cursor_pos, cur_pos);
 	update_tabbar();
 	update_text();
 	update_status_bar();
@@ -95,7 +95,7 @@ public void update_status_bar()
 		   "Current Line Index : %ld -- Char Offset : %d -- Cursor Pos : ",
 		   current_buffer->line_count,
 		   current_buffer->line_offset, buffer_line_index(), current_buffer->char_offset);
-	print_pos(current_window.cursor_pos);
+	print_pos(current_window->cursor_pos);
 	if (buffer_current_line()) {
 		char *c = buffer_current_line()->chars + current_buffer->char_offset;
 		ADD_TEXTF(" --- Current char : %c", *c == '\t' ? 'T' : *c);

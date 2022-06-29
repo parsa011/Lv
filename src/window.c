@@ -1,14 +1,26 @@
 #include "types.h"
 
+window *window_alloc()
+{
+	window *win = malloc(sizeof(window));
+	if (!win) {
+		show_message("Out Of Memory!");
+		return NULL;
+	}
+	return win;
+}
+
 void window_init(window *win)
 {
 	win->buffer_count = win->current_buffer_index = 0;
-	reset_pos(win->cursor_pos);
+	win->first_buffer = buffer_alloc();
+	buffer_init(win->first_buffer, NULL);
+	reset_pos(current_window->cursor_pos);
 }
 
 void window_append(window *win)
 {
-	window *lw = &current_window;
+	window *lw = current_window;
 	for (; L_LINK_NEXT(lw); lw = L_LINK_NEXT(lw))
 		;
 	L_LINK_INSERT(lw, win);
@@ -16,7 +28,7 @@ void window_append(window *win)
 
 buffer *window_get_last_buffer(window *win)
 {
-	buffer *fb = &win->first_buffer;
+	buffer *fb = win->first_buffer;
 	for (; L_LINK_NEXT(fb); fb = L_LINK_NEXT(fb))
 		;
 	return fb;

@@ -11,6 +11,14 @@ void at_exit()
 	tty_clear_screen();
 }
 
+void init_first_window()
+{
+	current_window = window_alloc();
+	window_init(current_window);
+	tty_move_cursor(current_window->cursor_pos);
+	current_buffer = current_window->first_buffer;
+}
+
 void init_editor()
 {
 	getcwd(cwd, PATH_MAX);
@@ -18,12 +26,11 @@ void init_editor()
 	terminal_raw_mode();
 	global_editor.tty_in = STDIN_FILENO;
 
-	reset_pos(current_window.cursor_pos);
-	tty_move_cursor(current_window.cursor_pos);
+
+	init_first_window();
 
 	setbuf(stdout, NULL);
 	update_screen_size();
-	current_buffer = &current_window.first_buffer;
 	atexit(at_exit);
 }
 

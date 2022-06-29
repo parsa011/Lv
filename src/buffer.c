@@ -2,6 +2,16 @@
 #include <fcntl.h>
 #include <errno.h>
 
+public buffer *buffer_alloc()
+{
+	buffer *buf = malloc(sizeof(buffer));
+	if (!buf) {
+		show_message("Out Of Memory!");
+		return NULL;
+	}
+	return buf;
+}
+
 public void buffer_init(buffer *buf, char *file_name)
 {
 	buf->link.next = buf->link.prev = NULL;
