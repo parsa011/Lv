@@ -15,7 +15,7 @@ public void show_message(char *message, ...)
 	va_start(ap, message);
 	user_message_len = prompt_char_offset = vsnprintf(user_message, USER_MSG_LEN, message, ap);
 	va_end(ap);
-	update_command_bar();
+	update_status_bar();
 }
 
 public char *prompt_string(char *answer_prefix, char *message, ...)

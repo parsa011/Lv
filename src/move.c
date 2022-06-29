@@ -32,7 +32,7 @@ public bool next_line()
 	 */
 	if (buffer_line_index() >= current_buffer->line_count - 1)
 		return false;
-	if (cursor_row == global_editor.term_row - 1) {
+	if (cursor_row == global_editor.term_row - 2) {
 		current_buffer->line_offset++;
 		buffer_text_update();
 		goto ret;
@@ -192,6 +192,7 @@ public bool go_to_line(uint64_t line_nu)
 	if (line_nu > current_buffer->line_count - 1)
 		return false;
 	line *ln = buffer_get_line_by_index(current_buffer, line_nu);
+	reset_pos(current_window.cursor_pos)
 	current_buffer->current_line = ln;
 	current_buffer->line_offset = line_nu;
 	buffer_text_update();
