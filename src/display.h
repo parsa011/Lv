@@ -6,8 +6,12 @@
  */
 #define USER_MESSAGE_TIME 2
 
-#define TABBAR_BG (create_bg_color(color_new(44, 44, 44)))
-#define TABBAR_FG (create_fg_color(color_new(123, 123, 123)))
+/* #define TABBAR_BG (color_new(25, 55, 255)) */
+/* #define TABBAR_FG (color_new(1, 1, 1)) */
+#define TABBAR_FG (color_new(1, 1, 1))
+#define TABBAR_BG (color_new(255, 255, 255))
+
+#define TEXT_ROW_SIZE global_editor.term_row - global_editor.show_tabs - 2
 
 /*
  *	rewrite current window and also update tabbar and command-line section
@@ -35,6 +39,12 @@ public void update_tabbar();
 
 /*
  *	update command bar and show information and read commands 
+ */
+public void update_status_bar();
+
+/*
+ *	for now this functino will not write anything to command bar, it will check if
+ *	message need to be erased or no bu checking its time 
  */
 public void update_command_bar();
 
