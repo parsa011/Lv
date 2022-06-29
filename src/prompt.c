@@ -41,14 +41,15 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 	}
 	int c = get_key();
 	while (c != 13) {
+		if (c == CTRL_KEY('g') || c == ESC) {
+			show_message("(canceled)");
+			return NULL;
+		}
 		if (c == BACKSPACE_KEY || c == CTRL_KEY('g')) {
 			if (ptr == user_answer)
 				continue;
 			*(--ptr) = 0;
 			prompt_char_offset -= 2;
-		} else if (c == ESC) {
-			*user_answer = 0;
-			return NULL;
 		} else {
 			*ptr++ = c;
 			printf("%c", c);
