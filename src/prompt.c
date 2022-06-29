@@ -15,7 +15,14 @@ public void show_message(char *message, ...)
 	va_start(ap, message);
 	user_message_len = prompt_char_offset = vsnprintf(user_message, USER_MSG_LEN, message, ap);
 	va_end(ap);
-	update_status_bar();
+
+	/* write message */
+	cursor_position cur_pos;
+	pos_copy(current_window.cursor_pos, cur_pos);
+	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1));
+	tty_erase_end_of_line();
+	printf("%s", user_message);
+	tty_move_cursor(cur_pos);
 }
 
 public char *prompt_string(char *answer_prefix, char *message, ...)
