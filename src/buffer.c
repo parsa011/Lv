@@ -14,8 +14,6 @@ public void buffer_open_file(buffer *buf, char *file_name)
 	buffer_set_file(buf, file_name);
 	if (file_exists(file_name)) {
 		buffer_load_file(buf, file_name);
-	} else {
-		// TODO : get y/n to create file or no
 	}
 	buffer_text_update();
 }

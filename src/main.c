@@ -92,6 +92,12 @@ void lv_loop()
 				} else
 					exit(0);
 			}
+		} else if (c == ESC) {
+			c = get_key();
+			if (c == '>')
+				go_to_line(current_buffer->line_count - 1);
+			else if (c == '<')
+				go_to_line(0);
 		} else if (!IS_CTRL_KEY(c) && c != ESC) {
 			if (c == 13)
 				line_insert_new();
@@ -101,7 +107,6 @@ void lv_loop()
 				line_insert_char(c, current_buffer->char_offset);
 			
 		 }
-
 	} while (true);
 }
 

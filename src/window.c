@@ -30,9 +30,4 @@ void window_append_buffer(window *win, buffer *buf)
 
 void window_open_new()
 {
-	window win;
-	window_init(&win);
-	window_append(&win);
-	current_window = win;
-	current_buffer = &win.first_buffer;
 }
