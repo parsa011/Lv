@@ -16,7 +16,10 @@ public void buffer_init(buffer *buf, char *file_name)
 {
 	buf->link.next = buf->link.prev = NULL;
 	buf->first_line = buf->current_line = NULL;
+	buf->line_count = buf->line_offset = buf->char_offset = 0;
+	buf->is_modified = false;
 	buffer_set_file(buf, file_name);
+	buf->need_text_update = true;
 }
 
 public void buffer_open_file(buffer *buf, char *file_name)

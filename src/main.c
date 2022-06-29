@@ -80,8 +80,10 @@ void lv_loop()
 					exit(0);
 			} else if (c == CTRL_KEY('f')) {
 				char *file = prompt_string(cwd, "Find File :");
-				window_open_new(file);
+				window_open_new();
 				buffer_init(current_buffer, file);
+				buffer_open_file(current_buffer, file);
+				tty_move_cursor(current_window->cursor_pos);
 			}
 		} else if (c == CTRL_KEY('d')) {
 			if (next_char())

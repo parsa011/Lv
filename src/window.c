@@ -15,7 +15,7 @@ void window_init(window *win)
 	win->buffer_count = win->current_buffer_index = 0;
 	win->first_buffer = buffer_alloc();
 	buffer_init(win->first_buffer, NULL);
-	reset_pos(current_window->cursor_pos);
+	reset_pos(win->cursor_pos);
 }
 
 void window_append(window *win)
@@ -42,4 +42,9 @@ void window_append_buffer(window *win, buffer *buf)
 
 void window_open_new()
 {
+	window *win = window_alloc();
+	window_init(win);
+	L_LINK_INSERT(current_window, win);
+	current_window = win;
+	current_buffer = win->first_buffer;
 }
