@@ -45,34 +45,44 @@ struct window_t {
  *	allocate and return pointer of new window, it will not set anything for window,
  *	for configuring window we need to call 'window_init()'
  */
-window *window_alloc();
+public window *window_alloc();
 
 /*
  * give a pointer of a window and initialize it's fileds, we will not use of
  * malloc to register new window then return it pointer, we used of stack
  * so we don't need to be worry about freeing stuff anymore.
  */
-void window_init(window *win);
+public void window_init(window *win);
 
 /*
  *	append given window to window list
  */
-void window_append(window *win);
+public void window_append(window *win);
 
 /*
  * return pointer of last buffer in given window
  */
-buffer *window_get_last_buffer(window *win);
+public buffer *window_get_last_buffer(window *win);
 
 /*
  * append given buffer to given window with specified type
  * it can be in middle, beginning or end
  */
-void window_append_buffer(window *win, buffer *buf);
+public void window_append_buffer(window *win, buffer *buf);
 
 /*
  *	create and initialize new window, then set it as current window 
  */
-void window_open_new();
+public void window_open_new();
+
+/*
+ *	activate next window of current_window
+ */
+public void window_next();
+
+/*
+ *	activate prev window of current_window
+ */
+public void window_prev();
 
 #endif

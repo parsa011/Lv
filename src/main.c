@@ -62,7 +62,11 @@ void lv_loop()
 			prev_word();
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
-			if (c == CTRL_KEY('s')) {
+			if (c == ARROW_LEFT)
+				window_prev();
+			else if (c == ARROW_RIGHT)
+				window_next();
+			else if (c == CTRL_KEY('s')) {
 				if (current_buffer->is_modified) {
 					if (buffer_save(current_buffer))
 						show_message("File Saved : %s", current_buffer->file_path);
