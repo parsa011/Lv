@@ -14,7 +14,7 @@ public buffer *buffer_alloc()
 
 public void buffer_init(buffer *buf, char *file_name)
 {
-	buf->link.next = buf->link.prev = NULL;
+	L_LINK_RESET(buf);
 	buf->first_line = buf->current_line = NULL;
 	buf->line_count = buf->line_offset = buf->char_offset = 0;
 	buf->is_modified = false;

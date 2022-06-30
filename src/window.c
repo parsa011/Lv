@@ -12,6 +12,7 @@ public window *window_alloc()
 
 public void window_init(window *win)
 {
+	L_LINK_RESET(win);
 	win->buffer_count = win->current_buffer_index = 0;
 	win->first_buffer = buffer_alloc();
 	buffer_init(win->first_buffer, NULL);

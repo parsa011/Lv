@@ -75,7 +75,7 @@ void lv_loop()
 				}
 			} else if(c == CTRL_KEY('c')) {
 				if (current_buffer->is_modified) {
-					bool res = prompt_bool("Buffer Modified, Really Wann Exit ?");
+					bool res = prompt_bool("Buffer Modified, Really Wanna Exit ?");
 					if (res)
 						exit(0);
 					else
