@@ -14,9 +14,11 @@ public time_t user_message_time;
 public int prompt_char_offset;
 
 /*
- *	Just show a message to user in command_bar section 
+ *	Just show a message to user in command_bar section ,
+ *	if we need to revocer cursor position after writing message, we have to pass
+ *	'reset_pos' as a true value
  */
-public void show_message(char *message, ...);
+public void show_message(bool reset_pos, char *message, ...);
 
 /*
  *	hide and clear message from command-bar and show buffer informations again

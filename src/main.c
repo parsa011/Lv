@@ -69,9 +69,9 @@ void lv_loop()
 			else if (c == CTRL_KEY('s')) {
 				if (current_buffer->is_modified) {
 					if (buffer_save(current_buffer))
-						show_message("File Saved : %s", current_buffer->file_path);
+						show_message(true, "File Saved : %s", current_buffer->file_path);
 				} else {
-					show_message("(No changes need to be saved)");
+					show_message(true, "(No changes need to be saved)");
 				}
 			} else if(c == CTRL_KEY('c')) {
 				if (current_buffer->is_modified) {

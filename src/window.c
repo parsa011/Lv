@@ -4,7 +4,7 @@ public window *window_alloc()
 {
 	window *win = malloc(sizeof(window));
 	if (!win) {
-		show_message("Out Of Memory!");
+		show_message(true, "Out Of Memory!");
 		return NULL;
 	}
 	return win;
@@ -53,7 +53,7 @@ public void window_open_new()
 public void window_next()
 {
 	if (!L_LINK_NEXT(current_window)) {
-		show_message("Last Window");
+		show_message(true, "Last Window");
 		return;
 	}
 	current_window = L_LINK_NEXT(current_window);
@@ -65,7 +65,7 @@ public void window_next()
 public void window_prev()
 {
 	if (!L_LINK_PREV(current_window)) {
-		show_message("First Window");
+		show_message(true, "First Window");
 		return;
 	}
 	current_window = L_LINK_PREV(current_window);

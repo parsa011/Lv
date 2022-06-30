@@ -8,7 +8,7 @@ time_t user_message_time;
 
 int prompt_char_offset;
 
-public void show_message(char *message, ...)
+public void show_message(bool reset_pos, char *message, ...)
 {
 	user_message_time = time(NULL);
 	va_list ap;
@@ -22,12 +22,13 @@ public void show_message(char *message, ...)
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1));
 	tty_erase_end_of_line();
 	printf("%s", user_message);
-	tty_move_cursor(cur_pos);
+	if (reset_pos)
+		tty_move_cursor(cur_pos);
 }
 
 public char *prompt_string(char *answer_prefix, char *message, ...)
 {
-	show_message(message);
+	show_message(false, message);
 	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
 	static char user_answer[USER_MSG_LEN];
 	char *ptr = user_answer;
@@ -42,7 +43,7 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 	int c = get_key();
 	while (c != 13) {
 		if (c == CTRL_KEY('g') || c == ESC) {
-			show_message("(canceled)");
+			show_message(true, "(canceled)");
 			return NULL;
 		}
 		if (c == BACKSPACE_KEY || c == CTRL_KEY('g')) {
@@ -52,8 +53,8 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 			prompt_char_offset -= 2;
 		} else {
 			*ptr++ = c;
-			printf("%c", c);
 		}
+		show_message(false, "%s %s",message, user_answer);
 		tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
 		c = get_key();
 	}
@@ -63,8 +64,8 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 
 public bool prompt_bool(char *message, ...)
 {
-	show_message(message);
-	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
+	show_message(false, message);
+	//tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
 	printf("(y/n) ");
 	return get_key() == 'y';
 }
@@ -73,7 +74,7 @@ public bool prompt_number(int *res, char *message, ...)
 {
 	char *str = prompt_string(NULL, message);
 	if (!is_all_number(str)) {
-		show_message("Enter Valid Number");
+		show_message(true, "Enter Valid Number");
 		return false;
 	}
 	*res = atoi(str);

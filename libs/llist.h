@@ -12,38 +12,38 @@
 #define L_LINK_SNEXT(s, d) ((s)->link.next = d)
 #define L_LINK_SPREV(s, d) ((s)->link.prev = d)
 
-#define L_LINK_RESET(o) {			  \
+#define L_LINK_RESET(o) {				\
 	o->link.next = o->link.prev = NULL; \
 }
 
-#define L_LINK_INSERT(l, n) { \
-	if (L_LINK_NEXT(l) != NULL) { \
+#define L_LINK_INSERT(l, n) {			 \
+	if (L_LINK_NEXT(l) != NULL) {	     \
 		L_LINK_SPREV(L_LINK_NEXT(l), n); \
 		L_LINK_SNEXT(n, L_LINK_NEXT(l)); \
-	} else \
-		L_LINK_SNEXT(n, 0); \
-	L_LINK_SPREV(n, l); \
-	L_LINK_SNEXT(l, n); \
+	} else								 \
+		L_LINK_SNEXT(n, 0);			     \
+	L_LINK_SPREV(n, l);					 \
+	L_LINK_SNEXT(l, n);					 \
 }
 
-#define L_LINK_GET_LAST(o) { \
+#define L_LINK_GET_LAST(o) {			   \
 	for (; o != NULL; o = L_LINK_NEXT(o)); \
 }
 
-#define L_LINK_REMOVE(o) { \
-	int have_next = L_LINK_NEXT(o) != NULL; \
-	int have_prev = L_LINK_PREV(o) != NULL; \
-	if (have_next) { \
-		if (have_prev) {\
+#define L_LINK_REMOVE(o) {								  \
+	int have_next = L_LINK_NEXT(o) != NULL;			      \
+	int have_prev = L_LINK_PREV(o) != NULL;				  \
+	if (have_next) {									  \
+		if (have_prev) {								  \
 			L_LINK_SNEXT(L_LINK_PREV(o), L_LINK_NEXT(o)); \
 			L_LINK_SPREV(L_LINK_NEXT(o), L_LINK_PREV(o)); \
-		} else \
-			L_LINK_SPREV(L_LINK_NEXT(o), NULL); \
-	} \
-	if (have_prev && !have_next) \
-		L_LINK_SNEXT(L_LINK_PREV(o), NULL); \
-	L_LINK_SNEXT(o, NULL); \
-	L_LINK_SPREV(o, NULL); \
+		} else											  \
+			L_LINK_SPREV(L_LINK_NEXT(o), NULL);			  \
+	}													  \
+	if (have_prev && !have_next)						  \
+		L_LINK_SNEXT(L_LINK_PREV(o), NULL);				  \
+	L_LINK_SNEXT(o, NULL);								  \
+	L_LINK_SPREV(o, NULL);								  \
 }
 
 #endif

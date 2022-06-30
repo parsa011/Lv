@@ -6,7 +6,7 @@ public buffer *buffer_alloc()
 {
 	buffer *buf = malloc(sizeof(buffer));
 	if (!buf) {
-		show_message("Out Of Memory!");
+		show_message(true, "Out Of Memory!");
 		return NULL;
 	}
 	return buf;
@@ -98,7 +98,7 @@ public bool buffer_save(buffer *buf)
 	return true;
 
 writeerr:
-	show_message("%s", strerror(errno));
+	show_message(true, "%s", strerror(errno));
     if (fp)
 		fclose(fp);
     return false;
