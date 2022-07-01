@@ -26,7 +26,6 @@ void init_editor()
 	terminal_raw_mode();
 	global_editor.tty_in = STDIN_FILENO;
 
-
 	init_first_window();
 
 	setbuf(stdout, NULL);
@@ -109,6 +108,8 @@ void lv_loop()
 				} else
 					exit(0);
 			}
+		} else if (c == CTRL_KEY('s')) {
+			
 		} else if (c == ESC) {
 			c = get_key();
 			if (c == '>')

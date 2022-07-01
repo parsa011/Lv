@@ -23,11 +23,14 @@ public void window_kill()
 {
 	window *new_window = L_LINK_PREV(current_window) ? L_LINK_PREV(current_window) :
 		L_LINK_NEXT(current_window) ? L_LINK_NEXT(current_window) : NULL;
-	window *old = current_window;
 	if (new_window) {
+		L_LINK_REMOVE(current_window);
+		free(current_window);
 		current_window = new_window;
+		current_buffer = current_window->first_buffer;
+		buffer_text_update();
 	} else {
-
+		exit(0);
 	}
 }
 

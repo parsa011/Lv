@@ -26,16 +26,22 @@ public void buffer_kill(buffer *buf)
 {
 	buffer *new_buffer = L_LINK_PREV(buf) ? L_LINK_PREV(buf) :
 		L_LINK_NEXT(buf) ? L_LINK_NEXT(buf) : NULL;
-	line *ln = buf->first_line;
-	for (; ln; ln = L_LINK_NEXT(ln))
-		line_free(ln);
+	
+	/* for (line *ln = buf->first_line; L_LINK_NEXT(ln); ln = L_LINK_NEXT(ln)) */
+		/* line_free(ln); */
+
+	/*	yeap, we assume that give buffer is from current_window, it should be 
+	 *	how we can delete buffer from another window ?
+	 */
 	current_window->buffer_count--;
+	
 	/* if (current_buffer == buf) */
 		/* buffer_activate(new_buffer); */
 	if (new_buffer) {
-		buf = new_buffer;
+		current_buffer = new_buffer;
 		if (buf == current_window->first_buffer)
 			current_window->first_buffer = new_buffer;
+		L_LINK_REMOVE(buf);
 		free(buf->file_path);
 		free(buf);
 	} else {
