@@ -13,7 +13,7 @@ public void show_message(bool reset_pos, char *message, ...)
 	user_message_time = time(NULL);
 	va_list ap;
 	va_start(ap, message);
-	user_message_len = prompt_char_offset = vsnprintf(user_message, USER_MSG_LEN, message, ap);
+	user_message_len = vsnprintf(user_message, USER_MSG_LEN, message, ap);
 	va_end(ap);
 
 	/* write message */
@@ -29,7 +29,6 @@ public void show_message(bool reset_pos, char *message, ...)
 public char *prompt_string(char *answer_prefix, char *message, ...)
 {
 	show_message(false, message);
-	tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
 	static char user_answer[USER_MSG_LEN];
 	char *ptr = user_answer;
 	*ptr = 0;
@@ -37,7 +36,6 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 		int prefix_len = strlen(answer_prefix);
 		memcpy(user_answer, answer_prefix, prefix_len);
 		ptr += prefix_len;
-		prompt_char_offset += prefix_len;
 		printf("%s", user_answer);
 	}
 	int c = get_key();
@@ -50,12 +48,10 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 			if (ptr == user_answer)
 				continue;
 			*(--ptr) = 0;
-			prompt_char_offset -= 2;
 		} else {
 			*ptr++ = c;
 		}
-		show_message(false, "%s %s",message, user_answer);
-		tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
+		show_message(false, "%s%s",message, user_answer);
 		c = get_key();
 	}
 	*ptr = 0;
@@ -65,9 +61,14 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 public bool prompt_bool(char *message, ...)
 {
 	show_message(false, message);
-	//tty_move_cursor(CURSOR_POS(global_editor.term_row, 1 + ++prompt_char_offset));
-	printf("(y/n) ");
-	return get_key() == 'y';
+	printf(" (y/n) ");
+	int c;
+again :
+	c = get_key();
+	if (c != 'y' && c != 'n')
+		goto again;
+	show_message(true, "");
+	return c == 'y';
 }
 
 public bool prompt_number(int *res, char *message, ...)

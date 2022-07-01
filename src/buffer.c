@@ -22,6 +22,36 @@ public void buffer_init(buffer *buf, char *file_name)
 	buf->need_text_update = true;
 }
 
+public void buffer_kill(buffer *buf)
+{
+	buffer *new_buffer = L_LINK_PREV(buf) ? L_LINK_PREV(buf) :
+		L_LINK_NEXT(buf) ? L_LINK_NEXT(buf) : NULL;
+	line *ln = buf->first_line;
+	for (; ln; ln = L_LINK_NEXT(ln))
+		line_free(ln);
+	current_window->buffer_count--;
+	/* if (current_buffer == buf) */
+		/* buffer_activate(new_buffer); */
+	if (new_buffer) {
+		buf = new_buffer;
+		if (buf == current_window->first_buffer)
+			current_window->first_buffer = new_buffer;
+		free(buf->file_path);
+		free(buf);
+	} else {
+		window_kill();
+	}
+}
+
+public void buffer_append(buffer *buf)
+{
+	if (current_window->first_buffer) {
+		L_LINK_INSERT(current_buffer, buf);
+	} else
+		current_window->first_buffer = buf;
+	current_window->buffer_count++;
+}
+
 public void buffer_open_file(buffer *buf, char *file_name)
 {
 	buffer_set_file(buf, file_name);
@@ -178,4 +208,25 @@ public void buffer_modified()
 public void buffer_text_update()
 {
 	current_buffer->need_text_update = true;
+}
+
+
+public void buffer_next()
+{
+	if (!L_LINK_NEXT(current_buffer)) {
+		show_message(true, "Last buffer");
+		return;
+	}
+	current_buffer = L_LINK_NEXT(current_buffer);
+	buffer_text_update();
+}
+
+public void buffer_prev()
+{
+	if (!L_LINK_PREV(current_buffer)) {
+		show_message(true, "First Buffer");
+		return;
+	}
+	current_buffer = L_LINK_PREV(current_buffer);
+	buffer_text_update();
 }

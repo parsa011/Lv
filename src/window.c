@@ -19,6 +19,18 @@ public void window_init(window *win)
 	reset_pos(win->cursor_pos);
 }
 
+public void window_kill()
+{
+	window *new_window = L_LINK_PREV(current_window) ? L_LINK_PREV(current_window) :
+		L_LINK_NEXT(current_window) ? L_LINK_NEXT(current_window) : NULL;
+	window *old = current_window;
+	if (new_window) {
+		current_window = new_window;
+	} else {
+
+	}
+}
+
 public void window_append(window *win)
 {
 	window *lw = current_window;

@@ -55,6 +55,12 @@ public window *window_alloc();
 public void window_init(window *win);
 
 /*
+ *	remove current window from list and set another window (next or prev) as current
+ *	window and free it
+ */
+public void window_kill();
+
+/*
  *	append given window to window list
  */
 public void window_append(window *win);

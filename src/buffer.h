@@ -58,6 +58,17 @@ public buffer *buffer_alloc();
 public void buffer_init(buffer *buf, char *file_name);
 
 /*
+ *	kill current buffer and free it, if current buffer is last buffer of window we will
+ *	remove widow too :))
+ */
+public void buffer_kill();
+
+/*
+ *	append given buffer to list of window buffers 
+ */
+public void buffer_append(buffer *buf);
+
+/*
  *	Mostly used to initialize buffer, it will set buffer options that are related to filename
  *  for example path, basename, file_type and ...
  */
@@ -122,5 +133,11 @@ public line *buffer_current_line();
  *	it's better to separate this from is_modified
  */
 public void buffer_text_update();
+
+/*
+ *	move between buffers in current window
+ */
+public void buffer_next();
+public void buffer_prev();
 
 #endif

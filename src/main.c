@@ -90,6 +90,8 @@ void lv_loop()
 				buffer_init(current_buffer, file);
 				buffer_open_file(current_buffer, file);
 				tty_move_cursor(current_window->cursor_pos);
+			} else if (c == 'k') {
+				buffer_kill(current_buffer);
 			}
 		} else if (c == CTRL_KEY('d')) {
 			if (next_char())
@@ -113,7 +115,7 @@ void lv_loop()
 				go_to_line(current_buffer->line_count - 1);
 			else if (c == '<')
 				go_to_line(0);
-		} else if (!IS_CTRL_KEY(c) && c != ESC) {
+		} else if (!IS_CTRL_KEY(c)) {
 			if (c == 13)
 				line_insert_new();
 			else if (c == BACKSPACE_KEY)
