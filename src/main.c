@@ -107,8 +107,7 @@ void lv_loop()
 				int line_nu;
 				if (prompt_number(&line_nu, "GoTo Line :" )) {
 					go_to_line(line_nu);
-				} else
-					exit(0);
+				}
 			}
 		} else if (c == CTRL_KEY('s')) {
 			

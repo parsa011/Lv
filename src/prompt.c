@@ -75,6 +75,8 @@ again :
 public bool prompt_number(int *res, char *message, ...)
 {
 	char *str = prompt_string(NULL, message);
+	if (!str)
+		return false;
 	if (!is_all_number(str)) {
 		show_message(true, "Enter Valid Number");
 		return false;
