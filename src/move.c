@@ -139,27 +139,14 @@ public bool page_up()
 	return true;
 }
 
-private int in_word()
-{
-	if (buffer_current_line() == NULL)
-		return false;
-	int c;
-	if (current_buffer->char_offset > buffer_current_line()->len)
-		return false;
-	c = *(buffer_current_line()->chars + current_buffer->char_offset);
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
-		return true;
-	return false;
-}
-
 public bool next_word()
 {
-	while (in_word() == true) {
+	while (line_in_word() == true) {
 		if (next_char() != true)
 			return false;
 	}
 	// escape of spaces , to go to the start of next word
-	while (in_word() == false) {
+	while (line_in_word() == false) {
 		if (next_char() != true)
 			return false;
 	}
@@ -169,12 +156,12 @@ public bool next_word()
 public bool prev_word()
 {
 	// escape of chars
-	while (in_word() == true) {
+	while (line_in_word() == true) {
 		if (prev_char() != true)
 			return false;
 	}
 	// escape of spaces , to go to the start of next word
-	while (in_word() == false) {
+	while (line_in_word() == false) {
 		if (prev_char() != true)
 			return false;
 	}

@@ -42,6 +42,7 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 	while (c != 13) {
 		if (c == CTRL_KEY('g') || c == ESC) {
 			show_message(true, "(canceled)");
+			*user_answer = 0;
 			return NULL;
 		}
 		if (c == BACKSPACE_KEY || c == CTRL_KEY('g')) {

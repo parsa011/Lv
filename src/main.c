@@ -95,6 +95,8 @@ void lv_loop()
 		} else if (c == CTRL_KEY('d')) {
 			if (next_char())
 				line_delete_char();
+		} else if (c == META_KEY('d')) {
+			line_delete_word();
 		} else if (c == TAB_KEY) {
 			line_insert_char('\t', current_buffer->char_offset);
 		} else if (c == CTRL_KEY('k')) {

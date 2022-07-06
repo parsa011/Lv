@@ -81,6 +81,27 @@ ret :
 	buffer_modified();
 }
 
+public void line_delete_word()
+{
+	/* to determine if current char is alpha or no */
+	bool is_alpha;
+#define UPDATE_CH() {													\
+		is_alpha = isalpha(*(buffer_current_line()->chars + current_buffer->char_offset)); \
+	}
+	UPDATE_CH();
+	while (!is_alpha) {
+		next_char();
+		line_delete_char();
+		UPDATE_CH();
+	}
+	while (is_alpha) {
+		next_char();
+		line_delete_char();
+		UPDATE_CH();
+	}
+#undef UPDATE_CH
+}
+
 public void line_delete_after(int offset)
 {
 	line *ln = buffer_current_line();
@@ -92,6 +113,19 @@ public void line_delete_after(int offset)
 		line_put_char(ln, 0, ln->len);
 	}
 	buffer_modified();
+}
+
+public bool line_in_word()
+{
+	if (buffer_current_line() == NULL)
+		return false;
+	int c;
+	if (current_buffer->char_offset > buffer_current_line()->len)
+		return false;
+	c = *(buffer_current_line()->chars + current_buffer->char_offset);
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+		return true;
+	return false;
 }
 
 public void line_remove(line *ln)
