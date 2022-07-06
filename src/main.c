@@ -105,7 +105,7 @@ void lv_loop()
 			c = get_key();
 			if (c == META_KEY('g')) {
 				int line_nu;
-				if (prompt_number(&line_nu, "GoTo Line :" )) {
+				if (prompt_number(&line_nu, "GoTo Line : " )) {
 					go_to_line(line_nu);
 				}
 			}
