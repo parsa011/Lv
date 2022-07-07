@@ -63,9 +63,32 @@ public void update_tabbar()
 	if (!global_editor.show_tabs)
 		return;
 	tty_hide_cursor();
-	
+	tty_move_cursor(CURSOR_POS(1, 1));
+	tty_erase_end_of_line();
+	change_color(create_rgb_color(TABBAR_FG, TABBAR_BG));
+#define ADD_TEXT(s) {			\
+	bufp += sprintf(bufp, s);	\
+}
+#define ADD_TEXTF(s, ...) {		\
+	bufp += sprintf(bufp, s, __VA_ARGS__);	\
+}
+	char buf[global_editor.term_col];
+	char *bufp = buf;
+	for (window *win = window_first(); win != NULL; win = L_LINK_NEXT(win)) {
+		ADD_TEXTF("%s", win->first_buffer->file_name);
+		if (L_LINK_NEXT(win))
+			ADD_TEXT(" | ");
+	}
+	int space = global_editor.term_col - (bufp - buf);
+	ttyputs(buf, true);
+	for (int i = 0; i < space; i++) {
+		ttyputc(' ');
+	}
+	ttyflush();
 	tty_show_cursor();
 	reset_color();
+#undef ADD_TEXT
+#undef ADD_TEXTF
 }
 
 public void update_status_bar()

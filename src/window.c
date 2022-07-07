@@ -34,6 +34,14 @@ public void window_kill()
 	}
 }
 
+public window *window_first()
+{
+	window *win = current_window;
+	for (; L_LINK_PREV(win); win = L_LINK_PREV(win))
+		;
+	return win;
+}
+
 public void window_append(window *win)
 {
 	window *lw = current_window;

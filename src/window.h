@@ -61,6 +61,11 @@ public void window_init(window *win);
 public void window_kill();
 
 /*
+ *	return first window by going backward of current_window link
+ */
+public window *window_first();
+
+/*
  *	append given window to window list
  */
 public void window_append(window *win);
