@@ -30,6 +30,7 @@ public char *prompt_string(char *answer_prefix, char *message, ...)
 {
 	show_message(false, message);
 	static char user_answer[USER_MSG_LEN];
+	memset(user_answer, 0, USER_MSG_LEN);
 	char *ptr = user_answer;
 	*ptr = 0;
 	if (answer_prefix) {
