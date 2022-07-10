@@ -36,6 +36,7 @@ struct buffer_t {
 	char *file_name;
 	char *file_path;
 	uint8_t mode;
+	change_pack changes;
 
 	/* Options for buffer */
 	bool is_modified;

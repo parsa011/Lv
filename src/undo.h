@@ -13,14 +13,14 @@ typedef enum {
  *	buffer changes and current buffer that we have to do when user presed undo/redo
  *	buttons
  */
-struct change_pack {
+struct change_pack_t {
 	int times;
 	change_pack_entry *entries;
 	change_pack_entry *current;
 };
 
-struct change_pack_entry {
-	LLINK(change_pack_entry) link;
+struct change_pack_entry_t {
+	L_LINK(change_pack_entry) link;
 	change_type type;
 	uint64_t line_number;
 	char buffer[128];
