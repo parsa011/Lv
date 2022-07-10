@@ -19,11 +19,12 @@ struct change_pack_t {
 	change_pack_entry *current;
 };
 
+#define CHANGE_ENTRY_BUF_LEN 128
 struct change_pack_entry_t {
 	L_LINK(change_pack_entry) link;
 	change_type type;
 	uint64_t line_number;
-	char buffer[128];
+	char buffer[CHANGE_ENTRY_BUF_LEN];
 	char bufp;
 };
 
