@@ -2,8 +2,9 @@
 # define _UNDO_H
 
 typedef enum {
-	CHANGE_LINE_DELETE,
-	CHANGE_CHARE_REMOVE,
+	CHANGE_DELETE_LINE,
+	CHANGE_DELETE_CHAR,
+	CHANGE_DELETE_WORD,
 	CHANGE_INSERT_CHAR,
 	CHANGE_INSERT_STRING
 } change_type;
@@ -14,7 +15,7 @@ typedef enum {
  *	buttons
  */
 struct change_pack_t {
-	int times;
+	int count;
 	change_pack_entry *entries;
 	change_pack_entry *current;
 };

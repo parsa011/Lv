@@ -1,4 +1,5 @@
 #include "lv.h"
+#include <signal.h>
 
 void usage(char *program_name)
 {
@@ -19,6 +20,23 @@ void init_first_window()
 	current_buffer = current_window->first_buffer;
 }
 
+/*
+ *	update all buffers row count
+ */
+void terminal_size_changed()
+{
+    update_screen_size(&global_editor.term_row, &global_editor.term_col);
+    buffer_text_update();
+}
+
+/*
+ *	handle signals , like window size change and ..
+ */
+void handle_signals()
+{
+    signal(SIGWINCH, terminal_size_changed);
+}
+
 void init_editor()
 {
 	getcwd(cwd, PATH_MAX);
@@ -31,6 +49,8 @@ void init_editor()
 	setbuf(stdout, NULL);
 	update_screen_size();
 	atexit(at_exit);
+
+	handle_signals();
 }
 
 void lv_loop()
