@@ -25,8 +25,9 @@ void init_first_window()
  */
 void terminal_size_changed()
 {
-    update_screen_size(&global_editor.term_row, &global_editor.term_col);
-    buffer_text_update();
+	update_screen_size(&global_editor.term_row, &global_editor.term_col);
+	buffer_text_update();
+	update_screen();
 }
 
 /*
@@ -34,7 +35,7 @@ void terminal_size_changed()
  */
 void handle_signals()
 {
-    signal(SIGWINCH, terminal_size_changed);
+	signal(SIGWINCH, terminal_size_changed);
 }
 
 void init_editor()

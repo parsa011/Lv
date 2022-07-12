@@ -32,7 +32,7 @@ void shift_left(char *buf, int buflen, int start_index)
 	}
 }
 
-public char *create_rgb_color(color fg, color bg)
+public char *create_rgb_color(color bg, color fg)
 {
 	static char output[100];
 	sprintf(output, "\033[38;2;%d;%d;%dm\033[48;2;%d;%d;%dm", fg.red,

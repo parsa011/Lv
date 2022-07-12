@@ -42,19 +42,29 @@ public void write_line(line *ln)
 {
 	if (ln) {
 		char *ptr = ln->chars;
+		int wroted_chars = 0;
 		while (*ptr) {
-			if (*ptr == '\t') {
-				for (int i = 0; i < global_editor.tab_size; i++) {
-					ttyputc(' ');
-				}
+			if (wroted_chars + (*ptr == '\t' ? global_editor.tab_size : 1) >= global_editor.term_col) {
+				change_color(create_rgb_color(color_new(255, 255, 255), color_new(255, 125, 125)));
+				printf(">");
+				reset_color();
+				break;
 			} else {
-				ttyputc(*ptr);
+				if (*ptr == '\t') {
+					for (int i = 0; i < global_editor.tab_size; i++) {
+						printf(" ");
+					}
+					wroted_chars += global_editor.tab_size;
+				} else {
+					printf("%c", *ptr);
+					wroted_chars++;
+				}
+				ptr++;
 			}
-			ptr++;
 		}
-		ttyputs("\n", true);
+		printf("\n");
 	} else {
-		ttyputs("~ \n\r", false);
+		printf("~ \n\r");
 	}
 }
 
