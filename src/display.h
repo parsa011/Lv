@@ -8,8 +8,8 @@
 
 /* #define TABBAR_BG (color_new(25, 55, 255)) */
 /* #define TABBAR_FG (color_new(1, 1, 1)) */
-#define TABBAR_FG (color_new(1, 1, 1))
-#define TABBAR_BG (color_new(255, 255, 255))
+#define TABBAR_BG (color_new(1, 1, 1))
+#define TABBAR_FG (color_new(255, 255, 255))
 
 #define TEXT_ROW_SIZE global_editor.term_row - global_editor.show_tabs - 2
 
