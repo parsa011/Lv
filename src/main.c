@@ -121,7 +121,15 @@ void lv_loop()
 		} else if (c == TAB_KEY) {
 			line_insert_char('\t', current_buffer->char_offset);
 		} else if (c == CTRL_KEY('k')) {
+			/* why storing line_count ? because we want to check if we deleted any line or no ?
+			 * of any line deleted, cursor will going back to prev line, but we want to stay
+			 * at current line like EMACS, so after remove we will check if line_count changed,
+			 * if changed to we have to move cursor to next_line (prev position)
+			 */
+			int line_count = current_buffer->line_count;
 			line_delete_after(current_buffer->char_offset);
+			if (current_buffer->line_count != line_count)
+				next_line();
 		} else if (c == META_KEY('g')) {
 			c = get_key();
 			if (c == META_KEY('g')) {
