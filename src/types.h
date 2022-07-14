@@ -6,7 +6,7 @@ typedef struct editor_t editor;
 typedef struct window_t window;
 typedef struct buffer_t buffer;
 typedef struct change_pack_t change_pack;
-typedef struct chagne_pack_entry_t change_pack_entry;
+typedef struct change_pack_entry_t change_pack_entry;
 
 /*
  * can be used as field in structs or anywhere else to hold cursor position info

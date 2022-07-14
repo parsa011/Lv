@@ -80,6 +80,8 @@ void lv_loop()
 			next_word();
 		} else if (c == META_KEY('b') || c == CTRL_KEY(ARROW_LEFT)) {
 			prev_word();
+		} else if (c == CTRL_KEY('/')) {
+			do_undo();
 		} else if (c == CTRL_KEY('x')) {
 			c = get_key();
 			if (c == ARROW_LEFT)
@@ -151,9 +153,10 @@ void lv_loop()
 				line_insert_new();
 			else if (c == BACKSPACE_KEY)
 				line_delete_char();
-			else
+			else {
+				undo_insert_char(CHANGE_INSERT_CHAR, buffer_line_index(), current_buffer->char_offset, c);
 				line_insert_char(c, current_buffer->char_offset);
-			
+			}
 		 }
 	} while (true);
 }
