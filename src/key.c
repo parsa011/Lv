@@ -26,14 +26,17 @@ int get_key()
 {
 	int masks = 0;
 	int c;
-#define GET_C() do { \
-		c = read_char_from_terminal(); \
-		if (c == ESC) \
-			masks |= META; \
+#define GET_C() do {											\
+		c = read_char_from_terminal();							\
+		if (c == ESC)											\
+			masks |= META;										\
 		else if (iscntrl(c) && c != ('m' & 0x1f) && c != 127) { \
-			c = (c + 96);	\
-			masks |= CONTROL; \
-		} \
+			if (c == 31) {										\
+				c = '/';										\
+			} else												\
+				c = (c + 96);									\
+			masks |= CONTROL;									\
+		}														\
 	} while (false);
 
 	GET_C();
